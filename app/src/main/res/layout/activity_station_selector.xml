@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="0dip">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:padding="50dip">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/container_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/namestablelayout"
+                    android:stretchColumns="*"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                </TableLayout>
+            </FrameLayout>
+        </ScrollView>
+        <!--
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <Button
+                android:layout_height="wrap_content"
+                android:id="@+id/patient_search_button"
+                android:text="@string/button_select"/>
+                android:layout_width="wrap_content" />
+
+        </LinearLayout>
+        -->
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Thousand Smiles Station</string>
+    <string name="title_item_detail">Item Detail</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_clinic_not_found_date">No active clinic can be found on this date</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_username_or_password">Invalid name or password</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_internal_bad_request">Bad Request. Please report this problem</string>
+    <string name="error_internal_error">Internal Error. Please report this problem</string>
+    <string name="error_unknown">Unknown Error. Please report this problem</string>
+    <string name="error_unable_to_connect">Unable to connect. Make sure wireless is enabled, that the IP address and port settings are correct, and internet connectivity is present.</string>
+    <string name="error_unable_to_get_clinicstation_data">Unable to get clinic station data</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <string name="column_label_waiting">Waiting Patients</string>
+    <string name="column_label_active">Active Patients</string>
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_station_status">Clinic Station</string>
+    <string name="title_station_selector">Select Clinic Station</string>
+
+    <!-- button labels -->
+
+    <string name="button_select">Select</string>
+
+</resources>
