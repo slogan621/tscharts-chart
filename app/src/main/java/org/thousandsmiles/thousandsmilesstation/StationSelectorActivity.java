@@ -188,8 +188,6 @@ public class StationSelectorActivity extends AppCompatActivity {
 
             ImageButton button = new ImageButton(getApplicationContext());
 
-
-            button.setImageDrawable(getResources().getDrawable(R.drawable.medical_selector));
             button.setBackgroundColor(getResources().getColor(R.color.lightGray));
             button.setTag(count);
             //button.setBackgroundColor(getResources().getColor(R.color.girlPink));
@@ -221,8 +219,9 @@ public class StationSelectorActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 continue;
             }
-            txt.setText(String.format("%s", name));
+            txt.setText(String.format("%s", name));  // XXX translate
             button.setTag(cs);
+            button.setImageDrawable(getResources().getDrawable(m_sess.getSelector(name)));
             txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             btnLO.addView(txt);
@@ -301,6 +300,8 @@ public class StationSelectorActivity extends AppCompatActivity {
                         }
                     });
                 } else {
+                    m_sess.updateStationData(); // get the list of stations
+                    m_sess.initStationNameToSelectorMap();
                     StationSelectorActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
                             LayoutClinicStationGrid();

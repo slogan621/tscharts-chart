@@ -46,9 +46,41 @@ public class SessionSingleton {
     private static JSONObject m_queueStatusJSON = null;
     private static HashMap<Integer, JSONObject> m_patientData = new HashMap<Integer, JSONObject>();
     private static HashMap<Integer, String> m_stationIdToName = new HashMap<Integer, String>();
+    private static HashMap<String, Integer> m_clinicStationNameToId = new HashMap<String, Integer>();
     private static HashMap<Integer, Integer> m_clinicStationToStation = new HashMap<Integer, Integer>();
+    private static HashMap<String, Integer> m_stationToSelector = new HashMap<String, Integer>();
     ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
     ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
+
+    public void initStationNameToSelectorMap()
+    {
+        m_stationToSelector.clear();
+        m_stationToSelector.put("Audiology", R.drawable.audiology_selector);
+        m_stationToSelector.put("Dental", R.drawable.dental_selector);
+        m_stationToSelector.put("ENT", R.drawable.ent_selector);
+        m_stationToSelector.put("Ortho", R.drawable.ortho_selector);
+        m_stationToSelector.put("Speech", R.drawable.speech_selector);
+        m_stationToSelector.put("Surgery Screening", R.drawable.surgery_selector);
+        m_stationToSelector.put("XRay", R.drawable.xray_selector);
+    }
+
+    public int getSelector(String name) {
+        int ret = R.drawable.medical_selector;
+
+        if (m_clinicStationNameToId.containsKey(name)) {
+            int id = m_clinicStationNameToId.get(name);
+            if (m_clinicStationToStation.containsKey(id)) {
+                id = m_clinicStationToStation.get(id);
+                if (m_stationIdToName.containsKey(id)) {
+                    name = m_stationIdToName.get(id);
+                    if (m_stationToSelector.containsKey(name)) {
+                        ret = m_stationToSelector.get(name);
+                    }
+                }
+            }
+        }
+        return ret;
+    }
 
     public void setToken(String token) {
         m_token = String.format("Token %s", token);
@@ -84,7 +116,6 @@ public class SessionSingleton {
     }
 
     public void addStationData(JSONArray data) {
-        //int id;
         int i;
         JSONObject stationdata;
 
@@ -106,9 +137,9 @@ public class SessionSingleton {
         for (i = 0; i < data.length(); i++)  {
             try {
                 stationdata = data.getJSONObject(i);
-                //id = stationdata.getInt("id");
                 m_clinicStationData.add(stationdata);
                 m_clinicStationToStation.put(stationdata.getInt("id"), stationdata.getInt("station"));
+                m_clinicStationNameToId.put(stationdata.getString("name"), stationdata.getInt("id"));
             } catch (JSONException e) {
                 return;
             }

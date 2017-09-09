@@ -77,8 +77,6 @@ public class StationActivity extends AppCompatActivity {
         protected String doInBackground(Object... params) {
             boolean first = true;
 
-            m_sess.updateStationData(); // get the list of stations
-
             while (true) {
                 m_sess.updateClinicStationData();
                 m_sess.updateQueues();
