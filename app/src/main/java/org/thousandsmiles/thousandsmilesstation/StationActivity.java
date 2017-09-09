@@ -28,7 +28,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -59,8 +62,9 @@ public class StationActivity extends AppCompatActivity {
     private StationState m_state = StationState.WAITING; // the status of this station
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     AsyncTask m_task = null;
-    private SimpleItemRecyclerViewAdapter m_waitingAdapter = null;
-    private SimpleItemRecyclerViewAdapter m_activeAdapter = null;
+    private PatientItemRecyclerViewAdapter m_waitingAdapter = null;
+    private PatientItemRecyclerViewAdapter m_activeAdapter = null;
+    private AppListItems m_appListItems = new AppListItems();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,9 @@ public class StationActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Object... params) {
             boolean first = true;
+
+            m_sess.updateStationData(); // get the list of stations
+
             while (true) {
                 m_sess.updateClinicStationData();
                 m_sess.updateQueues();
@@ -81,6 +88,7 @@ public class StationActivity extends AppCompatActivity {
                     StationActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
                             setupRecyclerViews();
+                            createAppList();
                         }
                     });
                     first = false;
@@ -184,27 +192,27 @@ public class StationActivity extends AppCompatActivity {
     }
 
     private void setupWaitingRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter((m_waitingAdapter = new SimpleItemRecyclerViewAdapter(true)));
+        recyclerView.setAdapter((m_waitingAdapter = new PatientItemRecyclerViewAdapter(true)));
     }
 
     private void setupActiveRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter((m_activeAdapter = new SimpleItemRecyclerViewAdapter(false)));
+        recyclerView.setAdapter((m_activeAdapter = new PatientItemRecyclerViewAdapter(false)));
     }
 
-    public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    public class PatientItemRecyclerViewAdapter
+            extends RecyclerView.Adapter<PatientItemRecyclerViewAdapter.ViewHolder> {
 
         private List<PatientItem> mValues = new ArrayList<PatientItem>();
 
         private boolean m_isWaiting;
 
-        public SimpleItemRecyclerViewAdapter(boolean isWaiting) {
+        public PatientItemRecyclerViewAdapter(boolean isWaiting) {
             m_isWaiting = isWaiting;
         }
 
         public void swap(List<PatientItem> items)
         {
-            if (items != null && items.size()>0)
+            if (items != null) {
                 mValues.clear();
                 mValues.addAll(items);
                 if (m_isWaiting) {
@@ -218,8 +226,8 @@ public class StationActivity extends AppCompatActivity {
                         ActivePatientList.addItem(mValues.get(i));
                     }
                 }
-
                 notifyDataSetChanged();
+            }
         }
 
         @Override
@@ -281,5 +289,30 @@ public class StationActivity extends AppCompatActivity {
                 return super.toString() + " '" + mContentView.getText() + "'";
             }
         }
+    }
+
+    private void createAppList() {
+
+        String station = m_sess.getActiveStationName();
+
+        AppListItems appListItems = new AppListItems();
+
+        final ArrayList<String> names = appListItems.getNames(station);
+        final ArrayList<Integer> imageIds = appListItems.getImageIds(station);
+        final ArrayList<Integer> selectors = appListItems.getSelectors(station);
+
+        AppsList adapter = new AppsList(StationActivity.this, names, imageIds, selectors);
+
+        ListView list;
+
+        list = (ListView) findViewById(R.id.app_item_list);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(StationActivity.this, "You Clicked on " + names.get(+position), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

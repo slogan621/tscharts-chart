@@ -45,6 +45,7 @@ public class SessionSingleton {
     private static int m_activeStationId = 0;
     private static JSONObject m_queueStatusJSON = null;
     private static HashMap<Integer, JSONObject> m_patientData = new HashMap<Integer, JSONObject>();
+    private static HashMap<Integer, String> m_stationIdToName = new HashMap<Integer, String>();
     private static HashMap<Integer, Integer> m_clinicStationToStation = new HashMap<Integer, Integer>();
     ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
     ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
@@ -60,6 +61,7 @@ public class SessionSingleton {
     public void setActiveStationName(String name) {
         m_activeStationName = name;
     }
+
     public void setActiveStationStationId(int id) {
         m_activeStationStationId = id;
     }
@@ -75,6 +77,25 @@ public class SessionSingleton {
 
     public void setClinicId(int id) {
         m_clinicId = id;
+    }
+
+    public String getActiveStationName() {
+        return m_stationIdToName.get(m_activeStationStationId);
+    }
+
+    public void addStationData(JSONArray data) {
+        //int id;
+        int i;
+        JSONObject stationdata;
+
+        for (i = 0; i < data.length(); i++)  {
+            try {
+                stationdata = data.getJSONObject(i);
+                m_stationIdToName.put(stationdata.getInt("id"), stationdata.getString("name"));
+            } catch (JSONException e) {
+                return;
+            }
+        }
     }
 
     public void addClinicStationData(JSONArray data) {
@@ -131,6 +152,33 @@ public class SessionSingleton {
             }
 
             int status = clinicStationData.getStatus();
+            if (status == 200) {
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
+    public boolean updateStationData() {
+        boolean ret = false;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final StationREST stationData = new StationREST(getContext());
+            Object lock = stationData.getStationData();
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = stationData.getStatus();
             if (status == 200) {
                 ret = true;
             }
