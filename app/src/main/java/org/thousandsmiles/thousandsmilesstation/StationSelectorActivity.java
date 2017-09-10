@@ -143,17 +143,11 @@ public class StationSelectorActivity extends AppCompatActivity {
         TableLayout layout = (TableLayout) findViewById(R.id.namestablelayout);
 
         int numClinicStations = m_sess.getClinicStationCount();
-        /*
-        ArrayList<Volunteer> list = getIntent().getParcelableArrayListExtra("volunteers");
 
-        Integer count = new Integer(0);
-        TableRow row = null;
-        for (Volunteer x : list) {
-        */
         TableRow row = null;
         for (int count = 0; count < numClinicStations; count++) {
             boolean newRow = false;
-            if ((count % 5) == 0) {
+            if ((count % m_sess.getSelectorNumColumns()) == 0) {
                 newRow = true;
                 row = new TableRow(getApplicationContext());
                 row.setWeightSum((float)1.0);

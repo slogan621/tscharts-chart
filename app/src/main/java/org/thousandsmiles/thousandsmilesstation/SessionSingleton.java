@@ -19,6 +19,9 @@ package org.thousandsmiles.thousandsmilesstation;
 
 import android.content.Context;
 import android.os.Looper;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -43,6 +46,9 @@ public class SessionSingleton {
     private static String m_activeStationName = "";
     private static int m_activeStationStationId = 0;
     private static int m_activeStationId = 0;
+    private int m_selectorNumColumns;
+    private int m_width = -1;
+    private int m_height = -1;
     private static JSONObject m_queueStatusJSON = null;
     private static HashMap<Integer, JSONObject> m_patientData = new HashMap<Integer, JSONObject>();
     private static HashMap<Integer, String> m_stationIdToName = new HashMap<Integer, String>();
@@ -62,6 +68,25 @@ public class SessionSingleton {
         m_stationToSelector.put("Speech", R.drawable.speech_selector);
         m_stationToSelector.put("Surgery Screening", R.drawable.surgery_selector);
         m_stationToSelector.put("XRay", R.drawable.xray_selector);
+    }
+
+    private void getScreenResolution(Context context)
+    {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        m_width = metrics.widthPixels;
+        m_height = metrics.heightPixels;
+    }
+
+    public int getSelectorNumColumns()
+    {
+        if (m_width == -1 && m_height == -1) {
+            getScreenResolution(m_ctx);
+        }
+        m_selectorNumColumns = m_width / 250;
+        return m_selectorNumColumns;
     }
 
     public int getSelector(String name) {
