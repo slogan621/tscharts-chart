@@ -76,8 +76,8 @@ public class SessionSingleton {
         Display display = wm.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
-        m_width = metrics.widthPixels;
-        m_height = metrics.heightPixels;
+        m_width = (int) (metrics.widthPixels / metrics.density);
+        m_height = (int) (metrics.heightPixels / metrics.density);
     }
 
     public int getSelectorNumColumns()
