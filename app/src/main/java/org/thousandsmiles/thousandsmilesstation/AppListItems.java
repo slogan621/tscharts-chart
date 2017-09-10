@@ -161,7 +161,7 @@ public class AppListItems {
         item.setImageId(R.drawable.app_medical_history);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put("SurgeryScreening", items);
+        m_stationToAppList.put("Surgery Screening", items);
     }
 
     private void initOrtho() {
