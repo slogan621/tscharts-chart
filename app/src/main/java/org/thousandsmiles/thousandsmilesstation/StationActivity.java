@@ -238,13 +238,25 @@ public class StationActivity extends AppCompatActivity {
                 mValues.addAll(items);
                 if (m_isWaiting) {
                     WaitingPatientList.clearItems();
-                    for (int i = 0; i < items.size(); i++) {
-                        WaitingPatientList.addItem(mValues.get(i));
+                    View recycler = findViewById(R.id.waiting_item_list_box);
+                    if (items.size() == 0) {
+                        recycler.setVisibility(View.GONE);
+                    } else {
+                        recycler.setVisibility(View.VISIBLE);
+                        for (int i = 0; i < items.size(); i++) {
+                            WaitingPatientList.addItem(mValues.get(i));
+                        }
                     }
                 } else {
+                    View recycler = findViewById(R.id.active_item_list_box);
                     ActivePatientList.clearItems();
-                    for (int i = 0; i < items.size(); i++) {
-                        ActivePatientList.addItem(mValues.get(i));
+                    if (items.size() == 0) {
+                        recycler.setVisibility(View.GONE);
+                    } else {
+                        recycler.setVisibility(View.VISIBLE);
+                        for (int i = 0; i < items.size(); i++) {
+                            ActivePatientList.addItem(mValues.get(i));
+                        }
                     }
                 }
                 notifyDataSetChanged();

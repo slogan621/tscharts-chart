@@ -112,6 +112,7 @@
 
     <LinearLayout
         android:orientation="vertical"
+        android:id="@+id/waiting_item_list_box"
         android:layout_width="@dimen/item_width"
         android:layout_height="match_parent"
         tools:context="org.thousandsmiles.thousandsmilesstation.ItemListActivity">
@@ -135,6 +136,7 @@
 
     <LinearLayout
         android:orientation="vertical"
+        android:id="@+id/active_item_list_box"
         android:layout_width="@dimen/item_width"
         android:layout_height="match_parent"
         tools:context="org.thousandsmiles.thousandsmilesstation.ItemListActivity">
