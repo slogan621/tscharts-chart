@@ -58,6 +58,8 @@ public class SessionSingleton {
     ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
     ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
 
+    // XXX Consider moving these station class names to the API
+
     public void initStationNameToSelectorMap()
     {
         m_stationToSelector.clear();
@@ -67,7 +69,7 @@ public class SessionSingleton {
         m_stationToSelector.put("Ortho", R.drawable.ortho_selector);
         m_stationToSelector.put("Speech", R.drawable.speech_selector);
         m_stationToSelector.put("Surgery Screening", R.drawable.surgery_selector);
-        m_stationToSelector.put("XRay", R.drawable.xray_selector);
+        m_stationToSelector.put("X-Ray", R.drawable.xray_selector);
     }
 
     private void getScreenResolution(Context context)
