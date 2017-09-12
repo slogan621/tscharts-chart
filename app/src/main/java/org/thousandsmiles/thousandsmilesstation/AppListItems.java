@@ -63,7 +63,7 @@ public class AppListItems {
         item = new AppListItem();
         item.setName("Routing Slip");
         item.setImageId(R.drawable.app_routing_slip);
-        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
@@ -81,7 +81,7 @@ public class AppListItems {
         item = new AppListItem();
         item.setName("Routing Slip");
         item.setImageId(R.drawable.app_routing_slip);
-        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
@@ -99,7 +99,7 @@ public class AppListItems {
         item = new AppListItem();
         item.setName("Routing Slip");
         item.setImageId(R.drawable.app_routing_slip);
-        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
@@ -117,7 +117,7 @@ public class AppListItems {
         item = new AppListItem();
         item.setName("Routing Slip");
         item.setImageId(R.drawable.app_routing_slip);
-        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
@@ -135,7 +135,7 @@ public class AppListItems {
         item = new AppListItem();
         item.setName("Routing Slip");
         item.setImageId(R.drawable.app_routing_slip);
-        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
@@ -153,7 +153,7 @@ public class AppListItems {
         item = new AppListItem();
         item.setName("Routing Slip");
         item.setImageId(R.drawable.app_routing_slip);
-        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
@@ -171,7 +171,7 @@ public class AppListItems {
         item = new AppListItem();
         item.setName("Routing Slip");
         item.setImageId(R.drawable.app_routing_slip);
-        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
