@@ -24,7 +24,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.json.JSONException;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -85,7 +88,29 @@ public class ItemDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.details);
+            try {
+                ((TextView) rootView.findViewById(R.id.detail_row_name_id)).setText("ID:");
+                ((TextView) rootView.findViewById(R.id.detail_row_value_id)).setText(mItem.pObject.getString("id"));
+                String last = String.format("%s,\n%s",
+                        mItem.pObject.getString("paternal_last"), mItem.pObject.getString("maternal_last"));
+                ((TextView) rootView.findViewById(R.id.detail_row_name_last)).setText("Last:");
+                ((TextView) rootView.findViewById(R.id.detail_row_value_last)).setText(last);
+                ((TextView) rootView.findViewById(R.id.detail_row_name_first)).setText("First:");
+                ((TextView) rootView.findViewById(R.id.detail_row_value_first)).setText(mItem.pObject.getString("first"));
+                ((TextView) rootView.findViewById(R.id.detail_row_name_gender)).setText("Gender:");
+                String gender = mItem.pObject.getString("gender");
+                ((TextView) rootView.findViewById(R.id.detail_row_value_gender)).setText(gender);
+                ImageView img = ((ImageView) rootView.findViewById(R.id.headshot));
+                if (gender.equals("Male")) {
+                    img.setImageResource(R.drawable.boyfront_m500);
+                } else {
+                    img.setImageResource(R.drawable.girlfront_m500);
+                }
+                ((TextView) rootView.findViewById(R.id.detail_row_name_dob)).setText("DOB:");
+                ((TextView) rootView.findViewById(R.id.detail_row_value_dob)).setText(mItem.pObject.getString("dob"));
+            } catch (JSONException e) {
+
+            }
         }
 
         return rootView;

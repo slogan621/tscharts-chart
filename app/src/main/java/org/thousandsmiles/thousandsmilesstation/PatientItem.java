@@ -17,15 +17,19 @@
 
 package org.thousandsmiles.thousandsmilesstation;
 
+import org.json.JSONObject;
+
 public class PatientItem {
     public final String id;
     public final String content;
     public final String details;
+    public final JSONObject pObject;
 
-    public PatientItem(String id, String content, String details) {
+    public PatientItem(String id, String content, String details, JSONObject pObject) {
         this.id = id;
         this.content = content;
         this.details = details;
+        this.pObject = pObject;
     }
 
     @Override

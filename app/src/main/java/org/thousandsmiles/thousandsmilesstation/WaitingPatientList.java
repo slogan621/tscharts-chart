@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WaitingPatientList extends PatientList {
+public class WaitingPatientList {
     public static Map<String, PatientItem> ITEM_MAP = new HashMap<String, PatientItem>();
     public static List<PatientItem> ITEMS = new ArrayList<PatientItem>();
 

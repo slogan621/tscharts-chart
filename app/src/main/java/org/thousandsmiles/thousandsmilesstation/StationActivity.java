@@ -31,9 +31,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +117,7 @@ public class StationActivity extends AppCompatActivity {
             items = m_sess.getWaitingPatientListData();
             m_waitingAdapter.swap(items);
         }
+
         private void setActivePatientListData()
         {
             List<PatientItem> items;
@@ -169,6 +174,29 @@ public class StationActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             m_twoPane = true;
         }
+
+        // {"name":"Dental3","name_es":"Dental3","activepatient":18,"away":false,"level":1,"nextpatient":null,"awaytime":30,"clinic":1,"station":1,"active":true,"willreturn":"2017-09-13T20:47:12","id":3}
+        TextView label = (TextView) findViewById(R.id.station_name_state);
+        JSONObject activeObject = m_sess.getActiveClinicStationData();
+        String stationLabel = String.format("Station: %s", m_sess.getActiveClinicStationName());
+        try {
+            boolean isActive = activeObject.getBoolean("active");
+            boolean isAway = activeObject.getBoolean("away");
+            if (isActive) {
+                stationLabel += "\nState: Active";
+            } else {
+                if (isAway == true ) {
+                    stationLabel += String.format("\nState: Away, Will Return: %s", activeObject.getString("willreturn"));
+                } else {
+                    stationLabel = "\nState: Waiting";
+                }
+            }
+        } catch (JSONException e) {
+        }
+        label.setText(stationLabel);
+        ImageView icon = (ImageView) findViewById(R.id.station_icon);
+        int activeStationId = m_sess.getActiveStationStationId();
+        icon.setImageResource(m_sess.getStationIconResource(activeStationId));
     }
 
     private void setupRecyclerViews() {

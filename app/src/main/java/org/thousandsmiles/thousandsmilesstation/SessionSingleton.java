@@ -43,9 +43,9 @@ public class SessionSingleton {
     private static int m_clinicId;
     private static Context m_ctx;
     private static ArrayList<JSONObject> m_clinicStationData = new ArrayList<JSONObject>();
-    private static String m_activeStationName = "";
+    private static String m_activeClinicStationName = "";
     private static int m_activeStationStationId = 0;
-    private static int m_activeStationId = 0;
+    private static int m_activeClinicStationId = 0;
     private int m_selectorNumColumns;
     private int m_width = -1;
     private int m_height = -1;
@@ -54,6 +54,7 @@ public class SessionSingleton {
     private static HashMap<Integer, String> m_stationIdToName = new HashMap<Integer, String>();
     private static HashMap<String, Integer> m_clinicStationNameToId = new HashMap<String, Integer>();
     private static HashMap<Integer, Integer> m_clinicStationToStation = new HashMap<Integer, Integer>();
+    private static HashMap<Integer, JSONObject> m_clinicStationToData = new HashMap<Integer, JSONObject>();
     private static HashMap<String, Integer> m_stationToSelector = new HashMap<String, Integer>();
     ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
     ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
@@ -70,6 +71,11 @@ public class SessionSingleton {
         m_stationToSelector.put("Speech", R.drawable.speech_selector);
         m_stationToSelector.put("Surgery Screening", R.drawable.surgery_selector);
         m_stationToSelector.put("X-Ray", R.drawable.xray_selector);
+    }
+
+    public int getStationIconResource(int id) {
+        String name = m_stationIdToName.get(id);
+        return m_stationToSelector.get(name);
     }
 
     private void getScreenResolution(Context context)
@@ -117,16 +123,24 @@ public class SessionSingleton {
         return m_token;
     }
 
-    public void setActiveStationName(String name) {
-        m_activeStationName = name;
+    public void setActiveClinicStationName(String name) {
+        m_activeClinicStationName = name;
+    }
+
+    public String getActiveClinicStationName() {
+        return m_activeClinicStationName;
     }
 
     public void setActiveStationStationId(int id) {
         m_activeStationStationId = id;
     }
 
-    public void setActiveStationId(int id) {
-        m_activeStationId = id;
+    public int getActiveStationStationId() { return m_activeStationStationId; }
+
+    public JSONObject getActiveClinicStationData() { return m_clinicStationToData.get(m_activeClinicStationId);}
+
+    public void setActiveClinicStationId(int id) {
+        m_activeClinicStationId = id;
     }
 
     public void setQueueStatusJSON(JSONObject obj)
@@ -167,6 +181,7 @@ public class SessionSingleton {
                 m_clinicStationData.add(stationdata);
                 m_clinicStationToStation.put(stationdata.getInt("id"), stationdata.getInt("station"));
                 m_clinicStationNameToId.put(stationdata.getString("name"), stationdata.getInt("id"));
+                m_clinicStationToData.put(stationdata.getInt("id"), stationdata);
             } catch (JSONException e) {
                 return;
             }
@@ -315,7 +330,7 @@ public class SessionSingleton {
                 continue;
             }
 
-            if (id == m_activeStationId) {
+            if (id == m_activeClinicStationId) {
                 // this station, so skip
                 continue;
             }
@@ -416,10 +431,11 @@ public class SessionSingleton {
         for (int i = 0; i < list.size(); i++) {
             int val = list.get(i);
             id = String.format("%d", val);
+            JSONObject pData = m_patientData.get(val);
             content = String.format("Content %d", val);
             details = String.format("Details %d", val);
 
-            PatientItem item = new PatientItem(id, content, details);
+            PatientItem item = new PatientItem(id, content, details, pData);
             items.add(item);
         }
         return items;

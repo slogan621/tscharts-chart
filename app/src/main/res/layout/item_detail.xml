@@ -1,9 +1,130 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_detail"
-    style="?android:attr/textAppearanceLarge"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+    android:padding="0dip">
+
+    <ImageView
+        android:id="@+id/headshot"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/boyfront_m500" />
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/detail_table"
+        android:stretchColumns="*"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+        <TableRow>
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/detail_row_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+                <TableRow>
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/detail_row_name_id"
+                        style="?android:attr/textAppearanceLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:textIsSelectable="true"
+                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/detail_row_value_id"
+                        style="?android:attr/textAppearanceLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:textIsSelectable="true"
+                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                </TableRow>
+                <TableRow>
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/detail_row_name_last"
+                        style="?android:attr/textAppearanceLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:textIsSelectable="true"
+                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/detail_row_value_last"
+                        style="?android:attr/textAppearanceLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:textIsSelectable="true"
+                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                </TableRow>
+                <TableRow>
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/detail_row_name_first"
+                        style="?android:attr/textAppearanceLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:textIsSelectable="true"
+                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/detail_row_value_first"
+                        style="?android:attr/textAppearanceLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:textIsSelectable="true"
+                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                </TableRow>
+                <TableRow>
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/detail_row_name_gender"
+                        style="?android:attr/textAppearanceLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:textIsSelectable="true"
+                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/detail_row_value_gender"
+                        style="?android:attr/textAppearanceLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:textIsSelectable="true"
+                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                </TableRow>
+                <TableRow>
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/detail_row_name_dob"
+                        style="?android:attr/textAppearanceLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:textIsSelectable="true"
+                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/detail_row_value_dob"
+                        style="?android:attr/textAppearanceLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:textIsSelectable="true"
+                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                </TableRow>
+            </TableLayout>
+        </TableRow>
+    </TableLayout>
+
+
+</LinearLayout>
