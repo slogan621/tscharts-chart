@@ -26,7 +26,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,18 +47,12 @@ import java.util.List;
  */
 public class StationActivity extends AppCompatActivity {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-
     private enum StationState {
         ACTIVE,
         WAITING,
         AWAY,
     }
 
-    private boolean m_twoPane;
     private StationState m_state = StationState.WAITING; // the status of this station
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     AsyncTask m_task = null;
@@ -106,7 +99,7 @@ public class StationActivity extends AppCompatActivity {
             //return "";
         }
 
-        private void   setWaitingPatientListData()
+        private void setWaitingPatientListData()
         {
             List<PatientItem> items;
 
@@ -144,30 +137,6 @@ public class StationActivity extends AppCompatActivity {
         if (m_task == null) {
             m_task = new UpdatePatientLists();
             m_task.execute((Object) null);
-        }
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        //toolbar.setTitle(getTitle());
-
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
-
-
-        if (findViewById(R.id.item_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            m_twoPane = true;
         }
     }
 
@@ -278,22 +247,14 @@ public class StationActivity extends AppCompatActivity {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (m_twoPane) {
-                        Bundle arguments = new Bundle();
-                        arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                        arguments.putBoolean("isWaiting", m_isWaiting);
-                        ItemDetailFragment fragment = new ItemDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.item_detail_container, fragment)
-                                .commit();
-                    } else {
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, ItemDetailActivity.class);
-                        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-
-                        context.startActivity(intent);
-                    }
+                Bundle arguments = new Bundle();
+                arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                arguments.putBoolean("isWaiting", m_isWaiting);
+                ItemDetailFragment fragment = new ItemDetailFragment();
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.item_detail_container, fragment)
+                        .commit();
                 }
             });
         }
