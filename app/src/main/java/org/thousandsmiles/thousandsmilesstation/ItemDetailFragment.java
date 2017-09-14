@@ -101,11 +101,18 @@ public class ItemDetailFragment extends Fragment {
                 String gender = mItem.pObject.getString("gender");
                 ((TextView) rootView.findViewById(R.id.detail_row_value_gender)).setText(gender);
                 ImageView img = ((ImageView) rootView.findViewById(R.id.headshot));
+
                 if (gender.equals("Male")) {
-                    img.setImageResource(R.drawable.boyfront_m500);
+                    img.setImageResource(R.drawable.boyfront);
                 } else {
-                    img.setImageResource(R.drawable.girlfront_m500);
+                    img.setImageResource(R.drawable.girlfront);
                 }
+
+                int width = m_sess.getScreenWidth();
+                int height = m_sess.getScreenHeight();
+                //img.getLayoutParams().height = height / 3;
+                //img.getLayoutParams().width = height;
+
                 ((TextView) rootView.findViewById(R.id.detail_row_name_dob)).setText("DOB:");
                 ((TextView) rootView.findViewById(R.id.detail_row_value_dob)).setText(mItem.pObject.getString("dob"));
             } catch (JSONException e) {

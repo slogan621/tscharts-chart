@@ -97,6 +97,22 @@ public class SessionSingleton {
         return m_selectorNumColumns;
     }
 
+    public int getScreenWidth()
+    {
+        if (m_width == -1 && m_height == -1) {
+            getScreenResolution(m_ctx);
+        }
+        return m_width;
+    }
+
+    public int getScreenHeight()
+    {
+        if (m_width == -1 && m_height == -1) {
+            getScreenResolution(m_ctx);
+        }
+        return m_height;
+    }
+
     public int getSelector(String name) {
         int ret = R.drawable.medical_selector;
 
