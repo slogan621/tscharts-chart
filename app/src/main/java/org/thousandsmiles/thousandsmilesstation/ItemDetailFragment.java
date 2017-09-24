@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -41,6 +42,7 @@ public class ItemDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    private View m_rootView;
 
     /**
      * The dummy content this fragment is presenting.
@@ -61,9 +63,8 @@ public class ItemDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID) && getArguments().containsKey("isWaiting")) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
+            // isWaiting means either the active list or waiting list has been clicked
+
             boolean isWaiting = getArguments().getBoolean("isWaiting");
 
             String itemId = getArguments().getString(ARG_ITEM_ID);
@@ -72,35 +73,34 @@ public class ItemDetailFragment extends Fragment {
             } else {
                 mItem = ActivePatientList.ITEM_MAP.get(itemId);
             }
+        }
+        else {
+            // isWaiting is not present as an argument. Based on our state, get the relevant mItem
 
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
+            if (m_sess.isActive()) {
+                mItem = m_sess.getActivePatientItem();
+            } else if (m_sess.isWaiting()) {
+                mItem = m_sess.getWaitingPatientItem();
             }
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.item_detail, container, false);
-
-        // Show the dummy content as text in a TextView.
+    private void updatePatientView()
+    {
         if (mItem != null) {
             try {
-                ((TextView) rootView.findViewById(R.id.detail_row_name_id)).setText("ID:");
-                ((TextView) rootView.findViewById(R.id.detail_row_value_id)).setText(mItem.pObject.getString("id"));
+                ((TextView) m_rootView.findViewById(R.id.detail_row_name_id)).setText("ID:");
+                ((TextView) m_rootView.findViewById(R.id.detail_row_value_id)).setText(mItem.pObject.getString("id"));
                 String last = String.format("%s,\n%s",
                         mItem.pObject.getString("paternal_last"), mItem.pObject.getString("maternal_last"));
-                ((TextView) rootView.findViewById(R.id.detail_row_name_last)).setText("Last:");
-                ((TextView) rootView.findViewById(R.id.detail_row_value_last)).setText(last);
-                ((TextView) rootView.findViewById(R.id.detail_row_name_first)).setText("First:");
-                ((TextView) rootView.findViewById(R.id.detail_row_value_first)).setText(mItem.pObject.getString("first"));
-                ((TextView) rootView.findViewById(R.id.detail_row_name_gender)).setText("Gender:");
+                ((TextView) m_rootView.findViewById(R.id.detail_row_name_last)).setText("Last:");
+                ((TextView) m_rootView.findViewById(R.id.detail_row_value_last)).setText(last);
+                ((TextView) m_rootView.findViewById(R.id.detail_row_name_first)).setText("First:");
+                ((TextView) m_rootView.findViewById(R.id.detail_row_value_first)).setText(mItem.pObject.getString("first"));
+                ((TextView) m_rootView.findViewById(R.id.detail_row_name_gender)).setText("Gender:");
                 String gender = mItem.pObject.getString("gender");
-                ((TextView) rootView.findViewById(R.id.detail_row_value_gender)).setText(gender);
-                ImageView img = ((ImageView) rootView.findViewById(R.id.headshot));
+                ((TextView) m_rootView.findViewById(R.id.detail_row_value_gender)).setText(gender);
+                ImageView img = ((ImageView) m_rootView.findViewById(R.id.headshot));
 
                 if (gender.equals("Male")) {
                     img.setImageResource(R.drawable.boyfront);
@@ -108,18 +108,25 @@ public class ItemDetailFragment extends Fragment {
                     img.setImageResource(R.drawable.girlfront);
                 }
 
-                int width = m_sess.getScreenWidth();
-                int height = m_sess.getScreenHeight();
-                //img.getLayoutParams().height = height / 3;
-                //img.getLayoutParams().width = height;
-
-                ((TextView) rootView.findViewById(R.id.detail_row_name_dob)).setText("DOB:");
-                ((TextView) rootView.findViewById(R.id.detail_row_value_dob)).setText(mItem.pObject.getString("dob"));
+                ((TextView) m_rootView.findViewById(R.id.detail_row_name_dob)).setText("DOB:");
+                ((TextView) m_rootView.findViewById(R.id.detail_row_value_dob)).setText(mItem.pObject.getString("dob"));
             } catch (JSONException e) {
 
             }
         }
 
-        return rootView;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        m_rootView = inflater.inflate(R.layout.item_detail, container, false);
+
+        // Show the dummy content as text in a TextView.
+        if (mItem != null) {
+            updatePatientView();
+        }
+
+        return m_rootView;
     }
 }

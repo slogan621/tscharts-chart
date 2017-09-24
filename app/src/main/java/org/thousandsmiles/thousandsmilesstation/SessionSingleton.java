@@ -43,9 +43,9 @@ public class SessionSingleton {
     private static int m_clinicId;
     private static Context m_ctx;
     private static ArrayList<JSONObject> m_clinicStationData = new ArrayList<JSONObject>();
-    private static String m_activeClinicStationName = "";
-    private static int m_activeStationStationId = 0;
-    private static int m_activeClinicStationId = 0;
+    private static String m_clinicStationName = "";
+    private static int m_stationStationId = 0;
+    private static int m_clinicStationId = 0;
     private int m_selectorNumColumns;
     private int m_width = -1;
     private int m_height = -1;
@@ -139,24 +139,24 @@ public class SessionSingleton {
         return m_token;
     }
 
-    public void setActiveClinicStationName(String name) {
-        m_activeClinicStationName = name;
+    public void setClinicStationName(String name) {
+        m_clinicStationName = name;
     }
 
-    public String getActiveClinicStationName() {
-        return m_activeClinicStationName;
+    public String getClinicStationName() {
+        return m_clinicStationName;
     }
 
-    public void setActiveStationStationId(int id) {
-        m_activeStationStationId = id;
+    public void setStationStationId(int id) {
+        m_stationStationId = id;
     }
 
-    public int getActiveStationStationId() { return m_activeStationStationId; }
+    public int getStationStationId() { return m_stationStationId; }
 
-    public JSONObject getActiveClinicStationData() { return m_clinicStationToData.get(m_activeClinicStationId);}
+    public JSONObject getClinicStationData() { return m_clinicStationToData.get(m_clinicStationId);}
 
-    public void setActiveClinicStationId(int id) {
-        m_activeClinicStationId = id;
+    public void setClinicStationId(int id) {
+        m_clinicStationId = id;
     }
 
     public void setQueueStatusJSON(JSONObject obj)
@@ -164,12 +164,90 @@ public class SessionSingleton {
         m_queueStatusJSON = obj;
     }
 
+    public boolean isAway() {
+        JSONObject o = m_clinicStationToData.get(m_clinicStationId);
+        boolean isAway = false;
+        try {
+            isAway = o.getBoolean("away");
+        } catch (JSONException e) {
+        }
+        return isAway;
+    }
+
+    public void clearPatientData()
+    {
+        m_patientData.clear();
+    }
+
+    public boolean isActive() {
+        JSONObject o = m_clinicStationToData.get(m_clinicStationId);
+        boolean isActive = false;
+        try {
+            isActive = o.getBoolean("active");
+        } catch (JSONException e) {
+        }
+        return isActive;
+    }
+
+    public boolean isWaiting() {
+        return (isActive() == false && isAway() == false);
+    }
+
+    public int getActivePatientId()
+    {
+        JSONObject o = m_clinicStationToData.get(m_clinicStationId);
+        int id = -1;
+        if (isActive()) {
+            try {
+                id = o.getInt("activepatient");
+            } catch (JSONException e) {
+            }
+        }
+        return id;
+    }
+
+    public PatientItem getActivePatientItem()
+    {
+        PatientItem item = null;
+
+        if (isActive()) {
+            int id = getActivePatientId();
+
+            if (id != -1) {
+                JSONObject o = getPatientData(id);
+                if (o != null) {
+                    item = new PatientItem(String.format("%d", id), "", "", o);
+                }
+            }
+        }
+        return item;
+    }
+
+    public PatientItem getWaitingPatientItem()
+    {
+        PatientItem item = null;
+
+        if (isWaiting()) {
+            if (m_waitingPatients.isEmpty() == false)
+            {
+                int id = m_waitingPatients.get(0);    // first item is next in list
+                if (id != -1) {
+                    JSONObject o = getPatientData(id);
+                    if (o != null) {
+                        item = new PatientItem(String.format("%d", id), "", "", o);
+                    }
+                }
+            }
+        }
+        return item;
+    }
+
     public void setClinicId(int id) {
         m_clinicId = id;
     }
 
     public String getActiveStationName() {
-        return m_stationIdToName.get(m_activeStationStationId);
+        return m_stationIdToName.get(m_stationStationId);
     }
 
     public void addStationData(JSONArray data) {
@@ -346,12 +424,12 @@ public class SessionSingleton {
                 continue;
             }
 
-            if (id == m_activeClinicStationId) {
+            if (id == m_clinicStationId) {
                 // this station, so skip
                 continue;
             }
 
-            if (stationId == m_activeStationStationId) {
+            if (stationId == m_stationStationId) {
                 // same class as this station, so add to list
 
                 JSONObject p = getPatientData(patient);
@@ -412,7 +490,7 @@ public class SessionSingleton {
                         JSONObject o = r.getJSONObject(i);
                         int stationId = m_clinicStationToStation.get(o.getInt("clinicstation"));
                         JSONArray entries = o.getJSONArray("entries");
-                        if (stationId == m_activeStationStationId) {
+                        if (stationId == m_stationStationId) {
                             for (int j = 0; j < entries.length(); j++) {
                                 JSONObject entry = entries.getJSONObject(j);
                                 int patient = entry.getInt("patient");

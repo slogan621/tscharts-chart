@@ -83,9 +83,9 @@ public class StationSelectorActivity extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
-                            m_sess.setActiveClinicStationName(name);
-                            m_sess.setActiveClinicStationId(id);
-                            m_sess.setActiveStationStationId(stationId);
+                            m_sess.setClinicStationName(name);
+                            m_sess.setClinicStationId(id);
+                            m_sess.setStationStationId(stationId);
 
                             Intent intent = new Intent(m_activity, StationActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
