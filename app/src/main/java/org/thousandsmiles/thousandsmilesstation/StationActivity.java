@@ -105,12 +105,12 @@ public class StationActivity extends AppCompatActivity {
                     first = false;
                 }
 
-
                 m_sess.getActivePatientItem();
                 StationActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         updatePatientDetail();   // only if not in an application
                         updateStationDetail();
+                        updateViewVisibilities();
                     }
                 });
 
@@ -121,7 +121,7 @@ public class StationActivity extends AppCompatActivity {
                     }
                 });
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(2000);
                 } catch(InterruptedException e) {
                 }
             }
@@ -160,6 +160,42 @@ public class StationActivity extends AppCompatActivity {
         }
     }
 
+    private void setButtonBarCallbacks()
+    {
+        View button_bar_item = findViewById(R.id.away_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                Toast.makeText(StationActivity.this, "You clicked on away", Toast.LENGTH_SHORT).show();
+            }
+        });
+        button_bar_item = findViewById(R.id.back_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                Toast.makeText(StationActivity.this, "You clicked on back", Toast.LENGTH_SHORT).show();
+            }
+        });
+        button_bar_item = findViewById(R.id.checkin_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                Toast.makeText(StationActivity.this, "You clicked on checkin", Toast.LENGTH_SHORT).show();
+            }
+        });
+        button_bar_item = findViewById(R.id.checkout_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                Toast.makeText(StationActivity.this, "You clicked on checkout", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void updatePatientDetail()
     {
         Bundle arguments = new Bundle();
@@ -170,17 +206,13 @@ public class StationActivity extends AppCompatActivity {
                 .commitAllowingStateLoss();
     }
 
-    private void updateStationDetail()
+    private void updateViewVisibilities()
     {
-        // {"name":"Dental3","name_es":"Dental3","activepatient":18,"away":false,"level":1,"nextpatient":null,"awaytime":30,"clinic":1,"station":1,"active":true,"willreturn":"2017-09-13T20:47:12","id":3}
-        TextView label = (TextView) findViewById(R.id.station_name_state);
         JSONObject activeObject = m_sess.getClinicStationData();
-        String stationLabel = String.format("Station: %s", m_sess.getClinicStationName());
         try {
             m_isActive = activeObject.getBoolean("active");
             m_isAway = activeObject.getBoolean("away");
             if (m_isActive) {
-                stationLabel += "\nState: Active";
                 View recycler = findViewById(R.id.waiting_item_list_box);
                 if (recycler.getVisibility() == View.VISIBLE)
                     recycler.setVisibility(View.GONE);
@@ -203,71 +235,87 @@ public class StationActivity extends AppCompatActivity {
                 button_bar_item = findViewById(R.id.checkout_button);
                 if (button_bar_item.getVisibility() == View.GONE)
                     button_bar_item.setVisibility(View.VISIBLE);
+            } else if (m_isAway == true ) {
+                View recycler = findViewById(R.id.waiting_item_list_box);
+                if (recycler.getVisibility() == View.VISIBLE)
+                    recycler.setVisibility(View.INVISIBLE);
+                recycler = findViewById(R.id.active_item_list_box);
+                if (recycler.getVisibility() == View.VISIBLE)
+                    recycler.setVisibility(View.INVISIBLE);
+                View listView = findViewById(R.id.app_item_list);
+                if (recycler.getVisibility() == View.VISIBLE)
+                    listView.setVisibility(View.INVISIBLE);
+
+                View button_bar_item = findViewById(R.id.away_button);
+                if (button_bar_item.getVisibility() == View.VISIBLE)
+                    button_bar_item.setVisibility(View.GONE);
+                button_bar_item = findViewById(R.id.back_button);
+                if (button_bar_item.getVisibility() == View.GONE)
+                    button_bar_item.setVisibility(View.VISIBLE);
+                button_bar_item = findViewById(R.id.checkin_button);
+                if (button_bar_item.getVisibility() == View.VISIBLE)
+                    button_bar_item.setVisibility(View.GONE);
+                button_bar_item = findViewById(R.id.checkout_button);
+                if (button_bar_item.getVisibility() == View.VISIBLE)
+                    button_bar_item.setVisibility(View.GONE);
             } else {
-                if (m_isAway == true ) {
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                    df.setTimeZone(TimeZone.getTimeZone("UTC"));
+                View recycler = findViewById(R.id.waiting_item_list_box);
+                if (recycler.getVisibility() == View.INVISIBLE)
+                    recycler.setVisibility(View.VISIBLE);
+                recycler = findViewById(R.id.active_item_list_box);
+                if (recycler.getVisibility() == View.INVISIBLE)
+                    recycler.setVisibility(View.VISIBLE);
+                View listView = findViewById(R.id.app_item_list);
+                if (listView.getVisibility() == View.VISIBLE)
+                    listView.setVisibility(View.INVISIBLE);
 
-                    String willret = activeObject.getString("willreturn");
+                View button_bar_item = findViewById(R.id.away_button);
+                if (button_bar_item.getVisibility() == View.GONE)
+                    button_bar_item.setVisibility(View.VISIBLE);
+                button_bar_item = findViewById(R.id.back_button);
+                if (button_bar_item.getVisibility() == View.VISIBLE)
+                    button_bar_item.setVisibility(View.GONE);
+                button_bar_item = findViewById(R.id.checkin_button);
+                if (button_bar_item.getVisibility() == View.GONE)
+                    button_bar_item.setVisibility(View.VISIBLE);
+                button_bar_item = findViewById(R.id.checkout_button);
+                if (button_bar_item.getVisibility() == View.VISIBLE)
+                    button_bar_item.setVisibility(View.GONE);
+            }
+        } catch (JSONException e) {
+        }
+    }
 
-                    Date d;
-                    try {
-                        d = df.parse(willret);
-                        SimpleDateFormat dflocal = new SimpleDateFormat("hh:mm:ss a");
-                        dflocal.setTimeZone(TimeZone.getDefault());
-                        willret = dflocal.format(d);
-                    } catch (ParseException e) {
-                        willret = activeObject.getString("willreturn");
-                    }
+    private void updateStationDetail()
+    {
+        // {"name":"Dental3","name_es":"Dental3","activepatient":18,"away":false,"level":1,"nextpatient":null,"awaytime":30,"clinic":1,"station":1,"active":true,"willreturn":"2017-09-13T20:47:12","id":3}
+        TextView label = (TextView) findViewById(R.id.station_name_state);
+        JSONObject activeObject = m_sess.getClinicStationData();
+        String stationLabel = String.format("Station: %s", m_sess.getClinicStationName());
+        try {
+            m_isActive = activeObject.getBoolean("active");
+            m_isAway = activeObject.getBoolean("away");
+            if (m_isActive) {
+                stationLabel += "\nState: Active";
+            } else if (m_isAway == true ) {
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                df.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-                    stationLabel += String.format("\nState: Away, Will Return: %s", willret);
-                    View recycler = findViewById(R.id.waiting_item_list_box);
-                    if (recycler.getVisibility() == View.VISIBLE)
-                        recycler.setVisibility(View.INVISIBLE);
-                    recycler = findViewById(R.id.active_item_list_box);
-                    if (recycler.getVisibility() == View.VISIBLE)
-                        recycler.setVisibility(View.INVISIBLE);
-                    View listView = findViewById(R.id.app_item_list);
-                    if (recycler.getVisibility() == View.VISIBLE)
-                        listView.setVisibility(View.INVISIBLE);
+                String willret = activeObject.getString("willreturn");
 
-                    View button_bar_item = findViewById(R.id.away_button);
-                    if (button_bar_item.getVisibility() == View.VISIBLE)
-                        button_bar_item.setVisibility(View.GONE);
-                    button_bar_item = findViewById(R.id.back_button);
-                    if (button_bar_item.getVisibility() == View.GONE)
-                        button_bar_item.setVisibility(View.VISIBLE);
-                    button_bar_item = findViewById(R.id.checkin_button);
-                    if (button_bar_item.getVisibility() == View.VISIBLE)
-                        button_bar_item.setVisibility(View.GONE);
-                    button_bar_item = findViewById(R.id.checkout_button);
-                    if (button_bar_item.getVisibility() == View.VISIBLE)
-                        button_bar_item.setVisibility(View.GONE);
-                } else {
-                    stationLabel += "\nState: Waiting";
-                    View recycler = findViewById(R.id.waiting_item_list_box);
-                    if (recycler.getVisibility() == View.INVISIBLE)
-                        recycler.setVisibility(View.VISIBLE);
-                    recycler = findViewById(R.id.active_item_list_box);
-                    if (recycler.getVisibility() == View.INVISIBLE)
-                        recycler.setVisibility(View.VISIBLE);
-                    View listView = findViewById(R.id.app_item_list);
-                    if (listView.getVisibility() == View.VISIBLE)
-                        listView.setVisibility(View.INVISIBLE);
-
-                    View button_bar_item = findViewById(R.id.away_button);
-                    if (button_bar_item.getVisibility() == View.GONE)
-                        button_bar_item.setVisibility(View.VISIBLE);
-                    button_bar_item = findViewById(R.id.back_button);
-                    if (button_bar_item.getVisibility() == View.VISIBLE)
-                        button_bar_item.setVisibility(View.GONE);
-                    button_bar_item = findViewById(R.id.checkin_button);
-                    if (button_bar_item.getVisibility() == View.GONE)
-                        button_bar_item.setVisibility(View.VISIBLE);
-                    button_bar_item = findViewById(R.id.checkout_button);
-                    if (button_bar_item.getVisibility() == View.VISIBLE)
-                        button_bar_item.setVisibility(View.GONE);
+                Date d;
+                try {
+                    d = df.parse(willret);
+                    SimpleDateFormat dflocal = new SimpleDateFormat("hh:mm:ss a");
+                    dflocal.setTimeZone(TimeZone.getDefault());
+                    willret = dflocal.format(d);
+                } catch (ParseException e) {
+                    willret = activeObject.getString("willreturn");
                 }
+
+                stationLabel += String.format("\nState: Away, Will Return: %s", willret);
+            } else {
+                stationLabel += "\nState: Waiting";
             }
         } catch (JSONException e) {
         }
@@ -294,6 +342,7 @@ public class StationActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             m_twoPane = true;
         }
+        setButtonBarCallbacks();
     }
 
     private void setupRecyclerViews() {
