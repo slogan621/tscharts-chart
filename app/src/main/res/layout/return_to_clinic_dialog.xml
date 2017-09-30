@@ -1,0 +1,81 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp">
+
+    <ImageView
+        android:src="@drawable/checkout200"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="128dp"
+        android:scaleType="fitCenter"
+        android:background="@color/colorWhite"/>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+        <RadioButton
+            android:id="@+id/checkout_returnNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/checkout_return_no"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/checkout_return3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/checkout_return_3"/>
+        <RadioButton
+            android:id="@+id/checkout_return6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/checkout_return_6"/>
+        <RadioButton
+            android:id="@+id/checkout_return9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/checkout_return_9"/>
+        <RadioButton
+            android:id="@+id/checkout_return12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/checkout_return_12"/>
+    </RadioGroup>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/label_checkout_optional_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <!-- following hidden view hack causes edit text field to NOT get focus on dialog show -->
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
+
+            <EditText
+                android:id="@+id/checkout_msg"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:inputType="text|textMultiLine"
+                android:background="@drawable/edittext_border"
+                android:gravity="top"/>
+    </LinearLayout>
+</LinearLayout>

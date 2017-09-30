@@ -26,7 +26,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,6 +159,13 @@ public class StationActivity extends AppCompatActivity {
         }
     }
 
+    void showReturnToClinic()
+    {
+        ReturnToClinicDialogFragment rtc = new ReturnToClinicDialogFragment();
+        rtc.setPatientId(m_sess.getActivePatientId());
+        rtc.show(getSupportFragmentManager(), "Return To Clinic");
+    }
+
     private void setButtonBarCallbacks()
     {
         View button_bar_item = findViewById(R.id.away_button);
@@ -192,6 +198,7 @@ public class StationActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 Toast.makeText(StationActivity.this, "You clicked on checkout", Toast.LENGTH_SHORT).show();
+                showReturnToClinic();
             }
         });
     }

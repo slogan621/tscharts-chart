@@ -30,7 +30,6 @@
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 
-
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_station_status">Thousand Smiles Clinic Station</string>
@@ -39,5 +38,18 @@
     <!-- button labels -->
 
     <string name="button_select">Select</string>
+
+    <!-- Checkout -->
+
+    <string name="checkout_yes">Checkout</string>
+    <string name="checkout_cancel">Cancel</string>
+    <string name="checkout_return_no">No return</string>
+    <string name="checkout_return_3">Return in 3 months</string>
+    <string name="checkout_return_6">Return in 6 months</string>
+    <string name="checkout_return_9">Return in 9 months</string>
+    <string name="checkout_return_12">Return in one year</string>
+
+    <string name="label_checkout_optional_msg">(Optional) Message:</string>
+    <string name="title_checkout_dialog">Checkout/Return to Clinic</string>
 
 </resources>

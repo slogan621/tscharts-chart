@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorThousandsmiles">#0055A2</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
     <color name="pressed_color">#aabfcf</color>
     <color name="default_color">#ffffff</color>
 
