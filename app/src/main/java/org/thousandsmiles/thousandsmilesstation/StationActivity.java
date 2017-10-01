@@ -127,7 +127,7 @@ public class StationActivity extends AppCompatActivity {
             //return "";
         }
 
-        private void   setWaitingPatientListData()
+        private void setWaitingPatientListData()
         {
             List<PatientItem> items;
 
@@ -166,6 +166,180 @@ public class StationActivity extends AppCompatActivity {
         rtc.show(getSupportFragmentManager(), "Return To Clinic");
     }
 
+    private class CheckinPatient extends AsyncTask<Object, Object, Object> {
+        @Override
+        protected String doInBackground(Object... params) {
+            checkinPatient();
+            return "";
+        }
+
+        private void checkinPatient()
+        {
+            int patientId = m_sess.getDisplayPatientId();
+            int clinicStationId = m_sess.getClinicStationId();
+            int queueEntryId = m_sess.getQueueEntryId(clinicStationId, patientId);
+            int routingSlipEntryId = m_sess.getDisplayRoutingSlipEntryId(clinicStationId, patientId);
+
+            final QueueREST queueREST = new QueueREST(m_sess.getContext());
+            Object lock = queueREST.deleteQueueEntry(queueEntryId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = queueREST.getStatus();
+            if (status == 200) {
+                final ClinicStationREST clinicStationREST = new ClinicStationREST(m_sess.getContext());
+                lock = clinicStationREST.updateActiveClinicStationPatient(clinicStationId, patientId);
+
+                synchronized (lock) {
+                    // we loop here in case of race conditions or spurious interrupts
+                    while (true) {
+                        try {
+                            lock.wait();
+                            break;
+                        } catch (InterruptedException e) {
+                            continue;
+                        }
+                    }
+                }
+                status = clinicStationREST.getStatus();
+                if (status == 200) {
+                    final RoutingSlipEntryREST rseREST = new RoutingSlipEntryREST(m_sess.getContext());
+                    lock = rseREST.markRoutingSlipStateCheckedIn(routingSlipEntryId);
+
+                    synchronized (lock) {
+                        // we loop here in case of race conditions or spurious interrupts
+                        while (true) {
+                            try {
+                                lock.wait();
+                                break;
+                            } catch (InterruptedException e) {
+                                continue;
+                            }
+                        }
+                    }
+                    status = rseREST.getStatus();
+                    if (status == 200 ) {
+                        final StateChangeREST stateChangeREST = new StateChangeREST(m_sess.getContext());
+                        lock = stateChangeREST.stateChangeCheckin(clinicStationId, patientId);
+
+                        synchronized (lock) {
+                            // we loop here in case of race conditions or spurious interrupts
+                            while (true) {
+                                try {
+                                    lock.wait();
+                                    break;
+                                } catch (InterruptedException e) {
+                                    continue;
+                                }
+                            }
+                        }
+                        status = stateChangeREST.getStatus();
+                        if (status == 200) {
+                            StationActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(StationActivity.this, "Patient successfully signed in", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            StationActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(StationActivity.this, "Unable to update state change object", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    } else {
+                        StationActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(StationActivity.this, "Unable to update routing slip", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } else {
+                    StationActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(StationActivity.this, "Unable to set clinic station state", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            } else {
+                StationActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(StationActivity.this, "Unable to delete queue entry", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        /*
+                   entry = entries[0]
+
+                    q = DeleteQueueEntry(host, port, token)
+
+                    q.setQueueEntryId(entry["id"])
+
+                    ret = q.send(timeout=30)
+
+                    if ret[0] == 200:
+
+                        print("GetQueue: deleted queueentry {}".format(entry["id"]))
+
+                        y = UpdateClinicStation(host, port, token, clinicstationid)
+
+                        y.setActive(True)
+
+                        y.setActivePatient(entry["patient"])
+
+                        ret = y.send(timeout=30)
+
+                        if ret[0] == 200:
+
+                            print("GetQueue: set clinicstation {} active patient to {}".format(clinicstationid, entry["patient"]))
+
+                            z = UpdateRoutingSlipEntry(host, port, token, entry["routingslipentry"])
+
+                            z.setState("Checked In")
+
+                            ret = z.send(timeout=30)
+
+                            if ret[0] == 200:
+
+                                print("GetQueue: clinicstation {} checked in patient {}".format(clinicstationid, entry["patient"]))
+
+                                r = CreateStateChange(host, port, token)
+
+                                r.setClinicStation(clinicstationid)
+
+                                r.setPatient(entry["patient"])
+
+                                r.setState("in")
+         */
+        }
+
+        // This is called from background thread but runs in UI
+        @Override
+        protected void onProgressUpdate(Object... values) {
+            super.onProgressUpdate(values);
+            // Do things like update the progress bar
+        }
+
+        // This runs in UI when background thread finishes
+        @Override
+        protected void onPostExecute(Object result) {
+            super.onPostExecute(result);
+
+            // Do things like hide the progress bar or change a TextView
+        }
+    }
+
     private void setButtonBarCallbacks()
     {
         View button_bar_item = findViewById(R.id.away_button);
@@ -189,7 +363,8 @@ public class StationActivity extends AppCompatActivity {
         {
             public void onClick(View v)
             {
-                Toast.makeText(StationActivity.this, "You clicked on checkin", Toast.LENGTH_SHORT).show();
+                AsyncTask task = new CheckinPatient();
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
             }
         });
         button_bar_item = findViewById(R.id.checkout_button);
@@ -197,7 +372,7 @@ public class StationActivity extends AppCompatActivity {
         {
             public void onClick(View v)
             {
-                Toast.makeText(StationActivity.this, "You clicked on checkout", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(StationActivity.this, "You clicked on checkout", Toast.LENGTH_SHORT).show();
                 showReturnToClinic();
             }
         });
@@ -206,6 +381,7 @@ public class StationActivity extends AppCompatActivity {
     private void updatePatientDetail()
     {
         Bundle arguments = new Bundle();
+        //arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
         ItemDetailFragment fragment = new ItemDetailFragment();
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()

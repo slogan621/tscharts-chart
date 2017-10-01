@@ -36,7 +36,7 @@ import java.util.Map;
 public class QueueREST extends RESTful {
     private final Object m_lock = new Object();
 
-    private class ResponseListener implements Response.Listener<JSONObject> {
+    private class GetQueueDataResponseListener implements Response.Listener<JSONObject> {
         @Override
         public void onResponse(JSONObject response) {
 
@@ -44,6 +44,19 @@ public class QueueREST extends RESTful {
                 SessionSingleton sess = SessionSingleton.getInstance();
                 setStatus(200);
                 sess.setQueueStatusJSON(response);
+                m_lock.notify();
+            }
+        }
+    }
+
+    private class DeleteQueueEntryResponseListener implements Response.Listener<JSONObject> {
+        @Override
+        public void onResponse(JSONObject response) {
+
+            synchronized (m_lock) {
+                SessionSingleton sess = SessionSingleton.getInstance();
+                setStatus(200);
+                //sess.setQueueStatusJSON(response);
                 m_lock.notify();
             }
         }
@@ -120,7 +133,24 @@ public class QueueREST extends RESTful {
 
         String url = String.format("http://%s:%s/tscharts/v1/queue/?clinic=%d", getIP(), getPort(), clinicid);
 
-        AuthJSONObjectRequest request = new AuthJSONObjectRequest(Request.Method.GET, url, null, new ResponseListener(), new ErrorListener());
+        AuthJSONObjectRequest request = new AuthJSONObjectRequest(Request.Method.GET, url, null, new GetQueueDataResponseListener(), new ErrorListener());
+
+        queue.add((JsonObjectRequest) request);
+
+        return m_lock;
+    }
+
+    public Object deleteQueueEntry(int entryId) {
+
+        VolleySingleton volley = VolleySingleton.getInstance();
+
+        volley.initQueueIf(getContext());
+
+        RequestQueue queue = volley.getQueue();
+
+        String url = String.format("http://%s:%s/tscharts/v1/queueentry/%d/", getIP(), getPort(), entryId);
+
+        AuthJSONObjectRequest request = new AuthJSONObjectRequest(Request.Method.DELETE, url, null,  new DeleteQueueEntryResponseListener(), new ErrorListener());
 
         queue.add((JsonObjectRequest) request);
 

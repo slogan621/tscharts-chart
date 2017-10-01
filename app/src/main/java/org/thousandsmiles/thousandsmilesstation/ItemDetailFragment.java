@@ -83,6 +83,12 @@ public class ItemDetailFragment extends Fragment {
                 mItem = m_sess.getWaitingPatientItem();
             }
         }
+        try {
+            if (mItem != null && mItem.pObject != null) {
+                m_sess.setDisplayPatientId(Integer.parseInt(mItem.pObject.getString("id")));
+            }
+        } catch (JSONException e) {
+        }
     }
 
     private void updatePatientView()

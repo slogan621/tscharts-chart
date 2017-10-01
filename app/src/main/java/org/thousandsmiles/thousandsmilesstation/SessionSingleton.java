@@ -56,9 +56,10 @@ public class SessionSingleton {
     private static HashMap<Integer, Integer> m_clinicStationToStation = new HashMap<Integer, Integer>();
     private static HashMap<Integer, JSONObject> m_clinicStationToData = new HashMap<Integer, JSONObject>();
     private static HashMap<String, Integer> m_stationToSelector = new HashMap<String, Integer>();
-    ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
-    ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
-
+    private ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
+    private ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
+    private int m_displayPatientId; // id of the patient that will get checked in/checked out when the corresponding button is pressed
+    private int m_displayRoutingSlipEntryId; // id of the routingslip for m_displayPatientId
     // XXX Consider moving these station class names to the API
 
     public void initStationNameToSelectorMap()
@@ -95,6 +96,36 @@ public class SessionSingleton {
         }
         m_selectorNumColumns = m_width / 250;
         return m_selectorNumColumns;
+    }
+
+    public int getQueueEntryId(int clinicStationId, int patientId)
+    {
+        JSONArray queues;
+        int ret = -1;
+
+        try {
+            queues = m_queueStatusJSON.getJSONArray("queues");
+            for (int i = 0; i < queues.length(); i++) {
+                JSONObject o = queues.getJSONObject(i);
+                int clinicstation = o.getInt("clinicstation");
+                if (clinicstation == clinicStationId) {
+                    JSONArray entries = o.getJSONArray("entries");
+                    for (int j = 0; j < entries.length(); j++) {
+                        JSONObject entry = entries.getJSONObject(j);
+                        int patient = entry.getInt("patient");
+                        if (patient == patientId) {
+                            ret = entry.getInt("id");
+                            break;
+                        }
+                    }
+                }
+                if (ret != -1) {
+                    break;
+                }
+            }
+        } catch (JSONException e) {
+        }
+        return ret;
     }
 
     public int getScreenWidth()
@@ -157,6 +188,10 @@ public class SessionSingleton {
 
     public void setClinicStationId(int id) {
         m_clinicStationId = id;
+    }
+
+    public int getClinicStationId() {
+        return m_clinicStationId;
     }
 
     public void setQueueStatusJSON(JSONObject obj)
@@ -223,6 +258,34 @@ public class SessionSingleton {
         return item;
     }
 
+    public boolean isWaitingForThisClinicStation(int patient) {
+        boolean ret = false;
+        try {
+            JSONArray r = m_queueStatusJSON.getJSONArray("queues");
+            for (int i = 0; i < r.length(); i++) {
+                try {
+                    JSONObject o = r.getJSONObject(i);
+                    int clinicstation = o.getInt("clinicstation");
+                    if (clinicstation == getClinicStationId()) {
+                        JSONArray entries = o.getJSONArray("entries");
+
+                        for (int j = 0; j < entries.length(); j++) {
+                            JSONObject entry = entries.getJSONObject(j);
+                            int patientid = entry.getInt("patient");
+                            if (patientid == patient && clinicstation == getClinicStationId()) {
+                                ret = true;
+                                break;
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        } catch (JSONException e) {
+        }
+        return ret;
+    }
+
     public PatientItem getWaitingPatientItem()
     {
         PatientItem item = null;
@@ -230,11 +293,14 @@ public class SessionSingleton {
         if (isWaiting()) {
             if (m_waitingPatients.isEmpty() == false)
             {
-                int id = m_waitingPatients.get(0);    // first item is next in list
-                if (id != -1) {
-                    JSONObject o = getPatientData(id);
-                    if (o != null) {
-                        item = new PatientItem(String.format("%d", id), "", "", o);
+                for (int i = 0; i < m_waitingPatients.size(); i++) {
+                    int id = m_waitingPatients.get(i);    // first item is next in list
+                    if (id != -1 && isWaitingForThisClinicStation(id)) {
+                        JSONObject o = getPatientData(id);
+                        if (o != null) {
+                            item = new PatientItem(String.format("%d", id), "", "", o);
+                            break;
+                        }
                     }
                 }
             }
@@ -470,6 +536,45 @@ public class SessionSingleton {
         return ret;
     }
 
+    public void setDisplayPatientId(int id)
+    {
+        m_displayPatientId = id;
+    }
+
+    public int getDisplayPatientId()
+    {
+        return m_displayPatientId;
+    }
+
+    public int getDisplayRoutingSlipEntryId(int clinicstationId, int patientId)
+    {
+        int routingslipEntryId = -1;
+        try {
+            JSONArray r = m_queueStatusJSON.getJSONArray("queues");
+            for (int i = 0; i < r.length(); i++) {
+                try {
+                    JSONObject o = r.getJSONObject(i);
+                    int clinicstation = o.getInt("clinicstation");
+                    if (clinicstation == clinicstationId) {
+                        JSONArray entries = o.getJSONArray("entries");
+
+                        for (int j = 0; j < entries.length(); j++) {
+                            JSONObject entry = entries.getJSONObject(j);
+                            int patientid = entry.getInt("patient");
+                            if (patientid == patientId) {
+                                routingslipEntryId = entry.getInt("routingslipentry");
+                                break;
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        } catch (JSONException e) {
+        }
+        return routingslipEntryId;
+    }
+
     public boolean updateWaitingPatientList() {
         boolean ret = true;
 
@@ -488,7 +593,8 @@ public class SessionSingleton {
                 for (int i = 0; i < r.length(); i++) {
                     try {
                         JSONObject o = r.getJSONObject(i);
-                        int stationId = m_clinicStationToStation.get(o.getInt("clinicstation"));
+                        int clinicstation = o.getInt("clinicstation");
+                        int stationId = m_clinicStationToStation.get(clinicstation);
                         JSONArray entries = o.getJSONArray("entries");
                         if (stationId == m_stationStationId) {
                             for (int j = 0; j < entries.length(); j++) {

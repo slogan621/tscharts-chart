@@ -33,30 +33,16 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClinicStationREST extends RESTful {
+public class RoutingSlipEntryREST extends RESTful {
     private final Object m_lock = new Object();
 
-    private class UpdateClinicStationResponseListener implements Response.Listener<JSONObject> {
+    private class UpdateRoutingSlipEntryResponseListener implements Response.Listener<JSONObject> {
 
         @Override
         public void onResponse(JSONObject response) {
             synchronized (m_lock) {
                 SessionSingleton sess = SessionSingleton.getInstance();
                 setStatus(200);
-                //sess.addClinicStationData(response);
-                m_lock.notify();
-            }
-        }
-    }
-
-    private class GetClinicStationDataResponseListener implements Response.Listener<JSONArray> {
-
-        @Override
-        public void onResponse(JSONArray response) {
-            synchronized (m_lock) {
-                SessionSingleton sess = SessionSingleton.getInstance();
-                setStatus(200);
-                sess.addClinicStationData(response);
                 m_lock.notify();
             }
         }
@@ -120,11 +106,11 @@ public class ClinicStationREST extends RESTful {
 
     }
 
-    public ClinicStationREST(Context context) {
+    public RoutingSlipEntryREST(Context context) {
         setContext(context);
     }
 
-    public Object getClinicStationData(int clinicid) {
+    public Object markRoutingSlipStateCheckedIn(int entryId) {
 
         VolleySingleton volley = VolleySingleton.getInstance();
 
@@ -132,36 +118,18 @@ public class ClinicStationREST extends RESTful {
 
         RequestQueue queue = volley.getQueue();
 
-        String url = String.format("http://%s:%s/tscharts/v1/clinicstation?clinic=%d", getIP(), getPort(), clinicid);
-
-        AuthJSONArrayRequest request = new AuthJSONArrayRequest(url, null, new GetClinicStationDataResponseListener(), new ErrorListener());
-
-        queue.add((JsonArrayRequest) request);
-
-        return m_lock;
-    }
-
-    public Object updateActiveClinicStationPatient(int clinicstationid, int patientId) {
-
-        VolleySingleton volley = VolleySingleton.getInstance();
-
-        volley.initQueueIf(getContext());
-
-        RequestQueue queue = volley.getQueue();
-
-        String url = String.format("http://%s:%s/tscharts/v1/clinicstation/%s/", getIP(), getPort(), clinicstationid);
+        String url = String.format("http://%s:%s/tscharts/v1/routingslipentry/%d/", getIP(), getPort(), entryId);
 
         JSONObject data = new JSONObject();
 
         try {
-            data.put("active", true);
-            data.put("activepatient", patientId);
+            data.put("state", "Checked In");
         } catch(Exception e) {
             // not sure this would ever happen, ignore. Continue on with the request with the expectation it fails
             // because of the bad JSON sent
         }
 
-        ClinicStationREST.AuthJSONObjectRequest request = new ClinicStationREST.AuthJSONObjectRequest(Request.Method.PUT, url, data,  new ClinicStationREST.UpdateClinicStationResponseListener(), new ClinicStationREST.ErrorListener());
+        RoutingSlipEntryREST.AuthJSONObjectRequest request = new RoutingSlipEntryREST.AuthJSONObjectRequest(Request.Method.PUT, url, data,  new RoutingSlipEntryREST.UpdateRoutingSlipEntryResponseListener(), new RoutingSlipEntryREST.ErrorListener());
 
         queue.add((JsonObjectRequest) request);
 
