@@ -2,6 +2,7 @@ package org.thousandsmiles.thousandsmilesstation;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -58,6 +59,13 @@ public class ReturnToClinicDialogFragment extends DialogFragment {
                         }
                         EditText t = (EditText) m_view.findViewById(R.id.checkout_msg);
                         msg = t.getText().toString();
+
+                        CheckoutParams params = new CheckoutParams();
+
+                        params.setMessage(msg);
+                        params.setReturnMonths(numMonths);
+                        AsyncTask task = new CheckoutPatient();
+                        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) params);
                     }
                 })
                 .setNegativeButton(R.string.checkout_cancel, new DialogInterface.OnClickListener() {

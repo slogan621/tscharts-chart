@@ -26,20 +26,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class StateChangeREST extends RESTful {
+public class ReturnToClinicREST extends RESTful {
     private final Object m_lock = new Object();
 
-    private class StateChangeCheckinResponseListener implements Response.Listener<JSONObject> {
+    private class ReturnToClinicResponseListener implements Response.Listener<JSONObject> {
 
         @Override
         public void onResponse(JSONObject response) {
-
             synchronized (m_lock) {
                 setStatus(200);
                 m_lock.notify();
@@ -85,11 +83,25 @@ public class StateChangeREST extends RESTful {
         }
     }
 
-    public StateChangeREST(Context context)  {
+    public ReturnToClinicREST(Context context)  {
         setContext(context);
     }
 
-    public Object stateChangeCheckin(int clinicstation, int patient) {
+    /*
+    POST /tscharts/v1/returntoclinic/ HTTP/1.1
+Host: 127.0.0.1:8000
+Content-Length: 77
+Accept-Encoding: gzip, deflate, compress
+Accept:
+    User-Agent: python-requests/2.2.1 CPython/2.7.6 Linux/4.2.0-27-generic
+    Content-Type: application/json
+    Authorization: Token 53f29e4dfc917c28a0e71f26525307250f1f8101
+
+
+    {"comment": "", "clinic": 337, "station": 196, "patient": 402, "interval": 3}HTTP/1.0 200 OK
+    */
+
+    public Object returnToClinic(int clinic, int station, int patient, int interval, String comment) {
 
         VolleySingleton volley = VolleySingleton.getInstance();
 
@@ -97,48 +109,22 @@ public class StateChangeREST extends RESTful {
 
         RequestQueue queue = volley.getQueue();
 
-        String url = String.format("http://%s:%s/tscharts/v1/statechange/", getIP(), getPort());
+        String url = String.format("http://%s:%s/tscharts/v1/returntoclinic/", getIP(), getPort());
 
         JSONObject data = new JSONObject();
 
         try {
-            data.put("clinicstation", clinicstation);
+            data.put("comment", comment);
+            data.put("clinic", clinic);
+            data.put("station", station);
             data.put("patient", patient);
-            data.put("state", "in");
+            data.put("interval", interval);
         } catch(Exception e) {
             // not sure this would ever happen, ignore. Continue on with the request with the expectation it fails
             // because of the bad JSON sent
         }
 
-        AuthJSONObjectRequest request = new AuthJSONObjectRequest(Request.Method.POST, url, data, new StateChangeCheckinResponseListener(), new ErrorListener());
-
-        queue.add((JsonObjectRequest) request);
-
-        return m_lock;
-    }
-
-    public Object stateChangeCheckout(int clinicstation, int patient) {
-
-        VolleySingleton volley = VolleySingleton.getInstance();
-
-        volley.initQueueIf(getContext());
-
-        RequestQueue queue = volley.getQueue();
-
-        String url = String.format("http://%s:%s/tscharts/v1/statechange/", getIP(), getPort());
-
-        JSONObject data = new JSONObject();
-
-        try {
-            data.put("clinicstation", clinicstation);
-            data.put("patient", patient);
-            data.put("state", "out");
-        } catch(Exception e) {
-            // not sure this would ever happen, ignore. Continue on with the request with the expectation it fails
-            // because of the bad JSON sent
-        }
-
-        AuthJSONObjectRequest request = new AuthJSONObjectRequest(Request.Method.POST, url, data, new StateChangeCheckinResponseListener(), new ErrorListener());
+        AuthJSONObjectRequest request = new AuthJSONObjectRequest(Request.Method.POST, url, data, new ReturnToClinicResponseListener(), new ErrorListener());
 
         queue.add((JsonObjectRequest) request);
 

@@ -546,7 +546,12 @@ public class SessionSingleton {
         return m_displayPatientId;
     }
 
-    public int getDisplayRoutingSlipEntryId(int clinicstationId, int patientId)
+    public int getDisplayRoutingSlipEntryId()
+    {
+        return m_displayRoutingSlipEntryId;
+    }
+
+    public int setDisplayRoutingSlipEntryId(int clinicstationId, int patientId)
     {
         int routingslipEntryId = -1;
         try {
@@ -563,6 +568,7 @@ public class SessionSingleton {
                             int patientid = entry.getInt("patient");
                             if (patientid == patientId) {
                                 routingslipEntryId = entry.getInt("routingslipentry");
+                                m_displayRoutingSlipEntryId = routingslipEntryId;
                                 break;
                             }
                         }
@@ -571,6 +577,9 @@ public class SessionSingleton {
                 }
             }
         } catch (JSONException e) {
+        }
+        if (routingslipEntryId == -1) {
+            routingslipEntryId = m_displayRoutingSlipEntryId;
         }
         return routingslipEntryId;
     }

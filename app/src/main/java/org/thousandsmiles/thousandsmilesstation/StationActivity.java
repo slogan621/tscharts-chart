@@ -17,12 +17,14 @@
 
 package org.thousandsmiles.thousandsmilesstation;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -30,8 +32,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +81,7 @@ public class StationActivity extends AppCompatActivity {
     private boolean m_isActive = false;
     private boolean m_isAway = false;
     private int m_activePatient = 0;
+    public static StationActivity instance = null;  // hack to let me get at the activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +171,75 @@ public class StationActivity extends AppCompatActivity {
         rtc.show(getSupportFragmentManager(), "Return To Clinic");
     }
 
-    private class CheckinPatient extends AsyncTask<Object, Object, Object> {
+    /*
+    public class ReturnToClinicDialogFragment extends DialogFragment {
+
+        private int m_patientId;
+        private View m_view;
+
+        public void setPatientId(int id)
+        {
+            m_patientId = id;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            // Get the layout inflater
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            // Inflate and set the layout for the dialog
+            // Pass null as the parent view because its going in the dialog layout
+            m_view = inflater.inflate(R.layout.return_to_clinic_dialog, null);
+            builder.setView(m_view)
+                    // Add action buttons
+                    .setPositiveButton(R.string.checkout_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            int numMonths = 0;
+                            String msg = "";
+                            RadioButton v = (RadioButton) m_view.findViewById(R.id.checkout_returnNo);
+                            if (v.isChecked()) {
+                                numMonths = 0;
+                            }
+                            v = (RadioButton) m_view.findViewById(R.id.checkout_return3);
+                            if (v.isChecked()) {
+                                numMonths = 3;
+                            }
+                            v = (RadioButton) m_view.findViewById(R.id.checkout_return6);
+                            if (v.isChecked()) {
+                                numMonths = 6;
+                            }
+                            v = (RadioButton) m_view.findViewById(R.id.checkout_return9);
+                            if (v.isChecked()) {
+                                numMonths = 9;
+                            }
+                            v = (RadioButton) m_view.findViewById(R.id.checkout_return12);
+                            if (v.isChecked()) {
+                                numMonths = 12;
+                            }
+                            EditText t = (EditText) m_view.findViewById(R.id.checkout_msg);
+                            msg = t.getText().toString();
+
+                            AsyncTask task = new StationActivity.CheckinPatient();
+                            CheckoutParams p = new CheckoutParams();
+                            p.setMessage(msg);
+                            p.setReturnMonths(numMonths);
+                            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) p);
+                        }
+                    })
+                    .setNegativeButton(R.string.checkout_cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            Dialog ret = builder.create();
+            ret.setTitle(R.string.title_checkout_dialog);
+            return ret;
+        }
+    }
+    */
+
+    public class CheckinPatient extends AsyncTask<Object, Object, Object> {
         @Override
         protected String doInBackground(Object... params) {
             checkinPatient();
@@ -178,7 +251,7 @@ public class StationActivity extends AppCompatActivity {
             int patientId = m_sess.getDisplayPatientId();
             int clinicStationId = m_sess.getClinicStationId();
             int queueEntryId = m_sess.getQueueEntryId(clinicStationId, patientId);
-            int routingSlipEntryId = m_sess.getDisplayRoutingSlipEntryId(clinicStationId, patientId);
+            int routingSlipEntryId = m_sess.setDisplayRoutingSlipEntryId(clinicStationId, patientId);
 
             final QueueREST queueREST = new QueueREST(m_sess.getContext());
             Object lock = queueREST.deleteQueueEntry(queueEntryId);
@@ -296,6 +369,122 @@ public class StationActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    private class CheckoutPatient extends AsyncTask<Object, Object, Object> {
+
+        private CheckoutParams m_params;
+
+        @Override
+        protected String doInBackground(Object... params) {
+            if (params.length > 0) {
+                m_params = (CheckoutParams) params[0];
+                checkoutPatient();
+            }
+            return "";
+        }
+
+        private void checkoutPatient()
+        {
+            int patientId = m_sess.getDisplayPatientId();
+            int clinicStationId = m_sess.getClinicStationId();
+            int routingSlipEntryId = m_sess.getDisplayRoutingSlipEntryId(clinicStationId, patientId);
+
+            int status;
+            Object lock;
+
+            final ClinicStationREST clinicStationREST = new ClinicStationREST(m_sess.getContext());
+            lock = clinicStationREST.putStationIntoWaitingState(clinicStationId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+            status = clinicStationREST.getStatus();
+            if (status == 200) {
+                final RoutingSlipEntryREST rseREST = new RoutingSlipEntryREST(m_sess.getContext());
+                lock = rseREST.markRoutingSlipStateCheckedOut(routingSlipEntryId);
+
+                synchronized (lock) {
+                    // we loop here in case of race conditions or spurious interrupts
+                    while (true) {
+                        try {
+                            lock.wait();
+                            break;
+                        } catch (InterruptedException e) {
+                            continue;
+                        }
+                    }
+                }
+                status = rseREST.getStatus();
+                if (status == 200 ) {
+                    final StateChangeREST stateChangeREST = new StateChangeREST(m_sess.getContext());
+                    lock = stateChangeREST.stateChangeCheckout(clinicStationId, patientId);
+
+                    synchronized (lock) {
+                        // we loop here in case of race conditions or spurious interrupts
+                        while (true) {
+                            try {
+                                lock.wait();
+                                break;
+                            } catch (InterruptedException e) {
+                                continue;
+                            }
+                        }
+                    }
+                    status = stateChangeREST.getStatus();
+                    if (status == 200) {
+                        StationActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(StationActivity.this, "Patient successfully checked out", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        StationActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(StationActivity.this, "Unable to update state change object", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } else {
+                    StationActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(StationActivity.this, "Unable to update routing slip", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            } else {
+                StationActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(StationActivity.this, "Unable to set clinic station state", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+
+        // This is called from background thread but runs in UI
+        @Override
+        protected void onProgressUpdate(Object... values) {
+            super.onProgressUpdate(values);
+            // Do things like update the progress bar
+        }
+
+        // This runs in UI when background thread finishes
+        @Override
+        protected void onPostExecute(Object result) {
+            super.onPostExecute(result);
+
+            // Do things like hide the progress bar or change a TextView
+        }
+    }
+    */
+
     private void setButtonBarCallbacks()
     {
         View button_bar_item = findViewById(R.id.away_button);
@@ -328,7 +517,6 @@ public class StationActivity extends AppCompatActivity {
         {
             public void onClick(View v)
             {
-                //Toast.makeText(StationActivity.this, "You clicked on checkout", Toast.LENGTH_SHORT).show();
                 showReturnToClinic();
             }
         });
@@ -465,9 +653,17 @@ public class StationActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause()
+    {
+        super.onPause();
+        instance = null;
+    }
+
+    @Override
     protected void onResume()
     {
         super.onResume();
+        instance = this;
         m_sess.clearPatientData();
         if (m_task == null) {
             m_task = new UpdatePatientLists();
