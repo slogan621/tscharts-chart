@@ -278,50 +278,6 @@ public class StationActivity extends AppCompatActivity {
                     }
                 });
             }
-
-        /*
-                   entry = entries[0]
-
-                    q = DeleteQueueEntry(host, port, token)
-
-                    q.setQueueEntryId(entry["id"])
-
-                    ret = q.send(timeout=30)
-
-                    if ret[0] == 200:
-
-                        print("GetQueue: deleted queueentry {}".format(entry["id"]))
-
-                        y = UpdateClinicStation(host, port, token, clinicstationid)
-
-                        y.setActive(True)
-
-                        y.setActivePatient(entry["patient"])
-
-                        ret = y.send(timeout=30)
-
-                        if ret[0] == 200:
-
-                            print("GetQueue: set clinicstation {} active patient to {}".format(clinicstationid, entry["patient"]))
-
-                            z = UpdateRoutingSlipEntry(host, port, token, entry["routingslipentry"])
-
-                            z.setState("Checked In")
-
-                            ret = z.send(timeout=30)
-
-                            if ret[0] == 200:
-
-                                print("GetQueue: clinicstation {} checked in patient {}".format(clinicstationid, entry["patient"]))
-
-                                r = CreateStateChange(host, port, token)
-
-                                r.setClinicStation(clinicstationid)
-
-                                r.setPatient(entry["patient"])
-
-                                r.setState("in")
-         */
         }
 
         // This is called from background thread but runs in UI
