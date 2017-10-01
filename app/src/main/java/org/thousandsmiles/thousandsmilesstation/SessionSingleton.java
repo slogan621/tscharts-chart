@@ -49,6 +49,7 @@ public class SessionSingleton {
     private int m_selectorNumColumns;
     private int m_width = -1;
     private int m_height = -1;
+    private boolean m_listWasClicked = false;
     private static JSONObject m_queueStatusJSON = null;
     private static HashMap<Integer, JSONObject> m_patientData = new HashMap<Integer, JSONObject>();
     private static HashMap<Integer, String> m_stationIdToName = new HashMap<Integer, String>();
@@ -72,6 +73,16 @@ public class SessionSingleton {
         m_stationToSelector.put("Speech", R.drawable.speech_selector);
         m_stationToSelector.put("Surgery Screening", R.drawable.surgery_selector);
         m_stationToSelector.put("X-Ray", R.drawable.xray_selector);
+    }
+
+    public void setListWasClicked(boolean val)
+    {
+        m_listWasClicked = val;
+    }
+
+    public boolean getListWasClicked()
+    {
+        return m_listWasClicked;
     }
 
     public int getStationIconResource(int id) {
@@ -98,7 +109,7 @@ public class SessionSingleton {
         return m_selectorNumColumns;
     }
 
-    public int getQueueEntryId(int clinicStationId, int patientId)
+    public int getQueueEntryId(int patientId)
     {
         JSONArray queues;
         int ret = -1;
@@ -107,16 +118,13 @@ public class SessionSingleton {
             queues = m_queueStatusJSON.getJSONArray("queues");
             for (int i = 0; i < queues.length(); i++) {
                 JSONObject o = queues.getJSONObject(i);
-                int clinicstation = o.getInt("clinicstation");
-                if (clinicstation == clinicStationId) {
-                    JSONArray entries = o.getJSONArray("entries");
-                    for (int j = 0; j < entries.length(); j++) {
-                        JSONObject entry = entries.getJSONObject(j);
-                        int patient = entry.getInt("patient");
-                        if (patient == patientId) {
-                            ret = entry.getInt("id");
-                            break;
-                        }
+                JSONArray entries = o.getJSONArray("entries");
+                for (int j = 0; j < entries.length(); j++) {
+                    JSONObject entry = entries.getJSONObject(j);
+                    int patient = entry.getInt("patient");
+                    if (patient == patientId) {
+                        ret = entry.getInt("id");
+                        break;
                     }
                 }
                 if (ret != -1) {
@@ -551,7 +559,7 @@ public class SessionSingleton {
         return m_displayRoutingSlipEntryId;
     }
 
-    public int setDisplayRoutingSlipEntryId(int clinicstationId, int patientId)
+    public int setDisplayRoutingSlipEntryId(int patientId)
     {
         int routingslipEntryId = -1;
         try {
@@ -559,20 +567,19 @@ public class SessionSingleton {
             for (int i = 0; i < r.length(); i++) {
                 try {
                     JSONObject o = r.getJSONObject(i);
-                    int clinicstation = o.getInt("clinicstation");
-                    if (clinicstation == clinicstationId) {
-                        JSONArray entries = o.getJSONArray("entries");
 
-                        for (int j = 0; j < entries.length(); j++) {
-                            JSONObject entry = entries.getJSONObject(j);
-                            int patientid = entry.getInt("patient");
-                            if (patientid == patientId) {
-                                routingslipEntryId = entry.getInt("routingslipentry");
-                                m_displayRoutingSlipEntryId = routingslipEntryId;
-                                break;
-                            }
+                    JSONArray entries = o.getJSONArray("entries");
+
+                    for (int j = 0; j < entries.length(); j++) {
+                        JSONObject entry = entries.getJSONObject(j);
+                        int patientid = entry.getInt("patient");
+                        if (patientid == patientId) {
+                            routingslipEntryId = entry.getInt("routingslipentry");
+                            m_displayRoutingSlipEntryId = routingslipEntryId;
+                            break;
                         }
                     }
+
                 } catch (JSONException e) {
                 }
             }

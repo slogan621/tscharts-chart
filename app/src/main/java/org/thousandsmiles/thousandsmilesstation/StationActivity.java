@@ -182,8 +182,8 @@ public class StationActivity extends AppCompatActivity {
         {
             int patientId = m_sess.getDisplayPatientId();
             int clinicStationId = m_sess.getClinicStationId();
-            int queueEntryId = m_sess.getQueueEntryId(clinicStationId, patientId);
-            int routingSlipEntryId = m_sess.setDisplayRoutingSlipEntryId(clinicStationId, patientId);
+            int queueEntryId = m_sess.getQueueEntryId(patientId);
+            int routingSlipEntryId = m_sess.setDisplayRoutingSlipEntryId(patientId);
 
             final QueueREST queueREST = new QueueREST(m_sess.getContext());
             Object lock = queueREST.deleteQueueEntry(queueEntryId);
@@ -636,7 +636,6 @@ public class StationActivity extends AppCompatActivity {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ItemDetailActivity.class);
                         intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-
                         context.startActivity(intent);
                     }
                 }

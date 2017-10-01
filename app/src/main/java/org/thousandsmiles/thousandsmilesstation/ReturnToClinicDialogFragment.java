@@ -66,10 +66,12 @@ public class ReturnToClinicDialogFragment extends DialogFragment {
                         params.setReturnMonths(numMonths);
                         AsyncTask task = new CheckoutPatient();
                         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) params);
+                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.checkout_cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
                     }
                 });
         Dialog ret = builder.create();

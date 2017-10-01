@@ -47,7 +47,7 @@ public class ItemDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private PatientItem mItem;
+    private static PatientItem mItem;
 
     private SessionSingleton m_sess = SessionSingleton.getInstance();
 
@@ -62,10 +62,15 @@ public class ItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        boolean wasClicked = false;
+
         if (getArguments().containsKey(ARG_ITEM_ID) && getArguments().containsKey("isWaiting")) {
             // isWaiting means either the active list or waiting list has been clicked
 
             boolean isWaiting = getArguments().getBoolean("isWaiting");
+
+            m_sess.setListWasClicked(true);
+            wasClicked = true;
 
             String itemId = getArguments().getString(ARG_ITEM_ID);
             if (isWaiting) {
@@ -74,7 +79,7 @@ public class ItemDetailFragment extends Fragment {
                 mItem = ActivePatientList.ITEM_MAP.get(itemId);
             }
         }
-        else {
+        else if (m_sess.getListWasClicked() == false){
             // isWaiting is not present as an argument. Based on our state, get the relevant mItem
 
             if (m_sess.isActive()) {
