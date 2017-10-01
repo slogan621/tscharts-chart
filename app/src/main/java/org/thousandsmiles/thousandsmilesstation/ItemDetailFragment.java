@@ -75,8 +75,10 @@ public class ItemDetailFragment extends Fragment {
             String itemId = getArguments().getString(ARG_ITEM_ID);
             if (isWaiting) {
                 mItem = WaitingPatientList.ITEM_MAP.get(itemId);
+                m_sess.setWaitingIsFromActiveList(false);
             } else {
                 mItem = ActivePatientList.ITEM_MAP.get(itemId);
+                m_sess.setWaitingIsFromActiveList(true);
             }
         }
         else if (m_sess.getListWasClicked() == false){

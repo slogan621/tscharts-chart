@@ -324,8 +324,12 @@ public class StationActivity extends AppCompatActivity {
         {
             public void onClick(View v)
             {
-                AsyncTask task = new CheckinPatient();
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
+                if (m_sess.getWaitingIsFromActiveList() == true) {
+                    Toast.makeText(StationActivity.this, "Stealing an active patient is not yet supported", Toast.LENGTH_SHORT).show();
+                } else {
+                    AsyncTask task = new CheckinPatient();
+                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
+                }
             }
         });
         button_bar_item = findViewById(R.id.checkout_button);

@@ -50,6 +50,7 @@ public class SessionSingleton {
     private int m_width = -1;
     private int m_height = -1;
     private boolean m_listWasClicked = false;
+    private boolean m_waitingIsFromActive = false; // waiting patient from active list or not
     private static JSONObject m_queueStatusJSON = null;
     private static HashMap<Integer, JSONObject> m_patientData = new HashMap<Integer, JSONObject>();
     private static HashMap<Integer, String> m_stationIdToName = new HashMap<Integer, String>();
@@ -83,6 +84,16 @@ public class SessionSingleton {
     public boolean getListWasClicked()
     {
         return m_listWasClicked;
+    }
+
+    public void setWaitingIsFromActiveList(boolean val)
+    {
+        m_waitingIsFromActive = val;
+    }
+
+    public boolean getWaitingIsFromActiveList()
+    {
+        return m_waitingIsFromActive;
     }
 
     public int getStationIconResource(int id) {
