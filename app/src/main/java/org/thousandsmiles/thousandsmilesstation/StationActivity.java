@@ -171,6 +171,13 @@ public class StationActivity extends AppCompatActivity {
         rtc.show(getSupportFragmentManager(), "Return To Clinic");
     }
 
+    void showAway()
+    {
+        AwayDialogFragment rtc = new AwayDialogFragment();
+        //rtc.setPatientId(m_sess.getActivePatientId());
+        rtc.show(getSupportFragmentManager(), "Away");
+    }
+
     public class CheckinPatient extends AsyncTask<Object, Object, Object> {
         @Override
         protected String doInBackground(Object... params) {
@@ -308,7 +315,7 @@ public class StationActivity extends AppCompatActivity {
         {
             public void onClick(View v)
             {
-                Toast.makeText(StationActivity.this, "You clicked on away", Toast.LENGTH_SHORT).show();
+                showAway();
             }
         });
         button_bar_item = findViewById(R.id.back_button);
@@ -316,7 +323,8 @@ public class StationActivity extends AppCompatActivity {
         {
             public void onClick(View v)
             {
-                Toast.makeText(StationActivity.this, "You clicked on back", Toast.LENGTH_SHORT).show();
+                AsyncTask task = new StationReturn();
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
             }
         });
         button_bar_item = findViewById(R.id.checkin_button);
@@ -390,7 +398,7 @@ public class StationActivity extends AppCompatActivity {
                 if (recycler.getVisibility() == View.VISIBLE)
                     recycler.setVisibility(View.INVISIBLE);
                 View listView = findViewById(R.id.app_item_list);
-                if (recycler.getVisibility() == View.VISIBLE)
+                if (listView.getVisibility() == View.VISIBLE)
                     listView.setVisibility(View.INVISIBLE);
 
                 View button_bar_item = findViewById(R.id.away_button);

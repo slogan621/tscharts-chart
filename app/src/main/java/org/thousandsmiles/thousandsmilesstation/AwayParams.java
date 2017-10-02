@@ -17,27 +17,16 @@
 
 package org.thousandsmiles.thousandsmilesstation;
 
-public class CheckoutParams {
-    private int m_returnMonths;
-    private String m_msg;
+public class AwayParams {
+    private int m_returnMinutes = 30;
 
-    public void setReturnMonths(int n)
+    public void setReturnMinutes(int n)
     {
-        m_returnMonths = n;
+        m_returnMinutes = n;
     }
 
-    public void setMessage(String msg)
+    public int getReturnMinutes()
     {
-        m_msg = msg;
-    }
-
-    public int getReturnMonths()
-    {
-        return m_returnMonths;
-    }
-
-    public String getMessage()
-    {
-        return m_msg;
+        return m_returnMinutes;
     }
 }

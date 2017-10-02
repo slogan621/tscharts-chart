@@ -52,4 +52,12 @@
     <string name="label_checkout_optional_msg">(Optional) Message:</string>
     <string name="title_checkout_dialog">Checkout/Return to Clinic</string>
 
+    <string name="away_yes">Away</string>
+    <string name="away_cancel">Cancel</string>
+    <string name="away_return5">Return in 5 minutes</string>
+    <string name="away_return15">Return in 15 minutes</string>
+    <string name="away_return30">Return in 30 minutes</string>
+    <string name="away_return60">Return in 60 minutes</string>
+    <string name="title_away_dialog">Checkout/Return to Clinic</string>
+
 </resources>

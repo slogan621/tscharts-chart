@@ -193,4 +193,57 @@ public class ClinicStationREST extends RESTful {
 
         return m_lock;
     }
+
+    public Object putStationIntoAwayState(int clinicstationid, int numMinutes) {
+
+        VolleySingleton volley = VolleySingleton.getInstance();
+
+        volley.initQueueIf(getContext());
+
+        RequestQueue queue = volley.getQueue();
+
+        String url = String.format("http://%s:%s/tscharts/v1/clinicstation/%s/", getIP(), getPort(), clinicstationid);
+
+        JSONObject data = new JSONObject();
+
+        try {
+            data.put("away", true);
+            data.put("awaytime", numMinutes);
+        } catch(Exception e) {
+            // not sure this would ever happen, ignore. Continue on with the request with the expectation it fails
+            // because of the bad JSON sent
+        }
+
+        ClinicStationREST.AuthJSONObjectRequest request = new ClinicStationREST.AuthJSONObjectRequest(Request.Method.PUT, url, data,  new ClinicStationREST.UpdateClinicStationResponseListener(), new ClinicStationREST.ErrorListener());
+
+        queue.add((JsonObjectRequest) request);
+
+        return m_lock;
+    }
+
+    public Object returnStationFromAwayState(int clinicstationid) {
+
+        VolleySingleton volley = VolleySingleton.getInstance();
+
+        volley.initQueueIf(getContext());
+
+        RequestQueue queue = volley.getQueue();
+
+        String url = String.format("http://%s:%s/tscharts/v1/clinicstation/%s/", getIP(), getPort(), clinicstationid);
+
+        JSONObject data = new JSONObject();
+
+        try {
+            data.put("away", false);
+        } catch(Exception e) {
+            // not sure this would ever happen, ignore. Continue on with the request with the expectation it fails
+            // because of the bad JSON sent
+        }
+
+        ClinicStationREST.AuthJSONObjectRequest request = new ClinicStationREST.AuthJSONObjectRequest(Request.Method.PUT, url, data,  new ClinicStationREST.UpdateClinicStationResponseListener(), new ClinicStationREST.ErrorListener());
+
+        queue.add((JsonObjectRequest) request);
+
+        return m_lock;
+    }
 }
