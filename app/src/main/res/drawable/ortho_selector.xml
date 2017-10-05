@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"
-        android:drawable="@drawable/ortho_pressed200" /> <!-- pressed -->
+        android:drawable="@drawable/ortho_pressed" /> <!-- pressed -->
     <item android:state_focused="true"
-        android:drawable="@drawable/ortho_focused200" /> <!-- focused -->
-    <item android:drawable="@drawable/ortho200" /> <!-- default -->
+        android:drawable="@drawable/ortho_focused" /> <!-- focused -->
+    <item android:drawable="@drawable/ortho" /> <!-- default -->
 </selector>

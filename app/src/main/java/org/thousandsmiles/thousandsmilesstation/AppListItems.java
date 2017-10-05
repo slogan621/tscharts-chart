@@ -62,13 +62,13 @@ public class AppListItems {
 
         item = new AppListItem();
         item.setName("Routing Slip");
-        item.setImageId(R.drawable.app_routing_slip);
+        item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
         item.setName("Medical History");
-        item.setImageId(R.drawable.app_medical_history);
+        item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
         m_stationToAppList.put("Dental", items);
@@ -80,13 +80,13 @@ public class AppListItems {
 
         item = new AppListItem();
         item.setName("Routing Slip");
-        item.setImageId(R.drawable.app_routing_slip);
+        item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
         item.setName("Medical History");
-        item.setImageId(R.drawable.app_medical_history);
+        item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
         m_stationToAppList.put("X-Ray", items);
@@ -98,13 +98,13 @@ public class AppListItems {
 
         item = new AppListItem();
         item.setName("Routing Slip");
-        item.setImageId(R.drawable.app_routing_slip);
+        item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
         item.setName("Medical History");
-        item.setImageId(R.drawable.app_medical_history);
+        item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
         m_stationToAppList.put("Audiology", items);
@@ -116,13 +116,13 @@ public class AppListItems {
 
         item = new AppListItem();
         item.setName("Routing Slip");
-        item.setImageId(R.drawable.app_routing_slip);
+        item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
         item.setName("Medical History");
-        item.setImageId(R.drawable.app_medical_history);
+        item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
         m_stationToAppList.put("Speech", items);
@@ -134,13 +134,13 @@ public class AppListItems {
 
         item = new AppListItem();
         item.setName("Routing Slip");
-        item.setImageId(R.drawable.app_routing_slip);
+        item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
         item.setName("Medical History");
-        item.setImageId(R.drawable.app_medical_history);
+        item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
         m_stationToAppList.put("ENT", items);
@@ -152,13 +152,13 @@ public class AppListItems {
 
         item = new AppListItem();
         item.setName("Routing Slip");
-        item.setImageId(R.drawable.app_routing_slip);
+        item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
         item.setName("Medical History");
-        item.setImageId(R.drawable.app_medical_history);
+        item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
         m_stationToAppList.put("Surgery Screening", items);
@@ -170,13 +170,13 @@ public class AppListItems {
 
         item = new AppListItem();
         item.setName("Routing Slip");
-        item.setImageId(R.drawable.app_routing_slip);
+        item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
         item.setName("Medical History");
-        item.setImageId(R.drawable.app_medical_history);
+        item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
         m_stationToAppList.put("Ortho", items);

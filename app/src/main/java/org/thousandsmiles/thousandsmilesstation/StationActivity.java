@@ -628,9 +628,9 @@ public class StationActivity extends AppCompatActivity {
             holder.mContentView.setText(String.format("%s, %s", last, first));
 
             if (gender.equals("Male")) {
-                holder.mHeadshotView.setImageResource(R.drawable.imageboywhite);
+                holder.mHeadshotView.setImageResource(R.drawable.boy_silhouette);
             } else {
-                holder.mHeadshotView.setImageResource(R.drawable.imagegirlwhite);
+                holder.mHeadshotView.setImageResource(R.drawable.girl_silhouette);
             }
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
