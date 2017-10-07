@@ -35,10 +35,8 @@ import java.util.List;
 
 /**
  * An activity representing a list of Items. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ItemDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
+ * has different presentations for handset and tablet-size devices.
+ * On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
 public class ItemListActivity extends AppCompatActivity {
@@ -119,12 +117,6 @@ public class ItemListActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.item_detail_container, fragment)
                                 .commit();
-                    } else {
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, ItemDetailActivity.class);
-                        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-
-                        context.startActivity(intent);
                     }
                 }
             });
