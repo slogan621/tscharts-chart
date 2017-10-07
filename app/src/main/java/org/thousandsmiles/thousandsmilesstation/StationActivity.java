@@ -656,7 +656,7 @@ public class StationActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.item_detail_container, fragment)
                                 .commit();
-                    } 
+                    }
                 }
             });
         }
