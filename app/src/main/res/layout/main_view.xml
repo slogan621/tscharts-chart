@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="vertical"
@@ -50,7 +48,6 @@
             tools:context="org.thousandsmiles.thousandsmilesstation.ItemListActivity">
 
             <LinearLayout
-                android:id="@+id/button7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -69,17 +66,32 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:textSize="24dp" />
+                    android:textSize="12dp" />
 
             </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/item_detail_container"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="left"
-                android:layout_marginTop="16dp"
-                android:layout_weight="1" />
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/app_panel"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:orientation="vertical"
+            android:layout_gravity="left"
+            android:showDividers="middle"
+            android:background="@color/colorPrimaryDark"
+            android:layout_weight="3"
+            tools:context="org.thousandsmiles.thousandsmilesstation.ItemListActivity">
+
         </LinearLayout>
 
         <LinearLayout
@@ -168,8 +180,8 @@
 
             <ImageView
                 android:id="@+id/checkin_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:src="@drawable/checkin_selector" />
@@ -195,8 +207,8 @@
 
             <ImageView
                 android:id="@+id/checkout_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:src="@drawable/checkout_selector" />
@@ -226,8 +238,8 @@
 
             <ImageView
                 android:id="@+id/away_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:src="@drawable/away_selector" />
@@ -252,8 +264,8 @@
 
             <ImageView
                 android:id="@+id/back_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:src="@drawable/back_selector" />

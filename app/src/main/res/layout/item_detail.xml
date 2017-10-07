@@ -1,23 +1,25 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
+    android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="0dip">
 
     <ImageView
         android:id="@+id/headshot"
-        android:layout_width="288dp"
-        android:layout_height="288dp" />
+        android:layout_width="128dp"
+        android:layout_height="128dp" />
 
     <View
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        >
     </View>
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/detail_table"
+        android:layout_gravity="center"
         android:stretchColumns="*"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
@@ -35,7 +37,8 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="4dp"
                         android:paddingLeft="4dp"
-                        android:textIsSelectable="true"
+                        android:textSize="12dp"
+                        android:textIsSelectable="false"
                         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
                     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
@@ -46,6 +49,7 @@
                         android:paddingBottom="4dp"
                         android:paddingLeft="4dp"
                         android:textIsSelectable="true"
+                        android:textSize="12dp"
                         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
                 </TableRow>
                 <TableRow>
@@ -57,7 +61,8 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="4dp"
                         android:paddingLeft="4dp"
-                        android:textIsSelectable="true"
+                        android:textSize="12dp"
+                        android:textIsSelectable="false"
                         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
                     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
@@ -68,6 +73,7 @@
                         android:paddingBottom="4dp"
                         android:paddingLeft="4dp"
                         android:textIsSelectable="true"
+                        android:textSize="12dp"
                         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
                 </TableRow>
                 <TableRow>
@@ -79,7 +85,8 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="4dp"
                         android:paddingLeft="4dp"
-                        android:textIsSelectable="true"
+                        android:textSize="12dp"
+                        android:textIsSelectable="false"
                         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
                     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
@@ -90,6 +97,7 @@
                         android:paddingLeft="4dp"
                         android:layout_height="wrap_content"
                         android:textIsSelectable="true"
+                        android:textSize="12dp"
                         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
                 </TableRow>
                 <TableRow>
@@ -101,7 +109,8 @@
                         android:paddingBottom="4dp"
                         android:paddingLeft="4dp"
                         android:layout_height="wrap_content"
-                        android:textIsSelectable="true"
+                        android:textSize="12dp"
+                        android:textIsSelectable="false"
                         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
                     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
@@ -112,6 +121,7 @@
                         android:paddingBottom="4dp"
                         android:paddingLeft="4dp"
                         android:textIsSelectable="true"
+                        android:textSize="12dp"
                         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
                 </TableRow>
                 <TableRow>
@@ -123,7 +133,8 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="4dp"
                         android:paddingLeft="4dp"
-                        android:textIsSelectable="true"
+                        android:textSize="12dp"
+                        android:textIsSelectable="false"
                         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
                     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
@@ -133,6 +144,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="4dp"
                         android:textIsSelectable="true"
+                        android:textSize="12dp"
                         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
                 </TableRow>
             </TableLayout>

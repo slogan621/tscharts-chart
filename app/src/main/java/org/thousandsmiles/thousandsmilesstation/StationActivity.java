@@ -378,6 +378,10 @@ public class StationActivity extends AppCompatActivity {
                 if (recycler.getVisibility() == View.GONE)
                     listView.setVisibility(View.VISIBLE);
 
+                View app = findViewById(R.id.app_panel);
+                if (app.getVisibility() == View.GONE)
+                    app.setVisibility(View.VISIBLE);
+
                 View button_bar_item = findViewById(R.id.away_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.GONE);
@@ -400,6 +404,10 @@ public class StationActivity extends AppCompatActivity {
                 View listView = findViewById(R.id.app_item_list);
                 if (listView.getVisibility() == View.VISIBLE)
                     listView.setVisibility(View.INVISIBLE);
+
+                View app = findViewById(R.id.app_panel);
+                if (app.getVisibility() == View.VISIBLE)
+                    app.setVisibility(View.GONE);
 
                 View button_bar_item = findViewById(R.id.away_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
@@ -436,6 +444,10 @@ public class StationActivity extends AppCompatActivity {
                 button_bar_item = findViewById(R.id.checkout_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.GONE);
+
+                View app = findViewById(R.id.app_panel);
+                if (app.getVisibility() == View.VISIBLE)
+                    app.setVisibility(View.GONE);
             }
         } catch (JSONException e) {
         }
