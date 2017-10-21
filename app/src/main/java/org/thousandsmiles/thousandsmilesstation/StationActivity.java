@@ -702,6 +702,14 @@ public class StationActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(StationActivity.this, "You Clicked on " + names.get(+position), Toast.LENGTH_SHORT).show();
+                Bundle arguments = new Bundle();
+                //arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                //arguments.putBoolean("isWaiting", m_isWaiting);
+                AppRoutingSlipFragment fragment = new AppRoutingSlipFragment();
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.app_panel, fragment)
+                        .commit();
             }
         });
     }
