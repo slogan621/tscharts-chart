@@ -328,13 +328,6 @@ public class AppRoutingSlipFragment extends Fragment {
                             }
                         });
                     } else {
-                        Handler handler = new Handler(Looper.getMainLooper());
-                        handler.post(new Runnable() {
-                            public void run() {
-                                Toast.makeText(m_sess.getContext(), "Successfully got routing slip data", Toast.LENGTH_LONG).show();
-                            }
-                        });
-
                         initializeRoutingSlipData();
                     }
                 }
@@ -433,6 +426,8 @@ public class AppRoutingSlipFragment extends Fragment {
 
                     @Override
                     public void onClick(View arg0) {
+                        View button_bar_item = getActivity().findViewById(R.id.save_button);
+                        button_bar_item.setVisibility(View.GONE);
                         updateRoutingSlip();
                     }
 
