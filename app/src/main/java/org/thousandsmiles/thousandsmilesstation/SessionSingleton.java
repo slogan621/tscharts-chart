@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -52,6 +53,8 @@ public class SessionSingleton {
     private boolean m_listWasClicked = false;
     private boolean m_waitingIsFromActive = false; // waiting patient from active list or not
     private static JSONObject m_queueStatusJSON = null;
+    private JSONObject m_displayPatientRoutingSlip = null;
+    private JSONObject m_routingSlipEntryResponse = null;
     private static HashMap<Integer, JSONObject> m_patientData = new HashMap<Integer, JSONObject>();
     private static HashMap<Integer, String> m_stationIdToName = new HashMap<Integer, String>();
     private static HashMap<String, Integer> m_clinicStationNameToId = new HashMap<String, Integer>();
@@ -63,6 +66,26 @@ public class SessionSingleton {
     private int m_displayPatientId; // id of the patient that will get checked in/checked out when the corresponding button is pressed
     private int m_displayRoutingSlipEntryId; // id of the routingslip for m_displayPatientId
     // XXX Consider moving these station class names to the API
+
+    public void setRoutingSlipEntryResponse(JSONObject o)
+    {
+        m_routingSlipEntryResponse = o;
+    }
+
+    public JSONObject getRoutingSlipEntryResponse()
+    {
+        return m_routingSlipEntryResponse;
+    }
+
+    public void setDisplayPatientRoutingSlip(JSONObject o)
+    {
+        m_displayPatientRoutingSlip = o;
+    }
+
+    public JSONObject getDisplayPatientRoutingSlip()
+    {
+        return m_displayPatientRoutingSlip;
+    }
 
     public void initStationNameToSelectorMap()
     {
@@ -347,6 +370,22 @@ public class SessionSingleton {
                 return;
             }
         }
+    }
+
+    ArrayList<Station> getStationList()
+    {
+        ArrayList<Station> ret = new ArrayList<Station>();
+
+        Iterator it = m_stationIdToName.entrySet().iterator();
+        while (it.hasNext()) {
+            HashMap.Entry pair = (HashMap.Entry) it.next();
+            Station m = new Station();
+            m.setName(pair.getValue().toString());
+            m.setStation((int) pair.getKey());
+            m.setSelector(m_stationToSelector.get(m.getName()));
+            ret.add(m);
+        }
+        return ret;
     }
 
     public void addClinicStationData(JSONArray data) {
@@ -645,6 +684,100 @@ public class SessionSingleton {
         }
 
         return ret;
+    }
+
+    public RoutingSlipEntry getRoutingSlipEntry(int id) {
+        boolean ret = false;
+
+        RoutingSlipEntry entry = new RoutingSlipEntry();
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final RoutingSlipEntryREST rsData = new RoutingSlipEntryREST(getContext());
+            Object lock = rsData.getRoutingSlipEntry(id);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = rsData.getStatus();
+            if (status == 200) {
+                JSONObject o = getRoutingSlipEntryResponse();
+                try {
+                    String state = o.getString("state");
+                    int routingslip = o.getInt("routingslip");
+                    int station = o.getInt("station");
+                    int rsEntryid = o.getInt("id");
+                    String name = m_stationIdToName.get(station);
+                    entry.setName(name);
+                    if (state.equals("Checked In") || state.equals("Checked Out")) {
+                        entry.setVisited(true);
+                    } else {
+                        entry.setVisited(false);
+                    }
+                    entry.setStation(station);
+                    entry.setId(rsEntryid);
+                    entry.setSelector(m_stationToSelector.get(name));
+
+                } catch (JSONException e) {
+                    entry = null;
+                }
+
+            } else {
+                entry = null;
+            }
+        }
+        return entry;
+    }
+
+    public ArrayList<RoutingSlipEntry> getRoutingSlipEntries(int clinic, int patient) {
+        boolean ret = false;
+
+        ArrayList<RoutingSlipEntry> entries = new ArrayList<RoutingSlipEntry>();
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final RoutingSlipREST rsData = new RoutingSlipREST(getContext());
+            Object lock = rsData.getRoutingSlip(clinic, patient);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = rsData.getStatus();
+            if (status == 200) {
+                // iterate the routingslip entries and add them to the result
+                JSONObject o = getDisplayPatientRoutingSlip();
+                JSONArray r;
+                try {
+                    r = o.getJSONArray("routing");
+                    for (int i = 0; i < r.length(); i++) {
+                        RoutingSlipEntry m = getRoutingSlipEntry(r.getInt(i));
+                        entries.add(m);
+                    }
+                } catch (JSONException e) {
+
+                }
+
+            } else {
+                entries = null;
+            }
+        }
+        return entries;
     }
 
     private List<PatientItem> getPatientListData(ArrayList<Integer> list)

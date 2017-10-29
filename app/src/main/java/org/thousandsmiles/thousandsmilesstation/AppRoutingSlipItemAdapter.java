@@ -1,5 +1,3 @@
-package org.thousandsmiles.thousandsmilesstation;
-
 /*
  * (C) Copyright Syd Logan 2017
  * (C) Copyright Thousand Smiles Foundation 2017
@@ -33,10 +31,13 @@ package org.thousandsmiles.thousandsmilesstation;
  * limitations under the License.
  */
 
+package org.thousandsmiles.thousandsmilesstation;
+
 import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +71,7 @@ class AppRoutingSlipItemAdapter extends DragItemAdapter<Pair<Long, String>, AppR
         super.onBindViewHolder(holder, position);
         String text = mItemList.get(position).second;
         holder.mText.setText(text);
+        holder.mImage.setImageResource(mItemList.get(position).first.intValue());
         holder.itemView.setTag(mItemList.get(position));
     }
 
@@ -84,9 +86,11 @@ class AppRoutingSlipItemAdapter extends DragItemAdapter<Pair<Long, String>, AppR
 
     class ViewHolder extends DragItemAdapter.ViewHolder {
         TextView mText;
+        ImageView mImage;
 
         ViewHolder(final View itemView) {
             super(itemView, mGrabHandleId, mDragOnLongPress);
+            mImage = (ImageView) itemView.findViewById(R.id.image);
             mText = (TextView) itemView.findViewById(R.id.text);
         }
 

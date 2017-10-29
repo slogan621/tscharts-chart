@@ -48,6 +48,19 @@ public class RoutingSlipEntryREST extends RESTful {
         }
     }
 
+    private class GetRoutingSlipEntryResponseListener implements Response.Listener<JSONObject> {
+
+        @Override
+        public void onResponse(JSONObject response) {
+            synchronized (m_lock) {
+                SessionSingleton sess = SessionSingleton.getInstance();
+                setStatus(200);
+                sess.setRoutingSlipEntryResponse(response);
+                m_lock.notify();
+            }
+        }
+    }
+
     private class ErrorListener implements Response.ErrorListener {
         @Override
         public void onErrorResponse(VolleyError error) {
@@ -156,6 +169,69 @@ public class RoutingSlipEntryREST extends RESTful {
         }
 
         RoutingSlipEntryREST.AuthJSONObjectRequest request = new RoutingSlipEntryREST.AuthJSONObjectRequest(Request.Method.PUT, url, data,  new RoutingSlipEntryREST.UpdateRoutingSlipEntryResponseListener(), new RoutingSlipEntryREST.ErrorListener());
+
+        queue.add((JsonObjectRequest) request);
+
+        return m_lock;
+    }
+
+    public Object deleteRoutingSlipEntry(int entryId) {
+
+        VolleySingleton volley = VolleySingleton.getInstance();
+
+        volley.initQueueIf(getContext());
+
+        RequestQueue queue = volley.getQueue();
+
+        String url = String.format("http://%s:%s/tscharts/v1/routingslipentry/%d/", getIP(), getPort(), entryId);
+
+
+        RoutingSlipEntryREST.AuthJSONObjectRequest request = new RoutingSlipEntryREST.AuthJSONObjectRequest(Request.Method.DELETE, url, null,  new RoutingSlipEntryREST.UpdateRoutingSlipEntryResponseListener(), new RoutingSlipEntryREST.ErrorListener());
+
+        queue.add((JsonObjectRequest) request);
+
+        return m_lock;
+    }
+
+    public Object getRoutingSlipEntry(int entryId) {
+
+        VolleySingleton volley = VolleySingleton.getInstance();
+
+        volley.initQueueIf(getContext());
+
+        RequestQueue queue = volley.getQueue();
+
+        String url = String.format("http://%s:%s/tscharts/v1/routingslipentry/%d/", getIP(), getPort(), entryId);
+
+
+        RoutingSlipEntryREST.AuthJSONObjectRequest request = new RoutingSlipEntryREST.AuthJSONObjectRequest(Request.Method.GET, url, null,  new RoutingSlipEntryREST.GetRoutingSlipEntryResponseListener(), new RoutingSlipEntryREST.ErrorListener());
+
+        queue.add((JsonObjectRequest) request);
+
+        return m_lock;
+    }
+
+    public Object createRoutingSlipEntry(int routingSlipId, int stationId) {
+
+        VolleySingleton volley = VolleySingleton.getInstance();
+
+        volley.initQueueIf(getContext());
+
+        RequestQueue queue = volley.getQueue();
+
+        String url = String.format("http://%s:%s/tscharts/v1/routingslipentry/", getIP(), getPort());
+
+        JSONObject data = new JSONObject();
+
+        try {
+            data.put("routingslip", routingSlipId);
+            data.put("station", stationId);
+        } catch(Exception e) {
+            // not sure this would ever happen, ignore. Continue on with the request with the expectation it fails
+            // because of the bad JSON sent
+        }
+
+        RoutingSlipEntryREST.AuthJSONObjectRequest request = new RoutingSlipEntryREST.AuthJSONObjectRequest(Request.Method.POST, url, data,  new RoutingSlipEntryREST.UpdateRoutingSlipEntryResponseListener(), new RoutingSlipEntryREST.ErrorListener());
 
         queue.add((JsonObjectRequest) request);
 

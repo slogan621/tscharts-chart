@@ -88,7 +88,7 @@
             android:orientation="vertical"
             android:layout_gravity="left"
             android:showDividers="middle"
-            android:background="@color/colorPrimaryDark"
+
             android:layout_weight="3"
             tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
 
@@ -160,6 +160,7 @@
         android:baselineAligned="false"
         android:orientation="horizontal"
         android:showDividers="middle"
+        android:background="@color/colorThousandsmiles"
         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
 
         <View
@@ -221,6 +222,35 @@
                 android:layout_margin="5dp"
                 android:text="Check Out" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/button_bar_selector"
+            android:clickable="true"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_label"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:text="Save" />
+
+            <ImageView
+                android:id="@+id/save_image"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/checkout_selector" />
+
+        </LinearLayout>
+
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"

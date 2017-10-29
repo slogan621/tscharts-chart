@@ -1,5 +1,3 @@
-package org.thousandsmiles.thousandsmilesstation;
-
 /*
  * (C) Copyright Syd Logan 2017
  * (C) Copyright Thousand Smiles Foundation 2017
@@ -17,25 +15,43 @@ package org.thousandsmiles.thousandsmilesstation;
  * limitations under the License.
  */
 
-import android.graphics.drawable.ColorDrawable;
+package org.thousandsmiles.thousandsmilesstation;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class AppRoutingSlipActivity extends AppCompatActivity {
 
+    private SessionSingleton m_sess;
+    private ArrayList<RoutingSlipEntry> m_routingSlipEntries;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        m_sess = SessionSingleton.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_routing_slip);
 
         if (savedInstanceState == null) {
             showFragment(AppRoutingSlipFragment.newInstance());
         }
+
+        new Thread(new Runnable() {
+            public void run() {
+                Thread thread = new Thread(){
+                    public void run() {
+                        m_routingSlipEntries = m_sess.getRoutingSlipEntries(m_sess.getClinicId(), m_sess.getDisplayPatientId());
+                    }
+                };
+                thread.start();
+            }
+        }).start();
     }
 
     private void showFragment(Fragment fragment) {

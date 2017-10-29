@@ -81,6 +81,8 @@ public class StationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
+        View button_bar_item = findViewById(R.id.save_button);
+        button_bar_item.setVisibility(View.GONE);
     }
 
     private class UpdatePatientLists extends AsyncTask<Object, Object, Object> {
@@ -361,6 +363,9 @@ public class StationActivity extends AppCompatActivity {
         try {
             m_isActive = activeObject.getBoolean("active");
             m_isAway = activeObject.getBoolean("away");
+
+            View button_bar_item;
+
             if (m_isActive) {
                 View recycler = findViewById(R.id.waiting_item_list_box);
                 if (recycler.getVisibility() == View.VISIBLE)
@@ -376,7 +381,7 @@ public class StationActivity extends AppCompatActivity {
                 if (app.getVisibility() == View.GONE)
                     app.setVisibility(View.VISIBLE);
 
-                View button_bar_item = findViewById(R.id.away_button);
+                button_bar_item = findViewById(R.id.away_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.GONE);
                 button_bar_item = findViewById(R.id.back_button);
@@ -403,7 +408,7 @@ public class StationActivity extends AppCompatActivity {
                 if (app.getVisibility() == View.VISIBLE)
                     app.setVisibility(View.GONE);
 
-                View button_bar_item = findViewById(R.id.away_button);
+                button_bar_item = findViewById(R.id.away_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.GONE);
                 button_bar_item = findViewById(R.id.back_button);
@@ -426,7 +431,7 @@ public class StationActivity extends AppCompatActivity {
                 if (listView.getVisibility() == View.VISIBLE)
                     listView.setVisibility(View.INVISIBLE);
 
-                View button_bar_item = findViewById(R.id.away_button);
+                button_bar_item = findViewById(R.id.away_button);
                 if (button_bar_item.getVisibility() == View.GONE)
                     button_bar_item.setVisibility(View.VISIBLE);
                 button_bar_item = findViewById(R.id.back_button);
@@ -705,11 +710,22 @@ public class StationActivity extends AppCompatActivity {
                 Bundle arguments = new Bundle();
                 //arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                 //arguments.putBoolean("isWaiting", m_isWaiting);
-                AppRoutingSlipFragment fragment = new AppRoutingSlipFragment();
-                fragment.setArguments(arguments);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.app_panel, fragment)
-                        .commit();
+
+                // XXX select based on name
+
+                if (names.get(position).equals("Routing Slip")) {
+                    AppRoutingSlipFragment fragment = new AppRoutingSlipFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.app_panel, fragment)
+                            .commit();
+                } else {
+                    AppMedicalHistoryFragment fragment = new AppMedicalHistoryFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.app_panel, fragment)
+                            .commit();
+                }
             }
         });
     }
