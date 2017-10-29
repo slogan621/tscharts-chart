@@ -257,7 +257,7 @@ public class AppRoutingSlipFragment extends Fragment {
 
         for (int i = 0; i < m_routingSlipEntries.size(); i++) {
             RoutingSlipEntry ent = m_routingSlipEntries.get(i);
-            if (isInCurrent(ent) == false) {
+            if (isInCurrent(ent) == false && ent.getId() != m_sess.getDisplayRoutingSlipEntryId()) {
                 itemsToRemove.add(ent);
             }
         }
