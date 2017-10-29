@@ -341,14 +341,6 @@ public class AppRoutingSlipFragment extends Fragment {
             }
         };
         thread.start();
-
-        Activity activity = getActivity();
-        if (activity != null) {
-            View button_bar_item = activity.findViewById(R.id.save_button);
-            if (button_bar_item != null) {
-                button_bar_item.setVisibility(View.GONE);
-            }
-        }
         return ret;
     }
 
@@ -360,6 +352,14 @@ public class AppRoutingSlipFragment extends Fragment {
 
     @Override
     public void onPause() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            View button_bar_item = activity.findViewById(R.id.save_button);
+            if (button_bar_item != null) {
+                button_bar_item.setVisibility(View.GONE);
+            }
+        }
+
         super.onPause();
 
         if (m_dirty) {
@@ -405,7 +405,7 @@ public class AppRoutingSlipFragment extends Fragment {
         mBoardView.setBoardListener(new BoardView.BoardListener() {
             @Override
             public void onItemDragStarted(int column, int row) {
-                Toast.makeText(mBoardView.getContext(), "Start - column: " + column + " row: " + row, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mBoardView.getContext(), "Start - column: " + column + " row: " + row, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -448,7 +448,7 @@ public class AppRoutingSlipFragment extends Fragment {
                         ref = removeFromAvailableList(fromRow);
                         addToCurrentList(ref);
                     }
-                    Toast.makeText(mBoardView.getContext(), "End - column: " + toColumn + " row: " + toRow, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mBoardView.getContext(), "End - column: " + toColumn + " row: " + toRow, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -479,8 +479,7 @@ public class AppRoutingSlipFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Routing Slip For Patient XYZ");
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(String.format("Routing Slip For Patient %d", m_sess.getActivePatientId()));
     }
 
     private void addColumnList(int which) {

@@ -17,6 +17,7 @@
 
 package org.thousandsmiles.thousandsmilesstation;
 
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -76,6 +77,7 @@ public class StationActivity extends AppCompatActivity {
     private boolean m_isAway = false;
     private int m_activePatient = 0;
     public static StationActivity instance = null;  // hack to let me get at the activity
+    private boolean m_showingAppFragment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +164,16 @@ public class StationActivity extends AppCompatActivity {
 
     void showReturnToClinic()
     {
+        if (m_showingAppFragment == true) {
+            // bring down the current fragment
+            // this will trigger onPause in current fragment which will allow for unsaved changes.
+            AppBlankFragment fragment = new AppBlankFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.app_panel, fragment)
+                    .commit();
+            m_showingAppFragment = false;
+        }
+
         ReturnToClinicDialogFragment rtc = new ReturnToClinicDialogFragment();
         rtc.setPatientId(m_sess.getActivePatientId());
         rtc.show(getSupportFragmentManager(), "Return To Clinic");
@@ -170,7 +182,6 @@ public class StationActivity extends AppCompatActivity {
     void showAway()
     {
         AwayDialogFragment rtc = new AwayDialogFragment();
-        //rtc.setPatientId(m_sess.getActivePatientId());
         rtc.show(getSupportFragmentManager(), "Away");
     }
 
@@ -706,7 +717,7 @@ public class StationActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(StationActivity.this, "You Clicked on " + names.get(+position), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(StationActivity.this, "You Clicked on " + names.get(+position), Toast.LENGTH_SHORT).show();
                 Bundle arguments = new Bundle();
                 //arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                 //arguments.putBoolean("isWaiting", m_isWaiting);
@@ -719,12 +730,14 @@ public class StationActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.app_panel, fragment)
                             .commit();
+                    m_showingAppFragment = true;
                 } else {
                     AppMedicalHistoryFragment fragment = new AppMedicalHistoryFragment();
                     fragment.setArguments(arguments);
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.app_panel, fragment)
                             .commit();
+                    m_showingAppFragment = true;
                 }
             }
         });
