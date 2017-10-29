@@ -319,17 +319,7 @@ public class AppRoutingSlipFragment extends Fragment {
                 }
 
                 if (m_goingDown == false) {
-                    m_routingSlipEntries = m_sess.getRoutingSlipEntries(m_sess.getClinicId(), m_sess.getDisplayPatientId());
-                    if (m_routingSlipEntries == null) {
-                        Handler handler = new Handler(Looper.getMainLooper());
-                        handler.post(new Runnable() {
-                            public void run() {
-                                Toast.makeText(m_sess.getContext(), "Unable to get routing slip data", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    } else {
-                        initializeRoutingSlipData();
-                    }
+                    initializeRoutingSlipData();
                 }
             }
         };
@@ -443,7 +433,6 @@ public class AppRoutingSlipFragment extends Fragment {
                         ref = removeFromAvailableList(fromRow);
                         addToCurrentList(ref);
                     }
-                    //Toast.makeText(mBoardView.getContext(), "End - column: " + toColumn + " row: " + toRow, Toast.LENGTH_SHORT).show();
                 }
             }
         });
