@@ -93,7 +93,7 @@ public class AppRoutingSlipFragment extends Fragment {
         m_available = new ArrayList<RoutingSlipEntry>();
         for (int i = 0; i < m_stations.size(); i++) {
             Station p = m_stations.get(i);
-            if (stationInRoutingSlipList(p) == false) {
+            if (stationInRoutingSlipList(p) == false && p.getStation() != m_sess.getStationStationId()) {
                 RoutingSlipEntry q = new RoutingSlipEntry();
                 q.setName(p.getName());
                 q.setSelector(p.getSelector());
