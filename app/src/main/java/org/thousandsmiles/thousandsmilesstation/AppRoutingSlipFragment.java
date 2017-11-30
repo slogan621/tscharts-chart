@@ -75,6 +75,17 @@ public class AppRoutingSlipFragment extends Fragment {
     private ArrayList<RoutingSlipEntry> m_available;
     private ArrayList<RoutingSlipEntry> m_current;
     private int m_routingSlipId;
+    private Activity m_activity;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof Activity){
+            m_activity=(Activity) context;
+            initializeRoutingSlipData();
+        }
+    }
 
     private boolean stationInRoutingSlipList(Station s)
     {
@@ -189,13 +200,13 @@ public class AppRoutingSlipFragment extends Fragment {
                     public void run() {
                         m_routingSlipEntries = m_sess.getRoutingSlipEntries(m_sess.getClinicId(), m_sess.getDisplayPatientId());
                         if (m_routingSlipEntries == null) {
-                            getActivity().runOnUiThread(new Runnable() {
+                            m_activity.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(getActivity(), "Unable to get routing slip data", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(m_activity, "Unable to get routing slip data", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
-                            getActivity().runOnUiThread(new Runnable() {
+                            m_activity.runOnUiThread(new Runnable() {
                                 public void run() {
                                     JSONObject o = m_sess.getDisplayPatientRoutingSlip();
                                     try {
@@ -203,7 +214,7 @@ public class AppRoutingSlipFragment extends Fragment {
                                     } catch (JSONException e) {
                                     }
                                     createColumns();
-                                    Toast.makeText(getActivity(), "Successfully got routing slip data", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(m_activity, "Successfully got routing slip data", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -288,7 +299,7 @@ public class AppRoutingSlipFragment extends Fragment {
                         Handler handler = new Handler(Looper.getMainLooper());
                         handler.post(new Runnable() {
                             public void run() {
-                                Toast.makeText(m_sess.getContext(), "Unable to add routing slip entry", Toast.LENGTH_LONG).show();
+                                Toast.makeText(m_activity, "Unable to add routing slip entry", Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -455,7 +466,7 @@ public class AppRoutingSlipFragment extends Fragment {
             }
         });
 
-        initializeRoutingSlipData();
+
 
         return view;
     }
@@ -463,6 +474,7 @@ public class AppRoutingSlipFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(String.format("Routing Slip For Patient %d", m_sess.getActivePatientId()));
     }
 
@@ -483,7 +495,7 @@ public class AppRoutingSlipFragment extends Fragment {
 
         final int column = mColumns;
         final AppRoutingSlipItemAdapter listAdapter = new AppRoutingSlipItemAdapter(mItemArray, R.layout.app_routing_slip_column_item, R.id.item_layout, true);
-        final View header = View.inflate(getActivity(), R.layout.app_routing_slip_column_header, null);
+        final View header = View.inflate(m_activity, R.layout.app_routing_slip_column_header, null);
         if (which == 1) {
             ((TextView) header.findViewById(R.id.text)).setText("Available Stations");
         } else {

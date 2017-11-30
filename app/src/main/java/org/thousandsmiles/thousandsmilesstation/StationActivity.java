@@ -78,6 +78,7 @@ public class StationActivity extends AppCompatActivity {
     private int m_activePatient = 0;
     public static StationActivity instance = null;  // hack to let me get at the activity
     private boolean m_showingAppFragment = false;
+    private String m_fragmentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -724,20 +725,26 @@ public class StationActivity extends AppCompatActivity {
 
                 // XXX select based on name
 
-                if (names.get(position).equals("Routing Slip")) {
-                    AppRoutingSlipFragment fragment = new AppRoutingSlipFragment();
-                    fragment.setArguments(arguments);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.app_panel, fragment)
-                            .commit();
-                    m_showingAppFragment = true;
-                } else {
-                    AppMedicalHistoryFragment fragment = new AppMedicalHistoryFragment();
-                    fragment.setArguments(arguments);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.app_panel, fragment)
-                            .commit();
-                    m_showingAppFragment = true;
+                String selectedName = names.get(position);
+
+                if (selectedName.equals(m_fragmentName) == false) {
+                    if (names.get(position).equals("Routing Slip")) {
+                        AppRoutingSlipFragment fragment = new AppRoutingSlipFragment();
+                        fragment.setArguments(arguments);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.app_panel, fragment)
+                                .commit();
+                        m_showingAppFragment = true;
+                        m_fragmentName = names.get(position);
+                    } else if (names.get(position).equals("Medical History")) {
+                        AppMedicalHistoryFragment fragment = new AppMedicalHistoryFragment();
+                        fragment.setArguments(arguments);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.app_panel, fragment)
+                                .commit();
+                        m_showingAppFragment = true;
+                        m_fragmentName = names.get(position);
+                    }
                 }
             }
         });
