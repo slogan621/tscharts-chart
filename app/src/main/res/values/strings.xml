@@ -58,6 +58,52 @@
     <string name="away_return15">Return in 15 minutes</string>
     <string name="away_return30">Return in 30 minutes</string>
     <string name="away_return60">Return in 60 minutes</string>
-    <string name="title_away_dialog">Seelct Station Away Duration</string>
+    <string name="title_away_dialog">Select Station Away Duration</string>
+
+    <!-- Medical History -->
+
+    <string name="pregnancy">Pregnancy</string>
+    <string name="mother_alcohol">Did the mother consume alcohol during pregnancy?</string>
+    <string name="pregnancy_duration">Pregnancy duration (months)</string>
+    <string name="pregnancy_smoke">Did the pregnancy occur in a smoking environment?</string>
+    <string name="pregnancy_complications">Were there complications with the pregnancy?</string>
+    <string name="birth">Birth</string>
+    <string name="birth_complications">Were there complications during birth?</string>
+    <string name="birth_weight">Birth weight</string>
+    <string name="congenitalheartdefect">Does the child have a congenital heart defect?</string>
+    <string name="congenitalheartdefect_workup">If the child has a congenital heart defect, was a workup done at birth?</string>
+    <string name="congenitalheartdefect_planforcare">If the child has a congenital heart defect, was a plan for care created?</string>
+    <string name="growth_stages">Growth Stages</string>
+    <string name="first_crawl">Month child first started to crawl</string>
+    <string name="first_sit">Month child first started to sit</string>
+    <string name="first_words">Month child first started to speak</string>
+    <string name="first_walk">Month child first started to walk</string>
+    <string name="family_history">Family History</string>
+    <string name="relative_cleft">Did a relative of the child have a cleft?</string>
+    <string name="parents_cleft">Did the one of both parents of the child have a cleft?</string>
+    <string name="siblings_cleft">Did one of the childs\' sisters or brothers have a cleft?</string>
+    <string name="current_health">Current Health</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="cold_cough_fever">Does the child have a cold, cough, or fever?</string>
+    <string name="hivaids">Does the child have HIV or AIDS?</string>
+    <string name="anemia">Is the child anemic?</string>
+    <string name="athsma">Does the child suffer from athsma?</string>
+    <string name="cancer">Does the child have cancer?</string>
+    <string name="diabetes">Is the child diabetic?</string>
+    <string name="epilepsy">Is the child epileptic?</string>
+    <string name="bleeding_problems">Does the child suffer from bleeding problems?</string>
+    <string name="hepititis">Does the child have hepititis?</string>
+    <string name="tuberculosis">Does the child have tuberculosis?</string>
+    <string name="troublespeaking">Does the child have trouble speaking?</string>
+    <string name="troublehearing">Does the child have trouble hearing?</string>
+    <string name="troubleeating">Does the child have trouble eating?</string>
+    <string name="medications">Medications</string>
+    <string name="meds">All medications the patient is currently taking</string>
+    <string name="allergymeds">All medications the patient is allergic to</string>
+    <string name="cm">cm</string>
+    <string name="in">in</string>
+    <string name="kg">kg</string>
+    <string name="lb">lb</string>
 
 </resources>

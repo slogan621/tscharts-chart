@@ -45,20 +45,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-/**
- * An activity representing a list of Items. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ItemDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 public class StationActivity extends AppCompatActivity {
-
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
 
     private enum StationState {
         ACTIVE,
@@ -128,7 +115,6 @@ public class StationActivity extends AppCompatActivity {
                 } catch(InterruptedException e) {
                 }
             }
-            //return "";
         }
 
         private void setWaitingPatientListData()
@@ -361,7 +347,6 @@ public class StationActivity extends AppCompatActivity {
     private void updatePatientDetail()
     {
         Bundle arguments = new Bundle();
-        //arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
         ItemDetailFragment fragment = new ItemDetailFragment();
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
@@ -727,7 +712,7 @@ public class StationActivity extends AppCompatActivity {
 
                 String selectedName = names.get(position);
 
-                if (selectedName.equals(m_fragmentName) == false) {
+                if (!m_showingAppFragment || selectedName.equals(m_fragmentName) == false) {
                     if (names.get(position).equals("Routing Slip")) {
                         AppRoutingSlipFragment fragment = new AppRoutingSlipFragment();
                         fragment.setArguments(arguments);

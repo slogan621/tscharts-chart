@@ -1,8 +1,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="16dp">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
 
     <ImageView
         android:src="@drawable/checkout"
@@ -11,6 +18,7 @@
         android:layout_height="128dp"
         android:scaleType="fitCenter"
         android:background="@color/colorWhite"/>
+
 
     <RadioGroup
         android:layout_width="wrap_content"
@@ -48,6 +56,12 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/checkout_return_12"/>
     </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
     <View
         android:layout_width="match_parent"
         android:layout_height="16dp"/>
@@ -73,9 +87,10 @@
             <EditText
                 android:id="@+id/checkout_msg"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="225dp"
                 android:inputType="text|textMultiLine"
                 android:background="@drawable/edittext_border"
                 android:gravity="top"/>
+    </LinearLayout>
     </LinearLayout>
 </LinearLayout>
