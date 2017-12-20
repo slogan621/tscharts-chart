@@ -623,12 +623,12 @@ public class SessionSingleton {
         return m_displayRoutingSlipEntryId;
     }
 
-    public int setDisplayRoutingSlipEntryId(int patientId)
-    {
-        int routingslipEntryId = -1;
+    public int setDisplayRoutingSlipEntryId(int patientId) {
+        boolean found = false;
         try {
             JSONArray r = m_queueStatusJSON.getJSONArray("queues");
-            for (int i = 0; i < r.length(); i++) {
+            int i = 0;
+            while (found == false && i < r.length()) {
                 try {
                     JSONObject o = r.getJSONObject(i);
 
@@ -636,23 +636,22 @@ public class SessionSingleton {
 
                     for (int j = 0; j < entries.length(); j++) {
                         JSONObject entry = entries.getJSONObject(j);
-                        int patientid = entry.getInt("patient");
-                        if (patientid == patientId) {
-                            routingslipEntryId = entry.getInt("routingslipentry");
-                            m_displayRoutingSlipEntryId = routingslipEntryId;
+                        int id = entry.getInt("patient");
+                        if (id == patientId) {
+                            m_displayRoutingSlipEntryId = entry.getInt("routingslipentry");
+                            found = true;
                             break;
                         }
                     }
 
                 } catch (JSONException e) {
                 }
+                i++;
             }
         } catch (JSONException e) {
         }
-        if (routingslipEntryId == -1) {
-            routingslipEntryId = m_displayRoutingSlipEntryId;
-        }
-        return routingslipEntryId;
+
+        return m_displayRoutingSlipEntryId;
     }
 
     public boolean updateWaitingPatientList() {
