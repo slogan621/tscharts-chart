@@ -17,7 +17,6 @@
 
 package org.thousandsmiles.thousandsmilesstation;
 
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -82,7 +81,9 @@ public class StationActivity extends AppCompatActivity {
 
             while (true) {
                 m_sess.updateClinicStationData();
-                m_sess.updateQueues();
+                if (m_sess.isActive() == false) {
+                    m_sess.updateQueues();
+                }
                 m_sess.updateActivePatientList();
                 m_sess.updateWaitingPatientList();
                 if (first) {
