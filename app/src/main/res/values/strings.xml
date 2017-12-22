@@ -106,4 +106,8 @@
     <string name="kg">kg</string>
     <string name="lb">lb</string>
 
+    <string name="title_select_medications_dialog">Select Medications</string>
+    <string name="select_medications_yes">Update</string>
+    <string name="select_medications_cancel">Cancel</string>
+
 </resources>

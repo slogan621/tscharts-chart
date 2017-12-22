@@ -558,6 +558,7 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         tx = (TextView) m_activity.findViewById(R.id.weight);
         if (tx != null) {
+
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -715,6 +716,25 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         tx = (TextView) m_activity.findViewById(R.id.meds);
         if (tx != null) {
+            tx.setShowSoftInputOnFocus(false);
+            tx.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean hasFocus) {
+                    if (hasFocus) {
+                        MedicationsListDialogFragment mld = new MedicationsListDialogFragment();
+                        mld.setPatientId(m_sess.getActivePatientId());
+                        mld.show(getFragmentManager(), "Current Medications Dialog");
+                    }
+                }
+            });
+            tx.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MedicationsListDialogFragment mld = new MedicationsListDialogFragment();
+                    mld.setPatientId(m_sess.getActivePatientId());
+                    mld.show(getFragmentManager(), "Current Medications Dialog");
+                }
+            });
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -735,6 +755,25 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         tx = (TextView) m_activity.findViewById(R.id.allergymeds);
         if (tx != null) {
+            tx.setShowSoftInputOnFocus(false);
+            tx.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean hasFocus) {
+                    if (hasFocus) {
+                        MedicationsListDialogFragment mld = new MedicationsListDialogFragment();
+                        mld.setPatientId(m_sess.getActivePatientId());
+                        mld.show(getFragmentManager(), "Allergy Medications Dialog");
+                    }
+                }
+            });
+            tx.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MedicationsListDialogFragment mld = new MedicationsListDialogFragment();
+                    mld.setPatientId(m_sess.getActivePatientId());
+                    mld.show(getFragmentManager(), "Allergy Medications Dialog");
+                }
+            });
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
