@@ -25,40 +25,119 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class MedicationsListDialogFragment extends DialogFragment implements AdapterView.OnItemClickListener {
+public class MedicationsListDialogFragment extends DialogFragment {
 
     private int m_patientId;
     private View m_view;
     private MedicationsModelList m_list = MedicationsModelList.getInstance();
+    MedicationsAdapter m_adapter;
+    private TextView m_textView;
 
-    public void setPatientId(int id)
-    {
+    public void setPatientId(int id) {
         m_patientId = id;
     }
 
-    private String isCheckedOrNot(CheckBox checkbox) {
-        if(checkbox.isChecked())
-            return "is checked";
-        else
-            return "is not checked";
+    /**
+     * Record the resource ID of the medications field this dialog pertains to.
+     *
+     * @param view EditText view being edited
+     */
+
+    public void setTextField(TextView view) {
+        m_textView = view;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> arg0, View v, int position, long arg3) {
-        TextView label = (TextView) v.getTag(R.id.label);
-        CheckBox checkbox = (CheckBox) v.getTag(R.id.check);
-        Toast.makeText(v.getContext(), label.getText().toString()+" "+isCheckedOrNot(checkbox), Toast.LENGTH_LONG).show();
+    private String getTextField()
+    {
+        String ret = new String();
+
+        if (m_textView != null) {
+            ret = m_textView.getText().toString();
+        }
+        return ret;
+    }
+
+    private void setTextField(String str)
+    {
+        if (m_textView != null) {
+            m_textView.setText(str);
+        }
+    }
+
+    private ArrayList<String> getCheckedMedicinesFromUI()
+    {
+        return m_adapter.getCheckedItems();
+    }
+
+    private void removeMedicinesFromUI(ArrayList<String> meds)
+    {
+        ListView listView = (ListView) m_view.findViewById(R.id.medications_list);
+        for (int i = 0; i < meds.size(); i++) {
+            for (int j = 0; j < listView.getCount(); j++) {
+                View v = listView.getChildAt(j);
+                if (v != null) {
+                    TextView t = (TextView) v.findViewById(R.id.label);
+                    if (t.getText().toString().equals(meds.get(i))) {
+                        listView.removeViewInLayout(v);
+                    }
+                }
+            }
+        }
+        m_adapter.removeMedicines(meds);
+    }
+
+    private void addMedicineToUI(String med)
+    {
+        MedicationsModel medication = new MedicationsModel(med, false);
+        m_adapter.add(medication);
+        m_adapter.notifyDataSetChanged();
+    }
+
+    private String itemsToCSV()
+    {
+        ArrayList<String> items = m_adapter.getAllItems();
+
+        String csv = new String();
+
+        for (int i = 0; i < items.size(); i++) {
+            csv += items.get(i);
+            if (i < items.size() - 1 && items.size() > 1) {
+                csv += ", ";
+            }
+        }
+        return csv;
+    }
+
+    public void CSVToItems(String str)
+    {
+        ArrayList<String> items = new ArrayList<String>();
+
+        List<String> tmp = Arrays.asList(str.split("\\s*,\\s*"));
+
+        if (tmp != null) {
+            for (int i = 0; i < tmp.size(); i++) {
+                if (tmp.get(i).equals("") == false) {
+                    items.add(tmp.get(i));
+                }
+            }
+        }
+        m_list.setModelData(items);
     }
 
     @Override
@@ -67,54 +146,65 @@ public class MedicationsListDialogFragment extends DialogFragment implements Ada
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         m_view = inflater.inflate(R.layout.medications_list_dialog, null);
 
         ListView listView = (ListView) m_view.findViewById(R.id.medications_list);
-        MedicationsAdapter adapter = new MedicationsAdapter(getActivity(), m_list.getModel());
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
+
+        String str = getTextField();
+
+        CSVToItems(str);
+
+        m_adapter = new MedicationsAdapter(getActivity(), m_list.getModel());
+        listView.setAdapter(m_adapter);
+
+        View button_item = m_view.findViewById(R.id.add_med_button);
+        button_item.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.medsautocomplete);
+                String med = textView.getText().toString();
+                addMedicineToUI(med);
+                textView.setText("");
+            }
+        });
+        button_item = m_view.findViewById(R.id.remove_med_button);
+        button_item.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                /* iterate the list for checked items */
+
+                ArrayList checkedItems = getCheckedMedicinesFromUI();
+
+                /* remove from adapter */
+
+                if (checkedItems.size() != 0) {
+                    removeMedicinesFromUI(checkedItems);
+                }
+            }
+        });
+
+        AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.medsautocomplete);
+        String[] MultipleTextStringValue = m_list.getModelStringArray();
+        ArrayAdapter<String> medNames = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MultipleTextStringValue);
+        textView.setAdapter(medNames);
+        textView.setThreshold(2);
 
         builder.setView(m_view)
                 // Add action buttons
                 .setPositiveButton(R.string.select_medications_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        /*
-                        int numMonths = 0;
-                        String msg = "";
-                        RadioButton v = (RadioButton) m_view.findViewById(R.id.checkout_returnNo);
-                        if (v.isChecked()) {
-                            numMonths = 0;
-                        }
-                        v = (RadioButton) m_view.findViewById(R.id.checkout_return3);
-                        if (v.isChecked()) {
-                            numMonths = 3;
-                        }
-                        v = (RadioButton) m_view.findViewById(R.id.checkout_return6);
-                        if (v.isChecked()) {
-                            numMonths = 6;
-                        }
-                        v = (RadioButton) m_view.findViewById(R.id.checkout_return9);
-                        if (v.isChecked()) {
-                            numMonths = 9;
-                        }
-                        v = (RadioButton) m_view.findViewById(R.id.checkout_return12);
-                        if (v.isChecked()) {
-                            numMonths = 12;
-                        }
-                        EditText t = (EditText) m_view.findViewById(R.id.checkout_msg);
-                        msg = t.getText().toString();
+                        /* get all medicines in the list */
 
-                        CheckoutParams params = new CheckoutParams();
+                        ArrayList<String> items = m_adapter.getAllItems();
 
-                        params.setMessage(msg);
-                        params.setReturnMonths(numMonths);
-                        AsyncTask task = new CheckoutPatient();
-                        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) params);
-                        */
+                        String csv = itemsToCSV();
+                        setTextField(csv);
+
                         dialog.dismiss();
                     }
                 })
@@ -124,6 +214,7 @@ public class MedicationsListDialogFragment extends DialogFragment implements Ada
                     }
                 });
         Dialog ret = builder.create();
+        ret.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         ret.setTitle(R.string.title_select_medications_dialog);
         return ret;

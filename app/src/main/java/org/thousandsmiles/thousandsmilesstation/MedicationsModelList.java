@@ -20,23 +20,24 @@ package org.thousandsmiles.thousandsmilesstation;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+    List of medications
+ */
+
 public class MedicationsModelList {
     static private MedicationsModelList m_instance = null;
-    private List<MedicationsModel> list = new ArrayList<MedicationsModel>();
+    private List<MedicationsModel> m_list = new ArrayList<MedicationsModel>();
+    private ArrayList<String> m_strs = new ArrayList<String>();
 
     public List<MedicationsModel> getModel() {
-        list.add(new MedicationsModel("Linux", false));
-        list.add(new MedicationsModel("Windows7", false));
-        list.add(new MedicationsModel("Suse", false));
-        list.add(new MedicationsModel("Eclipse", false));
-        list.add(new MedicationsModel("Ubuntu", false));
-        list.add(new MedicationsModel("Solaris", false));
-        list.add(new MedicationsModel("Android", false));
-        list.add(new MedicationsModel("iPhone", false));
-        list.add(new MedicationsModel("Java", false));
-        list.add(new MedicationsModel(".Net", false));
-        list.add(new MedicationsModel("PHP", false));
-        return list;
+        return m_list;
+    }
+
+    public String[] getModelStringArray() {
+        String [] ret;
+
+        ret = m_strs.toArray(new String[0]);
+        return ret;
     }
 
     private MedicationsModelList(){}
@@ -47,5 +48,13 @@ public class MedicationsModelList {
             m_instance = new MedicationsModelList();
         }
         return m_instance;
+    }
+
+    public void setModelData(ArrayList<String> items) {
+        m_strs = items;
+        m_list.clear();
+        for (int i = 0; i < m_strs.size(); i++) {
+            m_list.add(new MedicationsModel(m_strs.get(i), false));
+        }
     }
 }

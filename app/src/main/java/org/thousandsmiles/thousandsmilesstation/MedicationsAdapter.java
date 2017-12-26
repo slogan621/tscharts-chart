@@ -26,11 +26,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MedicationsAdapter extends ArrayAdapter<MedicationsModel> {
 
-    private final List<MedicationsModel> list;
+    private List<MedicationsModel> list;
     private final Activity context;
     boolean checkAll_flag = false;
     boolean checkItem_flag = false;
@@ -44,6 +45,41 @@ public class MedicationsAdapter extends ArrayAdapter<MedicationsModel> {
     static class ViewHolder {
         protected TextView text;
         protected CheckBox checkbox;
+    }
+
+    public ArrayList<String> getCheckedItems()
+    {
+        ArrayList<String> ret = new ArrayList<String>();
+
+        for (int i = 0 ; i < list.size() ; i++){
+            if (list.get(i).isSelected()) {
+                ret.add(list.get(i).getName().toString());
+            }
+        }
+        return ret;
+    }
+
+    public ArrayList<String> getAllItems()
+    {
+        ArrayList<String> ret = new ArrayList<String>();
+
+        for (int i = 0 ; i < list.size() ; i++){
+            ret.add(list.get(i).getName().toString());
+        }
+        return ret;
+    }
+
+    public void removeMedicines(ArrayList<String> meds)
+    {
+        for (int i = 0; i < meds.size(); i++) {
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j).getName().equals(meds.get(i))) {
+                    list.remove(j);
+                    break;
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @Override
