@@ -188,7 +188,7 @@ public class MedicationsListDialogFragment extends DialogFragment {
         });
 
         AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.medsautocomplete);
-        String[] MultipleTextStringValue = m_list.getModelStringArray();
+        String[] MultipleTextStringValue = SessionSingleton.getInstance().getMedicationsListStringArray();
         ArrayAdapter<String> medNames = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MultipleTextStringValue);
         textView.setAdapter(medNames);
         textView.setThreshold(2);

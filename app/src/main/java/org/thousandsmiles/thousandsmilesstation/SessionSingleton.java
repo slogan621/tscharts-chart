@@ -64,6 +64,7 @@ public class SessionSingleton {
     private static HashMap<String, Integer> m_stationToSelector = new HashMap<String, Integer>();
     private ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
     private ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
+    private ArrayList<String> m_medicationsList = new ArrayList<String>();
     private int m_displayPatientId; // id of the patient that will get checked in/checked out when the corresponding button is pressed
     private int m_displayRoutingSlipEntryId; // id of the routingslip for m_displayPatientId
     // XXX Consider moving these station class names to the API
@@ -76,6 +77,27 @@ public class SessionSingleton {
     public JSONObject getRoutingSlipEntryResponse()
     {
         return m_routingSlipEntryResponse;
+    }
+
+    public void setMedicationsList(JSONArray a)
+    {
+        m_medicationsList.clear();
+        for (int i = 0; i < a.length(); i++) {
+            try {
+                m_medicationsList.add(a.getString(i));
+            } catch (JSONException e) {
+            }
+        }
+    }
+
+    public ArrayList<String> getMedicationsList()
+    {
+        return m_medicationsList;
+    }
+
+    public String[] getMedicationsListStringArray()
+    {
+        return m_medicationsList.toArray(new String[0]);
     }
 
     public void setDisplayPatientMedicalHistory(JSONObject o)
