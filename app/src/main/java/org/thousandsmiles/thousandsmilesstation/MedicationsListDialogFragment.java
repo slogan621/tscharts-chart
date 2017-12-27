@@ -48,6 +48,7 @@ public class MedicationsListDialogFragment extends DialogFragment {
     private MedicationsModelList m_list = MedicationsModelList.getInstance();
     MedicationsAdapter m_adapter;
     private TextView m_textView;
+    private SessionSingleton m_sess = SessionSingleton.getInstance();
 
     public void setPatientId(int id) {
         m_patientId = id;
@@ -140,6 +141,59 @@ public class MedicationsListDialogFragment extends DialogFragment {
         m_list.setModelData(items);
     }
 
+    public class GetMedicationsList extends AsyncTask<Object, Object, Object> {
+        @Override
+        protected String doInBackground(Object... params) {
+            getMedicationsList();
+            return "";
+        }
+
+        private void getMedicationsList() {
+            int patientId = m_sess.getDisplayPatientId();
+            int clinicStationId = m_sess.getClinicStationId();
+            int queueEntryId = m_sess.getQueueEntryId(patientId);
+            int routingSlipEntryId = m_sess.setDisplayRoutingSlipEntryId(patientId);
+
+            final MedicationsREST medsREST = new MedicationsREST(m_sess.getContext());
+            Object lock = medsREST.getMedicationsList();
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = medsREST.getStatus();
+            if (status == 200) {
+                AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.medsautocomplete);
+                String[] MultipleTextStringValue = SessionSingleton.getInstance().getMedicationsListStringArray();
+                ArrayAdapter<String> medNames = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MultipleTextStringValue);
+                textView.setAdapter(medNames);
+                textView.setThreshold(2);
+            } else {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getActivity(), "Unable to get list of medications", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+    }
+
+    private void configMedicationsAutocomplete()
+    {
+        // get medications list from backend
+
+        AsyncTask task = new GetMedicationsList();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -187,12 +241,6 @@ public class MedicationsListDialogFragment extends DialogFragment {
             }
         });
 
-        AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.medsautocomplete);
-        String[] MultipleTextStringValue = SessionSingleton.getInstance().getMedicationsListStringArray();
-        ArrayAdapter<String> medNames = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MultipleTextStringValue);
-        textView.setAdapter(medNames);
-        textView.setThreshold(2);
-
         builder.setView(m_view)
                 // Add action buttons
                 .setPositiveButton(R.string.select_medications_yes, new DialogInterface.OnClickListener() {
@@ -217,6 +265,7 @@ public class MedicationsListDialogFragment extends DialogFragment {
         ret.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         ret.setTitle(R.string.title_select_medications_dialog);
+        configMedicationsAutocomplete();
         return ret;
     }
 }
