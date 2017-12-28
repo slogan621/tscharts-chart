@@ -16,8 +16,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:hint="Enter A Medication Name Here"
-        />
+        android:inputType="text"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:hint="Enter A Medication Name Here" />
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
