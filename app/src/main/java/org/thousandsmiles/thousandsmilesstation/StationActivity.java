@@ -72,6 +72,7 @@ public class StationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_detail);
         View button_bar_item = findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.GONE);
+        m_appListItems.setContext(getApplicationContext());
     }
 
     private class UpdatePatientLists extends AsyncTask<Object, Object, Object> {
@@ -164,13 +165,13 @@ public class StationActivity extends AppCompatActivity {
 
         ReturnToClinicDialogFragment rtc = new ReturnToClinicDialogFragment();
         rtc.setPatientId(m_sess.getActivePatientId());
-        rtc.show(getSupportFragmentManager(), "Return To Clinic");
+        rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.title_return_to_clinic));
     }
 
     void showAway()
     {
         AwayDialogFragment rtc = new AwayDialogFragment();
-        rtc.show(getSupportFragmentManager(), "Away");
+        rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.msg_away));
     }
 
     public class CheckinPatient extends AsyncTask<Object, Object, Object> {
@@ -254,34 +255,34 @@ public class StationActivity extends AppCompatActivity {
                         if (status == 200) {
                             StationActivity.this.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(StationActivity.this, "Patient successfully signed in", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(StationActivity.this, R.string.msg_patient_signed_in, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
                             StationActivity.this.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(StationActivity.this, "Unable to update state change object", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(StationActivity.this, R.string.msg_unable_to_update_state_change, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
                     } else {
                         StationActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(StationActivity.this, "Unable to update routing slip", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(StationActivity.this, R.string.msg_unable_to_update_routing_slip, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } else {
                     StationActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(StationActivity.this, "Unable to set clinic station state", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(StationActivity.this, R.string.msg_unable_to_set_clinic_station_state, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             } else {
                 StationActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(StationActivity.this, "Unable to delete queue entry", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StationActivity.this, R.string.msg_unable_to_delete_queue_entry, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -328,7 +329,7 @@ public class StationActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 if (m_sess.getWaitingIsFromActiveList() == true) {
-                    Toast.makeText(StationActivity.this, "Stealing an active patient is not yet supported", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StationActivity.this, R.string.msg_stealing_unsupported, Toast.LENGTH_SHORT).show();
                 } else {
                     AsyncTask task = new CheckinPatient();
                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
@@ -455,12 +456,12 @@ public class StationActivity extends AppCompatActivity {
         // {"name":"Dental3","name_es":"Dental3","activepatient":18,"away":false,"level":1,"nextpatient":null,"awaytime":30,"clinic":1,"station":1,"active":true,"willreturn":"2017-09-13T20:47:12","id":3}
         TextView label = (TextView) findViewById(R.id.station_name_state);
         JSONObject activeObject = m_sess.getClinicStationData();
-        String stationLabel = String.format("Station: %s", m_sess.getClinicStationName());
+        String stationLabel = String.format(getApplicationContext().getString(R.string.label_station) + ": %s", m_sess.getClinicStationName());
         try {
             m_isActive = activeObject.getBoolean("active");
             m_isAway = activeObject.getBoolean("away");
             if (m_isActive) {
-                stationLabel += "\nState: Active";
+                stationLabel += "\n" + getApplicationContext().getString(R.string.label_state) + ": " + getApplicationContext().getString(R.string.label_active);
             } else if (m_isAway == true ) {
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 df.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -477,9 +478,9 @@ public class StationActivity extends AppCompatActivity {
                     willret = activeObject.getString("willreturn");
                 }
 
-                stationLabel += String.format("\nState: Away, Will Return: %s", willret);
+                stationLabel += String.format("\n" + getApplicationContext().getString(R.string.label_state) + ": " + getApplicationContext().getString(R.string.label_away_will_return) + ": %s", willret);
             } else {
-                stationLabel += "\nState: Waiting";
+                stationLabel += "\n" + getApplicationContext().getString(R.string.label_state) + ": " + getApplicationContext().getString(R.string.label_waiting);
             }
         } catch (JSONException e) {
         }
@@ -531,8 +532,8 @@ public class StationActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage(String.format("Are you sure you want to exit?"));
-        alertDialogBuilder.setPositiveButton("yes",
+        alertDialogBuilder.setMessage(String.format(getApplicationContext().getString(R.string.msg_are_you_sure_you_want_to_exit)));
+        alertDialogBuilder.setPositiveButton(R.string.button_yes,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -546,7 +547,7 @@ public class StationActivity extends AppCompatActivity {
                     }
                 });
 
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton(R.string.button_no,new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Toast.makeText(StationSelectorActivity.this,"Please select another station.",Toast.LENGTH_LONG).show();
@@ -688,11 +689,9 @@ public class StationActivity extends AppCompatActivity {
     private void createAppList() {
         String station = m_sess.getActiveStationName();
 
-        AppListItems appListItems = new AppListItems();
-
-        final ArrayList<String> names = appListItems.getNames(station);
-        final ArrayList<Integer> imageIds = appListItems.getImageIds(station);
-        final ArrayList<Integer> selectors = appListItems.getSelectors(station);
+        final ArrayList<String> names = m_appListItems.getNames(station);
+        final ArrayList<Integer> imageIds = m_appListItems.getImageIds(station);
+        final ArrayList<Integer> selectors = m_appListItems.getSelectors(station);
 
         AppsList adapter = new AppsList(StationActivity.this, names, imageIds, selectors);
 
@@ -714,7 +713,7 @@ public class StationActivity extends AppCompatActivity {
                 String selectedName = names.get(position);
 
                 if (!m_showingAppFragment || selectedName.equals(m_fragmentName) == false) {
-                    if (names.get(position).equals("Routing Slip")) {
+                    if (names.get(position).equals(getApplicationContext().getString(R.string.routing_slip_name))) {
                         AppRoutingSlipFragment fragment = new AppRoutingSlipFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -722,7 +721,7 @@ public class StationActivity extends AppCompatActivity {
                                 .commit();
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
-                    } else if (names.get(position).equals("Medical History")) {
+                    } else if (names.get(position).equals(getApplicationContext().getString(R.string.medical_history_name))) {
                         AppMedicalHistoryFragment fragment = new AppMedicalHistoryFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()

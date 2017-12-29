@@ -202,7 +202,7 @@ public class AppRoutingSlipFragment extends Fragment {
                         if (m_routingSlipEntries == null) {
                             m_activity.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(m_activity, "Unable to get routing slip data", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_routing_slip, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
@@ -214,7 +214,7 @@ public class AppRoutingSlipFragment extends Fragment {
                                     } catch (JSONException e) {
                                     }
                                     createColumns();
-                                    Toast.makeText(m_activity, "Successfully got routing slip data", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(m_activity, R.string.msg_successfully_got_routing_slip, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -299,7 +299,7 @@ public class AppRoutingSlipFragment extends Fragment {
                         Handler handler = new Handler(Looper.getMainLooper());
                         handler.post(new Runnable() {
                             public void run() {
-                                Toast.makeText(m_activity, "Unable to add routing slip entry", Toast.LENGTH_LONG).show();
+                                Toast.makeText(m_activity, R.string.unable_to_add_routing_slip_entry, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -323,7 +323,7 @@ public class AppRoutingSlipFragment extends Fragment {
                         Handler handler = new Handler(Looper.getMainLooper());
                         handler.post(new Runnable() {
                             public void run() {
-                                Toast.makeText(m_sess.getContext(), "Unable to remove routing slip entry", Toast.LENGTH_LONG).show();
+                                Toast.makeText(m_sess.getContext(), R.string.unable_to_remove_routing_slip_entry, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -359,10 +359,10 @@ public class AppRoutingSlipFragment extends Fragment {
         if (m_dirty) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-            builder.setTitle("Unsaved Changes to Routing Slip");
-            builder.setMessage("Save routing slip changes?");
+            builder.setTitle(R.string.title_unsaved_routing_slip);
+            builder.setMessage(R.string.msg_save_routing_slip);
 
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.button_yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     m_goingDown = true;
                     updateRoutingSlip();
@@ -370,7 +370,7 @@ public class AppRoutingSlipFragment extends Fragment {
                 }
             });
 
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(R.string.button_no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -497,21 +497,13 @@ public class AppRoutingSlipFragment extends Fragment {
         final AppRoutingSlipItemAdapter listAdapter = new AppRoutingSlipItemAdapter(mItemArray, R.layout.app_routing_slip_column_item, R.id.item_layout, true);
         final View header = View.inflate(m_activity, R.layout.app_routing_slip_column_header, null);
         if (which == 1) {
-            ((TextView) header.findViewById(R.id.text)).setText("Available Stations");
+            ((TextView) header.findViewById(R.id.text)).setText(R.string.column_label_available_stations);
         } else {
-            ((TextView) header.findViewById(R.id.text)).setText("Current Routing Slip");
+            ((TextView) header.findViewById(R.id.text)).setText(R.string.column_label_current_routing_slip);
         }
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //long id = sCreatedItems++;
-                //Pair item = new Pair<>(id, "Test " + id);
-                //mBoardView.addItem(column, 0, item, true);
-                //mBoardView.moveItem(4, 0, 0, true);
-                //mBoardView.removeItem(column, 0);
-                //mBoardView.moveItem(0, 0, 1, 3, false);
-                //mBoardView.replaceItem(0, 0, item1, true);
-                //((TextView) header.findViewById(R.id.item_count)).setText(String.valueOf(mItemArray.size()));
             }
         });
 

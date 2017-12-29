@@ -96,12 +96,12 @@ class AppRoutingSlipItemAdapter extends DragItemAdapter<Pair<Long, String>, AppR
 
         @Override
         public void onItemClicked(View view) {
-            Toast.makeText(view.getContext(), "Item clicked", Toast.LENGTH_SHORT).show();
+            // Remove?
         }
 
         @Override
         public boolean onItemLongClicked(View view) {
-            Toast.makeText(view.getContext(), "Item long clicked", Toast.LENGTH_SHORT).show();
+            // Remove?
             return true;
         }
     }

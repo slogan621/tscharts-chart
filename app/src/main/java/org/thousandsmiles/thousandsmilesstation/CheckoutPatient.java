@@ -97,27 +97,27 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> {
                 if (status == 200) {
                     StationActivity.instance.runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(StationActivity.instance, "Patient successfully checked out", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(StationActivity.instance, R.string.msg_patient_successfully_checked_out, Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
                     StationActivity.instance.runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(StationActivity.instance, "Unable to update state change object", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(StationActivity.instance, R.string.msg_unable_to_update_state_change_object, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             } else {
                 StationActivity.instance.runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(StationActivity.instance, "Unable to update routing slip", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StationActivity.instance, R.string.unable_to_update_routing_slip, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         } else {
             StationActivity.instance.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(StationActivity.instance, "Unable to set clinic station state", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StationActivity.instance, R.string.unable_to_set_clinic_station_state, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -141,13 +141,13 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> {
             if (status == 200) {
                 StationActivity.instance.runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(StationActivity.instance, "Return to clinic successfully created", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StationActivity.instance, R.string.msg_return_to_clinic_successfully_created, Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
                 StationActivity.instance.runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(StationActivity.instance, "Unable to create return to clinic for patient", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StationActivity.instance, R.string.msg_unable_to_create_return_to_clinic, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

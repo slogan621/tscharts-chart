@@ -73,13 +73,13 @@ public class StationSelectorActivity extends AppCompatActivity {
             id = cs.getInt("id");
             stationId = cs.getInt("station");
         } catch (JSONException e) {
-            Toast.makeText(StationSelectorActivity.this,"Unable to process this station. Please try again.",Toast.LENGTH_LONG).show();
+            Toast.makeText(StationSelectorActivity.this, R.string.msg_unable_process_station,Toast.LENGTH_LONG).show();
             return;
         }
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage(String.format("Sign in to clinic station %s?", name));
-                alertDialogBuilder.setPositiveButton("yes",
+        alertDialogBuilder.setMessage(String.format(m_activity.getString(R.string.question_sign_in_to_station), name));
+                alertDialogBuilder.setPositiveButton(R.string.button_yes,
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
@@ -95,10 +95,10 @@ public class StationSelectorActivity extends AppCompatActivity {
                         }
                 });
 
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton(R.string.button_no,new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(StationSelectorActivity.this,"Please select another station.",Toast.LENGTH_LONG).show();
+                Toast.makeText(StationSelectorActivity.this, R.string.msg_select_another_station,Toast.LENGTH_LONG).show();
             }
         });
 

@@ -59,13 +59,13 @@ public class StationReturn extends AsyncTask<Object, Object, Object> {
         if (status == 200) {
             StationActivity.instance.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(StationActivity.instance, "Successfully made station active", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StationActivity.instance, R.string.msg_successful_station_active, Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
             StationActivity.instance.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(StationActivity.instance, "Unable to make station active", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StationActivity.instance, R.string.msg_unsuccessful_station_active, Toast.LENGTH_SHORT).show();
                 }
             });
         }

@@ -179,7 +179,7 @@ public class MedicationsListDialogFragment extends DialogFragment {
             } else {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(getActivity(), "Unable to get list of medications", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.msg_unable_to_get_medications_list, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

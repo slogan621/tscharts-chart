@@ -59,13 +59,13 @@ public class StationAway extends AsyncTask<Object, Object, Object> {
         if (status == 200) {
             StationActivity.instance.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(StationActivity.instance, "Successfully placed station in away state", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StationActivity.instance, R.string.msg_successful_away_state, Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
             StationActivity.instance.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(StationActivity.instance, "Unable to place station in away state", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StationActivity.instance, R.string.msg_unsuccessful_away_state, Toast.LENGTH_SHORT).show();
                 }
             });
         }

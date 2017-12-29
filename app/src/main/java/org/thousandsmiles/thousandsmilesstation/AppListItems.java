@@ -17,6 +17,8 @@
 
 package org.thousandsmiles.thousandsmilesstation;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,6 +27,11 @@ public class AppListItems {
     // List of apps a station has access to
     private static HashMap<String, ArrayList<AppListItem>> m_stationToAppList =
             new HashMap<String, ArrayList<AppListItem>>();
+    private Context m_context;
+
+    public void setContext(Context context) {
+        m_context = context;
+    }
 
     private class AppListItem {
         private String m_name;
@@ -61,17 +68,17 @@ public class AppListItems {
         AppListItem item;
 
         item = new AppListItem();
-        item.setName("Routing Slip");
+        item.setName(m_context.getString(R.string.routing_slip_name));
         item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
-        item.setName("Medical History");
+        item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put("Dental", items);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_dental), items);
     }
 
     private void initXRay() {
@@ -79,17 +86,17 @@ public class AppListItems {
         AppListItem item;
 
         item = new AppListItem();
-        item.setName("Routing Slip");
+        item.setName(m_context.getString(R.string.routing_slip_name));
         item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
-        item.setName("Medical History");
+        item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put("X-Ray", items);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_x_ray), items);
     }
 
     private void initAudiology() {
@@ -97,17 +104,17 @@ public class AppListItems {
         AppListItem item;
 
         item = new AppListItem();
-        item.setName("Routing Slip");
+        item.setName(m_context.getString(R.string.routing_slip_name));
         item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
-        item.setName("Medical History");
+        item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put("Audiology", items);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_audiology), items);
     }
 
     private void initSpeech() {
@@ -115,17 +122,17 @@ public class AppListItems {
         AppListItem item;
 
         item = new AppListItem();
-        item.setName("Routing Slip");
+        item.setName(m_context.getString(R.string.routing_slip_name));
         item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
-        item.setName("Medical History");
+        item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put("Speech", items);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_speech), items);
     }
 
     private void initENT() {
@@ -133,17 +140,17 @@ public class AppListItems {
         AppListItem item;
 
         item = new AppListItem();
-        item.setName("Routing Slip");
+        item.setName(m_context.getString(R.string.routing_slip_name));
         item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
-        item.setName("Medical History");
+        item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put("ENT", items);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
     }
 
     private void initSurgeryScreening() {
@@ -151,17 +158,17 @@ public class AppListItems {
         AppListItem item;
 
         item = new AppListItem();
-        item.setName("Routing Slip");
+        item.setName(m_context.getString(R.string.routing_slip_name));
         item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
-        item.setName("Medical History");
+        item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put("Surgery Screening", items);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_surgery_screening), items);
     }
 
     private void initOrtho() {
@@ -169,17 +176,17 @@ public class AppListItems {
         AppListItem item;
 
         item = new AppListItem();
-        item.setName("Routing Slip");
+        item.setName(m_context.getString(R.string.routing_slip_name));
         item.setImageId(R.drawable.routing);
         item.setSelector(R.drawable.app_routing_slip_selector);
         items.add(item);
 
         item = new AppListItem();
-        item.setName("Medical History");
+        item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put("Ortho", items);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_ortho), items);
     }
 
     // constructor

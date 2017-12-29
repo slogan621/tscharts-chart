@@ -724,7 +724,7 @@ public class AppMedicalHistoryFragment extends Fragment {
                         MedicationsListDialogFragment mld = new MedicationsListDialogFragment();
                         mld.setPatientId(m_sess.getActivePatientId());
                         mld.setTextField(tx1);
-                        mld.show(getFragmentManager(), "Current Medications Dialog");
+                        mld.show(getFragmentManager(), m_activity.getString(R.string.title_current_medications_dialog));
                     }
                 }
             });
@@ -734,7 +734,7 @@ public class AppMedicalHistoryFragment extends Fragment {
                     MedicationsListDialogFragment mld = new MedicationsListDialogFragment();
                     mld.setPatientId(m_sess.getActivePatientId());
                     mld.setTextField(tx1);
-                    mld.show(getFragmentManager(), "Current Medications Dialog");
+                    mld.show(getFragmentManager(), m_activity.getString(R.string.title_current_medications_dialog));
                 }
             });
             tx1.addTextChangedListener(new TextWatcher() {
@@ -765,7 +765,7 @@ public class AppMedicalHistoryFragment extends Fragment {
                         MedicationsListDialogFragment mld = new MedicationsListDialogFragment();
                         mld.setPatientId(m_sess.getActivePatientId());
                         mld.setTextField(tx2);
-                        mld.show(getFragmentManager(), "Allergy Medications Dialog");
+                        mld.show(getFragmentManager(), m_activity.getString(R.string.title_allergy_medications_dialog));
                     }
                 }
             });
@@ -775,7 +775,7 @@ public class AppMedicalHistoryFragment extends Fragment {
                     MedicationsListDialogFragment mld = new MedicationsListDialogFragment();
                     mld.setPatientId(m_sess.getActivePatientId());
                     mld.setTextField(tx2);
-                    mld.show(getFragmentManager(), "Allergy Medications Dialog");
+                    mld.show(getFragmentManager(), m_activity.getString(R.string.title_allergy_medications_dialog));
                 }
             });
             tx2.addTextChangedListener(new TextWatcher() {
@@ -1017,13 +1017,13 @@ public class AppMedicalHistoryFragment extends Fragment {
                 if (m_medicalHistory == null) {
                     m_activity.runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(m_activity, "Unable to get medical history data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_get_medical_history), Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
                     m_activity.runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(m_activity, "Successfully got medical history data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_got_medical_history), Toast.LENGTH_SHORT).show();
                             copyMedicalHistoryDataToUI();
                             setViewDirtyListeners();
                         }
@@ -1065,7 +1065,7 @@ public class AppMedicalHistoryFragment extends Fragment {
                     Handler handler = new Handler(Looper.getMainLooper());
                     handler.post(new Runnable() {
                         public void run() {
-                            Toast.makeText(m_activity, "Unable to save medical history", Toast.LENGTH_LONG).show();
+                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_save_medical_history), Toast.LENGTH_LONG).show();
                         }
                     });
                 } else {
@@ -1074,7 +1074,7 @@ public class AppMedicalHistoryFragment extends Fragment {
                         public void run() {
                             clearDirty();
                             m_medicalHistory = copyMedicalHistoryDataFromUI();
-                            Toast.makeText(m_activity, "Successfully saved medical history", Toast.LENGTH_LONG).show();
+                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_saved_medical_history), Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -1111,16 +1111,16 @@ public class AppMedicalHistoryFragment extends Fragment {
         if (m_dirty || mh.equals(m_medicalHistory) == false) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-            builder.setTitle("Unsaved Changes to Medical History");
-            builder.setMessage("Save medical history changes?");
+            builder.setTitle(m_activity.getString(R.string.title_unsaved_medical_history));
+            builder.setMessage(m_activity.getString(R.string.msg_save_medical_history));
 
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
 
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
