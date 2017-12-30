@@ -18,6 +18,7 @@
 package org.thousandsmiles.thousandsmilesstation;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -221,6 +223,9 @@ public class MedicationsListDialogFragment extends DialogFragment {
                 String med = textView.getText().toString();
                 addMedicineToUI(med);
                 textView.setText("");
+
+                InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(m_view.getWindowToken(), 0);
             }
         });
         button_item = m_view.findViewById(R.id.remove_med_button);
@@ -263,7 +268,7 @@ public class MedicationsListDialogFragment extends DialogFragment {
         Dialog ret = builder.create();
         ret.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        ret.setTitle(R.string.title_select_medications_dialog);
+        ret.setTitle(R.string.title_edit_medications_dialog);
         configMedicationsAutocomplete();
         return ret;
     }
