@@ -191,7 +191,8 @@ public class AppListItems {
 
     // constructor
 
-    public AppListItems() {
+    public void init()
+    {
         initDental();
         initXRay();
         initAudiology();

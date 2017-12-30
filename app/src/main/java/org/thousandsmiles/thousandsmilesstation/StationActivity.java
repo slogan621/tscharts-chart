@@ -73,6 +73,7 @@ public class StationActivity extends AppCompatActivity {
         View button_bar_item = findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.GONE);
         m_appListItems.setContext(getApplicationContext());
+        m_appListItems.init();
     }
 
     private class UpdatePatientLists extends AsyncTask<Object, Object, Object> {

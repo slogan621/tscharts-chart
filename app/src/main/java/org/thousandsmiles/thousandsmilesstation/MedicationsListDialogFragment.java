@@ -149,11 +149,6 @@ public class MedicationsListDialogFragment extends DialogFragment {
         }
 
         private void getMedicationsList() {
-            int patientId = m_sess.getDisplayPatientId();
-            int clinicStationId = m_sess.getClinicStationId();
-            int queueEntryId = m_sess.getQueueEntryId(patientId);
-            int routingSlipEntryId = m_sess.setDisplayRoutingSlipEntryId(patientId);
-
             final MedicationsREST medsREST = new MedicationsREST(m_sess.getContext());
             Object lock = medsREST.getMedicationsList();
 
@@ -171,11 +166,15 @@ public class MedicationsListDialogFragment extends DialogFragment {
 
             int status = medsREST.getStatus();
             if (status == 200) {
-                AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.medsautocomplete);
-                String[] MultipleTextStringValue = SessionSingleton.getInstance().getMedicationsListStringArray();
-                ArrayAdapter<String> medNames = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MultipleTextStringValue);
-                textView.setAdapter(medNames);
-                textView.setThreshold(2);
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.medsautocomplete);
+                        String[] MultipleTextStringValue = SessionSingleton.getInstance().getMedicationsListStringArray();
+                        ArrayAdapter<String> medNames = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MultipleTextStringValue);
+                        textView.setAdapter(medNames);
+                        textView.setThreshold(2);
+                    }
+                });
             } else {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
