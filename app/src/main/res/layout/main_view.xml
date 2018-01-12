@@ -233,13 +233,6 @@
             android:visibility="gone"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/save_label"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="5dp"
-                android:text="Save" />
 
             <ImageView
                 android:id="@+id/save_image"
@@ -247,7 +240,15 @@
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
-                android:src="@drawable/checkout_selector" />
+                android:src="@drawable/save_selector" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_label"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:text="Save" />
 
         </LinearLayout>
 
