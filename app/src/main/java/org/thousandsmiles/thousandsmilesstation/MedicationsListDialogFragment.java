@@ -103,13 +103,27 @@ public class MedicationsListDialogFragment extends DialogFragment {
             }
         }
         m_adapter.removeMedicines(meds);
+        if (listView.getCount() == 0) {
+            View v = m_view.findViewById(R.id.medications_list);
+            v.setVisibility(View.GONE);
+            v = m_view.findViewById(R.id.remove_med_button);
+            v.setVisibility(View.GONE);
+        }
     }
 
     private void addMedicineToUI(String med)
     {
-        MedicationsModel medication = new MedicationsModel(med, false);
-        m_adapter.add(medication);
-        m_adapter.notifyDataSetChanged();
+        if (med.length() > 0) {
+            MedicationsModel medication = new MedicationsModel(med, false);
+            m_adapter.add(medication);
+            m_adapter.notifyDataSetChanged();
+            View v = m_view.findViewById(R.id.medications_list);
+            v.setVisibility(View.VISIBLE);
+            v = m_view.findViewById(R.id.remove_med_button);
+            v.setVisibility(View.VISIBLE);
+        } else {
+            Toast.makeText(getActivity(), R.string.msg_enter_a_medication, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private String itemsToCSV()
@@ -270,6 +284,12 @@ public class MedicationsListDialogFragment extends DialogFragment {
 
         ret.setTitle(R.string.title_edit_medications_dialog);
         configMedicationsAutocomplete();
+        if (listView.getCount() == 0) {
+            View v = m_view.findViewById(R.id.medications_list);
+            v.setVisibility(View.GONE);
+            v = m_view.findViewById(R.id.remove_med_button);
+            v.setVisibility(View.GONE);
+        }
         return ret;
     }
 }
