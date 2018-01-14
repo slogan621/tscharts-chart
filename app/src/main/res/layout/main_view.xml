@@ -10,7 +10,7 @@
     tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/item_list"
+	    android:id="@+id/item_list"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -163,18 +163,17 @@
         android:background="@color/colorThousandsmiles"
         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </View>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/checkin_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:background="@drawable/button_bar_selector"
             android:clickable="true"
             android:orientation="horizontal">
@@ -203,7 +202,7 @@
             android:layout_margin="16dp"
             android:background="@drawable/button_bar_selector"
             android:clickable="true"
-            android:visibility="gone"
+            android:visibility="visible"
             android:orientation="horizontal">
 
             <ImageView
@@ -230,9 +229,8 @@
             android:layout_margin="16dp"
             android:background="@drawable/button_bar_selector"
             android:clickable="true"
-            android:visibility="gone"
+            android:visibility="visible"
             android:orientation="horizontal">
-
 
             <ImageView
                 android:id="@+id/save_image"
@@ -249,6 +247,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
                 android:text="Save" />
+        </LinearLayout>
 
         </LinearLayout>
 
@@ -257,6 +256,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
         </View>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
         <LinearLayout
             android:id="@+id/away_button"
             android:layout_width="wrap_content"
@@ -264,7 +269,7 @@
             android:layout_margin="16dp"
             android:background="@drawable/button_bar_selector"
             android:clickable="true"
-            android:visibility="gone"
+            android:visibility="visible"
             android:orientation="horizontal">
 
             <ImageView
@@ -283,6 +288,7 @@
                 android:layout_margin="5dp"
                 android:text="Away" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
@@ -290,7 +296,7 @@
             android:layout_margin="16dp"
             android:background="@drawable/button_bar_selector"
             android:clickable="true"
-            android:visibility="gone"
+            android:visibility="visible"
             android:orientation="horizontal">
 
             <ImageView
@@ -308,6 +314,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
                 android:text="Return" />
+        </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

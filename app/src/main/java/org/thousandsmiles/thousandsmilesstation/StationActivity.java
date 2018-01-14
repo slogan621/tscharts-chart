@@ -383,15 +383,15 @@ public class StationActivity extends AppCompatActivity {
 
                 button_bar_item = findViewById(R.id.away_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
-                    button_bar_item.setVisibility(View.GONE);
+                    button_bar_item.setVisibility(View.INVISIBLE);
                 button_bar_item = findViewById(R.id.back_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
-                    button_bar_item.setVisibility(View.GONE);
+                    button_bar_item.setVisibility(View.INVISIBLE);
                 button_bar_item = findViewById(R.id.checkin_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
-                    button_bar_item.setVisibility(View.GONE);
+                    button_bar_item.setVisibility(View.INVISIBLE);
                 button_bar_item = findViewById(R.id.checkout_button);
-                if (button_bar_item.getVisibility() == View.GONE)
+                if (button_bar_item.getVisibility() == View.INVISIBLE)
                     button_bar_item.setVisibility(View.VISIBLE);
             } else if (m_isAway == true ) {
                 View recycler = findViewById(R.id.waiting_item_list_box);
@@ -410,16 +410,16 @@ public class StationActivity extends AppCompatActivity {
 
                 button_bar_item = findViewById(R.id.away_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
-                    button_bar_item.setVisibility(View.GONE);
+                    button_bar_item.setVisibility(View.INVISIBLE);
                 button_bar_item = findViewById(R.id.back_button);
-                if (button_bar_item.getVisibility() == View.GONE)
+                if (button_bar_item.getVisibility() == View.INVISIBLE)
                     button_bar_item.setVisibility(View.VISIBLE);
                 button_bar_item = findViewById(R.id.checkin_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
-                    button_bar_item.setVisibility(View.GONE);
+                    button_bar_item.setVisibility(View.INVISIBLE);
                 button_bar_item = findViewById(R.id.checkout_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
-                    button_bar_item.setVisibility(View.GONE);
+                    button_bar_item.setVisibility(View.INVISIBLE);
             } else {
                 View recycler = findViewById(R.id.waiting_item_list_box);
                 if (recycler.getVisibility() == View.INVISIBLE)
@@ -432,17 +432,17 @@ public class StationActivity extends AppCompatActivity {
                     listView.setVisibility(View.INVISIBLE);
 
                 button_bar_item = findViewById(R.id.away_button);
-                if (button_bar_item.getVisibility() == View.GONE)
+                if (button_bar_item.getVisibility() == View.INVISIBLE)
                     button_bar_item.setVisibility(View.VISIBLE);
                 button_bar_item = findViewById(R.id.back_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
-                    button_bar_item.setVisibility(View.GONE);
+                    button_bar_item.setVisibility(View.INVISIBLE);
                 button_bar_item = findViewById(R.id.checkin_button);
-                if (button_bar_item.getVisibility() == View.GONE)
+                if (button_bar_item.getVisibility() == View.INVISIBLE)
                     button_bar_item.setVisibility(View.VISIBLE);
                 button_bar_item = findViewById(R.id.checkout_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
-                    button_bar_item.setVisibility(View.GONE);
+                    button_bar_item.setVisibility(View.INVISIBLE);
 
                 View app = findViewById(R.id.app_panel);
                 if (app.getVisibility() == View.VISIBLE)
