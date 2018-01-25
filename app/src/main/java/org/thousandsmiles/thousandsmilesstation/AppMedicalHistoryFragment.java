@@ -1025,10 +1025,11 @@ public class AppMedicalHistoryFragment extends Fragment {
                         public void run() {
                             Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_got_medical_history), Toast.LENGTH_SHORT).show();
                             copyMedicalHistoryDataToUI();
-                            setViewDirtyListeners();
+
                         }
                     });
                 }
+                setViewDirtyListeners();
                 }
             };
             thread.start();
