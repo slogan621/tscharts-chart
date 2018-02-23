@@ -42,6 +42,7 @@ public class AppMedicalHistoryFragment extends Fragment {
     private SessionSingleton m_sess = null;
     private MedicalHistory m_medicalHistory;
     private boolean m_dirty = false;
+    private View m_view = null;
 
     public static AppMedicalHistoryFragment newInstance() {
         return new AppMedicalHistoryFragment();
@@ -66,193 +67,193 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         // Pregnancy
 
-        sw = (Switch) m_activity.findViewById(R.id.mother_alcohol);
+        sw = (Switch) m_view.findViewById(R.id.mother_alcohol);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isMotherAlcohol());
         }
-        sw = (Switch) m_activity.findViewById(R.id.pregnancy_smoke);
+        sw = (Switch) m_view.findViewById(R.id.pregnancy_smoke);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isPregnancySmoke());
         }
-        sw = (Switch) m_activity.findViewById(R.id.pregnancy_complications);
+        sw = (Switch) m_view.findViewById(R.id.pregnancy_complications);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isPregnancyComplications());
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.pregnancy_duration);
+        tx = (TextView) m_view.findViewById(R.id.pregnancy_duration);
         if (tx != null) {
             tx.setText(String.format("%d", m_medicalHistory.getPregnancyDuration()));
         }
 
         // Birth
 
-        sw = (Switch) m_activity.findViewById(R.id.birth_complications);
+        sw = (Switch) m_view.findViewById(R.id.birth_complications);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isBirthComplications());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.congenitalheartdefect);
+        sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isCongenitalHeartDefect());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.congenitalheartdefect_workup);
+        sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect_workup);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isCongenitalHeartDefectWorkup());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.congenitalheartdefect_planforcare);
+        sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect_planforcare);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isCongenitalHeartDefectPlanForCare());
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.birth_weight);
+        tx = (TextView) m_view.findViewById(R.id.birth_weight);
         if (tx != null) {
             tx.setText(String.format("%d", m_medicalHistory.getBirthWeight()));
         }
 
         bv = m_medicalHistory.isBirthWeightMetric();
-        rb = (RadioButton) m_activity.findViewById(R.id.birth_weight_kg);
+        rb = (RadioButton) m_view.findViewById(R.id.birth_weight_kg);
         rb.setChecked(bv);
-        rb = (RadioButton) m_activity.findViewById(R.id.birth_weight_lb);
+        rb = (RadioButton) m_view.findViewById(R.id.birth_weight_lb);
         rb.setChecked(!bv);
 
         // Growth Stages
 
-        tx = (TextView) m_activity.findViewById(R.id.first_crawl);
+        tx = (TextView) m_view.findViewById(R.id.first_crawl);
         if (tx != null) {
             tx.setText(String.format("%d", m_medicalHistory.getFirstCrawl()));
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.first_sit);
+        tx = (TextView) m_view.findViewById(R.id.first_sit);
         if (tx != null) {
             tx.setText(String.format("%d", m_medicalHistory.getFirstSit()));
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.first_words);
+        tx = (TextView) m_view.findViewById(R.id.first_words);
         if (tx != null) {
             tx.setText(String.format("%d", m_medicalHistory.getFirstWords()));
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.first_walk);
+        tx = (TextView) m_view.findViewById(R.id.first_walk);
         if (tx != null) {
             tx.setText(String.format("%d", m_medicalHistory.getFirstWalk()));
         }
 
         // Family History
 
-        sw = (Switch) m_activity.findViewById(R.id.parents_cleft);
+        sw = (Switch) m_view.findViewById(R.id.parents_cleft);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isParentsCleft());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.siblings_cleft);
+        sw = (Switch) m_view.findViewById(R.id.siblings_cleft);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isSiblingsCleft());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.relative_cleft);
+        sw = (Switch) m_view.findViewById(R.id.relative_cleft);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isRelativeCleft());
         }
 
         // Current Health
 
-        tx = (TextView) m_activity.findViewById(R.id.height);
+        tx = (TextView) m_view.findViewById(R.id.height);
         if (tx != null) {
             tx.setText(String.format("%d", m_medicalHistory.getHeight()));
         }
 
         bv = m_medicalHistory.isHeightMetric();
-        rb = (RadioButton) m_activity.findViewById(R.id.height_cm);
+        rb = (RadioButton) m_view.findViewById(R.id.height_cm);
         rb.setChecked(bv);
-        rb = (RadioButton) m_activity.findViewById(R.id.height_in);
+        rb = (RadioButton) m_view.findViewById(R.id.height_in);
         rb.setChecked(!bv);
 
-        tx = (TextView) m_activity.findViewById(R.id.weight);
+        tx = (TextView) m_view.findViewById(R.id.weight);
         if (tx != null) {
             tx.setText(String.format("%d", m_medicalHistory.getWeight()));
         }
 
         bv = m_medicalHistory.isWeightMetric();
-        rb = (RadioButton) m_activity.findViewById(R.id.weight_kg);
+        rb = (RadioButton) m_view.findViewById(R.id.weight_kg);
         rb.setChecked(bv);
-        rb = (RadioButton) m_activity.findViewById(R.id.weight_lb);
+        rb = (RadioButton) m_view.findViewById(R.id.weight_lb);
         rb.setChecked(!bv);
 
-        sw = (Switch) m_activity.findViewById(R.id.cold_cough_fever);
+        sw = (Switch) m_view.findViewById(R.id.cold_cough_fever);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isColdCoughFever());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.hivaids);
+        sw = (Switch) m_view.findViewById(R.id.hivaids);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isHivaids());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.anemia);
+        sw = (Switch) m_view.findViewById(R.id.anemia);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isAnemia());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.athsma);
+        sw = (Switch) m_view.findViewById(R.id.athsma);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isAthsma());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.cancer);
+        sw = (Switch) m_view.findViewById(R.id.cancer);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isCancer());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.diabetes);
+        sw = (Switch) m_view.findViewById(R.id.diabetes);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isDiabetes());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.epilepsy);
+        sw = (Switch) m_view.findViewById(R.id.epilepsy);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isEpilepsy());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.bleeding_problems);
+        sw = (Switch) m_view.findViewById(R.id.bleeding_problems);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isBleedingProblems());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.hepititis);
+        sw = (Switch) m_view.findViewById(R.id.hepititis);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isHepititis());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.tuberculosis);
+        sw = (Switch) m_view.findViewById(R.id.tuberculosis);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isTuberculosis());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.troubleeating);
+        sw = (Switch) m_view.findViewById(R.id.troubleeating);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isTroubleEating());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.troublehearing);
+        sw = (Switch) m_view.findViewById(R.id.troublehearing);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isTroubleHearing());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.troublespeaking);
+        sw = (Switch) m_view.findViewById(R.id.troublespeaking);
         if (sw != null) {
             sw.setChecked(m_medicalHistory.isTroubleSpeaking());
         }
 
         // Medications
 
-        tx = (TextView) m_activity.findViewById(R.id.meds);
+        tx = (TextView) m_view.findViewById(R.id.meds);
         if (tx != null) {
             tx.setText(m_medicalHistory.getMeds());
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.allergymeds);
+        tx = (TextView) m_view.findViewById(R.id.allergymeds);
         if (tx != null) {
             tx.setText(m_medicalHistory.getAllergyMeds());
         }
@@ -285,7 +286,7 @@ public class AppMedicalHistoryFragment extends Fragment {
         TextView tx;
         RadioButton rb;
 
-        sw = (Switch) m_activity.findViewById(R.id.mother_alcohol);
+        sw = (Switch) m_view.findViewById(R.id.mother_alcohol);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -293,7 +294,7 @@ public class AppMedicalHistoryFragment extends Fragment {
                 }
             });
         }
-        sw = (Switch) m_activity.findViewById(R.id.pregnancy_smoke);
+        sw = (Switch) m_view.findViewById(R.id.pregnancy_smoke);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -301,7 +302,7 @@ public class AppMedicalHistoryFragment extends Fragment {
                 }
             });
         }
-        sw = (Switch) m_activity.findViewById(R.id.pregnancy_complications);
+        sw = (Switch) m_view.findViewById(R.id.pregnancy_complications);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -309,7 +310,7 @@ public class AppMedicalHistoryFragment extends Fragment {
                 }
             });
         }
-        tx = (TextView) m_activity.findViewById(R.id.pregnancy_duration);
+        tx = (TextView) m_view.findViewById(R.id.pregnancy_duration);
         if (tx != null) {
             tx.addTextChangedListener(new TextWatcher() {
 
@@ -331,7 +332,7 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         // Birth
 
-        sw = (Switch) m_activity.findViewById(R.id.birth_complications);
+        sw = (Switch) m_view.findViewById(R.id.birth_complications);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -340,7 +341,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.congenitalheartdefect);
+        sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -349,7 +350,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.congenitalheartdefect_workup);
+        sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect_workup);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -358,7 +359,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.congenitalheartdefect_planforcare);
+        sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect_planforcare);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -367,7 +368,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.birth_weight);
+        tx = (TextView) m_view.findViewById(R.id.birth_weight);
         if (tx != null) {
             tx.addTextChangedListener(new TextWatcher() {
 
@@ -387,7 +388,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        rb = (RadioButton) m_activity.findViewById(R.id.birth_weight_kg);
+        rb = (RadioButton) m_view.findViewById(R.id.birth_weight_kg);
         if (rb != null) {
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -396,7 +397,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        rb = (RadioButton) m_activity.findViewById(R.id.birth_weight_lb);
+        rb = (RadioButton) m_view.findViewById(R.id.birth_weight_lb);
         if (rb != null) {
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -407,7 +408,7 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         // Growth Stages
 
-        tx = (TextView) m_activity.findViewById(R.id.first_crawl);
+        tx = (TextView) m_view.findViewById(R.id.first_crawl);
         if (tx != null) {
             tx.addTextChangedListener(new TextWatcher() {
 
@@ -427,7 +428,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.first_sit);
+        tx = (TextView) m_view.findViewById(R.id.first_sit);
         if (tx != null) {
             tx.addTextChangedListener(new TextWatcher() {
 
@@ -447,7 +448,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.first_words);
+        tx = (TextView) m_view.findViewById(R.id.first_words);
         if (tx != null) {
             tx.addTextChangedListener(new TextWatcher() {
 
@@ -467,7 +468,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.first_walk);
+        tx = (TextView) m_view.findViewById(R.id.first_walk);
         if (tx != null) {
             tx.addTextChangedListener(new TextWatcher() {
 
@@ -489,7 +490,7 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         // Family History
 
-        sw = (Switch) m_activity.findViewById(R.id.parents_cleft);
+        sw = (Switch) m_view.findViewById(R.id.parents_cleft);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -498,7 +499,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.siblings_cleft);
+        sw = (Switch) m_view.findViewById(R.id.siblings_cleft);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -507,7 +508,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.relative_cleft);
+        sw = (Switch) m_view.findViewById(R.id.relative_cleft);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -518,7 +519,7 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         // Current Health
 
-        tx = (TextView) m_activity.findViewById(R.id.height);
+        tx = (TextView) m_view.findViewById(R.id.height);
         if (tx != null) {
             tx.addTextChangedListener(new TextWatcher() {
 
@@ -538,7 +539,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        rb = (RadioButton) m_activity.findViewById(R.id.height_cm);
+        rb = (RadioButton) m_view.findViewById(R.id.height_cm);
         if (rb != null) {
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -547,7 +548,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        rb = (RadioButton) m_activity.findViewById(R.id.height_in);
+        rb = (RadioButton) m_view.findViewById(R.id.height_in);
         if (rb != null) {
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -556,7 +557,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.weight);
+        tx = (TextView) m_view.findViewById(R.id.weight);
         if (tx != null) {
 
             tx.addTextChangedListener(new TextWatcher() {
@@ -577,7 +578,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        rb = (RadioButton) m_activity.findViewById(R.id.weight_kg);
+        rb = (RadioButton) m_view.findViewById(R.id.weight_kg);
         if (rb != null) {
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -586,7 +587,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        rb = (RadioButton) m_activity.findViewById(R.id.weight_lb);
+        rb = (RadioButton) m_view.findViewById(R.id.weight_lb);
         if (rb != null) {
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -595,7 +596,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.cold_cough_fever);
+        sw = (Switch) m_view.findViewById(R.id.cold_cough_fever);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -604,7 +605,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.hivaids);
+        sw = (Switch) m_view.findViewById(R.id.hivaids);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -613,7 +614,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.anemia);
+        sw = (Switch) m_view.findViewById(R.id.anemia);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -622,7 +623,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.athsma);
+        sw = (Switch) m_view.findViewById(R.id.athsma);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -631,7 +632,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.cancer);
+        sw = (Switch) m_view.findViewById(R.id.cancer);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -640,7 +641,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.diabetes);
+        sw = (Switch) m_view.findViewById(R.id.diabetes);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -649,7 +650,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.epilepsy);
+        sw = (Switch) m_view.findViewById(R.id.epilepsy);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -658,7 +659,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.bleeding_problems);
+        sw = (Switch) m_view.findViewById(R.id.bleeding_problems);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -667,7 +668,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.hepititis);
+        sw = (Switch) m_view.findViewById(R.id.hepititis);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -676,7 +677,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.tuberculosis);
+        sw = (Switch) m_view.findViewById(R.id.tuberculosis);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -685,7 +686,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.troubleeating);
+        sw = (Switch) m_view.findViewById(R.id.troubleeating);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -694,7 +695,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.troublehearing);
+        sw = (Switch) m_view.findViewById(R.id.troublehearing);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -703,7 +704,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.troublespeaking);
+        sw = (Switch) m_view.findViewById(R.id.troublespeaking);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -714,7 +715,7 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         // Medications
 
-        final TextView tx1 = (TextView) m_activity.findViewById(R.id.meds);
+        final TextView tx1 = (TextView) m_view.findViewById(R.id.meds);
         if (tx1 != null) {
             tx1.setShowSoftInputOnFocus(false);
             tx1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -755,7 +756,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        final TextView tx2 = (TextView) m_activity.findViewById(R.id.allergymeds);
+        final TextView tx2 = (TextView) m_view.findViewById(R.id.allergymeds);
         if (tx2 != null) {
             tx2.setShowSoftInputOnFocus(false);
             tx2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -811,194 +812,194 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         // Pregnancy
 
-        sw = (Switch) m_activity.findViewById(R.id.mother_alcohol);
+        sw = (Switch) m_view.findViewById(R.id.mother_alcohol);
         if (sw != null) {
             mh.setMotherAlcohol(sw.isChecked());
         }
-        sw = (Switch) m_activity.findViewById(R.id.pregnancy_smoke);
+        sw = (Switch) m_view.findViewById(R.id.pregnancy_smoke);
         if (sw != null) {
             mh.setPregnancySmoke(sw.isChecked());
         }
-        sw = (Switch) m_activity.findViewById(R.id.pregnancy_complications);
+        sw = (Switch) m_view.findViewById(R.id.pregnancy_complications);
         if (sw != null) {
             mh.setPregnancyComplications(sw.isChecked());
         }
-        tx = (TextView) m_activity.findViewById(R.id.pregnancy_duration);
+        tx = (TextView) m_view.findViewById(R.id.pregnancy_duration);
         if (tx != null) {
             mh.setPregnancyDuration(Integer.parseInt(tx.getText().toString()));
         }
 
         // Birth
 
-        sw = (Switch) m_activity.findViewById(R.id.birth_complications);
+        sw = (Switch) m_view.findViewById(R.id.birth_complications);
         if (sw != null) {
             mh.setBirthComplications(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.congenitalheartdefect);
+        sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect);
         if (sw != null) {
             mh.setCongenitalHeartDefect(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.congenitalheartdefect_workup);
+        sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect_workup);
         if (sw != null) {
             mh.setCongenitalHeartDefectWorkup(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.congenitalheartdefect_planforcare);
+        sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect_planforcare);
         if (sw != null) {
             mh.setCongenitalHeartDefectPlanForCare(sw.isChecked());
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.birth_weight);
+        tx = (TextView) m_view.findViewById(R.id.birth_weight);
         if (tx != null) {
             mh.setBirthWeight(Integer.parseInt(tx.getText().toString()));
         }
 
-        rb = (RadioButton) m_activity.findViewById(R.id.birth_weight_kg);
+        rb = (RadioButton) m_view.findViewById(R.id.birth_weight_kg);
         if (rb != null) {
             mh.setBirthWeightMetric(rb.isChecked());
         }
 
         // Growth Stages
 
-        tx = (TextView) m_activity.findViewById(R.id.first_crawl);
+        tx = (TextView) m_view.findViewById(R.id.first_crawl);
         if (tx != null) {
             mh.setFirstCrawl(Integer.parseInt(tx.getText().toString()));
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.first_sit);
+        tx = (TextView) m_view.findViewById(R.id.first_sit);
         if (tx != null) {
             mh.setFirstSit(Integer.parseInt(tx.getText().toString()));
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.first_words);
+        tx = (TextView) m_view.findViewById(R.id.first_words);
         if (tx != null) {
             mh.setFirstWords(Integer.parseInt(tx.getText().toString()));
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.first_walk);
+        tx = (TextView) m_view.findViewById(R.id.first_walk);
         if (tx != null) {
             mh.setFirstWalk(Integer.parseInt(tx.getText().toString()));
         }
 
         // Family History
 
-        sw = (Switch) m_activity.findViewById(R.id.parents_cleft);
+        sw = (Switch) m_view.findViewById(R.id.parents_cleft);
         if (sw != null) {
             mh.setParentsCleft(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.siblings_cleft);
+        sw = (Switch) m_view.findViewById(R.id.siblings_cleft);
         if (sw != null) {
             mh.setSiblingsCleft(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.relative_cleft);
+        sw = (Switch) m_view.findViewById(R.id.relative_cleft);
         if (sw != null) {
             mh.setRelativeCleft(sw.isChecked());
         }
 
         // Current Health
 
-        tx = (TextView) m_activity.findViewById(R.id.height);
+        tx = (TextView) m_view.findViewById(R.id.height);
         if (tx != null) {
             mh.setHeight(Integer.parseInt(tx.getText().toString()));
         }
 
-        rb = (RadioButton) m_activity.findViewById(R.id.height_cm);
+        rb = (RadioButton) m_view.findViewById(R.id.height_cm);
         if (rb != null) {
             mh.setHeightMetric(rb.isChecked());
         }
 
-        rb = (RadioButton) m_activity.findViewById(R.id.height_in);
+        rb = (RadioButton) m_view.findViewById(R.id.height_in);
         if (rb != null) {
             mh.setHeightMetric(rb.isChecked());
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.weight);
+        tx = (TextView) m_view.findViewById(R.id.weight);
         if (tx != null) {
             mh.setWeight(Integer.parseInt(tx.getText().toString()));
         }
 
-        rb = (RadioButton) m_activity.findViewById(R.id.weight_kg);
+        rb = (RadioButton) m_view.findViewById(R.id.weight_kg);
         if (rb != null) {
             mh.setWeightMetric(rb.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.cold_cough_fever);
+        sw = (Switch) m_view.findViewById(R.id.cold_cough_fever);
         if (sw != null) {
             mh.setColdCoughFever(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.hivaids);
+        sw = (Switch) m_view.findViewById(R.id.hivaids);
         if (sw != null) {
             mh.setHivaids(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.anemia);
+        sw = (Switch) m_view.findViewById(R.id.anemia);
         if (sw != null) {
             mh.setAnemia(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.athsma);
+        sw = (Switch) m_view.findViewById(R.id.athsma);
         if (sw != null) {
             mh.setAthsma(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.cancer);
+        sw = (Switch) m_view.findViewById(R.id.cancer);
         if (sw != null) {
             mh.setCancer(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.diabetes);
+        sw = (Switch) m_view.findViewById(R.id.diabetes);
         if (sw != null) {
             mh.setDiabetes(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.epilepsy);
+        sw = (Switch) m_view.findViewById(R.id.epilepsy);
         if (sw != null) {
             mh.setEpilepsy(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.bleeding_problems);
+        sw = (Switch) m_view.findViewById(R.id.bleeding_problems);
         if (sw != null) {
             mh.setBleedingProblems(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.hepititis);
+        sw = (Switch) m_view.findViewById(R.id.hepititis);
         if (sw != null) {
             mh.setHepititis(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.tuberculosis);
+        sw = (Switch) m_view.findViewById(R.id.tuberculosis);
         if (sw != null) {
             mh.setTuberculosis(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.troubleeating);
+        sw = (Switch) m_view.findViewById(R.id.troubleeating);
         if (sw != null) {
             mh.setTroubleEating(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.troublehearing);
+        sw = (Switch) m_view.findViewById(R.id.troublehearing);
         if (sw != null) {
             mh.setTroubleHearing(sw.isChecked());
         }
 
-        sw = (Switch) m_activity.findViewById(R.id.troublespeaking);
+        sw = (Switch) m_view.findViewById(R.id.troublespeaking);
         if (sw != null) {
             mh.setTroubleSpeaking(sw.isChecked());
         }
 
         // Medications
 
-        tx = (TextView) m_activity.findViewById(R.id.meds);
+        tx = (TextView) m_view.findViewById(R.id.meds);
         if (tx != null) {
             mh.setMeds(tx.getText().toString());
         }
 
-        tx = (TextView) m_activity.findViewById(R.id.allergymeds);
+        tx = (TextView) m_view.findViewById(R.id.allergymeds);
         if (tx != null) {
             mh.setAllergyMeds(tx.getText().toString());
         }
@@ -1139,7 +1140,7 @@ public class AppMedicalHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_medical_history_layout, container, false);
-
+        m_view  = view;
         return view;
     }
 
