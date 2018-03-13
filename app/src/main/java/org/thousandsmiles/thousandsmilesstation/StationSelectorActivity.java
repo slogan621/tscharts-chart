@@ -142,6 +142,7 @@ public class StationSelectorActivity extends AppCompatActivity {
     private void LayoutClinicStationGrid() {
         TableLayout layout = (TableLayout) findViewById(R.id.namestablelayout);
 
+        layout.removeAllViews();
         int numClinicStations = m_sess.getClinicStationCount();
 
         TableRow row = null;
@@ -237,27 +238,12 @@ public class StationSelectorActivity extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_station_selector);
 
-        /*
-        Button button = (Button) findViewById(R.id.patient_search_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            LayoutSearchResults();
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(v.getWindowToken(),
-                    InputMethodManager.RESULT_UNCHANGED_SHOWN);
-            HideyHelper h = new HideyHelper();
-            }
-
-        });
-        */
         m_context = getApplicationContext();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //HideyHelper h = new HideyHelper();
-        //h.toggleHideyBar(this);
 
         final ClinicREST clinicREST = new ClinicREST(m_context);
 
@@ -302,11 +288,6 @@ public class StationSelectorActivity extends AppCompatActivity {
                         }
                     });
                 }
-                /*
-                m_task = new GetAndDisplayTask();
-                m_task.setContext(getApplicationContext());
-                m_task.execute();
-                */
                 return;
             } else if (status == 101) {
                 StationSelectorActivity.this.runOnUiThread(new Runnable() {
