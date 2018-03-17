@@ -27,6 +27,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -69,7 +70,7 @@ public class StationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_detail);
+        setContentView(R.layout.main_view);
         View button_bar_item = findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.GONE);
         m_appListItems.setContext(getApplicationContext());
@@ -502,6 +503,13 @@ public class StationActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
+        final View root = getWindow().getDecorView().getRootView();
+        root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                goImmersive();
+            }
+        });
         instance = this;
         m_sess.clearPatientData();
         if (m_task == null) {
@@ -734,5 +742,23 @@ public class StationActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            goImmersive();
+        }
+    }
+
+    public void goImmersive() {
+        View v1 = getWindow().getDecorView().getRootView();
+        v1.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 }
