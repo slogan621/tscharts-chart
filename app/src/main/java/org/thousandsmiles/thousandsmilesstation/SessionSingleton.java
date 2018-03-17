@@ -18,6 +18,7 @@
 package org.thousandsmiles.thousandsmilesstation;
 
 import android.content.Context;
+import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -859,6 +860,56 @@ public class SessionSingleton {
             return;
         }
         m_patientData.put(id, data);
+    }
+
+    public void updatePatientMedicalHistory(MedicalHistory mh) {
+        m_displayPatientMedicalHistory = mh;
+    }
+
+    void updateMedicalHistory(/*final RESTCompletionListener listener */)
+    {
+        boolean ret = false;
+
+        Thread thread = new Thread(){
+            public void run() {
+                // note we use session context because this may be called after onPause()
+                MedicalHistoryREST rest = new MedicalHistoryREST(getContext());
+                //rest.addListener(listener);
+                Object lock;
+                int status;
+
+                lock = rest.updateMedicalHistory(m_displayPatientMedicalHistory);
+
+                synchronized (lock) {
+                    // we loop here in case of race conditions or spurious interrupts
+                    while (true) {
+                        try {
+                            lock.wait();
+                            break;
+                        } catch (InterruptedException e) {
+                            continue;
+                        }
+                    }
+                }
+                status = rest.getStatus();
+                if (status != 200) {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), getContext().getString(R.string.msg_unable_to_save_medical_history), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), getContext().getString(R.string.msg_successfully_saved_medical_history), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        };
+        thread.start();
     }
 
     public MedicalHistory getMedicalHistory(int clinicid, int patientid)

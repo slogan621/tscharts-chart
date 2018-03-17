@@ -1026,11 +1026,11 @@ public class AppMedicalHistoryFragment extends Fragment {
                         public void run() {
                             Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_got_medical_history), Toast.LENGTH_SHORT).show();
                             copyMedicalHistoryDataToUI();
+                            setViewDirtyListeners();
 
                         }
                     });
                 }
-                setViewDirtyListeners();
                 }
             };
             thread.start();
@@ -1108,7 +1108,7 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         super.onPause();
 
-        MedicalHistory mh = this.copyMedicalHistoryDataFromUI();
+        final MedicalHistory mh = this.copyMedicalHistoryDataFromUI();
 
         if (m_dirty || mh.equals(m_medicalHistory) == false) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -1118,6 +1118,8 @@ public class AppMedicalHistoryFragment extends Fragment {
 
             builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
+                    m_sess.updatePatientMedicalHistory(mh);
+                    m_sess.updateMedicalHistory();
                     dialog.dismiss();
                 }
             });
