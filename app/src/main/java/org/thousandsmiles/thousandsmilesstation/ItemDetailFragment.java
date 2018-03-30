@@ -84,6 +84,8 @@ public class ItemDetailFragment extends Fragment {
         try {
             if (mItem != null && mItem.pObject != null) {
                 m_sess.setDisplayPatientId(Integer.parseInt(mItem.pObject.getString("id")));
+            } else {
+                m_sess.setDisplayPatientId(-1);
             }
         } catch (JSONException e) {
         }

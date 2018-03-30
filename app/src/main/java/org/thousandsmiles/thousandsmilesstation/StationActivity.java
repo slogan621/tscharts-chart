@@ -438,9 +438,15 @@ public class StationActivity extends AppCompatActivity {
                 button_bar_item = findViewById(R.id.back_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.INVISIBLE);
+
                 button_bar_item = findViewById(R.id.checkin_button);
-                if (button_bar_item.getVisibility() == View.INVISIBLE)
-                    button_bar_item.setVisibility(View.VISIBLE);
+                if (m_sess.getDisplayPatientId() != -1 || (m_sess.isWaiting() && m_sess.getWaitingPatientItem() != null)) {
+                    if (button_bar_item.getVisibility() == View.INVISIBLE) {
+                        button_bar_item.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    button_bar_item.setVisibility(View.INVISIBLE);
+                }
                 button_bar_item = findViewById(R.id.checkout_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.INVISIBLE);
@@ -655,6 +661,7 @@ public class StationActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (m_twoPane) {
+                        updateViewVisibilities();
                         Bundle arguments = new Bundle();
                         arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                         arguments.putBoolean("isWaiting", m_isWaiting);

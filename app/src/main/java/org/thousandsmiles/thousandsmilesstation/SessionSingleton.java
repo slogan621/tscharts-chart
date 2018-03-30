@@ -66,7 +66,7 @@ public class SessionSingleton {
     private ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
     private ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
     private ArrayList<String> m_medicationsList = new ArrayList<String>();
-    private int m_displayPatientId; // id of the patient that will get checked in/checked out when the corresponding button is pressed
+    private int m_displayPatientId = -1; // id of the patient that will get checked in/checked out when the corresponding button is pressed
     private int m_displayRoutingSlipEntryId; // id of the routingslip for m_displayPatientId
     // XXX Consider moving these station class names to the API
 
