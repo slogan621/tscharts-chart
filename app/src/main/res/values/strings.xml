@@ -169,5 +169,4 @@
     <string name="msg_are_you_sure_you_want_to_exit">Are you sure you want to exit?</string>
     <string name="title_edit_medications_dialog">Add or Remove Medications</string>
     <string name="msg_enter_a_medication">Enter a medication then click add</string>
-
 </resources>

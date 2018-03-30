@@ -1,0 +1,167 @@
+<resources> 
+    <string name="app_name"> Estación 1000 Sonrisas</string>
+    <string name="app_name_full"> Estación Mil Sonrisas</string>
+    <string name="title_item_detail">Detalle de posición</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Nombre de usuario</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_sign_in">Iniciar sesión</string>
+    <string name="action_sign_in_short"> Iniciar sesión</string>
+<string name="error_invalid_email">Este correo electrónico no es válido</string>
+    <string name="error_clinic_not_found_date"> No se encuentra clínica activa en esta fecha</string> 
+    <string name="error_invalid_password">Esta contraseña es muy corta</string>
+    <string name="error_invalid_username_or_password">Nombre o contraseña no válido</string> 
+    <string name="error_incorrect_password">Esta contraseña es incorrecta</string>
+    <string name="error_field_required">Se requiere este campo</string>
+    <string name="error_internal_bad_request">Pedido inválido. Reportar este problema</string>
+    <string name="error_internal_error"> Error interno. Reportar este problema</string>
+    <string name="error_unknown"> Error interno. Reportar este problema </string>
+    <string name="error_unable_to_connect"> No se puede conectar. Asegúrese de estar conectado el inalámbrico, que la dirección IP y las configuraciones del puerto son correctas, y que la conexión al internet está presente.</string>
+    <string name="error_unable_to_get_clinicstation_data">No se logra obtener datos de la clínicaestación</string>
+    <string name="permission_rationale">"Se requiere autorizaciones para contactos para ofrecer finalización de correos electrónicos."</string>
+<string name="column_label_waiting">Pacientes a la espera</string>
+<string name="column_label_active"> Pacientes activos</string>
+<!-- Strings related to Settings -->
+ <!-- Example General settings --> 
+<string name="pref_header_general">General</string>
+<string name="action_settings">Configuraciones</string>
+ <string name="title_activity_settings"> Configuraciones</string>
+ <string name="title_station_status"> Estación Clínica Mil Sonrisas</string>
+<string name="title_station_selector">Seleccionar Estación Clínica</string>
+
+    <!-- button labels -->
+
+    <string name="button_select"> Seleccionar</string>
+
+    <!-- Checkout -->
+
+<string name="checkout_yes">Salir</string>
+    <string name="checkout_cancel">Cancelar</string>
+    <string name="checkout_return_no">No volver</string>
+    <string name="checkout_return_3">Volver en 3 meses</string>
+    <string name="checkout_return_6">Volver en 6 meses</string>
+    <string name="checkout_return_9">Volver en 9 meses</string>
+    <string name="checkout_return_12"> Volver en un año</string>
+
+    <string name="label_checkout_optional_msg">(Opcional) Mensaje:</string>
+    <string name="title_checkout_dialog">Salida Paciente</string>
+
+    <string name="away_yes">No está presente</string>
+    <string name="away_cancel">Cancelar</string>
+    <string name="away_return5">Volver en 5 minutos</string>
+    <string name="away_return15"> Volver en 15 minutos</string>
+    <string name="away_return30"> Volver en 30 minutos</string>
+    <string name="away_return60"> Volver en 60 minutos</string>
+    <string name="title_away_dialog">Seleccionar duración fuera de la estación</string>
+
+
+    <!-- Medical History -->
+    <string name="pregnancy">Embarazo</string>
+    <string name="mother_alcohol">¿Consumió alcohol la madre durante el embarazo?</string>
+    <string name="pregnancy_duration">Duración del embarazo (meses)</string>
+    <string name="pregnancy_smoke">¿Se llevó a cabo el embarazo en un ambiente donde se fuma?</string>
+    <string name="pregnancy_complications">¿Hubo complicaciones con el embarazo?</string>
+    <string name="birth">Birth</string>
+    <string name="birth_complications">¿Hubo complicaciones durante el parto?</string>
+    <string name="birth_weight">Birth weight</string>
+    <string name="congenitalheartdefect">¿Tiene el niño defecto congénito del corazón?</string> 
+    <string name="congenitalheartdefect_workup">Si el niño tiene un defecto congénito del corazón, ¿tuvo una rutina diagnóstica al nacer?</string>
+    <string name="congenitalheartdefect_planforcare"> Si el niño tiene un defecto congénito del corazón, ¿se le creó un plan de atención?</string>
+    <string name="growth_stages">Growth Stages</string>
+    <string name="first_crawl">El mes en el que el niño comenzó a gatear</string>
+    <string name="first_sit"> El mes en el que el niño comenzó a sentarse</string>
+    <string name="first_words"> El mes en el que el niño comenzó a hablar</string>
+    <string name="first_walk"> El mes en el que el niño comenzó a caminar</string>
+    <string name="family_history"> Historial Familiar</string>
+    <string name="relative_cleft">¿Tuvo hendidura algún pariente del niño?
+</string>     <string name="parents_cleft">¿Tuvo hendidura uno de los dos padres del niño?</string> ">
+    <string name="siblings_cleft">¿Tuvo hendidura una de las hermanas o uno de los hermanos del niño?</string>
+    <string name="current_health">Salud actual</string> 
+    <string name="height">Altura</string>
+    <string name="weight">Peso</string>
+    <string name="cold_cough_fever">¿Tiene el niño resfrío, tos o fiebre?</string>  
+    <string name="hivaids">¿Tiene el niño VIH o SIDA?</string>
+    <string name="anemia">¿Está anémico el niño?</string>
+    <string name="asthma">¿Sufre de asma el niño?</string>
+    <string name="cancer">¿Tiene el niño cáncer?</string>
+    <string name="diabetes">¿Tiene el niño diabetes?</string>
+    <string name="epilepsy">¿Tiene el niño epilepsia?</string>
+    <string name="bleeding_problems">¿Sufre el niño de problemas de sangrado?</string>
+    <string name="hepatitis">¿Tiene el niño hepatitis?</string>
+    <string name="tuberculosis">¿Tiene el niño tuberculosis?</string>
+    <string name="troublespeaking">¿Tiene el niño dificultades al hablar?</string>
+    <string name="troublehearing"> Tiene el niño dificultades de audición?</string>
+    <string name="troubleeating"> Tiene el niño dificultades con alimentarse?</string>
+    <string name="medications">Medicamentos</string>
+    <string name="meds"> Todos los medicamentos que toma actualmente el paciente</string>     
+    <string name="allergymeds"> Todos los medicamentos a los cuales el paciente tiene alergia</string>    
+<string name="cm">cm</string>
+    <string name="in">pulg</string>
+    <string name="kg">kg</string>
+    <string name="lb">lb</string>
+
+    <string name="title_select_medications_dialog">Seleccionar medicamentos</string>
+    <string name="select_medications_yes">Actualizar</string>
+    <string name="select_medications_cancel">Cancelar</string>
+
+    <string name="medical_history_name">Historial médico</string>
+    <string name="routing_slip_name">Ficha de transmisión</string>
+
+    <string name="station_name_dental">Dental</string>
+    <string name="station_name_x_ray">Rayos X</string>
+    <string name="station_name_audiology">Audiología</string>
+    <string name="station_name_speech">El habla</string>
+    <string name="station_name_ent">ENT</string>
+    <string name="station_name_surgery_screening">Cribado cirúrgico</string>
+    <string name="station_name_ortho">Orto</string>
+    <string name="title_current_medications_dialog"> Diálogo medicamentos actuales</string>
+    <string name="title_allergy_medications_dialog"> Diálogo medicamentos anti-alérgicos</string>
+    <string name="msg_unable_to_get_medical_history">No se logra obtener datos del historial médico</string> 
+    <string name="msg_successfully_got_medical_history">Se logró obtener datos del historial médico</string> 
+    <string name="msg_successfully_saved_medical_history">Se logró guardar historial médico</string>
+    <string name="msg_unable_to_save_medical_history">No se logró guardar historial médico</string>
+    <string name="title_unsaved_medical_history">Cambios sin guardar del historial médico</string> 
+    <string name="msg_save_medical_history">¿Guardar cambios al historial médico?</string> 
+    <string name="button_yes">Sí</string>
+    <string name="button_no">No</string>
+    <string name="msg_unable_to_get_routing_slip">No se logró obtener datos de la ficha de transmisión</string>
+    <string name="msg_successfully_got_routing_slip">Se logró obtener datos de la ficha de transmisión</string>
+    <string name="unable_to_add_routing_slip_entry">No se logró añadir entrada de la ficha de transmisión</string> 
+    <string name="unable_to_remove_routing_slip_entry">No se logró eliminar entrada de la ficha de transmisión</string>
+    <string name="title_unsaved_routing_slip">Cambios sin guardar a la ficha de transmisión</string> 
+    <string name="msg_save_routing_slip">¿Guardar cambios a la ficha de transmisión?</string>
+    <string name="column_label_available_stations">Estaciones disponibles</string>     <string name="column_label_current_routing_slip">Ficha de transmisión actual</string>
+    <string name="msg_patient_successfully_checked_out"> El paciente se dio de alta con éxito</string> 
+    <string name="msg_unable_to_update_state_change_object">No se logra actualizar declarar cambio de objeto</string> 
+    <string name="unable_to_update_routing_slip"> No se logra actualizar ficha de transmisión</string>
+    <string name="unable_to_set_clinic_station_state"> No se logra establecer estado de la estación de clínica</string> 
+    <string name="msg_return_to_clinic_successfully_created">Volver a la clínica creado con éxito</string>
+    <string name="msg_unable_to_create_return_to_clinic">No se logra crear volver a la clínica para el paciente</string> 
+    <string name="msg_unable_to_get_medications_list">No se logra obtener lista de medicamentos</string> 
+    <string name="label_version">Versión</string>
+    <string name="msg_successful_away_state">Se logró poner la estación en estado ausente</string> 
+    <string name="msg_unsuccessful_away_state">No se logró poner la estación en estado ausente</string>
+    <string name="msg_successful_station_active">Se logró hacer la estación activa</string> 
+    <string name="msg_unsuccessful_station_active">No se logró hacer la estación activa</string>
+    <string name="msg_unable_process_station">No se logró procesar esta estación. Intente otra vez.</string> 
+    <string name="question_sign_in_to_station">¿Registrarse en la estación de la clínica %s?</string> 
+    <string name="msg_select_another_station">Seleccionar otra estación</string>
+    <string name="title_return_to_clinic">Volver a la clínica</string>
+    <string name="msg_away">Ausente</string>
+    <string name="msg_patient_signed_in"> El paciente pudo registrarse</string> 
+    <string name="msg_unable_to_update_state_change">No se logró actualizar objeto de cambio de estado</string> 
+    <string name="msg_unable_to_update_routing_slip"> No se logró actualizar ficha de transmisión</string>
+    <string name="msg_unable_to_set_clinic_station_state">No se logró establecer estado de estación de clínica</string> 
+    <string name="msg_unable_to_delete_queue_entry">No se logró borrar entrada de cola de datos</string> 
+    <string name="msg_stealing_unsupported">No se apoya aun el robo de un paciente activo</string> 
+    <string name="label_station">Estación</string>
+    <string name="label_active">Activo</string>
+    <string name="label_state">Estado</string>
+    <string name="label_away_will_return">Ausente, Volverá</string>
+    <string name="label_waiting">Esperando</string>
+    <string name="msg_are_you_sure_you_want_to_exit">¿Está seguro que quiere finalizar la sesión?</string> 
+    <string name="title_edit_medications_dialog">Añadir o agregar medicamentos</string> 
+    <string name="msg_enter_a_medication">Ingrese un medicamento y después haga clic en agregar</string> 
+</resources>
+
