@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -653,10 +654,14 @@ public class StationActivity extends AppCompatActivity {
             holder.mContentView.setText(String.format("%s, %s", last, first));
 
             if (gender.equals("Male")) {
-                holder.mHeadshotView.setImageResource(R.drawable.boy_silhouette);
+                holder.mHeadshotView.setImageResource(R.drawable.boyfront);
             } else {
-                holder.mHeadshotView.setImageResource(R.drawable.girl_silhouette);
+                holder.mHeadshotView.setImageResource(R.drawable.girlfront);
             }
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(250, 250);
+            holder.mHeadshotView.setLayoutParams(layoutParams);
+
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

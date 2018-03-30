@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -113,6 +114,8 @@ public class ItemDetailFragment extends Fragment {
                 } else {
                     img.setImageResource(R.drawable.girlfront);
                 }
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(350, 350);
+                img.setLayoutParams(layoutParams);
 
                 ((TextView) m_rootView.findViewById(R.id.detail_row_name_dob)).setText("DOB:");
                 ((TextView) m_rootView.findViewById(R.id.detail_row_value_dob)).setText(mItem.pObject.getString("dob"));
