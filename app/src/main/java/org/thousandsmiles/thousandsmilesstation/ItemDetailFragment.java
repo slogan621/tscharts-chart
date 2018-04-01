@@ -28,6 +28,8 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 
+import java.util.Locale;
+
 public class ItemDetailFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
@@ -96,16 +98,24 @@ public class ItemDetailFragment extends Fragment {
     {
         if (mItem != null) {
             try {
-                ((TextView) m_rootView.findViewById(R.id.detail_row_name_id)).setText("ID:");
+                ((TextView) m_rootView.findViewById(R.id.detail_row_name_id)).setText(getResources().getString(R.string.label_summary_id));
                 ((TextView) m_rootView.findViewById(R.id.detail_row_value_id)).setText(mItem.pObject.getString("id"));
-                String last = String.format("%s,\n%s",
-                        mItem.pObject.getString("paternal_last"), mItem.pObject.getString("maternal_last"));
-                ((TextView) m_rootView.findViewById(R.id.detail_row_name_last)).setText("Last:");
-                ((TextView) m_rootView.findViewById(R.id.detail_row_value_last)).setText(last);
-                ((TextView) m_rootView.findViewById(R.id.detail_row_name_first)).setText("First:");
+                ((TextView) m_rootView.findViewById(R.id.detail_row_name_paternal_last)).setText(getResources().getString(R.string.paternal_last));
+                ((TextView) m_rootView.findViewById(R.id.detail_row_value_paternal_last)).setText(mItem.pObject.getString("paternal_last"));
+                ((TextView) m_rootView.findViewById(R.id.detail_row_name_maternal_last)).setText(getResources().getString(R.string.maternal_last));
+                ((TextView) m_rootView.findViewById(R.id.detail_row_value_maternal_last)).setText(mItem.pObject.getString("maternal_last"));
+                ((TextView) m_rootView.findViewById(R.id.detail_row_name_first)).setText(getResources().getString(R.string.first_name));
                 ((TextView) m_rootView.findViewById(R.id.detail_row_value_first)).setText(mItem.pObject.getString("first"));
-                ((TextView) m_rootView.findViewById(R.id.detail_row_name_gender)).setText("Gender:");
+                ((TextView) m_rootView.findViewById(R.id.detail_row_name_gender)).setText(getResources().getString(R.string.gender));
                 String gender = mItem.pObject.getString("gender");
+                Locale current = getResources().getConfiguration().locale;
+                if (current.getLanguage().equals("es")) {
+                    if (gender.equals("Male")) {
+                        gender = getResources().getString(R.string.male);
+                    } else {
+                        gender = getResources().getString(R.string.female);
+                    }
+                }
                 ((TextView) m_rootView.findViewById(R.id.detail_row_value_gender)).setText(gender);
                 ImageView img = ((ImageView) m_rootView.findViewById(R.id.headshot));
 
@@ -117,7 +127,7 @@ public class ItemDetailFragment extends Fragment {
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(350, 350);
                 img.setLayoutParams(layoutParams);
 
-                ((TextView) m_rootView.findViewById(R.id.detail_row_name_dob)).setText("DOB:");
+                ((TextView) m_rootView.findViewById(R.id.detail_row_name_dob)).setText(getResources().getString(R.string.dob));
                 ((TextView) m_rootView.findViewById(R.id.detail_row_value_dob)).setText(mItem.pObject.getString("dob"));
             } catch (JSONException e) {
 

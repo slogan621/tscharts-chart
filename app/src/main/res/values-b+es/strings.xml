@@ -163,6 +163,16 @@
     <string name="label_waiting">Esperando</string>
     <string name="msg_are_you_sure_you_want_to_exit">¿Está seguro que quiere finalizar la sesión?</string> 
     <string name="title_edit_medications_dialog">Añadir o agregar medicamentos</string> 
-    <string name="msg_enter_a_medication">Ingrese un medicamento y después haga clic en agregar</string> 
+    <string name="msg_enter_a_medication">Ingrese un medicamento y después haga clic en agregar</string>
+
+    <string name="label_summary_id">Identificación del paciente</string>
+    <string name="maternal_last">Apellido materno (de la madre)</string>
+    <string name="paternal_last">Apellido paterno (del padre)</string>
+    <string name="first_name">Nombre de pila</string>
+    <string name="middle_name">Segundo nombre</string>
+    <string name="gender">Género</string>
+    <string name="male">Masculino</string>
+    <string name="female">Femenino</string>
+    <string name="dob">Fecha de nacimiento</string>
 </resources>
 

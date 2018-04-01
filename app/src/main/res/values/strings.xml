@@ -170,4 +170,14 @@
     <string name="msg_are_you_sure_you_want_to_exit">Are you sure you want to exit?</string>
     <string name="title_edit_medications_dialog">Add or Remove Medications</string>
     <string name="msg_enter_a_medication">Enter a medication then click add</string>
+
+    <string name="label_summary_id">Patient ID</string>
+    <string name="maternal_last">Paternal Last)</string>
+    <string name="paternal_last">Maternal Last</string>
+    <string name="first_name">First</string>
+    <string name="middle_name">Middle</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="dob">Date of Birth</string>
 </resources>
