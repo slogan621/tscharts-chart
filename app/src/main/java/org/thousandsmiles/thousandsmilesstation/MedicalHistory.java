@@ -36,7 +36,7 @@ public class MedicalHistory {
     private boolean m_diabetes;
     private boolean m_epilepsy;
     private boolean m_bleedingProblems;
-    private boolean m_hepititis;
+    private boolean m_hepatitis;
     private boolean m_tuberculosis;
     private boolean m_troubleSpeaking;
     private boolean m_troubleHearing;
@@ -210,12 +210,12 @@ public class MedicalHistory {
         m_bleedingProblems = bleedingProblems;
     }
 
-    public boolean isHepititis() {
-        return m_hepititis;
+    public boolean isHepatitis() {
+        return m_hepatitis;
     }
 
-    public void setHepititis(boolean hepititis) {
-        m_hepititis = hepititis;
+    public void setHepatitis(boolean hepatitis) {
+        m_hepatitis = hepatitis;
     }
 
     public boolean isTuberculosis() {
@@ -440,7 +440,7 @@ public class MedicalHistory {
             return false;
         }
 
-        if (this.m_hepititis != other.m_hepititis) {
+        if (this.m_hepatitis != other.m_hepatitis) {
             return false;
         }
 
@@ -569,7 +569,7 @@ public class MedicalHistory {
             this.setFirstWords(o.getInt("first_words"));
             this.setHeight(o.getInt("height"));
             this.setHeightMetric(o.getBoolean("height_metric"));
-            this.setHepititis(o.getBoolean("hepititis"));
+            this.setHepatitis(o.getBoolean("hepititis"));
             this.setHivaids(o.getBoolean("hivaids"));
             this.setMeds(o.getString("meds"));
             this.setMotherAlcohol(o.getBoolean("mother_alcohol"));
@@ -618,7 +618,7 @@ public class MedicalHistory {
             data.put("first_words", this.getFirstWords());
             data.put("height", this.getHeight());
             data.put("height_metric", this.isHeightMetric());
-            data.put("hepititis", this.isHepititis());
+            data.put("hepititis", this.isHepatitis());
             data.put("hivaids", this.isHivaids());
             data.put("meds", this.getMeds());
             data.put("mother_alcohol", this.isMotherAlcohol());

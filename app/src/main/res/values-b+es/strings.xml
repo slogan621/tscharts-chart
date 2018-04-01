@@ -62,13 +62,13 @@
     <string name="pregnancy_duration">Duración del embarazo (meses)</string>
     <string name="pregnancy_smoke">¿Se llevó a cabo el embarazo en un ambiente donde se fuma?</string>
     <string name="pregnancy_complications">¿Hubo complicaciones con el embarazo?</string>
-    <string name="birth">Birth</string>
+    <string name="birth">Nacimiento</string>
     <string name="birth_complications">¿Hubo complicaciones durante el parto?</string>
-    <string name="birth_weight">Birth weight</string>
+    <string name="birth_weight">Peso al nacer</string>
     <string name="congenitalheartdefect">¿Tiene el niño defecto congénito del corazón?</string> 
     <string name="congenitalheartdefect_workup">Si el niño tiene un defecto congénito del corazón, ¿tuvo una rutina diagnóstica al nacer?</string>
     <string name="congenitalheartdefect_planforcare"> Si el niño tiene un defecto congénito del corazón, ¿se le creó un plan de atención?</string>
-    <string name="growth_stages">Growth Stages</string>
+    <string name="growth_stages">Etapas de crecimiento</string>
     <string name="first_crawl">El mes en el que el niño comenzó a gatear</string>
     <string name="first_sit"> El mes en el que el niño comenzó a sentarse</string>
     <string name="first_words"> El mes en el que el niño comenzó a hablar</string>
@@ -83,7 +83,7 @@
     <string name="cold_cough_fever">¿Tiene el niño resfrío, tos o fiebre?</string>  
     <string name="hivaids">¿Tiene el niño VIH o SIDA?</string>
     <string name="anemia">¿Está anémico el niño?</string>
-    <string name="asthma">¿Sufre de asma el niño?</string>
+    <string name="athsma">¿Sufre de asma el niño?</string>
     <string name="cancer">¿Tiene el niño cáncer?</string>
     <string name="diabetes">¿Tiene el niño diabetes?</string>
     <string name="epilepsy">¿Tiene el niño epilepsia?</string>

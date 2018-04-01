@@ -221,9 +221,9 @@ public class AppMedicalHistoryFragment extends Fragment {
             sw.setChecked(m_medicalHistory.isBleedingProblems());
         }
 
-        sw = (Switch) m_view.findViewById(R.id.hepititis);
+        sw = (Switch) m_view.findViewById(R.id.hepatitis);
         if (sw != null) {
-            sw.setChecked(m_medicalHistory.isHepititis());
+            sw.setChecked(m_medicalHistory.isHepatitis());
         }
 
         sw = (Switch) m_view.findViewById(R.id.tuberculosis);
@@ -668,7 +668,7 @@ public class AppMedicalHistoryFragment extends Fragment {
             });
         }
 
-        sw = (Switch) m_view.findViewById(R.id.hepititis);
+        sw = (Switch) m_view.findViewById(R.id.hepatitis);
         if (sw != null) {
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -967,9 +967,9 @@ public class AppMedicalHistoryFragment extends Fragment {
             mh.setBleedingProblems(sw.isChecked());
         }
 
-        sw = (Switch) m_view.findViewById(R.id.hepititis);
+        sw = (Switch) m_view.findViewById(R.id.hepatitis);
         if (sw != null) {
-            mh.setHepititis(sw.isChecked());
+            mh.setHepatitis(sw.isChecked());
         }
 
         sw = (Switch) m_view.findViewById(R.id.tuberculosis);
