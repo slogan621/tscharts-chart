@@ -54,6 +54,7 @@
 
     <string name="away_yes">Away</string>
     <string name="away_cancel">Cancel</string>
+    <string name="msg_return">Return</string>
     <string name="away_return5">Return in 5 minutes</string>
     <string name="away_return15">Return in 15 minutes</string>
     <string name="away_return30">Return in 30 minutes</string>

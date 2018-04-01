@@ -286,7 +286,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
-                android:text="Away" />
+                android:text="@string/msg_away" />
         </LinearLayout>
 
         <LinearLayout
@@ -313,7 +313,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
-                android:text="Return" />
+                android:text="@string/msg_return" />
         </LinearLayout>
         </LinearLayout>
 

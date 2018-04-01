@@ -49,10 +49,11 @@
 
     <string name="away_yes">No está presente</string>
     <string name="away_cancel">Cancelar</string>
+    <string name="msg_return">Volver</string>
     <string name="away_return5">Volver en 5 minutos</string>
-    <string name="away_return15"> Volver en 15 minutos</string>
-    <string name="away_return30"> Volver en 30 minutos</string>
-    <string name="away_return60"> Volver en 60 minutos</string>
+    <string name="away_return15">Volver en 15 minutos</string>
+    <string name="away_return30">Volver en 30 minutos</string>
+    <string name="away_return60">Volver en 60 minutos</string>
     <string name="title_away_dialog">Seleccionar duración fuera de la estación</string>
 
 
@@ -117,7 +118,7 @@
     <string name="station_name_ortho">Orto</string>
     <string name="title_current_medications_dialog"> Diálogo medicamentos actuales</string>
     <string name="title_allergy_medications_dialog"> Diálogo medicamentos anti-alérgicos</string>
-    <string name="msg_unable_to_get_medical_history">No se logra obtener datos del historial médico</string> 
+    <string name="msg_unable_to_get_medical_history">No se logró obtener datos del historial médico</string>
     <string name="msg_successfully_got_medical_history">Se logró obtener datos del historial médico</string> 
     <string name="msg_successfully_saved_medical_history">Se logró guardar historial médico</string>
     <string name="msg_unable_to_save_medical_history">No se logró guardar historial médico</string>
@@ -149,7 +150,7 @@
     <string name="msg_select_another_station">Seleccionar otra estación</string>
     <string name="title_return_to_clinic">Volver a la clínica</string>
     <string name="msg_away">Ausente</string>
-    <string name="msg_patient_signed_in"> El paciente pudo registrarse</string> 
+    <string name="msg_patient_signed_in">El paciente pudo registrarse</string>
     <string name="msg_unable_to_update_state_change">No se logró actualizar objeto de cambio de estado</string> 
     <string name="msg_unable_to_update_routing_slip"> No se logró actualizar ficha de transmisión</string>
     <string name="msg_unable_to_set_clinic_station_state">No se logró establecer estado de estación de clínica</string> 
