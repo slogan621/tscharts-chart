@@ -7,7 +7,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="vertical"
     android:showDividers="middle"
-    tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
+    tools:context="org.thousandsmiles.thousandsmilesstation.StationActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/item_list"
