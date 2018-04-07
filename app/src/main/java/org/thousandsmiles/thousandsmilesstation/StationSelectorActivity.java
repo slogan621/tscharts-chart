@@ -43,6 +43,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 
@@ -211,13 +212,23 @@ public class StationSelectorActivity extends AppCompatActivity {
             }
             String name;
             try {
-                name = cs.getString("name");
+                Locale current = getResources().getConfiguration().locale;
+                if (current.getLanguage().equals("es")) {
+                    name = cs.getString("name_es");
+                } else {
+                    name = cs.getString("name");
+                }
             } catch (JSONException e) {
                 continue;
             }
-            txt.setText(String.format("%s", name));  // XXX translate
+            txt.setText(String.format("%s", name));
             button.setTag(cs);
-            button.setImageDrawable(getResources().getDrawable(m_sess.getSelector(name)));
+            try {
+                String selectorName = cs.getString("name");
+                button.setImageDrawable(getResources().getDrawable(m_sess.getSelector(selectorName)));
+            } catch (JSONException e) {
+                continue;
+            }
             txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             btnLO.addView(txt);

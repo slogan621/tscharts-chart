@@ -180,4 +180,10 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="dob">Date of Birth</string>
+    <string name="button_save">Save</string>
+    <string name="button_add">Add</string>
+    <string name="button_remove">Remove</string>
+    <string name="button_check_in">Check In</string>
+    <string name="button_check_out">Check Out</string>
+    <string name="enter_a_medication_name_here">Enter a medication name here</string>
 </resources>

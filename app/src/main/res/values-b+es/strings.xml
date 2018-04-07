@@ -174,5 +174,11 @@
     <string name="male">Masculino</string>
     <string name="female">Femenino</string>
     <string name="dob">Fecha de nacimiento</string>
+    <string name="button_save">Guardar</string>
+    <string name="button_add">Agregar</string>
+    <string name="button_remove">Eliminar</string>
+    <string name="button_check_in">Iniciar sesión</string>
+    <string name="button_check_out">Finalizar sesión</string>
+    <string name="enter_a_medication_name_here">Ingresar aquí nombre del medicamento</string>
 </resources>
 

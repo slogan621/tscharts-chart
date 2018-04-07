@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class SessionSingleton {
@@ -63,6 +64,7 @@ public class SessionSingleton {
     private static HashMap<Integer, Integer> m_clinicStationToStation = new HashMap<Integer, Integer>();
     private static HashMap<Integer, JSONObject> m_clinicStationToData = new HashMap<Integer, JSONObject>();
     private static HashMap<String, Integer> m_stationToSelector = new HashMap<String, Integer>();
+    private static HashMap<String, String> m_stationToSpanish = new HashMap<String, String>();
     private ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
     private ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
     private ArrayList<String> m_medicationsList = new ArrayList<String>();
@@ -99,6 +101,32 @@ public class SessionSingleton {
     public String[] getMedicationsListStringArray()
     {
         return m_medicationsList.toArray(new String[0]);
+    }
+
+    void initStationToSpanish() {
+        m_stationToSpanish.put("Audiology", "Audiología");
+        m_stationToSpanish.put("Dental", "Dental");
+        m_stationToSpanish.put("ENT", "ENT");
+        m_stationToSpanish.put("Ortho", "Orto");
+        m_stationToSpanish.put("X-Ray", "Rayos X");
+        m_stationToSpanish.put("Surgery Screening", "Cribado cirúrgico");
+        m_stationToSpanish.put("Speech", "El habla");
+    }
+
+    public String getStationNameTranslated(String en)
+    {
+        String name;
+        Locale current = m_ctx.getResources().getConfiguration().locale;
+
+        if (m_stationToSpanish.size() == 0) {
+            initStationToSpanish();
+        }
+        if (current.getLanguage().equals("es")) {
+            name = m_stationToSpanish.get(en);
+        } else {
+            name = en;
+        }
+        return name;
     }
 
     public void setDisplayPatientMedicalHistory(JSONObject o)

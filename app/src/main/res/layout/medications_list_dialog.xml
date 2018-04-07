@@ -21,7 +21,7 @@
         android:inputType="text"
         android:scrollHorizontally="true"
         android:ellipsize="end"
-        android:hint="Enter A Medication Name Here" />
+        android:hint="@string/enter_a_medication_name_here" />
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
-                android:text="Add" />
+                android:text="@string/button_add" />
         </LinearLayout>
 
     </LinearLayout>
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
-                android:text="Remove" />
+                android:text="@string/button_remove" />
         </LinearLayout>
      </LinearLayout>
 </LinearLayout>

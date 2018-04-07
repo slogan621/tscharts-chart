@@ -17,6 +17,8 @@
 
 package org.thousandsmiles.thousandsmilesstation;
 
+import java.util.Locale;
+
 public class RoutingSlipEntry {
     private int m_station;
     private String m_name;
@@ -72,7 +74,8 @@ public class RoutingSlipEntry {
 
     public String getName()
     {
-        return m_name;
+        String name = SessionSingleton.getInstance().getStationNameTranslated(m_name);
+        return name;
     }
 
     public void setVisited(boolean visited)

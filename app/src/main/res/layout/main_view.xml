@@ -193,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
-                android:text="Check In" />
+                android:text="@string/button_check_in" />
         </LinearLayout>
 
         <LinearLayout
@@ -220,7 +220,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
-                android:text="Check Out" />
+                android:text="@string/button_check_out" />
         </LinearLayout>
 
         <LinearLayout
@@ -247,7 +247,7 @@
                 android:id="@+id/save_label"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
-                android:text="Save" />
+                android:text="@string/button_save" />
         </LinearLayout>
 
         </LinearLayout>
