@@ -29,6 +29,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.RESTful;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,7 +80,7 @@ public class RoutingSlipREST extends RESTful {
         @Override
         public Map getHeaders() throws AuthFailureError {
             Map headers = new HashMap();
-            headers.put("Authorization", SessionSingleton.getInstance().getToken());
+            headers.put("Authorization", CommonSessionSingleton.getInstance().getToken());
             return headers;
         }
     }
@@ -101,7 +103,7 @@ public class RoutingSlipREST extends RESTful {
         public Map<String, String> getHeaders() throws AuthFailureError {
             //return headers;
             Map headers = new HashMap();
-            headers.put("Authorization", SessionSingleton.getInstance().getToken());
+            headers.put("Authorization", CommonSessionSingleton.getInstance().getToken());
             return headers;
         }
 

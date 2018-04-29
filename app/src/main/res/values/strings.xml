@@ -147,6 +147,7 @@
     <string name="msg_unable_to_create_return_to_clinic">Unable to create return to clinic for patient</string>
     <string name="msg_unable_to_get_medications_list">Unable to get list of medications</string>
     <string name="label_version">Version</string>
+    <string name="msg_unable_to_get_patient_headshot">Unable to read patient headshot image</string>
     <string name="msg_successful_away_state">Successfully placed station in away state</string>
     <string name="msg_unsuccessful_away_state">Unable to place station in away state</string>
     <string name="msg_successful_station_active">Successfully made station active</string>

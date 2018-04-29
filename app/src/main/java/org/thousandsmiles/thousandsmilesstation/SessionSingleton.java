@@ -28,6 +28,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,7 +44,6 @@ import java.util.TimeZone;
 public class SessionSingleton {
     private static SessionSingleton m_instance;
     private static String m_token = "";
-    private static int m_clinicId;
     private static Context m_ctx;
     private static ArrayList<JSONObject> m_clinicStationData = new ArrayList<JSONObject>();
     private static String m_clinicStationName = "";
@@ -71,6 +71,15 @@ public class SessionSingleton {
     private int m_displayPatientId = -1; // id of the patient that will get checked in/checked out when the corresponding button is pressed
     private int m_displayRoutingSlipEntryId; // id of the routingslip for m_displayPatientId
     // XXX Consider moving these station class names to the API
+    private CommonSessionSingleton m_commonSessionSingleton = null;
+
+    public CommonSessionSingleton getCommonSessionSingleton()
+    {
+        if (m_commonSessionSingleton == null) {
+            m_commonSessionSingleton = CommonSessionSingleton.getInstance();
+        }
+        return m_commonSessionSingleton;
+    }
 
     public void setRoutingSlipEntryResponse(JSONObject o)
     {
@@ -416,7 +425,7 @@ public class SessionSingleton {
     }
 
     public void setClinicId(int id) {
-        m_clinicId = id;
+        getCommonSessionSingleton().setClinicId(id);
     }
 
     public String getActiveStationName() {
@@ -493,7 +502,7 @@ public class SessionSingleton {
         clearClinicStationData();
         if (Looper.myLooper() != Looper.getMainLooper()) {
             final ClinicStationREST clinicStationData = new ClinicStationREST(getContext());
-            Object lock = clinicStationData.getClinicStationData(m_clinicId);
+            Object lock = clinicStationData.getClinicStationData(getClinicId());
 
             synchronized (lock) {
                 // we loop here in case of race conditions or spurious interrupts
@@ -876,7 +885,7 @@ public class SessionSingleton {
     }
 
     public int getClinicId() {
-        return m_clinicId;
+        return getCommonSessionSingleton().getClinicId();
     }
 
     public void addPatientData(JSONObject data) {

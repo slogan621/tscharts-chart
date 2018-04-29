@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.ClinicREST;
 
 import java.util.Calendar;
 import java.util.Locale;

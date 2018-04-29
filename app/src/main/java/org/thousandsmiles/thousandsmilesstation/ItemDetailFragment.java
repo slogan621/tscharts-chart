@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017
- * (C) Copyright Thousand Smiles Foundation 2017
+ * (C) Copyright Syd Logan 2017-2018
+ * (C) Copyright Thousand Smiles Foundation 2017-2018
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,12 +25,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
+import org.thousandsmiles.tscharts_lib.HeadshotImage;
+import org.thousandsmiles.tscharts_lib.ImageDisplayedListener;
 
 import java.util.Locale;
 
-public class ItemDetailFragment extends Fragment {
+public class ItemDetailFragment extends Fragment implements ImageDisplayedListener {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -50,6 +53,25 @@ public class ItemDetailFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public ItemDetailFragment() {
+    }
+
+    public void onImageDisplayed(int imageId, String path)
+    {
+        m_sess.getCommonSessionSingleton().addHeadShotPath(imageId, path);
+        m_sess.getCommonSessionSingleton().startNextHeadshotJob();
+    }
+
+    public void onImageError(int imageId, String path, int errorCode)
+    {
+        if (errorCode != 404) {
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getActivity(), getActivity().getString(R.string.msg_unable_to_get_patient_headshot), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        m_sess.getCommonSessionSingleton().removeHeadShotPath(imageId);
+        m_sess.getCommonSessionSingleton().startNextHeadshotJob();
     }
 
     @Override
@@ -124,6 +146,18 @@ public class ItemDetailFragment extends Fragment {
                 } else {
                     img.setImageResource(R.drawable.girlfront);
                 }
+
+                /*
+                HeadshotImage headshot  = new HeadshotImage();
+                m_sess.getCommonSessionSingleton().addHeadshotImage(headshot);
+                headshot.setActivity(getActivity());
+                headshot.setImageView(img);
+                headshot.registerListener(this);
+                Thread t = headshot.getImage(mItem.pObject.getInt("id"));
+                m_sess.getCommonSessionSingleton().addHeadshotJob(headshot);
+                m_sess.getCommonSessionSingleton().startNextHeadshotJob();
+                */
+
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(350, 350);
                 img.setLayoutParams(layoutParams);
 

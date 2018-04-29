@@ -27,6 +27,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.RESTful;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,7 +77,7 @@ public class ReturnToClinicREST extends RESTful {
         @Override
         public Map getHeaders() throws AuthFailureError {
             Map headers = new HashMap();
-            String token = SessionSingleton.getInstance().getToken();
+            String token = CommonSessionSingleton.getInstance().getToken();
             if (token != null && !token.equals("")) {
                 headers.put("Authorization", token);
             }

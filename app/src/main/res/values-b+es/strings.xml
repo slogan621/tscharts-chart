@@ -96,8 +96,8 @@
     <string name="troubleeating"> Tiene el niño dificultades con alimentarse?</string>
     <string name="medications">Medicamentos</string>
     <string name="meds"> Todos los medicamentos que toma actualmente el paciente</string>     
-    <string name="allergymeds"> Todos los medicamentos a los cuales el paciente tiene alergia</string>    
-<string name="cm">cm</string>
+    <string name="allergymeds"> Todos los medicamentos a los cuales el paciente tiene alergia</string>
+    <string name="cm">cm</string>
     <string name="in">pulg</string>
     <string name="kg">kg</string>
     <string name="lb">lb</string>
@@ -149,6 +149,7 @@
     <string name="question_sign_in_to_station">¿Registrarse en la estación de la clínica %s?</string> 
     <string name="msg_select_another_station">Seleccionar otra estación</string>
     <string name="title_return_to_clinic">Volver a la clínica</string>
+    <string name="msg_unable_to_get_patient_headshot">No se logra leer foto de rostro del paciente</string>
     <string name="msg_away">Ausente</string>
     <string name="msg_patient_signed_in">El paciente pudo registrarse</string>
     <string name="msg_unable_to_update_state_change">No se logró actualizar objeto de cambio de estado</string> 
