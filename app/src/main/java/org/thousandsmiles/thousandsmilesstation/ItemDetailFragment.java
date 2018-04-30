@@ -147,7 +147,6 @@ public class ItemDetailFragment extends Fragment implements ImageDisplayedListen
                     img.setImageResource(R.drawable.girlfront);
                 }
 
-                /*
                 HeadshotImage headshot  = new HeadshotImage();
                 m_sess.getCommonSessionSingleton().addHeadshotImage(headshot);
                 headshot.setActivity(getActivity());
@@ -156,7 +155,6 @@ public class ItemDetailFragment extends Fragment implements ImageDisplayedListen
                 Thread t = headshot.getImage(mItem.pObject.getInt("id"));
                 m_sess.getCommonSessionSingleton().addHeadshotJob(headshot);
                 m_sess.getCommonSessionSingleton().startNextHeadshotJob();
-                */
 
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(350, 350);
                 img.setLayoutParams(layoutParams);
