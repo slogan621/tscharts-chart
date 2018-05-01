@@ -55,6 +55,7 @@ public class StationActivity extends AppCompatActivity {
     }
 
     private boolean m_twoPane;
+    private ItemDetailFragment m_fragment = null;
     private StationState m_state = StationState.WAITING; // the status of this station
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     AsyncTask m_task = null;
@@ -63,7 +64,7 @@ public class StationActivity extends AppCompatActivity {
     private AppListItems m_appListItems = new AppListItems();
     private boolean m_isActive = false;
     private boolean m_isAway = false;
-    private int m_activePatient = 0;
+    private int m_currentPatient = 0;
     public static StationActivity instance = null;  // hack to let me get at the activity
     private boolean m_showingAppFragment = false;
     private String m_fragmentName;
@@ -101,9 +102,18 @@ public class StationActivity extends AppCompatActivity {
                 }
 
                 m_sess.getActivePatientItem();
+
+                if (m_sess.getDisplayPatientId() != m_currentPatient) {
+                    m_currentPatient = m_sess.getDisplayPatientId();
+                    StationActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            updatePatientDetail();   // only if not in an application
+                        }
+                    });
+                }
+
                 StationActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
-                        updatePatientDetail();   // only if not in an application
                         updateStationDetail();
                         updateViewVisibilities();
                     }
@@ -352,10 +362,10 @@ public class StationActivity extends AppCompatActivity {
     private void updatePatientDetail()
     {
         Bundle arguments = new Bundle();
-        ItemDetailFragment fragment = new ItemDetailFragment();
-        fragment.setArguments(arguments);
+        m_fragment = new ItemDetailFragment();
+        m_fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.item_detail_container, fragment)
+                .replace(R.id.item_detail_container, m_fragment)
                 .commitAllowingStateLoss();
     }
 

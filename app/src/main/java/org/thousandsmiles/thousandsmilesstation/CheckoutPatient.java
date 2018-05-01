@@ -153,6 +153,7 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> {
             }
         }
         m_sess.setListWasClicked(false);
+        m_sess.setDisplayPatientId(-1);
     }
 
     // This is called from background thread but runs in UI
