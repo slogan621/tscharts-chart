@@ -39,6 +39,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.MedicationsModel;
+import org.thousandsmiles.tscharts_lib.MedicationsModelList;
+import org.thousandsmiles.tscharts_lib.MedicationsREST;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -185,7 +190,7 @@ public class MedicationsListDialogFragment extends DialogFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.medsautocomplete);
-                        String[] MultipleTextStringValue = SessionSingleton.getInstance().getMedicationsListStringArray();
+                        String[] MultipleTextStringValue = CommonSessionSingleton.getInstance().getMedicationsListStringArray();
                         ArrayAdapter<String> medNames = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MultipleTextStringValue);
                         textView.setAdapter(medNames);
                         textView.setThreshold(2);
