@@ -30,6 +30,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.MedicalHistory;
 import org.thousandsmiles.tscharts_lib.RESTful;
 import org.thousandsmiles.tscharts_lib.VolleySingleton;
 
@@ -170,7 +171,7 @@ public class MedicalHistoryREST extends RESTful {
 
         RequestQueue queue = volley.getQueue();
 
-        JSONObject data = mh.toJSONObject();
+        JSONObject data = mh.toJSONObject(true);
 
         String url = String.format("http://%s:%s/tscharts/v1/medicalhistory/%d/", getIP(), getPort(), mh.getId());
 

@@ -37,6 +37,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.thousandsmiles.tscharts_lib.MedicalHistory;
+
 public class AppMedicalHistoryFragment extends Fragment {
     private Activity m_activity = null;
     private SessionSingleton m_sess = null;
