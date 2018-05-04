@@ -38,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.thousandsmiles.tscharts_lib.MedicalHistory;
+import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
 
 public class AppMedicalHistoryFragment extends Fragment {
     private Activity m_activity = null;
@@ -1120,7 +1121,7 @@ public class AppMedicalHistoryFragment extends Fragment {
 
             builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    m_sess.updatePatientMedicalHistory(mh);
+                    m_sess.getCommonSessionSingleton().updatePatientMedicalHistory(mh);
                     m_sess.updateMedicalHistory();
                     dialog.dismiss();
                 }

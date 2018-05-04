@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.MedicalHistory;
+import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -57,7 +58,6 @@ public class SessionSingleton {
     private boolean m_waitingIsFromActive = false; // waiting patient from active list or not
     private static JSONObject m_queueStatusJSON = null;
     private JSONObject m_displayPatientRoutingSlip = null;
-    private MedicalHistory m_displayPatientMedicalHistory = null;
     private JSONObject m_routingSlipEntryResponse = null;
     private static HashMap<Integer, JSONObject> m_patientData = new HashMap<Integer, JSONObject>();
     private static HashMap<Integer, String> m_stationIdToName = new HashMap<Integer, String>();
@@ -116,19 +116,6 @@ public class SessionSingleton {
             name = en;
         }
         return name;
-    }
-
-    public void setDisplayPatientMedicalHistory(JSONObject o)
-    {
-        if (m_displayPatientMedicalHistory == null) {
-            m_displayPatientMedicalHistory = new MedicalHistory();
-        }
-        m_displayPatientMedicalHistory.fromJSONObject(o);
-    }
-
-    public MedicalHistory getDisplayPatientMedicalHistory()
-    {
-        return m_displayPatientMedicalHistory;
     }
 
     public void setDisplayPatientRoutingSlip(JSONObject o)
@@ -879,10 +866,6 @@ public class SessionSingleton {
         m_patientData.put(id, data);
     }
 
-    public void updatePatientMedicalHistory(MedicalHistory mh) {
-        m_displayPatientMedicalHistory = mh;
-    }
-
     void updateMedicalHistory(/*final RESTCompletionListener listener */)
     {
         boolean ret = false;
@@ -895,7 +878,7 @@ public class SessionSingleton {
                 Object lock;
                 int status;
 
-                lock = rest.updateMedicalHistory(m_displayPatientMedicalHistory);
+                lock = rest.updateMedicalHistory(m_commonSessionSingleton.getPatientMedicalHistory());
 
                 synchronized (lock) {
                     // we loop here in case of race conditions or spurious interrupts
@@ -952,7 +935,7 @@ public class SessionSingleton {
 
             int status = mhData.getStatus();
             if (status == 200) {
-                mh = getDisplayPatientMedicalHistory();
+                mh = getCommonSessionSingleton().getPatientMedicalHistory();
             }
         }
         return mh;
