@@ -51,7 +51,7 @@ public class SplashActivity extends Activity {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             String version = pInfo.versionName;
             TextView text = (TextView) findViewById(R.id.versiontext);
-            text.setText(R.string.label_version + " " + version);
+            text.setText(getString(R.string.label_version) + " " + version);
         }
         catch(PackageManager.NameNotFoundException e) {
         }
