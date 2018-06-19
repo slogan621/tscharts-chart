@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017
- * (C) Copyright Thousand Smiles Foundation 2017
+ * (C) Copyright Syd Logan 2017-2018
+ * (C) Copyright Thousand Smiles Foundation 2017-2018
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -135,7 +135,7 @@ public class ClinicStationREST extends RESTful {
 
         RequestQueue queue = volley.getQueue();
 
-        String url = String.format("http://%s:%s/tscharts/v1/clinicstation?clinic=%d", getIP(), getPort(), clinicid);
+        String url = String.format("%s://%s:%s/tscharts/v1/clinicstation?clinic=%d", getProtocol(), getIP(), getPort(), clinicid);
 
         AuthJSONArrayRequest request = new AuthJSONArrayRequest(url, null, new GetClinicStationDataResponseListener(), new ErrorListener());
 
@@ -152,7 +152,7 @@ public class ClinicStationREST extends RESTful {
 
         RequestQueue queue = volley.getQueue();
 
-        String url = String.format("http://%s:%s/tscharts/v1/clinicstation/%s/", getIP(), getPort(), clinicstationid);
+        String url = String.format("%s://%s:%s/tscharts/v1/clinicstation/%s/", getProtocol(), getIP(), getPort(), clinicstationid);
 
         JSONObject data = new JSONObject();
 
@@ -179,7 +179,7 @@ public class ClinicStationREST extends RESTful {
 
         RequestQueue queue = volley.getQueue();
 
-        String url = String.format("http://%s:%s/tscharts/v1/clinicstation/%s/", getIP(), getPort(), clinicstationid);
+        String url = String.format("%s://%s:%s/tscharts/v1/clinicstation/%s/", getProtocol(), getIP(), getPort(), clinicstationid);
 
         JSONObject data = new JSONObject();
 
@@ -205,7 +205,7 @@ public class ClinicStationREST extends RESTful {
 
         RequestQueue queue = volley.getQueue();
 
-        String url = String.format("http://%s:%s/tscharts/v1/clinicstation/%s/", getIP(), getPort(), clinicstationid);
+        String url = String.format("%s://%s:%s/tscharts/v1/clinicstation/%s/", getProtocol(), getIP(), getPort(), clinicstationid);
 
         JSONObject data = new JSONObject();
 
@@ -232,7 +232,7 @@ public class ClinicStationREST extends RESTful {
 
         RequestQueue queue = volley.getQueue();
 
-        String url = String.format("http://%s:%s/tscharts/v1/clinicstation/%s/", getIP(), getPort(), clinicstationid);
+        String url = String.format("%s://%s:%s/tscharts/v1/clinicstation/%s/", getProtocol(), getIP(), getPort(), clinicstationid);
 
         JSONObject data = new JSONObject();
 

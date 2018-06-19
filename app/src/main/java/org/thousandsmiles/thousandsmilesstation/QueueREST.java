@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017
- * (C) Copyright Thousand Smiles Foundation 2017
+ * (C) Copyright Syd Logan 2017-2018
+ * (C) Copyright Thousand Smiles Foundation 2017-2018
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -134,7 +134,7 @@ public class QueueREST extends RESTful {
 
         RequestQueue queue = volley.getQueue();
 
-        String url = String.format("http://%s:%s/tscharts/v1/queue/?clinic=%d", getIP(), getPort(), clinicid);
+        String url = String.format("%s://%s:%s/tscharts/v1/queue/?clinic=%d", getProtocol(), getIP(), getPort(), clinicid);
 
         AuthJSONObjectRequest request = new AuthJSONObjectRequest(Request.Method.GET, url, null, new GetQueueDataResponseListener(), new ErrorListener());
 
@@ -151,7 +151,7 @@ public class QueueREST extends RESTful {
 
         RequestQueue queue = volley.getQueue();
 
-        String url = String.format("http://%s:%s/tscharts/v1/queueentry/%d/", getIP(), getPort(), entryId);
+        String url = String.format("%s://%s:%s/tscharts/v1/queueentry/%d/", getProtocol(), getIP(), getPort(), entryId);
 
         AuthJSONObjectRequest request = new AuthJSONObjectRequest(Request.Method.DELETE, url, null,  new DeleteQueueEntryResponseListener(), new ErrorListener());
 

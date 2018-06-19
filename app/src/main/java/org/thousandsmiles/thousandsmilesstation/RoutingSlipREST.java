@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017
- * (C) Copyright Thousand Smiles Foundation 2017
+ * (C) Copyright Syd Logan 2017-2018
+ * (C) Copyright Thousand Smiles Foundation 2017-2018
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,7 +122,7 @@ public class RoutingSlipREST extends RESTful {
 
         RequestQueue queue = volley.getQueue();
 
-        String url = String.format("http://%s:%s/tscharts/v1/routingslip?patient=%d&clinic=%d", getIP(), getPort(), patientId, clinicId);
+        String url = String.format("%s://%s:%s/tscharts/v1/routingslip?patient=%d&clinic=%d", getProtocol(), getIP(), getPort(), patientId, clinicId);
 
         RoutingSlipREST.AuthJSONObjectRequest request = new RoutingSlipREST.AuthJSONObjectRequest(Request.Method.GET, url, null,  new RoutingSlipREST.GetRoutingSlipResponseListener(), new RoutingSlipREST.ErrorListener());
 
