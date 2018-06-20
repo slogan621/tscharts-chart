@@ -103,7 +103,7 @@ public class StationActivity extends AppCompatActivity {
 
                 m_sess.getActivePatientItem();
 
-                if (m_sess.getDisplayPatientId() != m_currentPatient) {
+                if (m_currentPatient == -1 || m_sess.getDisplayPatientId() != m_currentPatient) {
                     m_currentPatient = m_sess.getDisplayPatientId();
                     StationActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
