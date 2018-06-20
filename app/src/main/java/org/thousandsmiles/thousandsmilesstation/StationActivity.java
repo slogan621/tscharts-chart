@@ -268,6 +268,7 @@ public class StationActivity extends AppCompatActivity {
                         if (status == 200) {
                             StationActivity.this.runOnUiThread(new Runnable() {
                                 public void run() {
+                                    showMedicalHistory();
                                     Toast.makeText(StationActivity.this, R.string.msg_patient_signed_in, Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -745,25 +746,36 @@ public class StationActivity extends AppCompatActivity {
 
                 if (!m_showingAppFragment || selectedName.equals(m_fragmentName) == false) {
                     if (names.get(position).equals(getApplicationContext().getString(R.string.routing_slip_name))) {
-                        AppRoutingSlipFragment fragment = new AppRoutingSlipFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.app_panel, fragment)
-                                .commit();
+                        showRoutingSlip();
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.medical_history_name))) {
-                        AppMedicalHistoryFragment fragment = new AppMedicalHistoryFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.app_panel, fragment)
-                                .commit();
+                        showMedicalHistory();
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
                     }
                 }
             }
         });
+    }
+
+    private void showRoutingSlip()
+    {
+        Bundle arguments = new Bundle();
+        AppRoutingSlipFragment fragment = new AppRoutingSlipFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
+    }
+    private void showMedicalHistory()
+    {
+        Bundle arguments = new Bundle();
+        AppMedicalHistoryFragment fragment = new AppMedicalHistoryFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
     }
 
     public void onWindowFocusChanged(boolean hasFocus) {
