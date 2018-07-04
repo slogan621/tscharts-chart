@@ -20,6 +20,8 @@ package org.thousandsmiles.thousandsmilesstation;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
+
 /**
  * Created by slogan on 9/30/17.
  */

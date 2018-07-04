@@ -31,6 +31,8 @@ import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.MedicalHistory;
 import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
+import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
+import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -726,6 +728,30 @@ public class SessionSingleton {
         return ret;
     }
 
+    public class GetRoutingSlipListener implements RESTCompletionListener {
+        public void onFail(int code, String msg)
+        {
+        }
+
+        public void onSuccess(int code, String msg)
+        {
+            //SessionSingleton sess = SessionSingleton.getInstance();
+            //setStatus(200);
+            //onSuccess(200, "", response);
+            //sess.setRoutingSlipEntryResponse(response);
+        }
+
+        public void onSuccess(int code, String msg, JSONObject o)
+        {
+            SessionSingleton sess = SessionSingleton.getInstance();
+            sess.setRoutingSlipEntryResponse(o);
+        }
+
+        public void onSuccess(int code, String msg, JSONArray a)
+        {
+        }
+    }
+
     public RoutingSlipEntry getRoutingSlipEntry(int id) {
         boolean ret = false;
 
@@ -733,6 +759,7 @@ public class SessionSingleton {
 
         if (Looper.myLooper() != Looper.getMainLooper()) {
             final RoutingSlipEntryREST rsData = new RoutingSlipEntryREST(getContext());
+            rsData.addListener(new GetRoutingSlipListener());
             Object lock = rsData.getRoutingSlipEntry(id);
 
             synchronized (lock) {

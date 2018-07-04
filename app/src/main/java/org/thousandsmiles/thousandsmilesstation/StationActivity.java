@@ -35,8 +35,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
+import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -187,11 +190,27 @@ public class StationActivity extends AppCompatActivity {
         rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.msg_away));
     }
 
-    public class CheckinPatient extends AsyncTask<Object, Object, Object> {
+    public class CheckinPatient extends AsyncTask<Object, Object, Object> implements RESTCompletionListener {
         @Override
         protected String doInBackground(Object... params) {
             checkinPatient();
             return "";
+        }
+
+        public void onFail(int code, String msg)
+        {
+        }
+
+        public void onSuccess(int code, String msg)
+        {
+        }
+
+        public void onSuccess(int code, String msg, JSONObject o)
+        {
+        }
+
+        public void onSuccess(int code, String msg, JSONArray a)
+        {
         }
 
         private void checkinPatient()
@@ -235,6 +254,7 @@ public class StationActivity extends AppCompatActivity {
                 status = clinicStationREST.getStatus();
                 if (status == 200) {
                     final RoutingSlipEntryREST rseREST = new RoutingSlipEntryREST(m_sess.getContext());
+                    rseREST.addListener(this);
                     lock = rseREST.markRoutingSlipStateCheckedIn(routingSlipEntryId);
 
                     synchronized (lock) {

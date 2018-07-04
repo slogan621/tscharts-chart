@@ -46,7 +46,6 @@ public class ClinicStationREST extends RESTful {
             synchronized (m_lock) {
                 SessionSingleton sess = SessionSingleton.getInstance();
                 setStatus(200);
-                //sess.addClinicStationData(response);
                 m_lock.notify();
             }
         }
