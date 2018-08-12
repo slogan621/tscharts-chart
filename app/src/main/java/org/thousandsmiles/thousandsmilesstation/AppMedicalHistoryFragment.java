@@ -270,7 +270,23 @@ public class AppMedicalHistoryFragment extends Fragment {
 
             @Override
             public void onClick(View arg0) {
-            updateMedicalHistory();
+                boolean valid = validateFields();
+                if (valid == false) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                    builder.setTitle(m_activity.getString(R.string.title_missing_patient_data));
+                    builder.setMessage(m_activity.getString(R.string.msg_please_enter_required_patient_data));
+
+                    builder.setPositiveButton(m_activity.getString(R.string.button_ok), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                } else {
+                    updateMedicalHistory();
+                }
             }
 
         });
@@ -1007,6 +1023,155 @@ public class AppMedicalHistoryFragment extends Fragment {
             mh.setAllergyMeds(tx.getText().toString());
         }
         return mh;
+    }
+
+    private boolean validateFields()
+    {
+        boolean ret = true;
+        TextView tx1;
+        RadioButton rb;
+        int minVal = 0;
+        int maxVal = 9999;
+        int val = 0;
+
+        tx1 = (TextView)m_view.findViewById(R.id.pregnancy_duration);
+        try {
+            val = Integer.parseInt(tx1.getText().toString());
+
+            if (val < 8 || val > 10) {
+                ret = false;
+                tx1.setError(m_activity.getString(R.string.msg_invalid_pregnancy_range));
+            }
+        } catch (NumberFormatException e) {
+            ret = false;
+            tx1.setError(m_activity.getString(R.string.msg_invalid_pregnancy_range));
+        }
+
+        tx1 = (TextView)m_view.findViewById(R.id.birth_weight);
+        try {
+            val = Integer.parseInt(tx1.getText().toString());
+
+            rb = (RadioButton) m_view.findViewById(R.id.birth_weight_kg);
+            if (rb != null) {
+                if (rb.isChecked()) {
+                    minVal = 2;
+                    maxVal = 5;
+                } else {
+                    minVal = 5;
+                    maxVal = 11;
+                }
+            }
+
+            if (val < minVal || val > maxVal) {
+                ret = false;
+                tx1.setError(m_activity.getString(R.string.msg_invalid_birth_weight_range));
+            }
+        } catch (NumberFormatException e) {
+            ret = false;
+            tx1.setError(m_activity.getString(R.string.msg_invalid_birth_weight_range));
+        }
+
+        tx1 = (TextView)m_view.findViewById(R.id.first_crawl);
+        try {
+            val = Integer.parseInt(tx1.getText().toString());
+
+            if (val < 4 || val > 12) {
+                ret = false;
+                tx1.setError(m_activity.getString(R.string.msg_invalid_first_crawl_range));
+            }
+        } catch (NumberFormatException e) {
+            tx1.setError(m_activity.getString(R.string.msg_invalid_first_crawl_range));
+        }
+
+        tx1 = (TextView)m_view.findViewById(R.id.first_sit);
+        try {
+            val = Integer.parseInt(tx1.getText().toString());
+
+            if (val < 4 || val > 12) {
+                ret = false;
+                tx1.setError(m_activity.getString(R.string.msg_invalid_first_sit_range));
+            }
+        } catch (NumberFormatException e) {
+            ret = false;
+            tx1.setError(m_activity.getString(R.string.msg_invalid_first_sit_range));
+        }
+
+        tx1 = (TextView)m_view.findViewById(R.id.first_walk);
+        try {
+            val = Integer.parseInt(tx1.getText().toString());
+
+            if (val < 8 || val > 16) {
+                ret = false;
+                tx1.setError(m_activity.getString(R.string.msg_first_walk_range));
+            }
+        } catch (NumberFormatException e) {
+            ret = false;
+            tx1.setError(m_activity.getString(R.string.msg_first_walk_range));
+        }
+
+        tx1 = (TextView)m_view.findViewById(R.id.first_words);
+        try {
+            val = Integer.parseInt(tx1.getText().toString());
+            if (val < 8 || val > 16)
+            {
+                ret = false;
+                tx1.setError(m_activity.getString(R.string.msg_invalid_first_words_range));
+            }
+        } catch (NumberFormatException e) {
+            ret = false;
+            tx1.setError(m_activity.getString(R.string.msg_invalid_first_words_range));
+        }
+
+        tx1 = (TextView)m_view.findViewById(R.id.height);
+        try {
+            val = Integer.parseInt(tx1.getText().toString());
+
+            rb = (RadioButton) m_view.findViewById(R.id.height_cm);
+            if (rb != null) {
+                if (rb.isChecked()) {
+                    minVal = 0;
+                    maxVal = 213;
+                } else {
+                    minVal = 0;
+                    maxVal = 84;
+                }
+            }
+
+            if (val < minVal || val > maxVal) {
+                ret = false;
+                tx1.setError(m_activity.getString(R.string.msg_invalid_height));
+            }
+        } catch (NumberFormatException e) {
+            ret = false;
+            tx1.setError(m_activity.getString(R.string.msg_invalid_height));
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.weight_kg);
+        if (rb != null) {
+            if (rb.isChecked()) {
+                minVal = 0;
+                maxVal = 136;
+            } else {
+                minVal = 0;
+                maxVal = 300;
+            }
+        }
+
+        tx1 = (TextView)m_view.findViewById(R.id.weight);
+        try {
+            val = Integer.parseInt(tx1.getText().toString());
+
+            if (val < minVal || val > maxVal)
+            {
+                ret = false;
+                tx1.setError(m_activity.getString(R.string.msg_invalid_weight));
+            }
+        } catch (NumberFormatException e) {
+            ret = false;
+            tx1.setError(m_activity.getString(R.string.msg_invalid_weight));
+        }
+
+        return ret;
     }
 
     private void getMedicalHistoryDataFromREST()

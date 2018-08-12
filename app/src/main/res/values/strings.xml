@@ -187,4 +187,17 @@
     <string name="button_check_in">Check In</string>
     <string name="button_check_out">Check Out</string>
     <string name="enter_a_medication_name_here">Enter a medication name here</string>
+    <string name="button_ok">Ok</string>
+
+    <string name="title_missing_patient_data">Missing Patient Data</string>
+    <string name="msg_please_enter_required_patient_data">Please enter required patient data</string>
+    <string name="msg_this_field_is_required">This field is required</string>
+    <string name="msg_invalid_pregnancy_range">Enter a valid pregnancy duration in months</string>
+    <string name="msg_invalid_birth_weight_range">Enter a valid birth weight</string>
+    <string name="msg_invalid_first_crawl_range">Enter a valid first crawl age in months</string>
+    <string name="msg_invalid_first_sit_range">Enter a valid first sit age in months</string>
+    <string name="msg_first_walk_range">Enter a valid first steps age in months</string>
+    <string name="msg_invalid_first_words_range">Enter a valid speaking age in months</string>
+    <string name="msg_invalid_height">Enter a valid height</string>
+    <string name="msg_invalid_weight">Enter a valid weight</string>
 </resources>
