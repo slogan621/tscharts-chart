@@ -1035,6 +1035,7 @@ public class AppMedicalHistoryFragment extends Fragment {
         int val = 0;
 
         tx1 = (TextView)m_view.findViewById(R.id.pregnancy_duration);
+        tx1.setError(null);
         try {
             val = Integer.parseInt(tx1.getText().toString());
 
@@ -1048,6 +1049,7 @@ public class AppMedicalHistoryFragment extends Fragment {
         }
 
         tx1 = (TextView)m_view.findViewById(R.id.birth_weight);
+        tx1.setError(null);
         try {
             val = Integer.parseInt(tx1.getText().toString());
 
@@ -1072,6 +1074,7 @@ public class AppMedicalHistoryFragment extends Fragment {
         }
 
         tx1 = (TextView)m_view.findViewById(R.id.first_crawl);
+        tx1.setError(null);
         try {
             val = Integer.parseInt(tx1.getText().toString());
 
@@ -1084,6 +1087,7 @@ public class AppMedicalHistoryFragment extends Fragment {
         }
 
         tx1 = (TextView)m_view.findViewById(R.id.first_sit);
+        tx1.setError(null);
         try {
             val = Integer.parseInt(tx1.getText().toString());
 
@@ -1097,6 +1101,7 @@ public class AppMedicalHistoryFragment extends Fragment {
         }
 
         tx1 = (TextView)m_view.findViewById(R.id.first_walk);
+        tx1.setError(null);
         try {
             val = Integer.parseInt(tx1.getText().toString());
 
@@ -1110,6 +1115,7 @@ public class AppMedicalHistoryFragment extends Fragment {
         }
 
         tx1 = (TextView)m_view.findViewById(R.id.first_words);
+        tx1.setError(null);
         try {
             val = Integer.parseInt(tx1.getText().toString());
             if (val < 8 || val > 16)
@@ -1123,6 +1129,7 @@ public class AppMedicalHistoryFragment extends Fragment {
         }
 
         tx1 = (TextView)m_view.findViewById(R.id.height);
+        tx1.setError(null);
         try {
             val = Integer.parseInt(tx1.getText().toString());
 
@@ -1158,6 +1165,7 @@ public class AppMedicalHistoryFragment extends Fragment {
         }
 
         tx1 = (TextView)m_view.findViewById(R.id.weight);
+        tx1.setError(null);
         try {
             val = Integer.parseInt(tx1.getText().toString());
 
