@@ -43,6 +43,7 @@ public class ReturnToClinicREST extends RESTful {
         public void onResponse(JSONObject response) {
             synchronized (m_lock) {
                 setStatus(200);
+                onSuccess(200, "", response);
                 m_lock.notify();
             }
         }
@@ -53,16 +54,18 @@ public class ReturnToClinicREST extends RESTful {
         public void onErrorResponse(VolleyError error) {
 
             synchronized (m_lock) {
+                int code;
                 if (error.networkResponse == null) {
                     if (error.getCause() instanceof java.net.ConnectException || error.getCause() instanceof  java.net.UnknownHostException) {
-                        setStatus(101);
+                        code = 101;
                     } else {
-                        setStatus(-1);
+                        code = -1;
                     }
                 } else {
-                    setStatus(error.networkResponse.statusCode);
+                    code = error.networkResponse.statusCode;
                 }
-
+                setStatus(code);
+                onFail(code, "");
                 m_lock.notify();
             }
         }
@@ -89,20 +92,6 @@ public class ReturnToClinicREST extends RESTful {
     public ReturnToClinicREST(Context context)  {
         setContext(context);
     }
-
-    /*
-    POST /tscharts/v1/returntoclinic/ HTTP/1.1
-Host: 127.0.0.1:8000
-Content-Length: 77
-Accept-Encoding: gzip, deflate, compress
-Accept:
-    User-Agent: python-requests/2.2.1 CPython/2.7.6 Linux/4.2.0-27-generic
-    Content-Type: application/json
-    Authorization: Token 53f29e4dfc917c28a0e71f26525307250f1f8101
-
-
-    {"comment": "", "clinic": 337, "station": 196, "patient": 402, "interval": 3}HTTP/1.0 200 OK
-    */
 
     public Object returnToClinic(int clinic, int station, int patient, int interval, String comment) {
 

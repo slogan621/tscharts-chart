@@ -55,16 +55,18 @@ public class StateChangeREST extends RESTful {
         public void onErrorResponse(VolleyError error) {
 
             synchronized (m_lock) {
+                int code;
                 if (error.networkResponse == null) {
                     if (error.getCause() instanceof java.net.ConnectException || error.getCause() instanceof  java.net.UnknownHostException) {
-                        setStatus(101);
+                        code = 101;
                     } else {
-                        setStatus(-1);
+                        code = -1;
                     }
                 } else {
-                    setStatus(error.networkResponse.statusCode);
+                    code = error.networkResponse.statusCode;
                 }
-
+                setStatus(code);
+                onFail(code, "");
                 m_lock.notify();
             }
         }

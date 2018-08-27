@@ -15,10 +15,15 @@ public class ReturnToClinicDialogFragment extends DialogFragment {
 
     private int m_patientId;
     private View m_view;
+    StationActivity m_stationActivity;
 
     public void setPatientId(int id)
     {
         m_patientId = id;
+    }
+    public void setStationActivity(StationActivity p)
+    {
+        m_stationActivity = p;
     }
 
     @Override
@@ -64,13 +69,15 @@ public class ReturnToClinicDialogFragment extends DialogFragment {
 
                         params.setMessage(msg);
                         params.setReturnMonths(numMonths);
-                        AsyncTask task = new CheckoutPatient();
+                        CheckoutPatient task = new CheckoutPatient();
+                        task.setStationActivity(m_stationActivity);
                         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) params);
                         dialog.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.checkout_cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        m_stationActivity.setButtonEnabled(true);
                         dialog.dismiss();
                     }
                 });

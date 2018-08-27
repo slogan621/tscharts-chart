@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017
- * (C) Copyright Thousand Smiles Foundation 2017
+ * (C) Copyright Syd Logan 2017-2018
+ * (C) Copyright Thousand Smiles Foundation 2017-2018
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,25 @@
  * limitations under the License.
  */
 
+/*
+ * This class is a helper class that is coupled tightly to the StationActivity class
+ */
+
 package org.thousandsmiles.thousandsmilesstation;
 
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
 import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
 
-/**
- * Created by slogan on 9/30/17.
- */
-
-public class CheckoutPatient extends AsyncTask<Object, Object, Object> {
+public class CheckoutPatient extends AsyncTask<Object, Object, Object> implements RESTCompletionListener {
 
     private CheckoutParams m_params;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
+    private StationActivity m_stationActivity;
 
     @Override
     protected String doInBackground(Object... params) {
@@ -40,16 +44,50 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> {
         return "";
     }
 
+    public void setStationActivity(StationActivity p)
+    {
+        m_stationActivity = p;
+    }
+
+    public void onFail(int code, String msg)
+    {
+        m_stationActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                m_stationActivity.setButtonEnabled(true);
+            }
+        });
+    }
+
+    public void onSuccess(int code, String msg)
+    {
+    }
+
+    public void onSuccess(int code, String msg, JSONObject o)
+    {
+    }
+
+    public void onSuccess(int code, String msg, JSONArray a)
+    {
+    }
+
     private void checkoutPatient()
     {
         int patientId = m_sess.getDisplayPatientId();
         int clinicStationId = m_sess.getClinicStationId();
         int routingSlipEntryId = m_sess.getDisplayRoutingSlipEntryId();
+        m_stationActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                m_stationActivity.setButtonEnabled(false);
+            }
+        });
+
+        m_stationActivity = m_stationActivity;
 
         int status;
         Object lock;
 
         final ClinicStationREST clinicStationREST = new ClinicStationREST(m_sess.getContext());
+        clinicStationREST.addListener(this);
         lock = clinicStationREST.putStationIntoWaitingState(clinicStationId);
 
         synchronized (lock) {
@@ -66,6 +104,7 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> {
         status = clinicStationREST.getStatus();
         if (status == 200) {
             final RoutingSlipEntryREST rseREST = new RoutingSlipEntryREST(m_sess.getContext());
+            rseREST.addListener(this);
             lock = rseREST.markRoutingSlipStateCheckedOut(routingSlipEntryId);
 
             synchronized (lock) {
@@ -82,6 +121,7 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> {
             status = rseREST.getStatus();
             if (status == 200 ) {
                 final StateChangeREST stateChangeREST = new StateChangeREST(m_sess.getContext());
+                stateChangeREST.addListener(this);
                 lock = stateChangeREST.stateChangeCheckout(clinicStationId, patientId);
 
                 synchronized (lock) {
@@ -99,6 +139,7 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> {
                 if (status == 200) {
                     StationActivity.instance.runOnUiThread(new Runnable() {
                         public void run() {
+                            m_stationActivity.setButtonEnabled(true);
                             Toast.makeText(StationActivity.instance, R.string.msg_patient_successfully_checked_out, Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -126,6 +167,7 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> {
 
         if (m_params.getReturnMonths() != 0) {
             final ReturnToClinicREST returnToClinicREST = new ReturnToClinicREST(m_sess.getContext());
+            returnToClinicREST.addListener(this);
             lock = returnToClinicREST.returnToClinic(m_sess.getClinicId(), m_sess.getStationStationId(), patientId, m_params.getReturnMonths(), m_params.getMessage());
 
             synchronized (lock) {
@@ -139,7 +181,7 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> {
                     }
                 }
             }
-            status = clinicStationREST.getStatus();
+            status = returnToClinicREST.getStatus();
             if (status == 200) {
                 StationActivity.instance.runOnUiThread(new Runnable() {
                     public void run() {

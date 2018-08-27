@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -57,7 +58,6 @@ public class StationActivity extends AppCompatActivity {
         AWAY,
     }
 
-    private boolean m_twoPane;
     private ItemDetailFragment m_fragment = null;
     private StationState m_state = StationState.WAITING; // the status of this station
     private SessionSingleton m_sess = SessionSingleton.getInstance();
@@ -180,6 +180,7 @@ public class StationActivity extends AppCompatActivity {
         }
 
         ReturnToClinicDialogFragment rtc = new ReturnToClinicDialogFragment();
+        rtc.setStationActivity(this);
         rtc.setPatientId(m_sess.getActivePatientId());
         rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.title_return_to_clinic));
     }
@@ -188,154 +189,6 @@ public class StationActivity extends AppCompatActivity {
     {
         AwayDialogFragment rtc = new AwayDialogFragment();
         rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.msg_away));
-    }
-
-    public class CheckinPatient extends AsyncTask<Object, Object, Object> implements RESTCompletionListener {
-        @Override
-        protected String doInBackground(Object... params) {
-            checkinPatient();
-            return "";
-        }
-
-        public void onFail(int code, String msg)
-        {
-        }
-
-        public void onSuccess(int code, String msg)
-        {
-        }
-
-        public void onSuccess(int code, String msg, JSONObject o)
-        {
-        }
-
-        public void onSuccess(int code, String msg, JSONArray a)
-        {
-        }
-
-        private void checkinPatient()
-        {
-            int patientId = m_sess.getDisplayPatientId();
-            int clinicStationId = m_sess.getClinicStationId();
-            int queueEntryId = m_sess.getQueueEntryId(patientId);
-            int routingSlipEntryId = m_sess.setDisplayRoutingSlipEntryId(patientId);
-
-            final QueueREST queueREST = new QueueREST(m_sess.getContext());
-            Object lock = queueREST.deleteQueueEntry(queueEntryId);
-
-            synchronized (lock) {
-                // we loop here in case of race conditions or spurious interrupts
-                while (true) {
-                    try {
-                        lock.wait();
-                        break;
-                    } catch (InterruptedException e) {
-                        continue;
-                    }
-                }
-            }
-
-            int status = queueREST.getStatus();
-            if (status == 200) {
-                final ClinicStationREST clinicStationREST = new ClinicStationREST(m_sess.getContext());
-                lock = clinicStationREST.updateActiveClinicStationPatient(clinicStationId, patientId);
-
-                synchronized (lock) {
-                    // we loop here in case of race conditions or spurious interrupts
-                    while (true) {
-                        try {
-                            lock.wait();
-                            break;
-                        } catch (InterruptedException e) {
-                            continue;
-                        }
-                    }
-                }
-                status = clinicStationREST.getStatus();
-                if (status == 200) {
-                    final RoutingSlipEntryREST rseREST = new RoutingSlipEntryREST(m_sess.getContext());
-                    rseREST.addListener(this);
-                    lock = rseREST.markRoutingSlipStateCheckedIn(routingSlipEntryId);
-
-                    synchronized (lock) {
-                        // we loop here in case of race conditions or spurious interrupts
-                        while (true) {
-                            try {
-                                lock.wait();
-                                break;
-                            } catch (InterruptedException e) {
-                                continue;
-                            }
-                        }
-                    }
-                    status = rseREST.getStatus();
-                    if (status == 200 ) {
-                        final StateChangeREST stateChangeREST = new StateChangeREST(m_sess.getContext());
-                        lock = stateChangeREST.stateChangeCheckin(clinicStationId, patientId);
-
-                        synchronized (lock) {
-                            // we loop here in case of race conditions or spurious interrupts
-                            while (true) {
-                                try {
-                                    lock.wait();
-                                    break;
-                                } catch (InterruptedException e) {
-                                    continue;
-                                }
-                            }
-                        }
-                        status = stateChangeREST.getStatus();
-                        if (status == 200) {
-                            StationActivity.this.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    showMedicalHistory();
-                                    Toast.makeText(StationActivity.this, R.string.msg_patient_signed_in, Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } else {
-                            StationActivity.this.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(StationActivity.this, R.string.msg_unable_to_update_state_change, Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    } else {
-                        StationActivity.this.runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(StationActivity.this, R.string.msg_unable_to_update_routing_slip, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                } else {
-                    StationActivity.this.runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(StationActivity.this, R.string.msg_unable_to_set_clinic_station_state, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            } else {
-                StationActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(StationActivity.this, R.string.msg_unable_to_delete_queue_entry, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }
-
-        // This is called from background thread but runs in UI
-        @Override
-        protected void onProgressUpdate(Object... values) {
-            super.onProgressUpdate(values);
-            // Do things like update the progress bar
-        }
-
-        // This runs in UI when background thread finishes
-        @Override
-        protected void onPostExecute(Object result) {
-            super.onPostExecute(result);
-
-            // Do things like hide the progress bar or change a TextView
-        }
     }
 
     private void setButtonBarCallbacks()
@@ -365,7 +218,9 @@ public class StationActivity extends AppCompatActivity {
                 if (m_sess.getWaitingIsFromActiveList() == true) {
                     Toast.makeText(StationActivity.this, R.string.msg_stealing_unsupported, Toast.LENGTH_SHORT).show();
                 } else {
-                    AsyncTask task = new CheckinPatient();
+                    setButtonEnabled(false);
+                    CheckinPatient task = new CheckinPatient();
+                    task.setStationActivity(StationActivity.this);
                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
                 }
             }
@@ -375,6 +230,7 @@ public class StationActivity extends AppCompatActivity {
         {
             public void onClick(View v)
             {
+                setButtonEnabled(false);
                 showReturnToClinic();
             }
         });
@@ -388,6 +244,38 @@ public class StationActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.item_detail_container, m_fragment)
                 .commitAllowingStateLoss();
+    }
+
+    private void setAwayButtonEnabled(boolean enable) {
+        View button_bar_item;
+        button_bar_item = findViewById(R.id.away_button);
+        button_bar_item.setEnabled(enable);
+    }
+
+    private void setBackButtonEnabled(boolean enable) {
+        View button_bar_item;
+        button_bar_item = findViewById(R.id.back_button);
+        button_bar_item.setEnabled(enable);
+    }
+
+    private void setCheckinButtonEnabled(boolean enable) {
+        View button_bar_item;
+        button_bar_item = findViewById(R.id.checkin_button);
+        button_bar_item.setEnabled(enable);
+    }
+
+    private void setCheckoutButtonEnabled(boolean enable) {
+        View button_bar_item;
+        button_bar_item = findViewById(R.id.checkout_button);
+        button_bar_item.setEnabled(enable);
+    }
+
+    public void setButtonEnabled(boolean enable)
+    {
+        setAwayButtonEnabled(enable);
+        setBackButtonEnabled(enable);
+        setCheckinButtonEnabled(enable);
+        setCheckoutButtonEnabled(enable);
     }
 
     private void updateViewVisibilities()
@@ -555,13 +443,6 @@ public class StationActivity extends AppCompatActivity {
             m_task.execute((Object) null);
         }
 
-        if (findViewById(R.id.item_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            m_twoPane = true;
-        }
         setButtonBarCallbacks();
     }
 
@@ -696,17 +577,15 @@ public class StationActivity extends AppCompatActivity {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (m_twoPane) {
-                        updateViewVisibilities();
-                        Bundle arguments = new Bundle();
-                        arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                        arguments.putBoolean("isWaiting", m_isWaiting);
-                        ItemDetailFragment fragment = new ItemDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.item_detail_container, fragment)
-                                .commit();
-                    }
+                    updateViewVisibilities();
+                    Bundle arguments = new Bundle();
+                    arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                    arguments.putBoolean("isWaiting", m_isWaiting);
+                    ItemDetailFragment fragment = new ItemDetailFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.item_detail_container, fragment)
+                            .commit();
                 }
             });
         }
@@ -788,7 +667,7 @@ public class StationActivity extends AppCompatActivity {
                 .replace(R.id.app_panel, fragment)
                 .commit();
     }
-    private void showMedicalHistory()
+    public void showMedicalHistory()
     {
         Bundle arguments = new Bundle();
         AppMedicalHistoryFragment fragment = new AppMedicalHistoryFragment();
