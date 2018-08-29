@@ -70,7 +70,7 @@ public class CheckinPatient extends AsyncTask<Object, Object, Object> implements
         int patientId = m_sess.getDisplayPatientId();
         int clinicStationId = m_sess.getClinicStationId();
         int queueEntryId = m_sess.getQueueEntryId(patientId);
-        int routingSlipEntryId = m_sess.setDisplayRoutingSlipEntryId(patientId);
+        int routingSlipEntryId = m_sess.setDisplayRoutingSlipEntryIdForPatient(patientId);
 
         m_stationActivity.runOnUiThread(new Runnable() {
             public void run() {

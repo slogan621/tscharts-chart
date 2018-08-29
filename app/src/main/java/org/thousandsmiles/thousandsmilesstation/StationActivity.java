@@ -115,6 +115,32 @@ public class StationActivity extends AppCompatActivity {
                     });
                 }
 
+                /* handle the case that we signed into a clinic station that already has an
+                   active patient signed in */
+
+                int patientId = m_sess.getDisplayPatientId();
+                if (patientId != -1) {
+                    int routingSlipEntryId = m_sess.getDisplayRoutingSlipEntryId();
+                    if (routingSlipEntryId == -1) {
+                        m_sess.updateQueues();  // unlikely there is a queue entry, but try anyway
+                        routingSlipEntryId = m_sess.setDisplayRoutingSlipEntryIdForPatient(patientId);
+                        if (routingSlipEntryId == -1) { // most likely we didn't find one
+                            ArrayList<RoutingSlipEntry> rseList = m_sess.getRoutingSlipEntries(m_sess.getClinicId(), patientId);
+                            for (int i = 0; i < rseList.size(); i++) {
+                                RoutingSlipEntry e = rseList.get(i);
+                                if (e.getStation() == m_sess.getStationStationId()) {
+                                    m_sess.setDisplayRoutingSlipEntryId(e.getId());
+                                    break;
+                                }
+                            }
+                        }
+                        routingSlipEntryId = m_sess.getDisplayRoutingSlipEntryId();
+                        if (routingSlipEntryId == -1) {
+
+                        }
+                    }
+                }
+
                 StationActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         updateStationDetail();

@@ -71,7 +71,7 @@ public class SessionSingleton {
     private ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
     private ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
     private int m_displayPatientId = -1; // id of the patient that will get checked in/checked out when the corresponding button is pressed
-    private int m_displayRoutingSlipEntryId; // id of the routingslip for m_displayPatientId
+    private int m_displayRoutingSlipEntryId = -1; // id of the routingslip entry for m_displayPatientId
     // XXX Consider moving these station class names to the API
     private CommonSessionSingleton m_commonSessionSingleton = null;
 
@@ -652,32 +652,38 @@ public class SessionSingleton {
         return m_displayRoutingSlipEntryId;
     }
 
-    public int setDisplayRoutingSlipEntryId(int patientId) {
+    public void setDisplayRoutingSlipEntryId(int id) {
+        m_displayRoutingSlipEntryId = id;
+    }
+
+    public int setDisplayRoutingSlipEntryIdForPatient(int patientId) {
         boolean found = false;
-        try {
-            JSONArray r = m_queueStatusJSON.getJSONArray("queues");
-            int i = 0;
-            while (found == false && i < r.length()) {
-                try {
-                    JSONObject o = r.getJSONObject(i);
+        if (m_queueStatusJSON != null) {
+            try {
+                JSONArray r = m_queueStatusJSON.getJSONArray("queues");
+                int i = 0;
+                while (found == false && i < r.length()) {
+                    try {
+                        JSONObject o = r.getJSONObject(i);
 
-                    JSONArray entries = o.getJSONArray("entries");
+                        JSONArray entries = o.getJSONArray("entries");
 
-                    for (int j = 0; j < entries.length(); j++) {
-                        JSONObject entry = entries.getJSONObject(j);
-                        int id = entry.getInt("patient");
-                        if (id == patientId) {
-                            m_displayRoutingSlipEntryId = entry.getInt("routingslipentry");
-                            found = true;
-                            break;
+                        for (int j = 0; j < entries.length(); j++) {
+                            JSONObject entry = entries.getJSONObject(j);
+                            int id = entry.getInt("patient");
+                            if (id == patientId) {
+                                m_displayRoutingSlipEntryId = entry.getInt("routingslipentry");
+                                found = true;
+                                break;
+                            }
                         }
-                    }
 
-                } catch (JSONException e) {
+                    } catch (JSONException e) {
+                    }
+                    i++;
                 }
-                i++;
+            } catch (JSONException e) {
             }
-        } catch (JSONException e) {
         }
 
         return m_displayRoutingSlipEntryId;
