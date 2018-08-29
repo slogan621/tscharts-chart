@@ -43,7 +43,7 @@ import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
 public class AppMedicalHistoryFragment extends Fragment {
     private Activity m_activity = null;
     private SessionSingleton m_sess = null;
-    private MedicalHistory m_medicalHistory;
+    private MedicalHistory m_medicalHistory = null;
     private boolean m_dirty = false;
     private View m_view = null;
 
@@ -68,197 +68,200 @@ public class AppMedicalHistoryFragment extends Fragment {
         RadioButton rb;
         boolean bv;
 
-        // Pregnancy
+        if (m_medicalHistory != null) {
 
-        sw = (Switch) m_view.findViewById(R.id.mother_alcohol);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isMotherAlcohol());
-        }
-        sw = (Switch) m_view.findViewById(R.id.pregnancy_smoke);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isPregnancySmoke());
-        }
-        sw = (Switch) m_view.findViewById(R.id.pregnancy_complications);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isPregnancyComplications());
-        }
+            // Pregnancy
 
-        tx = (TextView) m_view.findViewById(R.id.pregnancy_duration);
-        if (tx != null) {
-            tx.setText(String.format("%d", m_medicalHistory.getPregnancyDuration()));
-        }
+            sw = (Switch) m_view.findViewById(R.id.mother_alcohol);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isMotherAlcohol());
+            }
+            sw = (Switch) m_view.findViewById(R.id.pregnancy_smoke);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isPregnancySmoke());
+            }
+            sw = (Switch) m_view.findViewById(R.id.pregnancy_complications);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isPregnancyComplications());
+            }
 
-        // Birth
+            tx = (TextView) m_view.findViewById(R.id.pregnancy_duration);
+            if (tx != null) {
+                tx.setText(String.format("%d", m_medicalHistory.getPregnancyDuration()));
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.birth_complications);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isBirthComplications());
-        }
+            // Birth
 
-        sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isCongenitalHeartDefect());
-        }
+            sw = (Switch) m_view.findViewById(R.id.birth_complications);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isBirthComplications());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect_workup);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isCongenitalHeartDefectWorkup());
-        }
+            sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isCongenitalHeartDefect());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect_planforcare);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isCongenitalHeartDefectPlanForCare());
-        }
+            sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect_workup);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isCongenitalHeartDefectWorkup());
+            }
 
-        tx = (TextView) m_view.findViewById(R.id.birth_weight);
-        if (tx != null) {
-            tx.setText(String.format("%d", m_medicalHistory.getBirthWeight()));
-        }
+            sw = (Switch) m_view.findViewById(R.id.congenitalheartdefect_planforcare);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isCongenitalHeartDefectPlanForCare());
+            }
 
-        bv = m_medicalHistory.isBirthWeightMetric();
-        rb = (RadioButton) m_view.findViewById(R.id.birth_weight_kg);
-        rb.setChecked(bv);
-        rb = (RadioButton) m_view.findViewById(R.id.birth_weight_lb);
-        rb.setChecked(!bv);
+            tx = (TextView) m_view.findViewById(R.id.birth_weight);
+            if (tx != null) {
+                tx.setText(String.format("%d", m_medicalHistory.getBirthWeight()));
+            }
 
-        // Growth Stages
+            bv = m_medicalHistory.isBirthWeightMetric();
+            rb = (RadioButton) m_view.findViewById(R.id.birth_weight_kg);
+            rb.setChecked(bv);
+            rb = (RadioButton) m_view.findViewById(R.id.birth_weight_lb);
+            rb.setChecked(!bv);
 
-        tx = (TextView) m_view.findViewById(R.id.first_crawl);
-        if (tx != null) {
-            tx.setText(String.format("%d", m_medicalHistory.getFirstCrawl()));
-        }
+            // Growth Stages
 
-        tx = (TextView) m_view.findViewById(R.id.first_sit);
-        if (tx != null) {
-            tx.setText(String.format("%d", m_medicalHistory.getFirstSit()));
-        }
+            tx = (TextView) m_view.findViewById(R.id.first_crawl);
+            if (tx != null) {
+                tx.setText(String.format("%d", m_medicalHistory.getFirstCrawl()));
+            }
 
-        tx = (TextView) m_view.findViewById(R.id.first_words);
-        if (tx != null) {
-            tx.setText(String.format("%d", m_medicalHistory.getFirstWords()));
-        }
+            tx = (TextView) m_view.findViewById(R.id.first_sit);
+            if (tx != null) {
+                tx.setText(String.format("%d", m_medicalHistory.getFirstSit()));
+            }
 
-        tx = (TextView) m_view.findViewById(R.id.first_walk);
-        if (tx != null) {
-            tx.setText(String.format("%d", m_medicalHistory.getFirstWalk()));
-        }
+            tx = (TextView) m_view.findViewById(R.id.first_words);
+            if (tx != null) {
+                tx.setText(String.format("%d", m_medicalHistory.getFirstWords()));
+            }
 
-        // Family History
+            tx = (TextView) m_view.findViewById(R.id.first_walk);
+            if (tx != null) {
+                tx.setText(String.format("%d", m_medicalHistory.getFirstWalk()));
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.parents_cleft);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isParentsCleft());
-        }
+            // Family History
 
-        sw = (Switch) m_view.findViewById(R.id.siblings_cleft);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isSiblingsCleft());
-        }
+            sw = (Switch) m_view.findViewById(R.id.parents_cleft);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isParentsCleft());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.relative_cleft);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isRelativeCleft());
-        }
+            sw = (Switch) m_view.findViewById(R.id.siblings_cleft);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isSiblingsCleft());
+            }
 
-        // Current Health
+            sw = (Switch) m_view.findViewById(R.id.relative_cleft);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isRelativeCleft());
+            }
 
-        tx = (TextView) m_view.findViewById(R.id.height);
-        if (tx != null) {
-            tx.setText(String.format("%d", m_medicalHistory.getHeight()));
-        }
+            // Current Health
 
-        bv = m_medicalHistory.isHeightMetric();
-        rb = (RadioButton) m_view.findViewById(R.id.height_cm);
-        rb.setChecked(bv);
-        rb = (RadioButton) m_view.findViewById(R.id.height_in);
-        rb.setChecked(!bv);
+            tx = (TextView) m_view.findViewById(R.id.height);
+            if (tx != null) {
+                tx.setText(String.format("%d", m_medicalHistory.getHeight()));
+            }
 
-        tx = (TextView) m_view.findViewById(R.id.weight);
-        if (tx != null) {
-            tx.setText(String.format("%d", m_medicalHistory.getWeight()));
-        }
+            bv = m_medicalHistory.isHeightMetric();
+            rb = (RadioButton) m_view.findViewById(R.id.height_cm);
+            rb.setChecked(bv);
+            rb = (RadioButton) m_view.findViewById(R.id.height_in);
+            rb.setChecked(!bv);
 
-        bv = m_medicalHistory.isWeightMetric();
-        rb = (RadioButton) m_view.findViewById(R.id.weight_kg);
-        rb.setChecked(bv);
-        rb = (RadioButton) m_view.findViewById(R.id.weight_lb);
-        rb.setChecked(!bv);
+            tx = (TextView) m_view.findViewById(R.id.weight);
+            if (tx != null) {
+                tx.setText(String.format("%d", m_medicalHistory.getWeight()));
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.cold_cough_fever);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isColdCoughFever());
-        }
+            bv = m_medicalHistory.isWeightMetric();
+            rb = (RadioButton) m_view.findViewById(R.id.weight_kg);
+            rb.setChecked(bv);
+            rb = (RadioButton) m_view.findViewById(R.id.weight_lb);
+            rb.setChecked(!bv);
 
-        sw = (Switch) m_view.findViewById(R.id.hivaids);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isHivaids());
-        }
+            sw = (Switch) m_view.findViewById(R.id.cold_cough_fever);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isColdCoughFever());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.anemia);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isAnemia());
-        }
+            sw = (Switch) m_view.findViewById(R.id.hivaids);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isHivaids());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.athsma);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isAthsma());
-        }
+            sw = (Switch) m_view.findViewById(R.id.anemia);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isAnemia());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.cancer);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isCancer());
-        }
+            sw = (Switch) m_view.findViewById(R.id.athsma);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isAthsma());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.diabetes);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isDiabetes());
-        }
+            sw = (Switch) m_view.findViewById(R.id.cancer);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isCancer());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.epilepsy);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isEpilepsy());
-        }
+            sw = (Switch) m_view.findViewById(R.id.diabetes);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isDiabetes());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.bleeding_problems);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isBleedingProblems());
-        }
+            sw = (Switch) m_view.findViewById(R.id.epilepsy);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isEpilepsy());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.hepatitis);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isHepatitis());
-        }
+            sw = (Switch) m_view.findViewById(R.id.bleeding_problems);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isBleedingProblems());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.tuberculosis);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isTuberculosis());
-        }
+            sw = (Switch) m_view.findViewById(R.id.hepatitis);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isHepatitis());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.troubleeating);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isTroubleEating());
-        }
+            sw = (Switch) m_view.findViewById(R.id.tuberculosis);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isTuberculosis());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.troublehearing);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isTroubleHearing());
-        }
+            sw = (Switch) m_view.findViewById(R.id.troubleeating);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isTroubleEating());
+            }
 
-        sw = (Switch) m_view.findViewById(R.id.troublespeaking);
-        if (sw != null) {
-            sw.setChecked(m_medicalHistory.isTroubleSpeaking());
-        }
+            sw = (Switch) m_view.findViewById(R.id.troublehearing);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isTroubleHearing());
+            }
 
-        // Medications
+            sw = (Switch) m_view.findViewById(R.id.troublespeaking);
+            if (sw != null) {
+                sw.setChecked(m_medicalHistory.isTroubleSpeaking());
+            }
 
-        tx = (TextView) m_view.findViewById(R.id.meds);
-        if (tx != null) {
-            tx.setText(m_medicalHistory.getMeds());
-        }
+            // Medications
 
-        tx = (TextView) m_view.findViewById(R.id.allergymeds);
-        if (tx != null) {
-            tx.setText(m_medicalHistory.getAllergyMeds());
+            tx = (TextView) m_view.findViewById(R.id.meds);
+            if (tx != null) {
+                tx.setText(m_medicalHistory.getMeds());
+            }
+
+            tx = (TextView) m_view.findViewById(R.id.allergymeds);
+            if (tx != null) {
+                tx.setText(m_medicalHistory.getAllergyMeds());
+            }
         }
     }
 
@@ -825,9 +828,13 @@ public class AppMedicalHistoryFragment extends Fragment {
         boolean bv;
         boolean checked;
 
-        MedicalHistory mh = new MedicalHistory();
+        MedicalHistory mh;
 
-        mh = m_medicalHistory;
+        if (m_medicalHistory == null) {
+            mh = new MedicalHistory();
+        } else {
+            mh = m_medicalHistory;      // copies over clinic, patient ID, etc..
+        }
 
         // Pregnancy
 
@@ -933,7 +940,7 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         rb = (RadioButton) m_view.findViewById(R.id.height_in);
         if (rb != null) {
-            mh.setHeightMetric(rb.isChecked());
+            mh.setHeightMetric(!rb.isChecked());
         }
 
         tx = (TextView) m_view.findViewById(R.id.weight);
@@ -1190,14 +1197,17 @@ public class AppMedicalHistoryFragment extends Fragment {
             public void run() {
             Thread thread = new Thread(){
                 public void run() {
-                m_medicalHistory = m_sess.getMedicalHistory(m_sess.getClinicId(), m_sess.getDisplayPatientId());
-                if (m_medicalHistory == null) {
+                MedicalHistory hist;
+                hist = m_sess.getMedicalHistory(m_sess.getClinicId(), m_sess.getDisplayPatientId());
+                if (hist == null) {
+                    m_medicalHistory = null;
                     m_activity.runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_get_medical_history), Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
+                    m_medicalHistory = hist;
                     m_activity.runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_got_medical_history), Toast.LENGTH_SHORT).show();
