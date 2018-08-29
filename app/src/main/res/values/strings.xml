@@ -200,4 +200,5 @@
     <string name="msg_invalid_first_words_range">Enter a valid speaking age in months</string>
     <string name="msg_invalid_height">Enter a valid height</string>
     <string name="msg_invalid_weight">Enter a valid weight</string>
+    <string name="msg_unable_to_update_routing_slip_entry">Unable to update routing slip entry</string>
 </resources>

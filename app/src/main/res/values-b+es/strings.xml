@@ -135,7 +135,8 @@
     <string name="column_label_available_stations">Estaciones disponibles</string>     <string name="column_label_current_routing_slip">Ficha de transmisión actual</string>
     <string name="msg_patient_successfully_checked_out"> El paciente se dio de alta con éxito</string> 
     <string name="msg_unable_to_update_state_change_object">No se logra actualizar declarar cambio de objeto</string> 
-    <string name="unable_to_update_routing_slip"> No se logra actualizar ficha de transmisión</string>
+    <string name="unable_to_update_routing_slip">No se logra actualizar ficha de transmisión</string>
+    <string name="msg_unable_to_update_routing_slip_entry">No se logra actualizar el elemento de ficha de transmisión</string>
     <string name="unable_to_set_clinic_station_state"> No se logra establecer estado de la estación de clínica</string> 
     <string name="msg_return_to_clinic_successfully_created">Volver a la clínica creado con éxito</string>
     <string name="msg_unable_to_create_return_to_clinic">No se logra crear volver a la clínica para el paciente</string> 

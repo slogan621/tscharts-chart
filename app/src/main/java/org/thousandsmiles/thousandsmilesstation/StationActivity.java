@@ -136,7 +136,11 @@ public class StationActivity extends AppCompatActivity {
                         }
                         routingSlipEntryId = m_sess.getDisplayRoutingSlipEntryId();
                         if (routingSlipEntryId == -1) {
-
+                            StationActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(StationActivity.this, StationActivity.this.getString(R.string.msg_unable_to_update_routing_slip_entry), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }
                 }
