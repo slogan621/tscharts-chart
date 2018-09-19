@@ -30,6 +30,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -324,6 +326,9 @@ public class StationActivity extends AppCompatActivity {
                 recycler = findViewById(R.id.active_item_list_box);
                 if (recycler.getVisibility() == View.VISIBLE)
                     recycler.setVisibility(View.GONE);
+                View checkbox = findViewById(R.id.show_all_waiting_box);
+                if (checkbox.getVisibility() == View.VISIBLE)
+                    checkbox.setVisibility(View.INVISIBLE);
                 View listView = findViewById(R.id.app_item_list);
                 if (recycler.getVisibility() == View.GONE)
                     listView.setVisibility(View.VISIBLE);
@@ -351,6 +356,9 @@ public class StationActivity extends AppCompatActivity {
                 recycler = findViewById(R.id.active_item_list_box);
                 if (recycler.getVisibility() == View.VISIBLE)
                     recycler.setVisibility(View.INVISIBLE);
+                View checkbox = findViewById(R.id.show_all_waiting_box);
+                if (checkbox.getVisibility() == View.VISIBLE)
+                    checkbox.setVisibility(View.INVISIBLE);
                 View listView = findViewById(R.id.app_item_list);
                 if (listView.getVisibility() == View.VISIBLE)
                     listView.setVisibility(View.INVISIBLE);
@@ -378,6 +386,9 @@ public class StationActivity extends AppCompatActivity {
                 recycler = findViewById(R.id.active_item_list_box);
                 if (recycler.getVisibility() == View.INVISIBLE)
                     recycler.setVisibility(View.VISIBLE);
+                View checkbox = findViewById(R.id.show_all_waiting_box);
+                if (checkbox.getVisibility() == View.INVISIBLE)
+                    checkbox.setVisibility(View.VISIBLE);
                 View listView = findViewById(R.id.app_item_list);
                 if (listView.getVisibility() == View.VISIBLE)
                     listView.setVisibility(View.INVISIBLE);
@@ -468,6 +479,16 @@ public class StationActivity extends AppCompatActivity {
         });
         instance = this;
         m_sess.clearPatientData();
+
+        CheckBox box;
+        box = (CheckBox) findViewById(R.id.show_all_waiting);
+        if (box != null) {
+            box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    m_sess.setShowAll(isChecked);
+                }
+            });
+        }
         if (m_task == null) {
             m_task = new UpdatePatientLists();
             m_task.execute((Object) null);

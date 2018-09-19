@@ -10,14 +10,14 @@
     tools:context="org.thousandsmiles.thousandsmilesstation.StationActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:id="@+id/item_list"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/item_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:layout_weight="1"
         android:baselineAligned="false"
         android:divider="?android:attr/dividerHorizontal"
         android:orientation="horizontal"
@@ -29,22 +29,20 @@
             android:layout_width="@dimen/app_chooser_item_width"
             android:layout_height="match_parent"
             android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp">
-        </ListView>
+            android:layout_marginRight="0dp"></ListView>
 
-        <LinearLayout
-            android:id="@+id/main_panel"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/main_panel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_gravity="left"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_weight="1"
             android:baselineAligned="false"
             android:orientation="vertical"
-            android:layout_gravity="left"
             android:showDividers="middle"
-            android:layout_weight="1"
             tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
 
             <LinearLayout
@@ -57,13 +55,13 @@
                     android:id="@+id/station_icon"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical" />
 
                 <TextView
                     android:id="@+id/station_name_state"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
                     style="?android:attr/textAppearanceLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
@@ -79,32 +77,31 @@
                 android:layout_marginTop="16dp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/app_panel"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/app_panel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_weight="3"
             android:baselineAligned="false"
             android:orientation="vertical"
-            android:layout_gravity="left"
-            android:showDividers="middle"
 
-            android:layout_weight="3"
+            android:showDividers="middle"
             tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:id="@+id/waiting_item_list_box"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
 
             <TextView
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/column_label_waiting" />
 
@@ -119,19 +116,18 @@
                 app:layoutManager="LinearLayoutManager"
                 tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity"
                 tools:listitem="@layout/item_list_content" />
-
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:id="@+id/active_item_list_box"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
 
             <TextView
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/column_label_active" />
 
@@ -149,6 +145,25 @@
 
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/show_all_waiting_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+        </View>
+        <CheckBox
+            android:id="@+id/show_all_waiting"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_height="wrap_content"
+            android:text="@string/show_all_waiting" />
     </LinearLayout>
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"

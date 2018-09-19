@@ -196,6 +196,6 @@
     <string name="msg_invalid_first_words_range">Ingresar primera edad en hablar válida en meses</string>
     <string name="msg_invalid_height">Ingresar altura válida</string>
     <string name="msg_invalid_weight">Ingresar peso válido</string>
-
+    <string name="show_all_waiting">Mostrar todos los pacientes en espera, independientemente del tipo de estación</string>
 </resources>
 

@@ -74,6 +74,12 @@ public class SessionSingleton {
     private int m_displayRoutingSlipEntryId = -1; // id of the routingslip entry for m_displayPatientId
     // XXX Consider moving these station class names to the API
     private CommonSessionSingleton m_commonSessionSingleton = null;
+    private boolean m_showAll = false;
+
+    public void setShowAll(boolean flag)
+    {
+        m_showAll = flag;
+    }
 
     public CommonSessionSingleton getCommonSessionSingleton()
     {
@@ -710,7 +716,7 @@ public class SessionSingleton {
                         int clinicstation = o.getInt("clinicstation");
                         int stationId = m_clinicStationToStation.get(clinicstation);
                         JSONArray entries = o.getJSONArray("entries");
-                        if (stationId == m_stationStationId) {
+                        if (m_showAll == true || stationId == m_stationStationId) {
                             for (int j = 0; j < entries.length(); j++) {
                                 JSONObject entry = entries.getJSONObject(j);
                                 int patient = entry.getInt("patient");
