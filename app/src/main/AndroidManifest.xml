@@ -16,8 +16,10 @@
             android:label="@string/app_name_full"></activity>
         <activity
             android:name=".StationActivity"
-            android:screenOrientation="landscape">
-            android:label="@string/app_name_full"></activity>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
+            android:label="@string/app_name_full">
+        </activity>
         <activity
             android:name=".StationSelectorActivity"
             android:screenOrientation="landscape">
