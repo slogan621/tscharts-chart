@@ -46,6 +46,7 @@
             tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
 
             <LinearLayout
+                android:id="@+id/id_panel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"

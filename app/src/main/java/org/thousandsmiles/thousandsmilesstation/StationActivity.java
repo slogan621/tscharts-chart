@@ -318,7 +318,20 @@ public class StationActivity extends AppCompatActivity {
             m_isAway = activeObject.getBoolean("away");
 
             View button_bar_item;
+            View id_bar;
 
+            id_bar = findViewById(R.id.id_panel);
+            if (id_bar != null)
+            {
+                if (m_isActive) {
+                    id_bar.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+                } else if (m_isAway) {
+                    id_bar.setBackgroundColor(getResources().getColor(R.color.skyBlue));
+                }
+                else {
+                    id_bar.setBackgroundColor(getResources().getColor(R.color.colorYellow));
+                }
+            }
             if (m_isActive) {
                 View recycler = findViewById(R.id.waiting_item_list_box);
                 if (recycler.getVisibility() == View.VISIBLE)

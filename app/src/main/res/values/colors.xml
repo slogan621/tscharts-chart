@@ -14,4 +14,9 @@
     <color name="grayUnselected">#ffbbbbbb</color>
     <color name="lightGray">#ffc8c8c8</color>
     <color name="white">#ffffffff</color>
+
+    <color name="colorRed">#FF0000</color>
+    <color name="colorYellow">#FFFF00</color>
+    <color name="skyBlue">#00FFFF</color>
+    <color name="colorGreen">#00FF00</color>
 </resources>
