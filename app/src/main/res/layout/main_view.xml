@@ -98,12 +98,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:paddingRight="5dp"
+            android:gravity="center_horizontal"
             tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:textSize="24dp"
+                android:background="@color/colorYellow"
                 android:text="@string/column_label_waiting" />
 
             <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -114,6 +118,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
+                android:layout_gravity="center_horizontal"
                 app:layoutManager="LinearLayoutManager"
                 tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity"
                 tools:listitem="@layout/item_list_content" />
@@ -121,8 +126,10 @@
 
         <LinearLayout
             android:id="@+id/active_item_list_box"
+            android:paddingLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
             tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
 
@@ -130,6 +137,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:textSize="24dp"
+                android:background="@color/colorGreen"
                 android:text="@string/column_label_active" />
 
             <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -140,10 +149,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
+                android:layout_gravity="center_horizontal"
                 app:layoutManager="LinearLayoutManager"
                 tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity"
                 tools:listitem="@layout/item_list_content" />
-
         </LinearLayout>
 
     </LinearLayout>

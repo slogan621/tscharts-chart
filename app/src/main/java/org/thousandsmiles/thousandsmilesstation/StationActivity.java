@@ -18,6 +18,7 @@
 package org.thousandsmiles.thousandsmilesstation;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -612,8 +613,14 @@ public class StationActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             JSONObject pObj = mValues.get(position).pObject;
+            boolean isNext = mValues.get(position).isNext;
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).id);
+            if (isNext) {
+                holder.mView.setBackgroundColor(getResources().getColor(R.color.colorYellow));
+            } else {
+                holder.mView.setBackgroundColor(Color.TRANSPARENT);
+            }
 
             String gender = "";
             String last = "";

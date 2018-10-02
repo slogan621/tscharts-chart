@@ -342,7 +342,7 @@ public class SessionSingleton {
             if (id != -1) {
                 JSONObject o = getPatientData(id);
                 if (o != null) {
-                    item = new PatientItem(String.format("%d", id), "", "", o);
+                    item = new PatientItem(String.format("%d", id), "", "", o, false);
                 }
             }
         }
@@ -389,7 +389,7 @@ public class SessionSingleton {
                     if (id != -1 && isWaitingForThisClinicStation(id)) {
                         JSONObject o = getPatientData(id);
                         if (o != null) {
-                            item = new PatientItem(String.format("%d", id), "", "", o);
+                            item = new PatientItem(String.format("%d", id), "", "", o, false);
                             break;
                         }
                     }
@@ -866,6 +866,7 @@ public class SessionSingleton {
         String id;
         String content;
         String details;
+        boolean isNext;
 
         for (int i = 0; i < list.size(); i++) {
             int val = list.get(i);
@@ -873,8 +874,15 @@ public class SessionSingleton {
             JSONObject pData = m_patientData.get(val);
             content = String.format("Content %d", val);
             details = String.format("Details %d", val);
+            PatientItem nextPatient = getWaitingPatientItem();
+            boolean isWaiting;
 
-            PatientItem item = new PatientItem(id, content, details, pData);
+            isWaiting = false;
+            if (nextPatient != null && nextPatient.id.equals(id)) {
+                isWaiting = true;
+            }
+
+            PatientItem item = new PatientItem(id, content, details, pData, isWaiting);
             items.add(item);
         }
         return items;
