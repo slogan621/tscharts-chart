@@ -114,6 +114,7 @@
     <string name="station_name_audiology">Audiología</string>
     <string name="station_name_speech">El habla</string>
     <string name="station_name_ent">ENT</string>
+    <string name="station_name_hygiene">Higiene</string>
     <string name="station_name_surgery_screening">Cribado cirúrgico</string>
     <string name="station_name_ortho">Orto</string>
     <string name="title_current_medications_dialog"> Diálogo medicamentos actuales</string>

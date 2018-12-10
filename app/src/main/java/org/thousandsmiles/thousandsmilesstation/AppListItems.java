@@ -81,6 +81,18 @@ public class AppListItems {
         m_stationToAppList.put(m_context.getString(R.string.station_name_dental), items);
     }
 
+    private void initHygiene() {
+        ArrayList<AppListItem> items = new ArrayList<AppListItem>();
+        AppListItem item;
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.medical_history_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_hygiene), items);
+    }
+
     private void initXRay() {
         ArrayList<AppListItem> items = new ArrayList<AppListItem>();
         AppListItem item;
@@ -194,6 +206,7 @@ public class AppListItems {
     public void init()
     {
         initDental();
+        initHygiene();
         initXRay();
         initAudiology();
         initSpeech();

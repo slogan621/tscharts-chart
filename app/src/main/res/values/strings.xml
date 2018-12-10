@@ -202,4 +202,5 @@
     <string name="msg_invalid_weight">Enter a valid weight</string>
     <string name="msg_unable_to_update_routing_slip_entry">Unable to update routing slip entry</string>
     <string name="show_all_waiting">Show all waiting patients, regardless of station type</string>
+    <string name="station_name_hygiene">Hygiene</string>
 </resources>

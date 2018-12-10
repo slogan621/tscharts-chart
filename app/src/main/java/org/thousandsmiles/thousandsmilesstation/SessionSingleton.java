@@ -108,6 +108,7 @@ public class SessionSingleton {
         m_stationToSpanish.put("X-Ray", "Rayos X");
         m_stationToSpanish.put("Surgery Screening", "Cribado cirúrgico");
         m_stationToSpanish.put("Speech", "El habla");
+        m_stationToSpanish.put("Hygiene", "Higiene");
     }
 
     public String getStationNameTranslated(String en)
@@ -146,6 +147,7 @@ public class SessionSingleton {
         m_stationToSelector.put("Speech", R.drawable.speech_selector);
         m_stationToSelector.put("Surgery Screening", R.drawable.surgery_selector);
         m_stationToSelector.put("X-Ray", R.drawable.xray_selector);
+        m_stationToSelector.put("Hygiene", R.drawable.hygiene_selector);
     }
 
     public void setListWasClicked(boolean val)
