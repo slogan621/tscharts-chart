@@ -33,6 +33,7 @@ import org.thousandsmiles.tscharts_lib.MedicalHistory;
 import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
 import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
+import org.thousandsmiles.tscharts_lib.StationREST;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -494,33 +495,6 @@ public class SessionSingleton {
             }
 
             int status = clinicStationData.getStatus();
-            if (status == 200) {
-                ret = true;
-            }
-        }
-        return ret;
-    }
-
-    public boolean updateStationData() {
-        boolean ret = false;
-
-        if (Looper.myLooper() != Looper.getMainLooper()) {
-            final StationREST stationData = new StationREST(getContext());
-            Object lock = stationData.getStationData();
-
-            synchronized (lock) {
-                // we loop here in case of race conditions or spurious interrupts
-                while (true) {
-                    try {
-                        lock.wait();
-                        break;
-                    } catch (InterruptedException e) {
-                        continue;
-                    }
-                }
-            }
-
-            int status = stationData.getStatus();
             if (status == 200) {
                 ret = true;
             }

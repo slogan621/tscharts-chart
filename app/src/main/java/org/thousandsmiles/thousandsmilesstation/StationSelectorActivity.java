@@ -301,7 +301,9 @@ public class StationSelectorActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    m_sess.updateStationData(); // get the list of stations
+                    StationData sd = new StationData();
+                    sd.setContext(m_context);
+                    sd.updateStationData(); // get the list of stations
                     m_sess.initStationNameToSelectorMap();
                     StationSelectorActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
