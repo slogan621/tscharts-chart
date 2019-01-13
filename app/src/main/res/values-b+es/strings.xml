@@ -129,7 +129,8 @@
     <string name="button_no">No</string>
     <string name="msg_unable_to_get_routing_slip">No se logró obtener datos de la ficha de transmisión</string>
     <string name="msg_successfully_got_routing_slip">Se logró obtener datos de la ficha de transmisión</string>
-    <string name="unable_to_add_routing_slip_entry">No se logró añadir entrada de la ficha de transmisión</string> 
+    <string name="msg_are_you_sure_you_want_to_send_patient_to_xray">¿Está seguro de que quiere enviar un paciente a X-Ray?</string>
+    <string name="unable_to_add_routing_slip_entry">No se logró añadir entrada de la ficha de transmisión</string>
     <string name="unable_to_remove_routing_slip_entry">No se logró eliminar entrada de la ficha de transmisión</string>
     <string name="title_unsaved_routing_slip">Cambios sin guardar a la ficha de transmisión</string> 
     <string name="msg_save_routing_slip">¿Guardar cambios a la ficha de transmisión?</string>
@@ -182,6 +183,7 @@
     <string name="button_remove">Eliminar</string>
     <string name="button_check_in">Iniciar sesión</string>
     <string name="button_check_out">Finalizar sesión</string>
+    <string name="button_send_to_xray">Enviar a rayos X y volver</string>
     <string name="button_ok">Ok</string>
 
     <string name="enter_a_medication_name_here">Ingresar aquí nombre del medicamento</string>
@@ -198,5 +200,10 @@
     <string name="msg_invalid_height">Ingresar altura válida</string>
     <string name="msg_invalid_weight">Ingresar peso válido</string>
     <string name="show_all_waiting">Mostrar todos los pacientes en espera, independientemente del tipo de estación</string>
+    <string name="msg_return_to_clinic_station_successfully_created">Volver a la estación clínica creado con éxito.</string>
+    <string name="msg_unable_to_create_return_to_clinic_station">No se puede crear el retorno a la estación clínica</string>
+    <string name="msg_more_than_one_matching_returntoclinicstation_returned">More than one Return To Clinic Station resource matches search.</string>
+    <string name="unable_to_set_return_to_clinic_state_to_checked_out_dest">Unable to set Return To Clinic Station state to checked_out_dest</string>
+    <string name="msg_successfully_updated_return_to_clinic_state_to_checked_out_dest">Successfully updated Return To Clinic Station state to checked_out_dest</string>
 </resources>
 

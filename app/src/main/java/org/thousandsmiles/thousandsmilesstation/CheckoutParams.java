@@ -20,24 +20,31 @@ package org.thousandsmiles.thousandsmilesstation;
 public class CheckoutParams {
     private int m_returnMonths;
     private String m_msg;
+    private boolean m_returnToClinicStation = false;
+
+    // following are valid if m_returnToClinicStation is true
+
+    private int m_requestingClinicStationId;    // requesting clinic station (one that is checking out
+    private int m_stationId;                    // the station we want patient to go to, e.g., dental
+
 
     public void setReturnMonths(int n)
     {
         m_returnMonths = n;
     }
-
-    public void setMessage(String msg)
-    {
-        m_msg = msg;
-    }
-
     public int getReturnMonths()
     {
         return m_returnMonths;
     }
-
-    public String getMessage()
+    public void setReturnToClinicStation(boolean val) {m_returnToClinicStation = val;}
+    public boolean isReturnToClinicStation() {return m_returnToClinicStation;}
+    public void setRequestingClinicStationId(int id) {m_requestingClinicStationId = id;}
+    public int getRequestingClinicStationId() {return m_requestingClinicStationId;}
+    public void setMessage(String msg)
     {
-        return m_msg;
+        m_msg = msg;
     }
+    public String getMessage() {return m_msg;}
+    public void setStationId(int id) {m_stationId = id;}
+    public int getStationId() {return m_stationId;}
 }

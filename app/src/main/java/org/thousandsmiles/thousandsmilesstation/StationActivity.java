@@ -70,6 +70,7 @@ public class StationActivity extends AppCompatActivity {
     private AppListItems m_appListItems = new AppListItems();
     private boolean m_isActive = false;
     private boolean m_isAway = false;
+    private boolean m_isDental = false;
     private int m_currentPatient = 0;
     public static StationActivity instance = null;  // hack to let me get at the activity
     private boolean m_showingAppFragment = false;
@@ -200,6 +201,36 @@ public class StationActivity extends AppCompatActivity {
         }
     }
 
+    private void onSendToXrayPressed() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(String.format(getApplicationContext().getString(R.string.msg_are_you_sure_you_want_to_send_patient_to_xray)));
+        alertDialogBuilder.setPositiveButton(R.string.button_yes,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        setButtonEnabled(false);
+                        CheckoutParams params = new CheckoutParams();
+                        params.setReturnToClinicStation(true);
+                        params.setStationId(m_sess.getStationIdFromName("X-Ray"));
+                        params.setRequestingClinicStationId(m_sess.getClinicStationId());
+                        CheckoutPatient task = new CheckoutPatient();
+
+                        task.setStationActivity(StationActivity.this);
+                        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) params);
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton(R.string.button_no,new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Toast.makeText(StationSelectorActivity.this,"Please select another station.",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
     void showReturnToClinic()
     {
         if (m_showingAppFragment == true) {
@@ -258,6 +289,14 @@ public class StationActivity extends AppCompatActivity {
                 }
             }
         });
+        button_bar_item = findViewById(R.id.sendtoxray_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                onSendToXrayPressed();
+            }
+        });
         button_bar_item = findViewById(R.id.checkout_button);
         button_bar_item.setOnClickListener(new View.OnClickListener()
         {
@@ -303,12 +342,19 @@ public class StationActivity extends AppCompatActivity {
         button_bar_item.setEnabled(enable);
     }
 
+    private void setSendToXRayButtonEnabled(boolean enable) {
+        View button_bar_item;
+        button_bar_item = findViewById(R.id.checkout_button);
+        button_bar_item.setEnabled(enable);
+    }
+
     public void setButtonEnabled(boolean enable)
     {
         setAwayButtonEnabled(enable);
         setBackButtonEnabled(enable);
         setCheckinButtonEnabled(enable);
         setCheckoutButtonEnabled(enable);
+        setSendToXRayButtonEnabled(enable);
     }
 
     private void updateViewVisibilities()
@@ -317,6 +363,7 @@ public class StationActivity extends AppCompatActivity {
         try {
             m_isActive = activeObject.getBoolean("active");
             m_isAway = activeObject.getBoolean("away");
+            m_isDental = true; // XXX
 
             View button_bar_item;
             View id_panel;
@@ -361,9 +408,19 @@ public class StationActivity extends AppCompatActivity {
                 button_bar_item = findViewById(R.id.checkin_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.INVISIBLE);
+
+                /* if station is dental, otherwise set to invisible */
+
+                if (m_sess.isDentalStation()) {
+                    button_bar_item = findViewById(R.id.sendtoxray_button);
+                    if (button_bar_item.getVisibility() == View.INVISIBLE)
+                        button_bar_item.setVisibility(View.VISIBLE);
+                }
+
                 button_bar_item = findViewById(R.id.checkout_button);
                 if (button_bar_item.getVisibility() == View.INVISIBLE)
                     button_bar_item.setVisibility(View.VISIBLE);
+
             } else if (m_isAway == true ) {
                 View recycler = findViewById(R.id.waiting_item_list_box);
                 if (recycler.getVisibility() == View.VISIBLE)
@@ -389,6 +446,9 @@ public class StationActivity extends AppCompatActivity {
                 if (button_bar_item.getVisibility() == View.INVISIBLE)
                     button_bar_item.setVisibility(View.VISIBLE);
                 button_bar_item = findViewById(R.id.checkin_button);
+                if (button_bar_item.getVisibility() == View.VISIBLE)
+                    button_bar_item.setVisibility(View.INVISIBLE);
+                button_bar_item = findViewById(R.id.sendtoxray_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.INVISIBLE);
                 button_bar_item = findViewById(R.id.checkout_button);
@@ -424,6 +484,10 @@ public class StationActivity extends AppCompatActivity {
                     button_bar_item.setVisibility(View.INVISIBLE);
                 }
                 button_bar_item = findViewById(R.id.checkout_button);
+                if (button_bar_item.getVisibility() == View.VISIBLE)
+                    button_bar_item.setVisibility(View.INVISIBLE);
+
+                button_bar_item = findViewById(R.id.sendtoxray_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.INVISIBLE);
 

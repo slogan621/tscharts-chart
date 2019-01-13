@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017
- * (C) Copyright Thousand Smiles Foundation 2017
+ * (C) Copyright Syd Logan 2017-2019
+ * (C) Copyright Thousand Smiles Foundation 2017-2019
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -236,6 +236,38 @@ public class SessionSingleton {
             getScreenResolution(m_ctx);
         }
         return m_height;
+    }
+
+    public String getStationNameFromId(int id)
+    {
+        String ret = "";
+
+        ret = m_stationIdToName.get(id);
+        return ret;
+    }
+
+    public boolean isDentalStation() {
+        boolean ret = false;
+        int id = m_stationStationId;
+
+        String name = getStationNameFromId(id);
+        if (name.equals("Dental")) {
+            ret = true;
+        }
+        return ret;
+    }
+
+    public int getStationIdFromName(String name) {
+        int ret = -1;
+        Iterator it = m_stationIdToName.entrySet().iterator();
+        while (it.hasNext()) {
+            HashMap.Entry pair = (HashMap.Entry) it.next();
+            if (pair.getValue().equals(name)) {
+                ret = (int) pair.getKey();
+                break;
+            }
+        }
+        return ret;
     }
 
     public int getSelector(String name) {
@@ -723,10 +755,6 @@ public class SessionSingleton {
 
         public void onSuccess(int code, String msg)
         {
-            //SessionSingleton sess = SessionSingleton.getInstance();
-            //setStatus(200);
-            //onSuccess(200, "", response);
-            //sess.setRoutingSlipEntryResponse(response);
         }
 
         public void onSuccess(int code, String msg, JSONObject o)

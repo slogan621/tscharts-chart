@@ -169,6 +169,7 @@
     <string name="label_away_will_return">Away, Will Return</string>
     <string name="label_waiting">Waiting</string>
     <string name="msg_are_you_sure_you_want_to_exit">Are you sure you want to exit?</string>
+    <string name="msg_are_you_sure_you_want_to_send_patient_to_xray">Are you sure you want to send patient to X-Ray?</string>
     <string name="title_edit_medications_dialog">Add or Remove Medications</string>
     <string name="msg_enter_a_medication">Enter a medication then click add</string>
 
@@ -203,4 +204,10 @@
     <string name="msg_unable_to_update_routing_slip_entry">Unable to update routing slip entry</string>
     <string name="show_all_waiting">Show all waiting patients, regardless of station type</string>
     <string name="station_name_hygiene">Hygiene</string>
+    <string name="button_send_to_xray">Send To X-Ray and Return</string>
+    <string name="msg_return_to_clinic_station_successfully_created">Return to clinic station successfully created.</string>
+    <string name="msg_unable_to_create_return_to_clinic_station">Unable to create return to clinic station</string>
+    <string name="msg_more_than_one_matching_returntoclinicstation_returned">More than one Return To Clinic Station resource matches search.</string>
+    <string name="unable_to_set_return_to_clinic_state_to_checked_out_dest">Unable to set Return To Clinic Station state to checked_out_dest</string>
+    <string name="msg_successfully_updated_return_to_clinic_state_to_checked_out_dest">Successfully updated Return To Clinic Station state to checked_out_dest</string>
 </resources>

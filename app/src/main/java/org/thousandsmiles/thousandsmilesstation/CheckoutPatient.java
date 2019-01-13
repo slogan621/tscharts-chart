@@ -27,6 +27,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
+import org.thousandsmiles.tscharts_lib.ReturnToClinicStationREST;
 import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
 
 public class CheckoutPatient extends AsyncTask<Object, Object, Object> implements RESTCompletionListener {
@@ -75,6 +76,8 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> implement
         int patientId = m_sess.getDisplayPatientId();
         int clinicStationId = m_sess.getClinicStationId();
         int routingSlipEntryId = m_sess.getDisplayRoutingSlipEntryId();
+        int clinicId = m_sess.getClinicId();
+
         m_stationActivity.runOnUiThread(new Runnable() {
             public void run() {
                 m_stationActivity.setButtonEnabled(false);
@@ -165,6 +168,41 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> implement
             });
         }
 
+        if (m_params.isReturnToClinicStation() == true) {
+            final ReturnToClinicStationREST returnToClinicStationREST = new ReturnToClinicStationREST(m_sess.getContext());
+            returnToClinicStationREST.addListener(this);
+            lock = returnToClinicStationREST.createReturnToClinicStation(clinicId, patientId, m_params.getStationId(), m_params.getRequestingClinicStationId());
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+            status = returnToClinicStationREST.getStatus();
+            if (status == 200) {
+                StationActivity.instance.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(StationActivity.instance, R.string.msg_return_to_clinic_station_successfully_created, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                StationActivity.instance.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(StationActivity.instance, R.string.msg_unable_to_create_return_to_clinic_station, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+
+        /* check to see if we are a return to clinic station that needs to be returned to
+           the requesting clinic station, and update state if so */
+
         if (m_params.getReturnMonths() != 0) {
             final ReturnToClinicREST returnToClinicREST = new ReturnToClinicREST(m_sess.getContext());
             returnToClinicREST.addListener(this);
@@ -196,8 +234,9 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> implement
                 });
             }
         }
-        m_sess.setListWasClicked(false);
-        m_sess.setDisplayPatientId(-1);
+
+        ReturnToClinicStationCompletionHelper helper = new ReturnToClinicStationCompletionHelper();
+        helper.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
     }
 
     // This is called from background thread but runs in UI
