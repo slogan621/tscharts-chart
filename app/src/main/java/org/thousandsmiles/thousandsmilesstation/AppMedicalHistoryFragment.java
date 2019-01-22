@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017
- * (C) Copyright Thousand Smiles Foundation 2017
+ * (C) Copyright Syd Logan 2017-2019
+ * (C) Copyright Thousand Smiles Foundation 2017-2019
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1193,6 +1193,7 @@ public class AppMedicalHistoryFragment extends Fragment {
     {
         m_sess = SessionSingleton.getInstance();
 
+        m_sess.setNewMedHistory(false);
         new Thread(new Runnable() {
             public void run() {
             Thread thread = new Thread(){
@@ -1200,12 +1201,16 @@ public class AppMedicalHistoryFragment extends Fragment {
                 MedicalHistory hist;
                 hist = m_sess.getMedicalHistory(m_sess.getClinicId(), m_sess.getDisplayPatientId());
                 if (hist == null) {
-                    m_medicalHistory = null;
+                    m_medicalHistory = new MedicalHistory(); // null ??
                     m_activity.runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_get_medical_history), Toast.LENGTH_SHORT).show();
+                            copyMedicalHistoryDataToUI(); // remove if null
+                            setViewDirtyListeners();      // remove if null
+                            m_sess.setNewMedHistory(true);
                         }
                     });
+
                 } else {
                     m_medicalHistory = hist;
                     m_activity.runOnUiThread(new Runnable() {
@@ -1235,7 +1240,12 @@ public class AppMedicalHistoryFragment extends Fragment {
                 Object lock;
                 int status;
 
-                lock = rest.updateMedicalHistory(copyMedicalHistoryDataFromUI());
+                if (m_sess.getNewMedHistory() == true) {
+                    lock = rest.createMedicalHistory(copyMedicalHistoryDataFromUI());
+                    m_sess.setNewMedHistory(false);
+                } else {
+                    lock = rest.updateMedicalHistory(copyMedicalHistoryDataFromUI());
+                }
 
                 synchronized (lock) {
                     // we loop here in case of race conditions or spurious interrupts

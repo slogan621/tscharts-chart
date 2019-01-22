@@ -12,8 +12,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
+            android:label="@string/app_name_full"
             android:screenOrientation="landscape">
-            android:label="@string/app_name_full"></activity>
+        </activity>
         <activity
             android:name=".StationActivity"
             android:screenOrientation="landscape"
@@ -22,15 +23,17 @@
         </activity>
         <activity
             android:name=".StationSelectorActivity"
-            android:screenOrientation="landscape">
-            android:label="@string/title_station_selector"></activity>
+            android:screenOrientation="landscape"
+            android:label="@string/title_station_selector">
+        </activity>
         <activity
             android:name=".SettingsActivity"
-            android:screenOrientation="landscape">
-            android:label="@string/title_activity_settings"></activity>
+            android:screenOrientation="landscape"
+            android:label="@string/title_activity_settings">
+        </activity>
         <activity
             android:name=".SplashActivity"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

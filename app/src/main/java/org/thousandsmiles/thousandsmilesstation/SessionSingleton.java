@@ -76,6 +76,15 @@ public class SessionSingleton {
     // XXX Consider moving these station class names to the API
     private CommonSessionSingleton m_commonSessionSingleton = null;
     private boolean m_showAll = false;
+    private boolean m_newMedHistory = false;
+
+    public void setNewMedHistory(boolean val) {
+        m_newMedHistory = val;
+    }
+
+    public boolean getNewMedHistory() {
+        return m_newMedHistory;
+    }
 
     public void setShowAll(boolean flag)
     {
