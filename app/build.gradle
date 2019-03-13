@@ -7,7 +7,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
-        versionName "1.1.1 Jan 22, 2019"
+        versionName "1.1.2 March 12, 2019"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.slogan621:tscharts-lib:0.1.5'
+    compile 'com.github.slogan621:tscharts-lib:0.1.19'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -32,7 +32,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:design:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.volley:volley:1.0.0'
+    compile 'com.android.volley:volley:1.1.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-v4:26.1.0'
     compile 'com.android.support:design:26.1.0'
