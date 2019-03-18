@@ -852,7 +852,12 @@ public class AppMedicalHistoryFragment extends Fragment {
         }
         tx = (TextView) m_view.findViewById(R.id.pregnancy_duration);
         if (tx != null) {
-            mh.setPregnancyDuration(Integer.parseInt(tx.getText().toString()));
+            int val;
+            try {
+                val = Integer.parseInt(tx.getText().toString());
+                mh.setPregnancyDuration(val);
+            } catch (Exception e) {
+            }
         }
 
         // Birth
@@ -879,7 +884,12 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         tx = (TextView) m_view.findViewById(R.id.birth_weight);
         if (tx != null) {
-            mh.setBirthWeight(Integer.parseInt(tx.getText().toString()));
+            int val;
+            try {
+                val = Integer.parseInt(tx.getText().toString());
+                mh.setBirthWeight(val);
+            } catch (Exception e) {
+            }
         }
 
         rb = (RadioButton) m_view.findViewById(R.id.birth_weight_kg);
@@ -891,22 +901,42 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         tx = (TextView) m_view.findViewById(R.id.first_crawl);
         if (tx != null) {
-            mh.setFirstCrawl(Integer.parseInt(tx.getText().toString()));
+            int val;
+            try {
+                val = Integer.parseInt(tx.getText().toString());
+                mh.setFirstCrawl(val);
+            } catch (Exception e) {
+            }
         }
 
         tx = (TextView) m_view.findViewById(R.id.first_sit);
         if (tx != null) {
-            mh.setFirstSit(Integer.parseInt(tx.getText().toString()));
+            int val;
+            try {
+                val = Integer.parseInt(tx.getText().toString());
+                mh.setFirstSit(val);
+            } catch (Exception e) {
+            }
         }
 
         tx = (TextView) m_view.findViewById(R.id.first_words);
         if (tx != null) {
-            mh.setFirstWords(Integer.parseInt(tx.getText().toString()));
+            int val;
+            try {
+                val = Integer.parseInt(tx.getText().toString());
+                mh.setFirstWords(val);
+            } catch (Exception e) {
+            }
         }
 
         tx = (TextView) m_view.findViewById(R.id.first_walk);
         if (tx != null) {
-            mh.setFirstWalk(Integer.parseInt(tx.getText().toString()));
+            int val;
+            try {
+                val = Integer.parseInt(tx.getText().toString());
+                mh.setFirstWalk(val);
+            } catch (Exception e) {
+            }
         }
 
         // Family History
@@ -930,7 +960,12 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         tx = (TextView) m_view.findViewById(R.id.height);
         if (tx != null) {
-            mh.setHeight(Integer.parseInt(tx.getText().toString()));
+            int val;
+            try {
+                val = Integer.parseInt(tx.getText().toString());
+                mh.setHeight(val);
+            } catch (Exception e) {
+            }
         }
 
         rb = (RadioButton) m_view.findViewById(R.id.height_cm);
@@ -945,7 +980,12 @@ public class AppMedicalHistoryFragment extends Fragment {
 
         tx = (TextView) m_view.findViewById(R.id.weight);
         if (tx != null) {
-            mh.setWeight(Integer.parseInt(tx.getText().toString()));
+            int val;
+            try {
+                val = Integer.parseInt(tx.getText().toString());
+                mh.setWeight(val);
+            } catch (Exception e) {
+            }
         }
 
         rb = (RadioButton) m_view.findViewById(R.id.weight_kg);
