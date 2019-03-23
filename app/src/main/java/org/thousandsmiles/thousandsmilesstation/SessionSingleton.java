@@ -34,6 +34,8 @@ import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
 import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
 import org.thousandsmiles.tscharts_lib.StationREST;
+import org.thousandsmiles.tscharts_lib.XRay;
+import org.thousandsmiles.tscharts_lib.XRayREST;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -77,6 +79,15 @@ public class SessionSingleton {
     private CommonSessionSingleton m_commonSessionSingleton = null;
     private boolean m_showAll = false;
     private boolean m_newMedHistory = false;
+    private boolean m_newXRay = false;
+
+    public void setNewXRay(boolean val) {
+        m_newXRay = val;
+    }
+
+    public boolean getNewXRay() {
+        return m_newXRay;
+    }
 
     public void setNewMedHistory(boolean val) {
         m_newMedHistory = val;
@@ -342,6 +353,40 @@ public class SessionSingleton {
         } catch (JSONException e) {
         }
         return isAway;
+    }
+
+    private class GetXRayDataListener implements RESTCompletionListener
+    {
+        private int m_patientId = 0;
+        private JSONArray m_resultArray = null;
+
+        public void setPatientId(int id)
+        {
+            m_patientId = id;
+        }
+
+        public JSONArray getResultArray() {
+            return m_resultArray;
+        }
+
+        public void onSuccess(int code, String message, JSONArray a)
+        {
+            if (code == 200) {
+                m_resultArray = a;
+            }
+        }
+
+        public void onSuccess(int code, String message, JSONObject a)
+        {
+        }
+
+        public void onSuccess(int code, String message)
+        {
+        }
+
+        public void onFail(int code, String message)
+        {
+        }
     }
 
     public void clearPatientData()
@@ -926,6 +971,38 @@ public class SessionSingleton {
         m_patientData.put(id, data);
     }
 
+    JSONArray getXRays(final int clinicId, final int patientId)
+    {
+        JSONArray ret = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final XRayREST xrayREST = new XRayREST(getContext());
+            GetXRayDataListener listener = new GetXRayDataListener();
+            listener.setPatientId(patientId);
+            xrayREST.addListener(listener);
+
+            Object lock = xrayREST.getAllXRays(clinicId, patientId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = xrayREST.getStatus();
+            if (status == 200) {
+                ret = listener.getResultArray();
+            }
+        }
+        return ret;
+    }
+
     void updateMedicalHistory(/*final RESTCompletionListener listener */)
     {
         boolean ret = false;
@@ -999,6 +1076,35 @@ public class SessionSingleton {
             }
         }
         return mh;
+    }
+
+    public XRay getXRay(int clinicid, int patientid)
+    {
+        boolean ret = false;
+        XRay xray = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final XRayREST xrayData = new XRayREST(getContext());
+            Object lock = xrayData.getXRay(clinicid, patientid);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = xrayData.getStatus();
+            if (status == 200) {
+                xray = getCommonSessionSingleton().getPatientXray();
+            }
+        }
+        return xray;
     }
 
     public static SessionSingleton getInstance() {

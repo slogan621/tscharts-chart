@@ -113,6 +113,7 @@
 
     <string name="medical_history_name">Medical History</string>
     <string name="routing_slip_name">Routing Slip</string>
+    <string name="xray_search_results_name">XRay Search Results</string>
 
     <string name="station_name_dental">Dental</string>
     <string name="station_name_x_ray">X-Ray</string>
@@ -129,8 +130,11 @@
     <string name="msg_unable_to_save_medical_history">Unable to save medical history</string>
     <string name="title_unsaved_medical_history">Unsaved Changes to Medical History</string>
     <string name="msg_save_medical_history">Save medical history changes?</string>
+    <string name="title_unsaved_xray">Unsaved Changes to X-Ray</string>
+    <string name="msg_save_xray">Save X-Ray changes?</string>
     <string name="button_yes">Yes</string>
     <string name="button_no">No</string>
+    <string name="button_label_add_new">New X-Ray Record</string>
     <string name="msg_unable_to_get_routing_slip">Unable to get routing slip data</string>
     <string name="msg_successfully_got_routing_slip">Successfully got routing slip data</string>
     <string name="unable_to_add_routing_slip_entry">Unable to add routing slip entry</string>
@@ -210,4 +214,17 @@
     <string name="msg_more_than_one_matching_returntoclinicstation_returned">More than one Return To Clinic Station resource matches search.</string>
     <string name="unable_to_set_return_to_clinic_state_to_checked_out_dest">Unable to set Return To Clinic Station state to checked_out_dest</string>
     <string name="msg_successfully_updated_return_to_clinic_state_to_checked_out_dest">Successfully updated Return To Clinic Station state to checked_out_dest</string>
+    <string name="question_create_new_xray_record">Create a New X-Ray Record?</string>
+    <string name="xray_name">X-Rays</string>
+    <string name="msg_unable_to_get_xrays_for_patient">Unable to get X-Rays for patient</string>
+    <string name="xray_type">X-Ray Type</string>
+    <string name="xray_type_full">Full</string>
+    <string name="xray_type_anteriors_bitewings">Anteriors-Bitewings</string>
+    <string name="xray_mouth_type">Mouth Type</string>
+    <string name="xray_mouth_type_child">Child</string>
+    <string name="xray_mouth_type_adult">Adult</string>
+    <string name="msg_unable_to_get_xray_data">Unable to read X-Ray data</string>
+    <string name="msg_successfully_got_x_ray_data">Successfully read X-Ray data</string>
+    <string name="msg_successfully_saved_xray">Successfully saved X-Ray</string>
+    <string name="msg_unable_to_save_xray">Unable to save X-Ray</string>
 </resources>

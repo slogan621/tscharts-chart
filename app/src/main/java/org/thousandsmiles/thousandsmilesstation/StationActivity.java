@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017
- * (C) Copyright Thousand Smiles Foundation 2017
+ * (C) Copyright Syd Logan 2017-2019
+ * (C) Copyright Thousand Smiles Foundation 2017-2019
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -39,11 +38,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
-import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -344,7 +340,7 @@ public class StationActivity extends AppCompatActivity {
 
     private void setSendToXRayButtonEnabled(boolean enable) {
         View button_bar_item;
-        button_bar_item = findViewById(R.id.checkout_button);
+        button_bar_item = findViewById(R.id.sendtoxray_button);
         button_bar_item.setEnabled(enable);
     }
 
@@ -413,13 +409,18 @@ public class StationActivity extends AppCompatActivity {
 
                 if (m_sess.isDentalStation()) {
                     button_bar_item = findViewById(R.id.sendtoxray_button);
-                    if (button_bar_item.getVisibility() == View.INVISIBLE)
+                    if (button_bar_item.getVisibility() == View.INVISIBLE) {
                         button_bar_item.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    button_bar_item = findViewById(R.id.sendtoxray_button);
+                    button_bar_item.setVisibility(View.INVISIBLE);
                 }
 
                 button_bar_item = findViewById(R.id.checkout_button);
-                if (button_bar_item.getVisibility() == View.INVISIBLE)
+                if (button_bar_item.getVisibility() == View.INVISIBLE) {
                     button_bar_item.setVisibility(View.VISIBLE);
+                }
 
             } else if (m_isAway == true ) {
                 View recycler = findViewById(R.id.waiting_item_list_box);
@@ -788,6 +789,10 @@ public class StationActivity extends AppCompatActivity {
                         showMedicalHistory();
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
+                    } else if (names.get(position).equals(getApplicationContext().getString(R.string.xray_name))) {
+                        showXRaySearchResults();
+                        m_showingAppFragment = true;
+                        m_fragmentName = names.get(position);
                     }
                 }
             }
@@ -803,6 +808,17 @@ public class StationActivity extends AppCompatActivity {
                 .replace(R.id.app_panel, fragment)
                 .commit();
     }
+
+    public void showXRaySearchResults()
+    {
+        Bundle arguments = new Bundle();
+        AppPatientXRayListFragment fragment = new AppPatientXRayListFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
+    }
+
     public void showMedicalHistory()
     {
         Bundle arguments = new Bundle();

@@ -32,7 +32,8 @@
 
     <!-- button labels -->
 
-    <string name="button_select"> Seleccionar</string>
+    <string name="button_select">Seleccionar</string>
+    <string name="button_label_add_new">Nuevo registro de rayos x</string>
 
     <!-- Checkout -->
 
@@ -108,6 +109,7 @@
 
     <string name="medical_history_name">Historial médico</string>
     <string name="routing_slip_name">Ficha de transmisión</string>
+    <string name="xray_search_results_name">Resultados de búsqueda de rayos X</string>
 
     <string name="station_name_dental">Dental</string>
     <string name="station_name_x_ray">Rayos X</string>
@@ -124,7 +126,9 @@
     <string name="msg_successfully_saved_medical_history">Se logró guardar historial médico</string>
     <string name="msg_unable_to_save_medical_history">No se logró guardar historial médico</string>
     <string name="title_unsaved_medical_history">Cambios sin guardar del historial médico</string> 
-    <string name="msg_save_medical_history">¿Guardar cambios al historial médico?</string> 
+    <string name="msg_save_medical_history">¿Guardar cambios al historial médico?</string>
+    <string name="title_unsaved_xray">Cambios sin guardar del Rayos X</string>
+    <string name="msg_save_xray">¿Guardar cambios al Rayos X?</string>
     <string name="button_yes">Sí</string>
     <string name="button_no">No</string>
     <string name="msg_unable_to_get_routing_slip">No se logró obtener datos de la ficha de transmisión</string>
@@ -205,5 +209,18 @@
     <string name="msg_more_than_one_matching_returntoclinicstation_returned">More than one Return To Clinic Station resource matches search.</string>
     <string name="unable_to_set_return_to_clinic_state_to_checked_out_dest">Unable to set Return To Clinic Station state to checked_out_dest</string>
     <string name="msg_successfully_updated_return_to_clinic_state_to_checked_out_dest">Successfully updated Return To Clinic Station state to checked_out_dest</string>
+    <string name="question_create_new_xray_record">¿Crear un nuevo registro de rayos X?</string>
+    <string name="xray_name">Rayos-X</string>
+    <string name="msg_unable_to_get_xrays_for_patient">No se pueden obtener radiografías para el paciente</string>
+    <string name="xray_type">Tipo de rayos x</string>
+    <string name="xray_type_full">Completo</string>
+    <string name="xray_type_anteriors_bitewings">Anteriores - Bitewings</string>
+    <string name="xray_mouth_type">Tipo de boca</string>
+    <string name="xray_mouth_type_child">Niño</string>
+    <string name="xray_mouth_type_adult">Adulto</string>
+    <string name="msg_unable_to_get_xray_data">No se pueden leer los datos de rayos X</string>
+    <string name="msg_successfully_got_x_ray_data">Leer con éxito los datos de rayos X</string>
+    <string name="msg_successfully_saved_xray">Datos de Rayos X guardados exitosamente</string>
+    <string name="msg_unable_to_save_xray">Error al guardar datos de rayos X</string>
 </resources>
 
