@@ -109,6 +109,12 @@ public class AppPatientXRayEditorFragment extends Fragment {
             public void onClick(View arg0) {
                 m_leaving = true;
                 updateXRay();
+                // kludge give some time for the update
+                try {
+                    Thread.sleep(500);
+                } catch (Exception e) {
+
+                }
                 m_activity.showXRaySearchResults();
             }
 
