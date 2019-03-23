@@ -36,16 +36,16 @@ import android.widget.RadioButton;
 
 import android.widget.Toast;
 
-import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.XRay;
 import org.thousandsmiles.tscharts_lib.XRayREST;
 
 public class AppPatientXRayEditorFragment extends Fragment {
-    private Activity m_activity = null;
+    private StationActivity m_activity = null;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     private XRay m_xray = null;
     private boolean m_dirty = false;
     private View m_view = null;
+    private boolean m_leaving = false;
 
     public static AppPatientXRayEditorFragment newInstance() {
         return new AppPatientXRayEditorFragment();
@@ -56,7 +56,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
         super.onAttach(context);
 
         if (context instanceof Activity){
-            m_activity=(Activity) context;
+            m_activity=(StationActivity) context;
         }
     }
 
@@ -107,7 +107,9 @@ public class AppPatientXRayEditorFragment extends Fragment {
 
             @Override
             public void onClick(View arg0) {
+                m_leaving = true;
                 updateXRay();
+                m_activity.showXRaySearchResults();
             }
 
         });
@@ -259,7 +261,6 @@ public class AppPatientXRayEditorFragment extends Fragment {
                     handler.post(new Runnable() {
                         public void run() {
                             clearDirty();
-                            m_xray = copyXRayDataFromUI();
                             Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_saved_xray), Toast.LENGTH_LONG).show();
                         }
                     });
@@ -320,7 +321,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
 
         final XRay xray = this.copyXRayDataFromUI();
 
-        if (m_dirty || xray.equals(m_xray) == false) {
+        if ((m_dirty || xray.equals(m_xray) == false) && m_leaving == false) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
             builder.setTitle(m_activity.getString(R.string.title_unsaved_xray));
