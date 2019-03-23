@@ -108,6 +108,13 @@ public class AppListItems {
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.xray_name));
+        item.setImageId(R.drawable.xray);
+        item.setSelector(R.drawable.app_xray_selector);
+        items.add(item);
+
         m_stationToAppList.put(m_context.getString(R.string.station_name_x_ray), items);
     }
 

@@ -17,8 +17,6 @@
 
 package org.thousandsmiles.thousandsmilesstation;
 
-import java.util.Locale;
-
 public class RoutingSlipEntry {
     private int m_station;
     private String m_name;
