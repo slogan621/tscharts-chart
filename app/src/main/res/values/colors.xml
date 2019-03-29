@@ -14,6 +14,7 @@
     <color name="grayUnselected">#ffbbbbbb</color>
     <color name="lightGray">#ffc8c8c8</color>
     <color name="white">#ffffffff</color>
+    <color name="xrayGray">#ffbbbbbb</color>
 
     <color name="colorRed">#FF0000</color>
     <color name="colorYellow">#FFFF00</color>

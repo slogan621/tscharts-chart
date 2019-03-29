@@ -138,16 +138,14 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical"
         android:background="@color/white">
 
         <ImageView
             android:id="@+id/xray_mouth_image"
-            android:layout_width="530px"
-            android:layout_height="792px"
-            android:layout_gravity="center"
-            android:paddingRight="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="matrix"
             android:src="@drawable/adult_teeth"></ImageView>
     </LinearLayout>
 </LinearLayout>
