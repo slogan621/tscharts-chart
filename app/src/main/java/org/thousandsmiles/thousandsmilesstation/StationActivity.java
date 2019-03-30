@@ -780,7 +780,7 @@ public class StationActivity extends AppCompatActivity {
 
                 String selectedName = names.get(position);
 
-                if (!m_showingAppFragment || selectedName.equals(m_fragmentName) == false) {
+                if (!m_showingAppFragment || names.get(position).equals(getApplicationContext().getString(R.string.xray_name)) || selectedName.equals(m_fragmentName) == false) {
                     if (names.get(position).equals(getApplicationContext().getString(R.string.routing_slip_name))) {
                         showRoutingSlip();
                         m_showingAppFragment = true;
