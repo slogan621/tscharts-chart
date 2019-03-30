@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *  Code derived from https://stackoverflow.com/questions/16968412/how-to-use-flood-fill-algorithm-in-android
  */
 
 package org.thousandsmiles.thousandsmilesstation;

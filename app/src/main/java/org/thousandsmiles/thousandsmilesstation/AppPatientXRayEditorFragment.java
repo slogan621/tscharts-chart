@@ -74,6 +74,8 @@ public class AppPatientXRayEditorFragment extends Fragment {
         m_childImageMap.setHeight(714);
         m_childImageMap.setBitmap(resizedBitmap);
 
+        createChildHitRegions();
+
         m_adultImageMap.setColoredPixel(getResources().getColor(R.color.colorThousandsmiles));
         m_adultImageMap.setUncoloredPixel(getResources().getColor(R.color.xrayGray));
         b = (BitmapDrawable) this.getResources().getDrawable(R.drawable.adult_teeth_gray);
@@ -82,10 +84,101 @@ public class AppPatientXRayEditorFragment extends Fragment {
         m_adultImageMap.setHeight(877);
         m_adultImageMap.setBitmap(resizedBitmap);
 
-        Point p = new Point(237, 24);
-        m_adultImageMap.addImageMapObject(p, 50, 40, 1);
-        p = new Point(301, 21);
-        m_adultImageMap.addImageMapObject(p, 50, 40, 2);
+        createAdultHitRegions();
+    }
+
+    protected class HitRegion {
+        public int m_x1;
+        public int m_y1;
+        public int m_x2;
+        public int m_y2;
+        public int m_width;
+        public int m_height;
+
+        HitRegion(int x1, int y1, int x2, int y2) {
+            m_x1 = x1;
+            m_y1 = y1;
+            m_x2 = x2;
+            m_y2 = y2;
+            m_width = m_x2 - m_x1;
+            m_height = m_y2 - m_y1;
+        };
+    }
+
+    private void createAdultHitRegions() {
+        HitRegion [] regions = {
+                new HitRegion(61, 368, 101, 409),
+                new HitRegion(70, 303, 119, 343),
+                new HitRegion(85, 225, 147, 280),
+                new HitRegion(109, 172, 146, 201),
+                new HitRegion(129, 128, 171, 154),
+                new HitRegion(154, 82, 188, 106),
+                new HitRegion(193, 51, 228, 79),
+                new HitRegion(238, 29, 280, 66),
+                new HitRegion(304, 25, 346, 75),
+                new HitRegion(365, 50, 402, 73),
+                new HitRegion(405, 86, 438, 114),
+                new HitRegion(413, 137, 461, 159),
+                new HitRegion(433, 181, 485, 211),
+                new HitRegion(440, 241, 507, 281),
+                new HitRegion(458, 313, 519, 351),
+                new HitRegion(464, 378, 527, 430),
+                new HitRegion(479, 502, 526, 547),
+                new HitRegion(446, 570, 505, 620),
+                new HitRegion(430, 641, 489, 696),
+                new HitRegion(418, 718, 469, 760),
+                new HitRegion(395, 768, 444, 809),
+                new HitRegion(360, 806, 404, 840),
+                new HitRegion(329, 822, 356, 857),
+                new HitRegion(293, 834, 320, 860),
+                new HitRegion(258, 836, 281, 856),
+                new HitRegion(220, 824, 243, 849),
+                new HitRegion(174, 804, 209, 828),
+                new HitRegion(142, 763, 177, 792),
+                new HitRegion(121, 713, 159, 742),
+                new HitRegion(99, 638, 151, 686),
+                new HitRegion(79, 562, 136, 606),
+                new HitRegion(67, 495, 115, 532)
+        };
+
+        for (int i = 0; i < regions.length; i++) {
+            m_adultImageMap.addImageMapObject(new Point(regions[i].m_x1, regions[i].m_y1),
+                    regions[i].m_width, regions[i].m_height, (Object) (i + 1));
+        }
+    }
+
+    private void createChildHitRegions() {
+        HitRegion [] regions = {
+                new HitRegion(82, 262, 141, 310),
+                new HitRegion(93, 201, 149, 241),
+                new HitRegion(114, 152, 165, 185),
+                new HitRegion(152, 103, 197, 139),
+                new HitRegion(182, 59, 228, 95),
+                new HitRegion(238, 42, 279, 74),
+                new HitRegion(296, 40, 331, 80),
+                new HitRegion(349, 56, 386, 86),
+                new HitRegion(373, 96, 419, 125),
+                new HitRegion(399, 143, 455, 184),
+                new HitRegion(427, 203, 475, 238),
+                new HitRegion(440, 260, 497, 299),
+                new HitRegion(440, 400, 492, 442),
+                new HitRegion(424, 465, 489, 503),
+                new HitRegion(401, 516, 459, 562),
+                new HitRegion(380, 572, 429, 610),
+                new HitRegion(345, 612, 397, 648),
+                new HitRegion(291, 625, 443, 669),
+                new HitRegion(240, 622, 282, 664),
+                new HitRegion(190, 615, 229, 650),
+                new HitRegion(160, 578, 205, 605),
+                new HitRegion(117, 520, 169, 561),
+                new HitRegion(91, 468, 152, 507),
+                new HitRegion(75, 407, 140, 448)
+        };
+
+        for (int i = 0; i < regions.length; i++) {
+            m_childImageMap.addImageMapObject(new Point(regions[i].m_x1, regions[i].m_y1),
+                    regions[i].m_width, regions[i].m_height, (Object) (i + 1));
+        }
     }
 
     public static AppPatientXRayEditorFragment newInstance() {
