@@ -222,5 +222,7 @@
     <string name="msg_successfully_got_x_ray_data">Leer con éxito los datos de rayos X</string>
     <string name="msg_successfully_saved_xray">Datos de Rayos X guardados exitosamente</string>
     <string name="msg_unable_to_save_xray">Error al guardar datos de rayos X</string>
+    <string name="set_all">Establecer todos</string>
+    <string name="clear_all">Limpiar todo</string>
 </resources>
 

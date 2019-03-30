@@ -227,4 +227,6 @@
     <string name="msg_successfully_got_x_ray_data">Successfully read X-Ray data</string>
     <string name="msg_successfully_saved_xray">Successfully saved X-Ray</string>
     <string name="msg_unable_to_save_xray">Unable to save X-Ray</string>
+    <string name="set_all">Set all</string>
+    <string name="clear_all">Clear all</string>
 </resources>

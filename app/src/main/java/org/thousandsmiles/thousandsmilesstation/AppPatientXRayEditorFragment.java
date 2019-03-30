@@ -23,7 +23,6 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -493,6 +493,28 @@ public class AppPatientXRayEditorFragment extends Fragment {
             setDirty();
         } else {
             clearDirty();
+        }
+
+        Button button = (Button) m_view.findViewById(R.id.button_xray_set);
+        if (button != null) {
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    m_xray.setTeeth(0xffffffff);
+                    setDirty();
+                    colorTeeth();
+                }
+            });
+        }
+
+        button = (Button) m_view.findViewById(R.id.button_xray_clear);
+        if (button != null) {
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    m_xray.setTeeth(0);
+                    setDirty();
+                    colorTeeth();
+                }
+            });
         }
 
         final View mouthImage = (View)getActivity().findViewById(R.id.xray_mouth_image);
