@@ -87,7 +87,7 @@
             <EditText
                 android:id="@+id/checkout_msg"
                 android:layout_width="match_parent"
-                android:layout_height="225dp"
+                android:layout_height="180dp"
                 android:inputType="text|textMultiLine"
                 android:background="@drawable/edittext_border"
                 android:gravity="top"/>
