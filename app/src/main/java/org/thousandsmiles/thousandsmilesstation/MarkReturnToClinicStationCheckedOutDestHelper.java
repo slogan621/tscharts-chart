@@ -26,7 +26,7 @@ import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
 import org.thousandsmiles.tscharts_lib.ReturnToClinicStationREST;
 
-public class ReturnToClinicStationCompletionHelper extends AsyncTask<Object, Object, Object> {
+public class MarkReturnToClinicStationCheckedOutDestHelper extends AsyncTask<Object, Object, Object> {
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     private boolean m_success = false;
     private int m_rtcsId = -1;

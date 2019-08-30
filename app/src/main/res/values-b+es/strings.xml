@@ -8,7 +8,7 @@
     <string name="prompt_password">Contraseña</string>
     <string name="action_sign_in">Iniciar sesión</string>
     <string name="action_sign_in_short"> Iniciar sesión</string>
-<string name="error_invalid_email">Este correo electrónico no es válido</string>
+    <string name="error_invalid_email">Este correo electrónico no es válido</string>
     <string name="error_clinic_not_found_date"> No se encuentra clínica activa en esta fecha</string> 
     <string name="error_invalid_password">Esta contraseña es muy corta</string>
     <string name="error_invalid_username_or_password">Nombre o contraseña no válido</string> 
@@ -134,6 +134,7 @@
     <string name="msg_unable_to_get_routing_slip">No se logró obtener datos de la ficha de transmisión</string>
     <string name="msg_successfully_got_routing_slip">Se logró obtener datos de la ficha de transmisión</string>
     <string name="msg_are_you_sure_you_want_to_send_patient_to_xray">¿Está seguro de que quiere enviar un paciente a X-Ray?</string>
+    <string name="msg_are_you_sure_you_want_to_send_patient_to_audiology">¿Está seguro de que quiere enviar un paciente a audiología?</string>
     <string name="unable_to_add_routing_slip_entry">No se logró añadir entrada de la ficha de transmisión</string>
     <string name="unable_to_remove_routing_slip_entry">No se logró eliminar entrada de la ficha de transmisión</string>
     <string name="title_unsaved_routing_slip">Cambios sin guardar a la ficha de transmisión</string> 
@@ -187,6 +188,7 @@
     <string name="button_remove">Eliminar</string>
     <string name="button_check_in">Iniciar sesión</string>
     <string name="button_check_out">Finalizar sesión</string>
+    <string name="button_send_to_audiology">Enviar a audiología y volver</string>
     <string name="button_send_to_xray">Enviar a rayos X y volver</string>
     <string name="button_ok">Ok</string>
 

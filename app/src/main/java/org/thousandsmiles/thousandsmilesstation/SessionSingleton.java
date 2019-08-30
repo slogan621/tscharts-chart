@@ -277,6 +277,17 @@ public class SessionSingleton {
         return ret;
     }
 
+    public boolean isENTStation() {
+        boolean ret = false;
+        int id = m_stationStationId;
+
+        String name = getStationNameFromId(id);
+        if (name.equals("ENT")) {
+            ret = true;
+        }
+        return ret;
+    }
+
     public int getStationIdFromName(String name) {
         int ret = -1;
         Iterator it = m_stationIdToName.entrySet().iterator();

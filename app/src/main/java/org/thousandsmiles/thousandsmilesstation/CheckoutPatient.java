@@ -235,7 +235,7 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> implement
             }
         }
 
-        ReturnToClinicStationCompletionHelper helper = new ReturnToClinicStationCompletionHelper();
+        MarkReturnToClinicStationCheckedOutDestHelper helper = new MarkReturnToClinicStationCheckedOutDestHelper();
         helper.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
     }
 

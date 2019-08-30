@@ -38,8 +38,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.SearchReturnToClinicStationHelper;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -82,12 +84,21 @@ public class StationActivity extends AppCompatActivity {
         m_appListItems.init();
     }
 
-    private class UpdatePatientLists extends AsyncTask<Object, Object, Object> {
+    private class UpdatePatientLists extends AsyncTask<Object, Object, Object>  {
+
         @Override
         protected String doInBackground(Object... params) {
             boolean first = true;
 
             while (true) {
+
+                StationActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        View v = findViewById(R.id.waiting_item_list_title);
+                        v.setBackgroundColor(v.getResources().getColor(R.color.colorGreen));
+                    }
+                });
+
                 m_sess.updateClinicStationData();
                 if (m_sess.isActive() == false) {
                     m_sess.updateQueues();
@@ -197,9 +208,13 @@ public class StationActivity extends AppCompatActivity {
         }
     }
 
-    private void onSendToXrayPressed() {
+    private void onSendToStationPressed() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage(String.format(getApplicationContext().getString(R.string.msg_are_you_sure_you_want_to_send_patient_to_xray)));
+        if (m_sess.isENTStation()) {
+            alertDialogBuilder.setMessage(String.format(getApplicationContext().getString(R.string.msg_are_you_sure_you_want_to_send_patient_to_audiology)));
+        } else {
+            alertDialogBuilder.setMessage(String.format(getApplicationContext().getString(R.string.msg_are_you_sure_you_want_to_send_patient_to_xray)));
+        }
         alertDialogBuilder.setPositiveButton(R.string.button_yes,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -207,7 +222,11 @@ public class StationActivity extends AppCompatActivity {
                         setButtonEnabled(false);
                         CheckoutParams params = new CheckoutParams();
                         params.setReturnToClinicStation(true);
-                        params.setStationId(m_sess.getStationIdFromName("X-Ray"));
+                        if (m_sess.isENTStation()) {
+                            params.setStationId(m_sess.getStationIdFromName("Audiology"));
+                        } else {
+                            params.setStationId(m_sess.getStationIdFromName("X-Ray"));
+                        }
                         params.setRequestingClinicStationId(m_sess.getClinicStationId());
                         CheckoutPatient task = new CheckoutPatient();
 
@@ -285,12 +304,12 @@ public class StationActivity extends AppCompatActivity {
                 }
             }
         });
-        button_bar_item = findViewById(R.id.sendtoxray_button);
+        button_bar_item = findViewById(R.id.sendtostation_button);
         button_bar_item.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
-                onSendToXrayPressed();
+                onSendToStationPressed();
             }
         });
         button_bar_item = findViewById(R.id.checkout_button);
@@ -338,9 +357,9 @@ public class StationActivity extends AppCompatActivity {
         button_bar_item.setEnabled(enable);
     }
 
-    private void setSendToXRayButtonEnabled(boolean enable) {
+    private void setSendToStationButtonEnabled(boolean enable) {
         View button_bar_item;
-        button_bar_item = findViewById(R.id.sendtoxray_button);
+        button_bar_item = findViewById(R.id.sendtostation_button);
         button_bar_item.setEnabled(enable);
     }
 
@@ -350,7 +369,7 @@ public class StationActivity extends AppCompatActivity {
         setBackButtonEnabled(enable);
         setCheckinButtonEnabled(enable);
         setCheckoutButtonEnabled(enable);
-        setSendToXRayButtonEnabled(enable);
+        setSendToStationButtonEnabled(enable);
     }
 
     private void updateViewVisibilities()
@@ -408,12 +427,29 @@ public class StationActivity extends AppCompatActivity {
                 /* if station is dental, otherwise set to invisible */
 
                 if (m_sess.isDentalStation()) {
-                    button_bar_item = findViewById(R.id.sendtoxray_button);
+                    button_bar_item = findViewById(R.id.sendtostation_button);
                     if (button_bar_item.getVisibility() == View.INVISIBLE) {
+                        ImageView iv = findViewById(R.id.sendtostation_image);
+                        if (iv != null) {
+                            iv.setImageResource(R.drawable.sendtoxray_selector);
+                        }
+                        TextView tv = findViewById(R.id.sendtostation_label);
+                        tv.setText(R.string.button_send_to_xray);
                         button_bar_item.setVisibility(View.VISIBLE);
                     }
+                } else if (m_sess.isENTStation()) {
+                    button_bar_item = findViewById(R.id.sendtostation_button);
+                    if (button_bar_item.getVisibility() == View.INVISIBLE) {
+                        ImageView iv = findViewById(R.id.sendtostation_image);
+                        if (iv != null) {
+                            iv.setImageResource(R.drawable.sendtoaudiology_selector);
+                        }
+                        button_bar_item.setVisibility(View.VISIBLE);
+                        TextView tv = findViewById(R.id.sendtostation_label);
+                        tv.setText(R.string.button_send_to_audiology);
+                    }
                 } else {
-                    button_bar_item = findViewById(R.id.sendtoxray_button);
+                    button_bar_item = findViewById(R.id.sendtostation_button);
                     button_bar_item.setVisibility(View.INVISIBLE);
                 }
 
@@ -449,7 +485,7 @@ public class StationActivity extends AppCompatActivity {
                 button_bar_item = findViewById(R.id.checkin_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.INVISIBLE);
-                button_bar_item = findViewById(R.id.sendtoxray_button);
+                button_bar_item = findViewById(R.id.sendtostation_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.INVISIBLE);
                 button_bar_item = findViewById(R.id.checkout_button);
@@ -488,7 +524,7 @@ public class StationActivity extends AppCompatActivity {
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.INVISIBLE);
 
-                button_bar_item = findViewById(R.id.sendtoxray_button);
+                button_bar_item = findViewById(R.id.sendtostation_button);
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.INVISIBLE);
 
@@ -629,7 +665,6 @@ public class StationActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<PatientItemRecyclerViewAdapter.ViewHolder> {
 
         private List<PatientItem> mValues = new ArrayList<PatientItem>();
-
         private boolean m_isWaiting;
 
         public PatientItemRecyclerViewAdapter(boolean isWaiting) {
@@ -690,14 +725,15 @@ public class StationActivity extends AppCompatActivity {
             String gender = "";
             String last = "";
             String first = "";
+            int patientId = -1;
 
             try {
                 gender = pObj.getString("gender");
                 last = pObj.getString("paternal_last");
                 first = pObj.getString("first");
+                patientId = pObj.getInt("id");
 
             } catch (JSONException e) {
-
             }
 
             holder.mContentView.setText(String.format("%s, %s", last, first));
@@ -725,6 +761,23 @@ public class StationActivity extends AppCompatActivity {
                             .commit();
                 }
             });
+
+            SearchReturnToClinicStationHelper searchHelper = new SearchReturnToClinicStationHelper();
+            searchHelper.setState("scheduled_return");
+            searchHelper.setContext(getApplicationContext());
+            searchHelper.setRequestingStation(m_sess.getClinicStationId());
+            searchHelper.setClinic(m_sess.getClinicId());
+            searchHelper.setPatient(patientId);
+            SearchReturnToClinicStation rtc = new SearchReturnToClinicStation();
+            rtc.setView(holder.mView);
+            rtc. setTitle(findViewById(R.id.waiting_item_list_title));
+            searchHelper.addListener(rtc);
+            AsyncTask task = searchHelper;
+            try {
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
+            } catch (Exception ex) {
+                // ignore, try again on the next pass. Might see this if server is not responding in a timely manner
+            }
         }
 
         @Override
