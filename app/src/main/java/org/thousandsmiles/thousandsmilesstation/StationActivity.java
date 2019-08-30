@@ -95,7 +95,7 @@ public class StationActivity extends AppCompatActivity {
                 StationActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         View v = findViewById(R.id.waiting_item_list_title);
-                        v.setBackgroundColor(v.getResources().getColor(R.color.colorGreen));
+                        v.setBackgroundColor(v.getResources().getColor(R.color.colorYellow));
                     }
                 });
 
