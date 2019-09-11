@@ -762,6 +762,10 @@ public class StationActivity extends AppCompatActivity {
                 }
             });
 
+            /* if we have a return to clinic patient that has been seen and returned to us, highlight.
+             * For example, we are ENT and sent a patient to audiology, and they were seen by
+              * audiology and are back in our line. */
+
             SearchReturnToClinicStationHelper searchHelper = new SearchReturnToClinicStationHelper();
             searchHelper.setState("scheduled_return");
             searchHelper.setContext(getApplicationContext());
@@ -775,6 +779,27 @@ public class StationActivity extends AppCompatActivity {
             AsyncTask task = searchHelper;
             try {
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
+            } catch (Exception ex) {
+                // ignore, try again on the next pass. Might see this if server is not responding in a timely manner
+            }
+
+            /* if we have a return to clinic patient that was sent to us, highlight. For example,
+             * we are audiology and ENT just sent us a patient that needs to be seen immediately
+             * and then returned by to ENT once we are done. */
+
+            SearchReturnToClinicStationHelper searchHelper2 = new SearchReturnToClinicStationHelper();
+            searchHelper2.setState("scheduled_dest");
+            searchHelper2.setContext(getApplicationContext());
+            searchHelper2.setStation(m_sess.getStationStationId());
+            searchHelper2.setClinic(m_sess.getClinicId());
+            searchHelper2.setPatient(patientId);
+            SearchReturnToClinicStation rtc2 = new SearchReturnToClinicStation();
+            rtc2.setView(holder.mView);
+            rtc2. setTitle(findViewById(R.id.waiting_item_list_title));
+            searchHelper2.addListener(rtc2);
+            AsyncTask task2 = searchHelper2;
+            try {
+                task2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
             } catch (Exception ex) {
                 // ignore, try again on the next pass. Might see this if server is not responding in a timely manner
             }
