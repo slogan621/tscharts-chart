@@ -73,6 +73,7 @@ public class StationActivity extends AppCompatActivity {
     public static StationActivity instance = null;  // hack to let me get at the activity
     private boolean m_showingAppFragment = false;
     private String m_fragmentName;
+    private int m_waitingUpdateCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,21 +85,61 @@ public class StationActivity extends AppCompatActivity {
         m_appListItems.init();
     }
 
+    private boolean isReturnToClinicStation() {
+      return m_sess.isDentalStation() || m_sess.isXRayStation() || m_sess.isENTStation() || m_sess.isAudiologyStation();
+    }
+
+    private void markPriorityPatients(List<PatientItem> patients) {
+        View titleView = findViewById(R.id.waiting_item_list_title);
+        titleView.setBackgroundColor(titleView.getResources().getColor(R.color.colorYellow));
+        for (int i = 0; i < patients.size(); i++) {
+            PatientItem item = patients.get(i);
+
+            SearchReturnToClinicStationHelper searchHelper = new SearchReturnToClinicStationHelper();
+            searchHelper.setState("scheduled_return");
+            searchHelper.setContext(getApplicationContext());
+            searchHelper.setRequestingStation(m_sess.getClinicStationId());
+            searchHelper.setClinic(m_sess.getClinicId());
+            searchHelper.setPatient(Integer.parseInt(item.id));
+            SearchReturnToClinicStation rtc = new SearchReturnToClinicStation();
+            rtc.setUpdateTitleOnly(true);
+            rtc.setTitle(titleView);
+            searchHelper.addListener(rtc);
+            AsyncTask task = searchHelper;
+            try {
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
+            } catch (Exception ex) {
+                // ignore, try again on the next pass. Might see this if server is not responding in a timely manner
+            }
+
+            SearchReturnToClinicStationHelper searchHelper2 = new SearchReturnToClinicStationHelper();
+            searchHelper2.setState("scheduled_dest");
+            searchHelper2.setContext(getApplicationContext());
+            searchHelper2.setStation(m_sess.getStationStationId());
+            searchHelper2.setClinic(m_sess.getClinicId());
+            searchHelper2.setPatient(Integer.parseInt(item.id));
+            SearchReturnToClinicStation rtc2 = new SearchReturnToClinicStation();
+            rtc2.setUpdateTitleOnly(true);
+            rtc2.setTitle(titleView);
+            searchHelper2.addListener(rtc2);
+            AsyncTask task2 = searchHelper2;
+            try {
+                task2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
+            } catch (Exception ex) {
+                // ignore, try again on the next pass. Might see this if server is not responding in a timely manner
+            }
+        }
+    }
+
     private class UpdatePatientLists extends AsyncTask<Object, Object, Object>  {
+
+        private int m_titleUpdateCountdown = 0;
 
         @Override
         protected String doInBackground(Object... params) {
             boolean first = true;
 
             while (true) {
-
-                StationActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        View v = findViewById(R.id.waiting_item_list_title);
-                        v.setBackgroundColor(v.getResources().getColor(R.color.colorYellow));
-                    }
-                });
-
                 m_sess.updateClinicStationData();
                 if (m_sess.isActive() == false) {
                     m_sess.updateQueues();
@@ -110,6 +151,8 @@ public class StationActivity extends AppCompatActivity {
                         public void run() {
                             setupRecyclerViews();
                             createAppList();
+                            View v = findViewById(R.id.waiting_item_list_title);
+                            v.setBackgroundColor(v.getResources().getColor(R.color.colorYellow));
                         }
                     });
                     first = false;
@@ -163,12 +206,20 @@ public class StationActivity extends AppCompatActivity {
                     }
                 });
 
-                StationActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        setWaitingPatientListData();
-                        setActivePatientListData();
+                if (m_waitingUpdateCount == 0) {
+                    StationActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            setWaitingPatientListData();
+                            setActivePatientListData();
+                        }
+                    });
+                    m_waitingUpdateCount = 30;
+                } else {
+                    m_waitingUpdateCount--;
+                    if (m_waitingUpdateCount < 0) {
+                        m_waitingUpdateCount = 0;
                     }
-                });
+                }
                 try {
                     Thread.sleep(2000);
                 } catch(InterruptedException e) {
@@ -181,6 +232,14 @@ public class StationActivity extends AppCompatActivity {
             List<PatientItem> items;
 
             items = m_sess.getWaitingPatientListData();
+            if (isReturnToClinicStation() == true) {
+                if (m_titleUpdateCountdown == 0) {
+                    markPriorityPatients(items);
+                    m_titleUpdateCountdown = 15;
+                } else {
+                    m_titleUpdateCountdown--;
+                }
+            }
             m_waitingAdapter.swap(items);
         }
 
@@ -602,6 +661,7 @@ public class StationActivity extends AppCompatActivity {
             box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     m_sess.setShowAll(isChecked);
+                    m_waitingUpdateCount = 0;
                 }
             });
         }
@@ -714,6 +774,7 @@ public class StationActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             JSONObject pObj = mValues.get(position).pObject;
             boolean isNext = mValues.get(position).isNext;
+            //boolean isReturnToClinic = mValues.get(position).isReturnToClinic;
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).id);
             if (isNext) {
@@ -762,47 +823,48 @@ public class StationActivity extends AppCompatActivity {
                 }
             });
 
+
             /* if we have a return to clinic patient that has been seen and returned to us, highlight.
              * For example, we are ENT and sent a patient to audiology, and they were seen by
-              * audiology and are back in our line. */
+             * audiology and are back in our line. */
 
-            SearchReturnToClinicStationHelper searchHelper = new SearchReturnToClinicStationHelper();
-            searchHelper.setState("scheduled_return");
-            searchHelper.setContext(getApplicationContext());
-            searchHelper.setRequestingStation(m_sess.getClinicStationId());
-            searchHelper.setClinic(m_sess.getClinicId());
-            searchHelper.setPatient(patientId);
-            SearchReturnToClinicStation rtc = new SearchReturnToClinicStation();
-            rtc.setView(holder.mView);
-            rtc. setTitle(findViewById(R.id.waiting_item_list_title));
-            searchHelper.addListener(rtc);
-            AsyncTask task = searchHelper;
-            try {
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
-            } catch (Exception ex) {
-                // ignore, try again on the next pass. Might see this if server is not responding in a timely manner
-            }
+            if (isReturnToClinicStation() == true) {
+                SearchReturnToClinicStationHelper searchHelper = new SearchReturnToClinicStationHelper();
+                searchHelper.setState("scheduled_return");
+                searchHelper.setContext(getApplicationContext());
+                searchHelper.setRequestingStation(m_sess.getClinicStationId());
+                searchHelper.setClinic(m_sess.getClinicId());
+                searchHelper.setPatient(patientId);
+                SearchReturnToClinicStation rtc = new SearchReturnToClinicStation();
+                rtc.setView(holder.mView);
+                searchHelper.addListener(rtc);
+                AsyncTask task = searchHelper;
+                try {
+                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
+                } catch (Exception ex) {
+                    // ignore, try again on the next pass. Might see this if server is not responding in a timely manner
+                }
 
-            /* if we have a return to clinic patient that was sent to us, highlight. For example,
-             * we are audiology and ENT just sent us a patient that needs to be seen immediately
-             * and then returned by to ENT once we are done. */
+                /* if we have a return to clinic patient that was sent to us, highlight. For example,
+                 * we are audiology and ENT just sent us a patient that needs to be seen immediately
+                 * and then returned by to ENT once we are done. */
 
-            SearchReturnToClinicStationHelper searchHelper2 = new SearchReturnToClinicStationHelper();
-            searchHelper2.setState("scheduled_dest");
-            searchHelper2.setContext(getApplicationContext());
-            searchHelper2.setStation(m_sess.getStationStationId());
-            searchHelper2.setClinic(m_sess.getClinicId());
-            searchHelper2.setPatient(patientId);
-            SearchReturnToClinicStation rtc2 = new SearchReturnToClinicStation();
-            rtc2.setView(holder.mView);
-            rtc2. setTitle(findViewById(R.id.waiting_item_list_title));
-            searchHelper2.addListener(rtc2);
-            AsyncTask task2 = searchHelper2;
-            try {
-                task2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
-            } catch (Exception ex) {
-                // ignore, try again on the next pass. Might see this if server is not responding in a timely manner
-            }
+                SearchReturnToClinicStationHelper searchHelper2 = new SearchReturnToClinicStationHelper();
+                searchHelper2.setState("scheduled_dest");
+                searchHelper2.setContext(getApplicationContext());
+                searchHelper2.setStation(m_sess.getStationStationId());
+                searchHelper2.setClinic(m_sess.getClinicId());
+                searchHelper2.setPatient(patientId);
+                SearchReturnToClinicStation rtc2 = new SearchReturnToClinicStation();
+                rtc2.setView(holder.mView);
+                searchHelper2.addListener(rtc2);
+                AsyncTask task2 = searchHelper2;
+                try {
+                    task2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
+                } catch (Exception ex) {
+                    // ignore, try again on the next pass. Might see this if server is not responding in a timely manner
+                }
+            } // true
         }
 
         @Override

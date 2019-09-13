@@ -120,7 +120,6 @@ public class SessionSingleton {
         return m_routingSlipEntryResponse;
     }
 
-
     void initStationToSpanish() {
         m_stationToSpanish.put("Audiology", "Audiología");
         m_stationToSpanish.put("Dental", "Dental");
@@ -283,6 +282,28 @@ public class SessionSingleton {
 
         String name = getStationNameFromId(id);
         if (name.equals("ENT")) {
+            ret = true;
+        }
+        return ret;
+    }
+
+    public boolean isXRayStation() {
+        boolean ret = false;
+        int id = m_stationStationId;
+
+        String name = getStationNameFromId(id);
+        if (name.equals("X-Ray")) {
+            ret = true;
+        }
+        return ret;
+    }
+
+    public boolean isAudiologyStation() {
+        boolean ret = false;
+        int id = m_stationStationId;
+
+        String name = getStationNameFromId(id);
+        if (name.equals("Audiology")) {
             ret = true;
         }
         return ret;

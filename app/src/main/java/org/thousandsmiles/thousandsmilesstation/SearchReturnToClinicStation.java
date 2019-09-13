@@ -25,6 +25,11 @@ import org.thousandsmiles.tscharts_lib.SearchReturnToClinicStationListener;
 public class SearchReturnToClinicStation implements SearchReturnToClinicStationListener {
     private View m_view = null;
     private View m_title = null;
+    private boolean m_updateTitleOnly = false;
+
+    public void setUpdateTitleOnly(boolean val) {
+        m_updateTitleOnly = true;
+    }
 
     public void setView(View v) {
         m_view = v;
@@ -35,9 +40,17 @@ public class SearchReturnToClinicStation implements SearchReturnToClinicStationL
     }
 
     public void onCompletion (JSONArray response, boolean success) {
-        if (success == true && response.length() > 0 && m_view != null) {
-            m_view.setBackgroundColor(m_view.getResources().getColor(R.color.colorGreen));
-            m_title.setBackgroundColor(m_view.getResources().getColor(R.color.colorGreen));
+        if (success == true) {
+            if (response.length() > 0 /*&& m_view != null */) {
+                //m_item.isReturnToClinic = true;
+                if (m_updateTitleOnly == false) {
+                    m_view.setBackgroundColor(m_view.getResources().getColor(R.color.colorGreen));
+                } else {
+                    m_title.setBackgroundColor(m_title.getResources().getColor(R.color.colorGreen));
+                }
+            }
+        } else {
+            //m_item.isReturnToClinic = false;
         }
     }
 }
