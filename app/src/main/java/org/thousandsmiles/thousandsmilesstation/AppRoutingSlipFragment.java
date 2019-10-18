@@ -105,13 +105,20 @@ public class AppRoutingSlipFragment extends Fragment {
         m_available = new ArrayList<RoutingSlipEntry>();
         for (int i = 0; i < m_stations.size(); i++) {
             Station p = m_stations.get(i);
-            if (stationInRoutingSlipList(p) == false && p.getStation() != m_sess.getStationStationId()) {
+            //if (stationInRoutingSlipList(p) == false && p.getStation() != m_sess.getStationStationId()) {
+            if (p.getStation() != m_sess.getStationStationId()) {
                 RoutingSlipEntry q = new RoutingSlipEntry();
                 q.setName(p.getName());
-                q.setSelector(p.getSelector());
+                if (stationInRoutingSlipList(p) == false) {
+                    q.setSelector(p.getSelector());
+                } else {
+                    q.setSelector(p.getUnvisitedSelector());
+                }
                 q.setStation(p.getStation());
                 q.setVisited(false);
-                m_available.add(q);
+                if (!isInCurrent(q)) {
+                    m_available.add(q);
+                }
             }
         }
     }
@@ -179,8 +186,8 @@ public class AppRoutingSlipFragment extends Fragment {
     private void createColumns() {
         m_dirty = false;
         mBoardView.clearBoard();
-        createAvailableList();
         createCurrentList();
+        createAvailableList();
         addColumnList(1);   // stations not yet visited and not in routing slip
         addColumnList(2);   // stations not yet visited
     }
@@ -260,7 +267,7 @@ public class AppRoutingSlipFragment extends Fragment {
 
         for (int i = 0; i < m_current.size(); i++) {
             RoutingSlipEntry ent = m_current.get(i);
-            if (isInRoutingSlipEntries(ent) == false) {
+            if (true || isInRoutingSlipEntries(ent) == false) {
                 itemsToAdd.add(ent);
             }
         }

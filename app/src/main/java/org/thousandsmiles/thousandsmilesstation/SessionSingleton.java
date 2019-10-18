@@ -70,6 +70,7 @@ public class SessionSingleton {
     private static HashMap<Integer, Integer> m_clinicStationToStation = new HashMap<Integer, Integer>();
     private static HashMap<Integer, JSONObject> m_clinicStationToData = new HashMap<Integer, JSONObject>();
     private static HashMap<String, Integer> m_stationToSelector = new HashMap<String, Integer>();
+    private static HashMap<String, Integer> m_stationToUnvisitedSelector = new HashMap<String, Integer>();
     private static HashMap<String, String> m_stationToSpanish = new HashMap<String, String>();
     private ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
     private ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
@@ -168,6 +169,19 @@ public class SessionSingleton {
         m_stationToSelector.put("Surgery Screening", R.drawable.surgery_selector);
         m_stationToSelector.put("X-Ray", R.drawable.xray_selector);
         m_stationToSelector.put("Hygiene", R.drawable.hygiene_selector);
+    }
+
+    public void initStationNameToUnvisitedSelectorMap()
+    {
+        m_stationToUnvisitedSelector.clear();
+        m_stationToUnvisitedSelector.put("Audiology", R.drawable.audiology_unvisited_selector);
+        m_stationToUnvisitedSelector.put("Dental", R.drawable.dental_unvisited_selector);
+        m_stationToUnvisitedSelector.put("ENT", R.drawable.ent_unvisited_selector);
+        m_stationToUnvisitedSelector.put("Ortho", R.drawable.ortho_unvisited_selector);
+        m_stationToUnvisitedSelector.put("Speech", R.drawable.speech_unvisited_selector);
+        m_stationToUnvisitedSelector.put("Surgery Screening", R.drawable.surgery_unvisited_selector);
+        m_stationToUnvisitedSelector.put("X-Ray", R.drawable.xray_unvisited_selector);
+        m_stationToUnvisitedSelector.put("Hygiene", R.drawable.hygiene_unvisited_selector);
     }
 
     public void setListWasClicked(boolean val)
@@ -553,6 +567,7 @@ public class SessionSingleton {
             m.setName(pair.getValue().toString());
             m.setStation((int) pair.getKey());
             m.setSelector(m_stationToSelector.get(m.getName()));
+            m.setUnvisitedSelector(m_stationToUnvisitedSelector.get(m.getName()));
             ret.add(m);
         }
         return ret;
@@ -893,6 +908,7 @@ public class SessionSingleton {
                     }
                     entry.setStation(station);
                     entry.setId(rsEntryid);
+                    entry.setSelector(m_stationToSelector.get(name));
                     entry.setSelector(m_stationToSelector.get(name));
 
                 } catch (JSONException e) {

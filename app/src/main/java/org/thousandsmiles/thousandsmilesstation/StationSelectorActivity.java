@@ -305,6 +305,7 @@ public class StationSelectorActivity extends AppCompatActivity {
                     sd.setContext(m_context);
                     sd.updateStationData(); // get the list of stations
                     m_sess.initStationNameToSelectorMap();
+                    m_sess.initStationNameToUnvisitedSelectorMap();      // for unvisited routing slip entries
                     StationSelectorActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
                             LayoutClinicStationGrid();
