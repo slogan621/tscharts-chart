@@ -111,6 +111,7 @@
     <string name="select_medications_yes">Update</string>
     <string name="select_medications_cancel">Cancel</string>
 
+    <string name="ent_history_name">ENT History</string>
     <string name="medical_history_name">Medical History</string>
     <string name="routing_slip_name">Routing Slip</string>
     <string name="xray_search_results_name">XRay Search Results</string>
@@ -134,7 +135,8 @@
     <string name="msg_save_xray">Save X-Ray changes?</string>
     <string name="button_yes">Yes</string>
     <string name="button_no">No</string>
-    <string name="button_label_add_new">New X-Ray Record</string>
+    <string name="button_label_add_new_xray">New X-Ray Record</string>
+    <string name="button_label_add_new_ent_history">New ENT History Record</string>
     <string name="msg_unable_to_get_routing_slip">Unable to get routing slip data</string>
     <string name="msg_successfully_got_routing_slip">Successfully got routing slip data</string>
     <string name="unable_to_add_routing_slip_entry">Unable to add routing slip entry</string>
@@ -217,6 +219,7 @@
     <string name="unable_to_set_return_to_clinic_state_to_checked_out_dest">Unable to set Return To Clinic Station state to checked_out_dest</string>
     <string name="msg_successfully_updated_return_to_clinic_state_to_checked_out_dest">Successfully updated Return To Clinic Station state to checked_out_dest</string>
     <string name="question_create_new_xray_record">Create a New X-Ray Record?</string>
+    <string name="question_create_new_ent_history_record">Create a New ENT History Record?</string>
     <string name="xray_name">X-Rays</string>
     <string name="msg_unable_to_get_xrays_for_patient">Unable to get X-Rays for patient</string>
     <string name="xray_type">X-Ray Type</string>
@@ -231,4 +234,9 @@
     <string name="msg_unable_to_save_xray">Unable to save X-Ray</string>
     <string name="set_all">Set all</string>
     <string name="clear_all">Clear all</string>
+    <string name="msg_feature_not_implemented">Feature not implemented</string>
+    <string name="exam_name">Examination</string>
+    <string name="audiogram_name">Audiogram</string>
+    <string name="diagnosis_name">Diagnosis</string>
+    <string name="treatment_plan_name">Treatment Plan</string>
 </resources>

@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2019
- * (C) Copyright Thousand Smiles Foundation 2019
+ * (C) Copyright Syd Logan 2019-2020
+ * (C) Copyright Thousand Smiles Foundation 2019-2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,12 +43,12 @@ import org.thousandsmiles.tscharts_lib.XRay;
 
 import java.util.ArrayList;
 
-public class AppPatientXRayListFragment extends Fragment {
+public class AppPatientENTHistoryListFragment extends Fragment {
     private int mColumns;
     private boolean m_goingDown = false;
     private SessionSingleton m_sess;
     private CommonSessionSingleton m_commonSess;
-    private ArrayList<XRay> m_xrays = new ArrayList<XRay>();
+    private ArrayList<ENTHistory> m_entHistories = new ArrayList<ENTHistory>();
     private Activity m_activity;
 
     @Override
@@ -57,12 +57,12 @@ public class AppPatientXRayListFragment extends Fragment {
 
         if (context instanceof Activity){
             m_activity=(Activity) context;
-            initializeXRayData();
+            initializeENTHistoryData();
         }
     }
 
-    private void clearXRayList() {
-        m_xrays.clear();
+    private void clearENTHistoryList() {
+        m_entHistories.clear();
     }
 
     private void ClearSearchResultTable()
@@ -94,18 +94,18 @@ public class AppPatientXRayListFragment extends Fragment {
         }
     }
 
-    private void showXRayEditor(XRay xray)
+    private void showENTHistoryEditor(XRay xray)
     {
         Bundle arguments = new Bundle();
         arguments.putSerializable("xray", xray);
-        AppPatientXRayEditorFragment fragment = new AppPatientXRayEditorFragment();
+        AppPatientENTHistoryEditorFragment fragment = new AppPatientENTHistoryEditorFragment();
         fragment.setArguments(arguments);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
                 .commit();
     }
 
-    private void LayoutXRayTable() {
+    private void LayoutENTHistoryTable() {
         TableLayout layout = (TableLayout) m_activity.findViewById(R.id.namestablelayout);
         TableRow row = null;
         int count;
@@ -140,13 +140,13 @@ public class AppPatientXRayListFragment extends Fragment {
             public void onClick(View v) {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
-                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_xray_record));
+                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_ent_history_record));
                 alertDialogBuilder.setPositiveButton(R.string.button_yes,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
-                            m_sess.setNewXRay(true);
-                            showXRayEditor(new XRay());
+                            m_sess.setNewENTHistory(true);
+                            showENTHistoryEditor(new XRay());
                             }
                         });
 
@@ -168,7 +168,7 @@ public class AppPatientXRayListFragment extends Fragment {
         row.setWeightSum((float)1.0);
 
         TextView txt = new TextView(m_activity);
-        txt.setText(R.string.button_label_add_new_xray);
+        txt.setText(R.string.button_label_add_new_ent_history);
         txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
         txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
@@ -186,12 +186,12 @@ public class AppPatientXRayListFragment extends Fragment {
 
         count = 1;
 
-        int extraCells = (m_xrays.size() + 1) % 3;
+        int extraCells = (m_entHistories.size() + 1) % 3;
         if (extraCells != 0) {
             extraCells = 3 - extraCells;
         }
 
-        for (int i = 0; i < m_xrays.size(); i++) {
+        for (int i = 0; i < m_entHistories.size(); i++) {
             newRow = false;
             if ((count % 3) == 0) {
                 newRow = true;
@@ -218,14 +218,14 @@ public class AppPatientXRayListFragment extends Fragment {
                     button.setImageDrawable(getResources().getDrawable(R.drawable.xray));
             }
 
-            XRay xray = m_xrays.get(i);
-            button.setTag(xray);
+            ENTHistory entHistory = m_entHistories.get(i);
+            button.setTag(entHistory);
 
 
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     m_sess.setNewXRay(false);
-                    showXRayEditor((XRay) v.getTag());
+                    showENTHistoryEditor((XRay) v.getTag());
                 }
             });
 
@@ -234,15 +234,15 @@ public class AppPatientXRayListFragment extends Fragment {
             txt = new TextView(m_activity);
             CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
             sess.setContext(getContext());
-            JSONObject o = sess.getClinicById(xray.getClinic());
-            String clinicStr = String.format("Clinic ID %d",xray.getClinic());
+            JSONObject o = sess.getClinicById(entHistory.getClinic());
+            String clinicStr = String.format("Clinic ID %d",entHistory.getClinic());
 
             if (o != null) {
                 try {
-                    clinicStr = String.format("Clinic ID %d %s %s", xray.getClinic(),
+                    clinicStr = String.format("Clinic ID %d %s %s", entHistory.getClinic(),
                             o.getString("location"), o.getString("start"));
                 } catch (JSONException e) {
-                    clinicStr = String.format("Clinic ID %d",xray.getClinic());
+                    clinicStr = String.format("Clinic ID %d",entHistory.getClinic());
                 }
             }
 
@@ -273,12 +273,12 @@ public class AppPatientXRayListFragment extends Fragment {
         }
     }
 
-    public static AppPatientXRayListFragment newInstance()
+    public static AppPatientENTHistoryListFragment newInstance()
     {
-        return new AppPatientXRayListFragment();
+        return new AppPatientENTHistoryListFragment();
     }
 
-    private void initializeXRayData() {
+    private void initializeENTHistoryData() {
 
         m_commonSess = CommonSessionSingleton.getInstance();
         m_sess = SessionSingleton.getInstance();
@@ -287,25 +287,25 @@ public class AppPatientXRayListFragment extends Fragment {
             public void run() {
                 Thread thread = new Thread(){
                     public void run() {
-                        JSONArray xrays;
-                        clearXRayList();
-                        xrays = m_sess.getXRays(m_sess.getClinicId(), m_sess.getDisplayPatientId());
-                        if (xrays == null) {
+                        JSONArray entHistories;
+                        clearENTHistoryList();
+                        entHistories = m_sess.getXRays(m_sess.getClinicId(), m_sess.getDisplayPatientId());
+                        if (entHistories == null) {
                             m_activity.runOnUiThread(new Runnable() {
                                 public void run() {
                                     Toast.makeText(m_activity, R.string.msg_unable_to_get_xrays_for_patient, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
-                            for (int i = 0; i < xrays.length(); i++) {
+                            for (int i = 0; i < entHistories.length(); i++) {
                                 try {
-                                    XRay xray = new XRay();
-                                    JSONObject o = (JSONObject) xrays.get(i);
-                                    xray.fromJSONObject(o);
-                                    m_xrays.add(xray);
+                                    ENTHistory entHistory = new XRay();
+                                    JSONObject o = (JSONObject) entHistories.get(i);
+                                    entHistory.fromJSONObject(o);
+                                    m_entHistories.add(entHistory);
                                     CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
                                     sess.setContext(getContext());
-                                    JSONObject co = sess.getClinicById(xray.getClinic());
+                                    JSONObject co = sess.getClinicById(entHistory.getClinic());
                                     if (co == null) {
                                         try {
                                             Thread.sleep(500);
@@ -318,7 +318,7 @@ public class AppPatientXRayListFragment extends Fragment {
                          }
                          m_activity.runOnUiThread(new Runnable() {
                             public void run() {
-                                LayoutXRayTable();
+                                LayoutENTHistoryTable();
                             }
                          });
                     }

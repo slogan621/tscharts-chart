@@ -33,7 +33,8 @@
     <!-- button labels -->
 
     <string name="button_select">Seleccionar</string>
-    <string name="button_label_add_new">Nuevo registro de rayos x</string>
+    <string name="button_label_add_new_xray">Nuevo registro de rayos x</string>
+    <string name="button_label_add_new_ent_history">Nuevo registro de examen de ONG</string>
 
     <!-- Checkout -->
 
@@ -108,6 +109,7 @@
     <string name="select_medications_cancel">Cancelar</string>
 
     <string name="medical_history_name">Historial médico</string>
+    <string name="ent_history_name">Historial ONG</string>
     <string name="routing_slip_name">Ficha de transmisión</string>
     <string name="xray_search_results_name">Resultados de búsqueda de rayos X</string>
 
@@ -115,7 +117,7 @@
     <string name="station_name_x_ray">Rayos X</string>
     <string name="station_name_audiology">Audiología</string>
     <string name="station_name_speech">El habla</string>
-    <string name="station_name_ent">ENT</string>
+    <string name="station_name_ent">ONG</string>
     <string name="station_name_hygiene">Higiene</string>
     <string name="station_name_surgery_screening">Cribado cirúrgico</string>
     <string name="station_name_ortho">Orto</string>
@@ -212,6 +214,7 @@
     <string name="unable_to_set_return_to_clinic_state_to_checked_out_dest">Unable to set Return To Clinic Station state to checked_out_dest</string>
     <string name="msg_successfully_updated_return_to_clinic_state_to_checked_out_dest">Successfully updated Return To Clinic Station state to checked_out_dest</string>
     <string name="question_create_new_xray_record">¿Crear un nuevo registro de rayos X?</string>
+    <string name="question_create_new_ent_history_record">¿Crear un nuevo registro de examen de ONG?</string>
     <string name="xray_name">Rayos-X</string>
     <string name="msg_unable_to_get_xrays_for_patient">No se pueden obtener radiografías para el paciente</string>
     <string name="xray_type">Tipo de rayos x</string>
@@ -226,5 +229,10 @@
     <string name="msg_unable_to_save_xray">Error al guardar datos de rayos X</string>
     <string name="set_all">Establecer todos</string>
     <string name="clear_all">Limpiar todo</string>
+    <string name="msg_feature_not_implemented">Artículo no implementado</string>
+    <string name="exam_name">Examen</string>
+    <string name="audiogram_name">Audiogram</string>
+    <string name="diagnosis_name">Diagnóstico</string>
+    <string name="treatment_plan_name">Plan de tratamienton</string>
 </resources>
 

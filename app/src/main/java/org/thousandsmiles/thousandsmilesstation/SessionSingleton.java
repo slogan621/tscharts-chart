@@ -81,6 +81,7 @@ public class SessionSingleton {
     private boolean m_showAll = false;
     private boolean m_newMedHistory = false;
     private boolean m_newXRay = false;
+    private boolean m_newENTHistory = false;
 
     public void setNewXRay(boolean val) {
         m_newXRay = val;
@@ -88,6 +89,14 @@ public class SessionSingleton {
 
     public boolean getNewXRay() {
         return m_newXRay;
+    }
+
+    public void setNewENTHistory(boolean val) {
+        m_newENTHistory = val;
+    }
+
+    public boolean getNewENTHistory() {
+        return m_newENTHistory;
     }
 
     public void setNewMedHistory(boolean val) {
