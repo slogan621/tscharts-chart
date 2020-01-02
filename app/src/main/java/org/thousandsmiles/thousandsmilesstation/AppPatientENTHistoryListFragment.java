@@ -39,6 +39,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.ENTHistory;
 import org.thousandsmiles.tscharts_lib.XRay;
 
 import java.util.ArrayList;
@@ -299,7 +300,7 @@ public class AppPatientENTHistoryListFragment extends Fragment {
                         } else {
                             for (int i = 0; i < entHistories.length(); i++) {
                                 try {
-                                    ENTHistory entHistory = new XRay();
+                                    ENTHistory entHistory = new ENTHistory();
                                     JSONObject o = (JSONObject) entHistories.get(i);
                                     entHistory.fromJSONObject(o);
                                     m_entHistories.add(entHistory);
