@@ -129,6 +129,8 @@
     <string name="msg_unable_to_save_medical_history">No se logró guardar historial médico</string>
     <string name="title_unsaved_medical_history">Cambios sin guardar del historial médico</string> 
     <string name="msg_save_medical_history">¿Guardar cambios al historial médico?</string>
+    <string name="title_unsaved_ent_exam">Cambios no guardados en el examen ONT</string>
+    <string name="msg_save_ent_exam">¿Guardar cambios en el examen ONT?</string>
     <string name="title_unsaved_xray">Cambios sin guardar del Rayos X</string>
     <string name="msg_save_xray">¿Guardar cambios al Rayos X?</string>
     <string name="button_yes">Sí</string>
@@ -217,6 +219,8 @@
     <string name="question_create_new_ent_history_record">¿Crear un nuevo registro de examen de ONG?</string>
     <string name="xray_name">Rayos-X</string>
     <string name="msg_unable_to_get_xrays_for_patient">No se pueden obtener radiografías para el paciente</string>
+    <string name="msg_unable_to_get_ent_histories_for_patient">Incapaz de obtener historias de ONG para el paciente.</string>
+    <string name="msg_unable_to_get_ent_exams_for_patient">Incapaz de obtener exámenes de ONG para el paciente.</string>
     <string name="xray_type">Tipo de rayos x</string>
     <string name="xray_type_full">Completo</string>
     <string name="xray_type_anteriors_bitewings">Anteriores - Bitewings</string>
@@ -227,6 +231,10 @@
     <string name="msg_successfully_got_x_ray_data">Leer con éxito los datos de rayos X</string>
     <string name="msg_successfully_saved_xray">Datos de Rayos X guardados exitosamente</string>
     <string name="msg_unable_to_save_xray">Error al guardar datos de rayos X</string>
+    <string name="msg_unable_to_get_ent_exam_data">No se pueden leer los datos del examen de ONG</string>
+    <string name="msg_successfully_got_ent_exam_data">Lea con éxito los datos del examen de ONG</string>
+    <string name="msg_successfully_saved_ent_exam">Examen ONG guardado con éxito</string>
+    <string name="msg_unable_to_save_ent_exam">No se puede guardar el examen de ONG</string>
     <string name="set_all">Establecer todos</string>
     <string name="clear_all">Limpiar todo</string>
     <string name="msg_feature_not_implemented">Artículo no implementado</string>
@@ -234,5 +242,56 @@
     <string name="audiogram_name">Audiogram</string>
     <string name="diagnosis_name">Diagnóstico</string>
     <string name="treatment_plan_name">Plan de tratamienton</string>
+
+    <!-- ENT Exam Strings -->
+
+    <string name="section_title_ears">Orejas</string>
+    <string name="ent_label_normal">Normal</string>
+    <string name="left">Izquierda</string>
+    <string name="right">Derecho</string>
+    <string name="ent_label_microtia">Microtia</string>
+    <string name="ent_label_wax">Cera del oído</string>
+    <string name="ent_label_drainage">Drenaje</string>
+    <string name="ent_label_otitis">Otitis externa</string>
+    <string name="ent_label_fb">Cuerpo extraño</string>
+    <string name="section_title_tube">Tubos</string>
+    <string name="ent_in_place">En su lugar</string>
+    <string name="ent_extruding">Extrusión</string>
+    <string name="ent_in_canal">En canal</string>
+    <string name="section_title_tympano">Timpanosclerosis</string>
+    <string name="ent_anterior">Anterior</string>
+    <string name="ent_posterior">Posterior</string>
+    <string name="ent_25">25%</string>
+    <string name="ent_50">50%</string>
+    <string name="ent_75">75%</string>
+    <string name="ent_total">Total</string>
+    <string name="none">Ninguna</string>
+    <string name="section_title_tm">Membrana timpánica</string>
+    <string name="ent_label_tm_granulation">Granulación</string>
+    <string name="ent_label_tm_retraction">Retracción</string>
+    <string name="ent_label_tm_atelectasis">Atelectasia</string>
+    <string name="section_title_perf">Perferations</string>
+    <string name="ent_marginal">Marginal</string>
+    <string name="section_title_hearing_loss">Pérdida de la Audición</string>
+    <string name="voice_test">Prueba de Voz</string>
+    <string name="normal">Normal</string>
+    <string name="abnormal">Anormal</string>
+    <string name="tuning_fork_test_ad">Prueba de horquilla AD</string>
+    <string name="a_greater_b"><![CDATA[A > B]]></string>
+    <string name="b_greater_a"><![CDATA[B > A]]></string>
+    <string name="a_equal_b">A = B</string>
+    <string name="tuning_fork_test_as">Prueba de horquilla AS</string>
+    <string name="bc">BC</string>
+    <string name="ad_lat_to_ad">AD lateraliza a AD</string>
+    <string name="ad_lat_to_as">AD lateraliza a AS</string>
+    <string name="as_lat_to_ad">AS lateraliza a AD</string>
+    <string name="as_lat_to_as">AS lateraliza a AS</string>
+    <string name="fork">Diapasón</string>
+    <string name="fork_256">256</string>
+    <string name="fork_512">512</string>
+    <string name="section_title_notes">Notas</string>
+
+    <!-- End ENT Exam Strings -->
+
 </resources>
 

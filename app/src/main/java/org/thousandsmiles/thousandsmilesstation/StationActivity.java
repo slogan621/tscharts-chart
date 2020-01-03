@@ -954,15 +954,15 @@ public class StationActivity extends AppCompatActivity {
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.ent_history_name))) {
-                        showENTHistorySearchResults();
-                        m_showingAppFragment = true;
-                        m_fragmentName = names.get(position);
-                        //Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
-                    } else if (names.get(position).equals(getApplicationContext().getString(R.string.exam_name))) {
-                        //showXRaySearchResults();
+                        //showENTHistorySearchResults();
                         //m_showingAppFragment = true;
                         //m_fragmentName = names.get(position);
                         Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
+                    } else if (names.get(position).equals(getApplicationContext().getString(R.string.exam_name))) {
+                        showENTExamSearchResults();
+                        m_showingAppFragment = true;
+                        m_fragmentName = names.get(position);
+                        //Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.audiogram_name))) {
                         //showXRaySearchResults();
                         //m_showingAppFragment = true;
@@ -1004,6 +1004,16 @@ public class StationActivity extends AppCompatActivity {
     {
         Bundle arguments = new Bundle();
         AppPatientENTHistoryListFragment fragment = new AppPatientENTHistoryListFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
+    }
+
+    public void showENTExamSearchResults()
+    {
+        Bundle arguments = new Bundle();
+        AppPatientENTExamListFragment fragment = new AppPatientENTExamListFragment();
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)

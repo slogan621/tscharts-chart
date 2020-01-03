@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017-2019
- * (C) Copyright Thousand Smiles Foundation 2017-2019
+ * (C) Copyright Syd Logan 2017-2020
+ * (C) Copyright Thousand Smiles Foundation 2017-2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.ENTExam;
+import org.thousandsmiles.tscharts_lib.ENTExamREST;
 import org.thousandsmiles.tscharts_lib.MedicalHistory;
 import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
@@ -81,6 +83,7 @@ public class SessionSingleton {
     private boolean m_showAll = false;
     private boolean m_newMedHistory = false;
     private boolean m_newXRay = false;
+    private boolean m_newENTExam = false;
     private boolean m_newENTHistory = false;
 
     public void setNewXRay(boolean val) {
@@ -97,6 +100,14 @@ public class SessionSingleton {
 
     public boolean getNewENTHistory() {
         return m_newENTHistory;
+    }
+
+    public void setNewENTExam(boolean val) {
+        m_newENTExam = val;
+    }
+
+    public boolean getNewENTExam() {
+        return m_newENTExam;
     }
 
     public void setNewMedHistory(boolean val) {
@@ -1060,6 +1071,38 @@ public class SessionSingleton {
         return ret;
     }
 
+    JSONArray getENTExams(final int clinicId, final int patientId)
+    {
+        JSONArray ret = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final ENTExamREST entExamREST = new ENTExamREST(getContext());
+            GetXRayDataListener listener = new GetXRayDataListener();
+            listener.setPatientId(patientId);
+            entExamREST.addListener(listener);
+
+            Object lock = entExamREST.getAllENTExams(clinicId, patientId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = entExamREST.getStatus();
+            if (status == 200) {
+                ret = listener.getResultArray();
+            }
+        }
+        return ret;
+    }
+
     void updateMedicalHistory(/*final RESTCompletionListener listener */)
     {
         boolean ret = false;
@@ -1133,6 +1176,81 @@ public class SessionSingleton {
             }
         }
         return mh;
+    }
+
+    void updateENTExam(/*final RESTCompletionListener listener */)
+    {
+        boolean ret = false;
+
+        Thread thread = new Thread(){
+            public void run() {
+                // note we use session context because this may be called after onPause()
+                ENTExamREST rest = new ENTExamREST(getContext());
+                //rest.addListener(listener);
+                Object lock;
+                int status;
+
+                lock = rest.updateENTExam(m_commonSessionSingleton.getPatientENTExam());
+
+                synchronized (lock) {
+                    // we loop here in case of race conditions or spurious interrupts
+                    while (true) {
+                        try {
+                            lock.wait();
+                            break;
+                        } catch (InterruptedException e) {
+                            continue;
+                        }
+                    }
+                }
+                status = rest.getStatus();
+                if (status != 200) {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), getContext().getString(R.string.msg_unable_to_save_ent_exam), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), getContext().getString(R.string.msg_successfully_saved_ent_exam), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        };
+        thread.start();
+    }
+
+    public ENTExam getENTExam(int clinicid, int patientid)
+    {
+        boolean ret = false;
+        ENTExam exam = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final ENTExamREST examData = new ENTExamREST(getContext());
+            Object lock = examData.getEntExam(clinicid, patientid);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = examData.getStatus();
+            if (status == 200) {
+                exam = getCommonSessionSingleton().getPatientENTExam();
+            }
+        }
+        return exam;
     }
 
     public XRay getXRay(int clinicid, int patientid)

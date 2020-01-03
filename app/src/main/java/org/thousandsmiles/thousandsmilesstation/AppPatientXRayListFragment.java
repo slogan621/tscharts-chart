@@ -352,7 +352,7 @@ public class AppPatientXRayListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.app_patient_xray_list_layout, container, false);
+        View view = inflater.inflate(R.layout.app_list_fragment_layout, container, false);
 
         return view;
     }

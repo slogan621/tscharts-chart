@@ -131,6 +131,8 @@
     <string name="msg_unable_to_save_medical_history">Unable to save medical history</string>
     <string name="title_unsaved_medical_history">Unsaved Changes to Medical History</string>
     <string name="msg_save_medical_history">Save medical history changes?</string>
+    <string name="title_unsaved_ent_exam">Unsaved Changes to Medical History</string>
+    <string name="msg_save_ent_exam">Save medical history changes?</string>
     <string name="title_unsaved_xray">Unsaved Changes to X-Ray</string>
     <string name="msg_save_xray">Save X-Ray changes?</string>
     <string name="button_yes">Yes</string>
@@ -222,6 +224,8 @@
     <string name="question_create_new_ent_history_record">Create a New ENT History Record?</string>
     <string name="xray_name">X-Rays</string>
     <string name="msg_unable_to_get_xrays_for_patient">Unable to get X-Rays for patient</string>
+    <string name="msg_unable_to_get_ent_histories_for_patient">Unable to get ENT Histories for patient</string>
+    <string name="msg_unable_to_get_ent_exams_for_patient">Unable to get ENT Exams for patient</string>
     <string name="xray_type">X-Ray Type</string>
     <string name="xray_type_full">Full</string>
     <string name="xray_type_anteriors_bitewings">Anteriors-Bitewings</string>
@@ -232,6 +236,10 @@
     <string name="msg_successfully_got_x_ray_data">Successfully read X-Ray data</string>
     <string name="msg_successfully_saved_xray">Successfully saved X-Ray</string>
     <string name="msg_unable_to_save_xray">Unable to save X-Ray</string>
+    <string name="msg_unable_to_get_ent_exam_data">Unable to read ENT exam data</string>
+    <string name="msg_successfully_got_ent_exam_data">Successfully read ENT exam data</string>
+    <string name="msg_successfully_saved_ent_exam">Successfully saved ENT Exam</string>
+    <string name="msg_unable_to_save_ent_exam">Unable to save ENT exam</string>
     <string name="set_all">Set all</string>
     <string name="clear_all">Clear all</string>
     <string name="msg_feature_not_implemented">Feature not implemented</string>
@@ -239,4 +247,55 @@
     <string name="audiogram_name">Audiogram</string>
     <string name="diagnosis_name">Diagnosis</string>
     <string name="treatment_plan_name">Treatment Plan</string>
+
+    <!-- ENT Exam Strings -->
+
+    <string name="section_title_ears">Ears</string>
+    <string name="ent_label_normal">Normal</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="ent_label_microtia">Microtia</string>
+    <string name="ent_label_wax">Wax</string>
+    <string name="ent_label_drainage">Drainage</string>
+    <string name="ent_label_otitis">External Otitis</string>
+    <string name="ent_label_fb">Foreign Body</string>
+    <string name="section_title_tube">Tubes</string>
+    <string name="ent_in_place">In Place</string>
+    <string name="ent_extruding">Extruding</string>
+    <string name="ent_in_canal">In Canal</string>
+    <string name="section_title_tympano">Tympanosclerosis</string>
+    <string name="ent_anterior">Anterior</string>
+    <string name="ent_posterior">Posterior</string>
+    <string name="ent_25">25%</string>
+    <string name="ent_50">50%</string>
+    <string name="ent_75">75%</string>
+    <string name="ent_total">Total</string>
+    <string name="none">None</string>
+    <string name="section_title_tm">Tympanic Membrane</string>
+    <string name="ent_label_tm_granulation">Granulation</string>
+    <string name="ent_label_tm_retraction">Retraction</string>
+    <string name="ent_label_tm_atelectasis">Atelectasis</string>
+    <string name="section_title_perf">Perferations</string>
+    <string name="ent_marginal">Marginal</string>
+    <string name="section_title_hearing_loss">Hearing Loss</string>
+    <string name="voice_test">Voice Test</string>
+    <string name="normal">Normal</string>
+    <string name="abnormal">Abnormal</string>
+    <string name="tuning_fork_test_ad">Fork Test AD</string>
+    <string name="a_greater_b"><![CDATA[A > B]]></string>
+    <string name="b_greater_a"><![CDATA[B > A]]></string>
+    <string name="a_equal_b">A = B</string>
+    <string name="tuning_fork_test_as">Fork Test AS</string>
+    <string name="bc">BC</string>
+    <string name="ad_lat_to_ad">AD lateralizes to AD</string>
+    <string name="ad_lat_to_as">AD laterializes to AS</string>
+    <string name="as_lat_to_ad">AS laterializes to AD</string>
+    <string name="as_lat_to_as">AS lateralizes to AS</string>
+    <string name="fork">Fork</string>
+    <string name="fork_256">256</string>
+    <string name="fork_512">512</string>
+    <string name="section_title_notes">Notes</string>
+
+    <!-- End ENT Exam Strings -->
+
 </resources>

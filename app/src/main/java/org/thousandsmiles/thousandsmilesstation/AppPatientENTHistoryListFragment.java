@@ -294,7 +294,7 @@ public class AppPatientENTHistoryListFragment extends Fragment {
                         if (entHistories == null) {
                             m_activity.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_xrays_for_patient, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_ent_histories_for_patient, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
@@ -353,7 +353,7 @@ public class AppPatientENTHistoryListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.app_patient_xray_list_layout, container, false);
+        View view = inflater.inflate(R.layout.app_list_fragment_layout, container, false);
 
         return view;
     }
