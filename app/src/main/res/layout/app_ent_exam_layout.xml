@@ -1239,6 +1239,12 @@
                 android:background="@drawable/edittext_border"
                 android:gravity="top"
                 android:inputType="text|textMultiLine" />
+
+            <!-- following view hack helps ensure that text area is not completely hidden by soft keyboard -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="512dp"
+                android:layout_weight="1" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
