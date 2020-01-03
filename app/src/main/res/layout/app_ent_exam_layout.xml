@@ -375,6 +375,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/ent_in_canal" />
+
+                    <RadioButton
+                        android:id="@+id/radio_button_ent_tubes_left_none"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/none" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -423,6 +429,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/ent_in_canal" />
+
+                    <RadioButton
+                        android:id="@+id/radio_button_ent_tubes_right_none"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/none" />
                 </RadioGroup>
             </LinearLayout>
 

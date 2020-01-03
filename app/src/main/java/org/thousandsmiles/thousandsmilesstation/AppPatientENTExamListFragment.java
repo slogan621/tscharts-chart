@@ -1,5 +1,5 @@
 /*
- * (C) Copyright Syd Logan 2020
+ * (C) Copyright Syd Logan 2019-2020
  * (C) Copyright Thousand Smiles Foundation 2019-2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -140,7 +140,7 @@ public class AppPatientENTExamListFragment extends Fragment {
             public void onClick(View v) {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
-                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_ent_history_record));
+                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_ent_exam_record));
                 alertDialogBuilder.setPositiveButton(R.string.button_yes,
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -168,7 +168,7 @@ public class AppPatientENTExamListFragment extends Fragment {
         row.setWeightSum((float)1.0);
 
         TextView txt = new TextView(m_activity);
-        txt.setText(R.string.button_label_add_new_ent_history);
+        txt.setText(R.string.button_label_add_new_ent_exam);
         txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
         txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);

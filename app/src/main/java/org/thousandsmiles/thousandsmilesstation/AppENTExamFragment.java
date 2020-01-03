@@ -72,6 +72,7 @@ public class AppENTExamFragment extends Fragment {
 
             // Pregnancy
 
+            /*
             sw = (Switch) m_view.findViewById(R.id.mother_alcohol);
             if (sw != null) {
                 sw.setChecked(m_entExam.isMotherAlcohol());
@@ -262,6 +263,7 @@ public class AppENTExamFragment extends Fragment {
             if (tx != null) {
                 tx.setText(m_entExam.getAllergyMeds());
             }
+             */
         }
     }
 
@@ -836,6 +838,8 @@ public class AppENTExamFragment extends Fragment {
             mh = m_entExam;      // copies over clinic, patient ID, etc..
         }
 
+        /*
+
         // Pregnancy
 
         sw = (Switch) m_view.findViewById(R.id.mother_alcohol);
@@ -1069,12 +1073,14 @@ public class AppENTExamFragment extends Fragment {
         if (tx != null) {
             mh.setAllergyMeds(tx.getText().toString());
         }
+        */
         return mh;
     }
 
     private boolean validateFields()
     {
         boolean ret = true;
+        /*
         TextView tx1;
         RadioButton rb;
         int minVal = 0;
@@ -1225,6 +1231,7 @@ public class AppENTExamFragment extends Fragment {
             ret = false;
             tx1.setError(m_activity.getString(R.string.msg_invalid_weight));
         }
+        */
 
         return ret;
     }

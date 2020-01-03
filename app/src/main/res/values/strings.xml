@@ -139,6 +139,7 @@
     <string name="button_no">No</string>
     <string name="button_label_add_new_xray">New X-Ray Record</string>
     <string name="button_label_add_new_ent_history">New ENT History Record</string>
+    <string name="button_label_add_new_ent_exam">New ENT Exam Record</string>
     <string name="msg_unable_to_get_routing_slip">Unable to get routing slip data</string>
     <string name="msg_successfully_got_routing_slip">Successfully got routing slip data</string>
     <string name="unable_to_add_routing_slip_entry">Unable to add routing slip entry</string>
@@ -222,6 +223,7 @@
     <string name="msg_successfully_updated_return_to_clinic_state_to_checked_out_dest">Successfully updated Return To Clinic Station state to checked_out_dest</string>
     <string name="question_create_new_xray_record">Create a New X-Ray Record?</string>
     <string name="question_create_new_ent_history_record">Create a New ENT History Record?</string>
+    <string name="question_create_new_ent_exam_record">Create a New ENT Exam Record?</string>
     <string name="xray_name">X-Rays</string>
     <string name="msg_unable_to_get_xrays_for_patient">Unable to get X-Rays for patient</string>
     <string name="msg_unable_to_get_ent_histories_for_patient">Unable to get ENT Histories for patient</string>
@@ -275,7 +277,7 @@
     <string name="ent_label_tm_granulation">Granulation</string>
     <string name="ent_label_tm_retraction">Retraction</string>
     <string name="ent_label_tm_atelectasis">Atelectasis</string>
-    <string name="section_title_perf">Perferations</string>
+    <string name="section_title_perf">Perforations</string>
     <string name="ent_marginal">Marginal</string>
     <string name="section_title_hearing_loss">Hearing Loss</string>
     <string name="voice_test">Voice Test</string>

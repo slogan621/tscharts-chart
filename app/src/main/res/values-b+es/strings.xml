@@ -34,7 +34,8 @@
 
     <string name="button_select">Seleccionar</string>
     <string name="button_label_add_new_xray">Nuevo registro de rayos x</string>
-    <string name="button_label_add_new_ent_history">Nuevo registro de examen de ONG</string>
+    <string name="button_label_add_new_ent_history">Nuevo registro de historia de ONG</string>
+    <string name="button_label_add_new_ent_exam">Nuevo registro de examen de ONG</string>
 
     <!-- Checkout -->
 
@@ -217,6 +218,7 @@
     <string name="msg_successfully_updated_return_to_clinic_state_to_checked_out_dest">Successfully updated Return To Clinic Station state to checked_out_dest</string>
     <string name="question_create_new_xray_record">¿Crear un nuevo registro de rayos X?</string>
     <string name="question_create_new_ent_history_record">¿Crear un nuevo registro de examen de ONG?</string>
+    <string name="question_create_new_ent_exam_record">¿Crear un nuevo registro de examen ONG?</string>
     <string name="xray_name">Rayos-X</string>
     <string name="msg_unable_to_get_xrays_for_patient">No se pueden obtener radiografías para el paciente</string>
     <string name="msg_unable_to_get_ent_histories_for_patient">Incapaz de obtener historias de ONG para el paciente.</string>
@@ -270,7 +272,7 @@
     <string name="ent_label_tm_granulation">Granulación</string>
     <string name="ent_label_tm_retraction">Retracción</string>
     <string name="ent_label_tm_atelectasis">Atelectasia</string>
-    <string name="section_title_perf">Perferations</string>
+    <string name="section_title_perf">Perforaciones</string>
     <string name="ent_marginal">Marginal</string>
     <string name="section_title_hearing_loss">Pérdida de la Audición</string>
     <string name="voice_test">Prueba de Voz</string>
