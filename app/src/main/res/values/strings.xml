@@ -131,8 +131,8 @@
     <string name="msg_unable_to_save_medical_history">Unable to save medical history</string>
     <string name="title_unsaved_medical_history">Unsaved Changes to Medical History</string>
     <string name="msg_save_medical_history">Save medical history changes?</string>
-    <string name="title_unsaved_ent_exam">Unsaved Changes to Medical History</string>
-    <string name="msg_save_ent_exam">Save medical history changes?</string>
+    <string name="title_unsaved_ent_exam">Unsaved Changes to ENT Exam</string>
+    <string name="msg_save_ent_exam">Save ENT exam changes?</string>
     <string name="title_unsaved_xray">Unsaved Changes to X-Ray</string>
     <string name="msg_save_xray">Save X-Ray changes?</string>
     <string name="button_yes">Yes</string>

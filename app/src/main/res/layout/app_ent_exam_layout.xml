@@ -884,7 +884,7 @@
                         android:text="@string/ent_posterior" />
 
                     <RadioButton
-                        android:id="@+id/radio_button_ent_perf_left_marginal"
+                        android:id="@+id/radio_button_ent_perf_right_marginal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/ent_marginal" />
@@ -1035,7 +1035,7 @@
                         android:text="@string/a_equal_b" />
 
                     <RadioButton
-                        android:id="@+id/radio_button_ent_tuning_fork_none"
+                        android:id="@+id/radio_button_ent_tuning_fork_ad_none"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/none" />
@@ -1089,7 +1089,7 @@
                         android:text="@string/a_equal_b" />
 
                     <RadioButton
-                        android:id="@+id/radio_button_ent_tuning_fork_none"
+                        android:id="@+id/radio_button_ent_tuning_fork_as_none"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/none" />
@@ -1204,7 +1204,7 @@
                 </RadioGroup>
             </LinearLayout>
 
-            <!-- Hearing loss -->
+            <!-- Notes -->
 
             <LinearLayout
                 android:layout_width="match_parent"
