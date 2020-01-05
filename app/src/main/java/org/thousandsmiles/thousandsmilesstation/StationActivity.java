@@ -608,7 +608,7 @@ public class StationActivity extends AppCompatActivity {
                 stationLabel += "\n" + getApplicationContext().getString(R.string.label_state) + ": " + getApplicationContext().getString(R.string.label_active);
             } else if (m_isAway == true ) {
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                df.setTimeZone(TimeZone.getDefault());
+                df.setTimeZone(TimeZone.getTimeZone("UTC"));
 
                 String willret = activeObject.getString("willreturn");
 
@@ -616,7 +616,7 @@ public class StationActivity extends AppCompatActivity {
                 try {
                     d = df.parse(willret);
                     SimpleDateFormat dflocal = new SimpleDateFormat("hh:mm:ss a");
-                    dflocal.setTimeZone(TimeZone.getDefault());
+                    dflocal.setTimeZone(TimeZone.getTimeZone("UTC"));
                     willret = dflocal.format(d);
                 } catch (ParseException e) {
                     willret = activeObject.getString("willreturn");
