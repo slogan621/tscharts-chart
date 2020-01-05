@@ -628,7 +628,7 @@ public class StationActivity extends AppCompatActivity {
                 stationLabel += "\n" + getApplicationContext().getString(R.string.label_state) + ": " + getApplicationContext().getString(R.string.label_active);
             } else if (m_isAway == true ) {
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                df.setTimeZone(TimeZone.getTimeZone("UTC"));
+                df.setTimeZone(TimeZone.getDefault());
 
                 String willret = activeObject.getString("willreturn");
 
@@ -970,6 +970,11 @@ public class StationActivity extends AppCompatActivity {
                         //m_showingAppFragment = true;
                         //m_fragmentName = names.get(position);
                         Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
+                    } else if (names.get(position).equals(getApplicationContext().getString(R.string.diagnosis_name))) {
+                        //showXRaySearchResults();
+                        //m_showingAppFragment = true;
+                        //m_fragmentName = names.get(position);
+                        Toast.makeText(StationActivity.this, R.string.msg_feature_not_implemented, Toast.LENGTH_LONG).show();
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.treatment_plan_name))) {
                         //showXRaySearchResults();
                         //m_showingAppFragment = true;
