@@ -608,7 +608,7 @@ public class StationActivity extends AppCompatActivity {
                 stationLabel += "\n" + getApplicationContext().getString(R.string.label_state) + ": " + getApplicationContext().getString(R.string.label_active);
             } else if (m_isAway == true ) {
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                df.setTimeZone(TimeZone.getTimeZone("UTC"));
+                df.setTimeZone(TimeZone.getDefault());
 
                 String willret = activeObject.getString("willreturn");
 
