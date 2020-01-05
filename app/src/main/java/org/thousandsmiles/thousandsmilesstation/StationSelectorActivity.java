@@ -345,6 +345,13 @@ public class StationSelectorActivity extends AppCompatActivity {
                     }
                 });
             }
+            StationSelectorActivity.this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Intent i = new Intent(StationSelectorActivity.this, LoginActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            });
             }
         };
         thread.start();
