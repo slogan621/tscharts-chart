@@ -133,6 +133,8 @@
     <string name="msg_save_medical_history">Save medical history changes?</string>
     <string name="title_unsaved_ent_exam">Unsaved Changes to ENT Exam</string>
     <string name="msg_save_ent_exam">Save ENT exam changes?</string>
+    <string name="title_unsaved_ent_history">Unsaved Changes to ENT History</string>
+    <string name="msg_save_ent_history">Save ENT history changes?</string>
     <string name="title_unsaved_xray">Unsaved Changes to X-Ray</string>
     <string name="msg_save_xray">Save X-Ray changes?</string>
     <string name="button_yes">Yes</string>
@@ -242,6 +244,10 @@
     <string name="msg_successfully_got_ent_exam_data">Successfully read ENT exam data</string>
     <string name="msg_successfully_saved_ent_exam">Successfully saved ENT Exam</string>
     <string name="msg_unable_to_save_ent_exam">Unable to save ENT exam</string>
+    <string name="msg_unable_to_get_ent_history_data">Unable to read ENT history data</string>
+    <string name="msg_successfully_got_ent_history_data">Successfully read ENT history data</string>
+    <string name="msg_successfully_saved_ent_history">Successfully saved ENT history</string>
+    <string name="msg_unable_to_save_ent_history">Unable to save ENT history</string>
     <string name="set_all">Set all</string>
     <string name="clear_all">Clear all</string>
     <string name="msg_feature_not_implemented">Feature not implemented</string>

@@ -40,7 +40,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.ENTHistory;
-import org.thousandsmiles.tscharts_lib.XRay;
 
 import java.util.ArrayList;
 
@@ -95,11 +94,11 @@ public class AppPatientENTHistoryListFragment extends Fragment {
         }
     }
 
-    private void showENTHistoryEditor(XRay xray)
+    private void showENTHistoryEditor(ENTHistory exam)
     {
         Bundle arguments = new Bundle();
-        arguments.putSerializable("xray", xray);
-        AppPatientENTHistoryEditorFragment fragment = new AppPatientENTHistoryEditorFragment();
+        arguments.putSerializable("exam", exam);
+        AppENTHistoryFragment fragment = new AppENTHistoryFragment();
         fragment.setArguments(arguments);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
@@ -141,13 +140,13 @@ public class AppPatientENTHistoryListFragment extends Fragment {
             public void onClick(View v) {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
-                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_ent_history_record));
+                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_ent_exam_record));
                 alertDialogBuilder.setPositiveButton(R.string.button_yes,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
-                            m_sess.setNewENTHistory(true);
-                            showENTHistoryEditor(new XRay());
+                                m_sess.setNewENTHistory(true);
+                                showENTHistoryEditor(new ENTHistory());
                             }
                         });
 
@@ -169,7 +168,7 @@ public class AppPatientENTHistoryListFragment extends Fragment {
         row.setWeightSum((float)1.0);
 
         TextView txt = new TextView(m_activity);
-        txt.setText(R.string.button_label_add_new_ent_history);
+        txt.setText(R.string.button_label_add_new_ent_exam);
         txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
         txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
@@ -216,17 +215,17 @@ public class AppPatientENTHistoryListFragment extends Fragment {
                 button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
 
             } else {
-                    button.setImageDrawable(getResources().getDrawable(R.drawable.xray));
+                button.setImageDrawable(getResources().getDrawable(R.drawable.xray));
             }
 
-            ENTHistory entHistory = m_entHistories.get(i);
-            button.setTag(entHistory);
+            ENTHistory ENTHistory = m_entHistories.get(i);
+            button.setTag(ENTHistory);
 
 
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     m_sess.setNewXRay(false);
-                    showENTHistoryEditor((XRay) v.getTag());
+                    showENTHistoryEditor((ENTHistory) v.getTag());
                 }
             });
 
@@ -235,15 +234,15 @@ public class AppPatientENTHistoryListFragment extends Fragment {
             txt = new TextView(m_activity);
             CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
             sess.setContext(getContext());
-            JSONObject o = sess.getClinicById(entHistory.getClinic());
-            String clinicStr = String.format("Clinic ID %d",entHistory.getClinic());
+            JSONObject o = sess.getClinicById(ENTHistory.getClinic());
+            String clinicStr = String.format("Clinic ID %d",ENTHistory.getClinic());
 
             if (o != null) {
                 try {
-                    clinicStr = String.format("Clinic ID %d %s %s", entHistory.getClinic(),
+                    clinicStr = String.format("Clinic ID %d %s %s", ENTHistory.getClinic(),
                             o.getString("location"), o.getString("start"));
                 } catch (JSONException e) {
-                    clinicStr = String.format("Clinic ID %d",entHistory.getClinic());
+                    clinicStr = String.format("Clinic ID %d",ENTHistory.getClinic());
                 }
             }
 
@@ -288,25 +287,25 @@ public class AppPatientENTHistoryListFragment extends Fragment {
             public void run() {
                 Thread thread = new Thread(){
                     public void run() {
-                        JSONArray entHistories;
+                        JSONArray ENTHistories;
                         clearENTHistoryList();
-                        entHistories = m_sess.getXRays(m_sess.getClinicId(), m_sess.getDisplayPatientId());
-                        if (entHistories == null) {
+                        ENTHistories = m_sess.getENTHistories(m_sess.getClinicId(), m_sess.getDisplayPatientId());
+                        if (ENTHistories == null) {
                             m_activity.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_ent_histories_for_patient, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_ent_exams_for_patient, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
-                            for (int i = 0; i < entHistories.length(); i++) {
+                            for (int i = 0; i < ENTHistories.length(); i++) {
                                 try {
-                                    ENTHistory entHistory = new ENTHistory();
-                                    JSONObject o = (JSONObject) entHistories.get(i);
-                                    entHistory.fromJSONObject(o);
-                                    m_entHistories.add(entHistory);
+                                    ENTHistory ENTHistory = new ENTHistory();
+                                    JSONObject o = (JSONObject) ENTHistories.get(i);
+                                    ENTHistory.fromJSONObject(o);
+                                    m_entHistories.add(ENTHistory);
                                     CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
                                     sess.setContext(getContext());
-                                    JSONObject co = sess.getClinicById(entHistory.getClinic());
+                                    JSONObject co = sess.getClinicById(ENTHistory.getClinic());
                                     if (co == null) {
                                         try {
                                             Thread.sleep(500);
@@ -316,12 +315,12 @@ public class AppPatientENTHistoryListFragment extends Fragment {
                                 } catch (JSONException e) {
                                 }
                             }
-                         }
-                         m_activity.runOnUiThread(new Runnable() {
+                        }
+                        m_activity.runOnUiThread(new Runnable() {
                             public void run() {
                                 LayoutENTHistoryTable();
                             }
-                         });
+                        });
                     }
                 };
                 thread.start();

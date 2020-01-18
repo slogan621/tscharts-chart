@@ -132,6 +132,8 @@
     <string name="msg_save_medical_history">¿Guardar cambios al historial médico?</string>
     <string name="title_unsaved_ent_exam">Cambios no guardados en el examen ONT</string>
     <string name="msg_save_ent_exam">¿Guardar cambios en el examen ONT?</string>
+    <string name="title_unsaved_ent_history">Cambios no guardados del historial ONT</string>
+    <string name="msg_save_ent_history">¿Guardar cambios en el historial ONT?</string>
     <string name="title_unsaved_xray">Cambios sin guardar del Rayos X</string>
     <string name="msg_save_xray">¿Guardar cambios al Rayos X?</string>
     <string name="button_yes">Sí</string>
@@ -237,6 +239,10 @@
     <string name="msg_successfully_got_ent_exam_data">Lea con éxito los datos del examen de ONG</string>
     <string name="msg_successfully_saved_ent_exam">Examen ONG guardado con éxito</string>
     <string name="msg_unable_to_save_ent_exam">No se puede guardar el examen de ONG</string>
+    <string name="msg_unable_to_get_ent_history_data">No se pueden leer los datos del historial de ONG</string>
+    <string name="msg_successfully_got_ent_history_data">Lea con éxito los datos del historial de ONG</string>
+    <string name="msg_successfully_saved_ent_history">Historial ONG guardado con éxito</string>
+    <string name="msg_unable_to_save_ent_history">No se puede guardar el historial de ONG</string>
     <string name="set_all">Establecer todos</string>
     <string name="clear_all">Limpiar todo</string>
     <string name="msg_feature_not_implemented">Artículo no implementado</string>
