@@ -304,6 +304,18 @@
     <string name="fork_512">512</string>
     <string name="section_title_notes">Notes</string>
 
+    <!-- ENT History Strings -->
+
+    <string name="section_title_pain">Pain</string>
+    <string name="ent_label_side">Side</string>
+    <string name="ent_label_duration">Duration</string>
+    <string name="days">Days</string>
+    <string name="weeks">Weeks</string>
+    <string name="months">Months</string>
+    <string name="intermittent">Intermittent</string>
+    <string name="section_title_drainage">Drainage</string>
+    <string name="section_title_extra">Extra</string>
+
     <!-- End ENT Exam Strings -->
 
 </resources>

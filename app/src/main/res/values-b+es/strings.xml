@@ -299,6 +299,18 @@
     <string name="fork_512">512</string>
     <string name="section_title_notes">Notas</string>
 
+    <!-- ENT History Strings -->
+
+    <string name="section_title_pain">Dolor</string>
+    <string name="ent_label_side">Lado</string>
+    <string name="ent_label_duration">Duración</string>
+    <string name="days">Dias</string>
+    <string name="weeks">Semanas</string>
+    <string name="months">Meses</string>
+    <string name="intermittent">Intermitente</string>
+    <string name="section_title_drainage">Drenaje del Oído</string>
+    <string name="section_title_extra">Extra</string>
+
     <!-- End ENT Exam Strings -->
 
 </resources>

@@ -2023,7 +2023,7 @@ public class AppENTHistoryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.app_ent_exam_layout, container, false);
+        View view = inflater.inflate(R.layout.app_ent_history_layout, container, false);
         m_view  = view;
         return view;
     }
