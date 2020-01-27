@@ -187,7 +187,7 @@
         android:baselineAligned="false"
         android:orientation="horizontal"
         android:showDividers="middle"
-        android:background="@color/colorThousandsmiles"
+        android:background="@color/lightGray"
         tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
 
         <LinearLayout
@@ -201,7 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:visibility="visible"
-            android:background="@drawable/button_bar_selector"
+            android:background="@drawable/button_custom"
             android:clickable="true"
             android:orientation="horizontal">
 
@@ -227,7 +227,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:background="@drawable/button_bar_selector"
+            android:background="@drawable/button_custom"
             android:clickable="true"
             android:visibility="visible"
             android:orientation="horizontal">
@@ -254,7 +254,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:background="@drawable/button_bar_selector"
+                android:background="@drawable/button_custom"
                 android:clickable="true"
                 android:visibility="visible"
                 android:orientation="horizontal">
@@ -281,7 +281,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:background="@drawable/button_bar_selector"
+            android:background="@drawable/button_custom"
             android:clickable="true"
             android:visibility="visible"
             android:orientation="horizontal">
@@ -321,7 +321,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:background="@drawable/button_bar_selector"
+            android:background="@drawable/button_custom"
             android:clickable="true"
             android:visibility="visible"
             android:orientation="horizontal">
@@ -348,7 +348,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:background="@drawable/button_bar_selector"
+            android:background="@drawable/button_custom"
             android:clickable="true"
             android:visibility="visible"
             android:orientation="horizontal">

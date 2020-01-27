@@ -1073,38 +1073,6 @@ public class SessionSingleton {
         return ret;
     }
 
-    JSONArray getENTExams(final int clinicId, final int patientId)
-    {
-        JSONArray ret = null;
-
-        if (Looper.myLooper() != Looper.getMainLooper()) {
-            final ENTExamREST entExamREST = new ENTExamREST(getContext());
-            GetDataListener listener = new GetDataListener();
-            listener.setPatientId(patientId);
-            entExamREST.addListener(listener);
-
-            Object lock = entExamREST.getAllENTExams(clinicId, patientId);
-
-            synchronized (lock) {
-                // we loop here in case of race conditions or spurious interrupts
-                while (true) {
-                    try {
-                        lock.wait();
-                        break;
-                    } catch (InterruptedException e) {
-                        continue;
-                    }
-                }
-            }
-
-            int status = entExamREST.getStatus();
-            if (status == 200) {
-                ret = listener.getResultArray();
-            }
-        }
-        return ret;
-    }
-
     JSONArray getENTHistories(final int clinicId, final int patientId)
     {
         JSONArray ret = null;
@@ -1130,6 +1098,38 @@ public class SessionSingleton {
             }
 
             int status = entHistoryREST.getStatus();
+            if (status == 200) {
+                ret = listener.getResultArray();
+            }
+        }
+        return ret;
+    }
+
+    JSONArray getENTExams(final int clinicId, final int patientId)
+    {
+        JSONArray ret = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final ENTExamREST entExamREST = new ENTExamREST(getContext());
+            GetDataListener listener = new GetDataListener();
+            listener.setPatientId(patientId);
+            entExamREST.addListener(listener);
+
+            Object lock = entExamREST.getAllENTExams(clinicId, patientId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = entExamREST.getStatus();
             if (status == 200) {
                 ret = listener.getResultArray();
             }

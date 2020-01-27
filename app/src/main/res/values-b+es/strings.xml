@@ -310,8 +310,11 @@
     <string name="intermittent">Intermitente</string>
     <string name="section_title_drainage">Drenaje del Oído</string>
     <string name="section_title_extra">Extra</string>
+    <string name="ent_label_condition_name">Nombre de la condición</string>
+    <string name="msg_add_extra_exam_item">Agregar Elemento de Examen Adicional</string>
+    <string name="title_ent_history_extra_dialog">Add Extra ENT Diagnosis</string>
 
-    <!-- End ENT Exam Strings -->
+    <!-- End ENT History Strings -->
 
 </resources>
 

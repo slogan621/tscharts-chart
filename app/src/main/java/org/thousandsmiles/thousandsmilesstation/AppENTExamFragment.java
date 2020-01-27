@@ -1940,9 +1940,9 @@ public class AppENTExamFragment extends Fragment {
                     handler.post(new Runnable() {
                         public void run() {
                             clearDirty();
-                            m_sess.setNewENTExam(false);
                             m_entExam = copyENTExamDataFromUI();
                             Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_saved_ent_exam), Toast.LENGTH_LONG).show();
+                            m_sess.setNewENTExam(false);
                         }
                     });
                 }

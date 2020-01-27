@@ -94,10 +94,10 @@ public class AppPatientENTHistoryListFragment extends Fragment {
         }
     }
 
-    private void showENTHistoryEditor(ENTHistory exam)
+    private void showENTHistory(ENTHistory exam)
     {
         Bundle arguments = new Bundle();
-        arguments.putSerializable("exam", exam);
+        arguments.putSerializable("history", exam);
         AppENTHistoryFragment fragment = new AppENTHistoryFragment();
         fragment.setArguments(arguments);
         getActivity().getSupportFragmentManager().beginTransaction()
@@ -140,13 +140,13 @@ public class AppPatientENTHistoryListFragment extends Fragment {
             public void onClick(View v) {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
-                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_ent_exam_record));
+                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_ent_history_record));
                 alertDialogBuilder.setPositiveButton(R.string.button_yes,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
                                 m_sess.setNewENTHistory(true);
-                                showENTHistoryEditor(new ENTHistory());
+                                showENTHistory(new ENTHistory());
                             }
                         });
 
@@ -168,7 +168,7 @@ public class AppPatientENTHistoryListFragment extends Fragment {
         row.setWeightSum((float)1.0);
 
         TextView txt = new TextView(m_activity);
-        txt.setText(R.string.button_label_add_new_ent_exam);
+        txt.setText(R.string.button_label_add_new_ent_history);
         txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
         txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
@@ -224,8 +224,8 @@ public class AppPatientENTHistoryListFragment extends Fragment {
 
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    m_sess.setNewXRay(false);
-                    showENTHistoryEditor((ENTHistory) v.getTag());
+                    m_sess.setNewENTHistory(false);
+                    showENTHistory((ENTHistory) v.getTag());
                 }
             });
 
@@ -293,7 +293,7 @@ public class AppPatientENTHistoryListFragment extends Fragment {
                         if (ENTHistories == null) {
                             m_activity.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_ent_exams_for_patient, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_ent_histories_for_patient, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
