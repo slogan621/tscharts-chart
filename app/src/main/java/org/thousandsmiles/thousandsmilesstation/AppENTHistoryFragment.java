@@ -71,6 +71,7 @@ public class AppENTHistoryFragment extends Fragment {
         if (context instanceof Activity){
             m_activity=(Activity) context;
         }
+        m_sess.clearENTExtraHistoryList();
     }
 
     private void copyENTHistoryDataToUI()

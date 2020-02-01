@@ -26,7 +26,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RadioButton;
+
+import org.thousandsmiles.tscharts_lib.ENTHistory;
+import org.thousandsmiles.tscharts_lib.ENTHistoryExtra;
 
 public class ENTHistoryExtraDialogFragment extends DialogFragment {
 
@@ -49,35 +54,51 @@ public class ENTHistoryExtraDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        ENTHistoryExtra extra = new ENTHistoryExtra();
+
                         // read dialog contents, and then poke them into the parent dialog.
                         View v = m_activity.findViewById(R.id.extra_container);
-                        /*
-                        int numMinutes = 0;
-                        RadioButton v = (RadioButton) m_view.findViewById(R.id.away_return5);
-                        if (v.isChecked()) {
-                            numMinutes = 5;
-                        }
-                        v = (RadioButton) m_view.findViewById(R.id.away_return15);
-                        if (v.isChecked()) {
-                            numMinutes = 15;
-                        }
-                        v = (RadioButton) m_view.findViewById(R.id.away_return30);
-                        if (v.isChecked()) {
-                            numMinutes = 30;
-                        }
-                        v = (RadioButton) m_view.findViewById(R.id.away_return60);
-                        if (v.isChecked()) {
-                            numMinutes = 60;
+                        EditText t = (EditText) m_view.findViewById(R.id.condition_name);
+                        extra.setName(t.getText().toString());
+                        Boolean cb1, cb2;
+
+                        cb1 = ((CheckBox) m_view.findViewById(R.id.checkbox_ent_extra_left)).isChecked();
+                        cb2 = ((CheckBox) m_view.findViewById(R.id.checkbox_ent_extra_right)).isChecked();
+
+                        if (cb1 && cb2) {
+                            extra.setSide(ENTHistory.EarSide.EAR_SIDE_BOTH);
+                        } else if (cb1) {
+                            extra.setSide(ENTHistory.EarSide.EAR_SIDE_LEFT);
+                        } else if (cb2) {
+                            extra.setSide(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+                        } else {
+                            extra.setSide(ENTHistory.EarSide.EAR_SIDE_NONE);
                         }
 
-                        AwayParams params = new AwayParams();
 
-                        params.setReturnMinutes(numMinutes);
-                        AsyncTask task = new StationAway();
-                        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) params);
-                        dialog.dismiss();
 
-                         */
+                        RadioButton rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_extra_duration_none);
+                        if (rb.isChecked()) {
+                            extra.setDuration(ENTHistory.ENTDuration.EAR_DURATION_NONE);
+                        }
+                        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_extra_duration_days);
+                        if (rb.isChecked()) {
+                            extra.setDuration(ENTHistory.ENTDuration.EAR_DURATION_DAYS);
+                        }
+                        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_extra_duration_weeks);
+                        if (rb.isChecked()) {
+                            extra.setDuration(ENTHistory.ENTDuration.EAR_DURATION_WEEKS);
+                        }
+                        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_extra_duration_months);
+                        if (rb.isChecked()) {
+                            extra.setDuration(ENTHistory.ENTDuration.EAR_DURATION_MONTHS);
+                        }
+                        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_extra_duration_intermittent);
+                        if (rb.isChecked()) {
+                            extra.setDuration(ENTHistory.ENTDuration.EAR_DURATION_INTERMITTENT);
+                        }
+
+                        SessionSingleton.getInstance().addENTExtraHistory(extra);
                     }
                 })
                 .setNegativeButton(R.string.checkout_cancel, new DialogInterface.OnClickListener() {

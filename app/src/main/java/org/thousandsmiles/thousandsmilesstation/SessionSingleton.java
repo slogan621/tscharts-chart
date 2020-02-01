@@ -32,6 +32,7 @@ import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.ENTExam;
 import org.thousandsmiles.tscharts_lib.ENTExamREST;
 import org.thousandsmiles.tscharts_lib.ENTHistory;
+import org.thousandsmiles.tscharts_lib.ENTHistoryExtra;
 import org.thousandsmiles.tscharts_lib.ENTHistoryREST;
 import org.thousandsmiles.tscharts_lib.MedicalHistory;
 import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
@@ -78,6 +79,7 @@ public class SessionSingleton {
     private static HashMap<String, String> m_stationToSpanish = new HashMap<String, String>();
     private ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
     private ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
+    private ArrayList<ENTHistoryExtra> m_entHistoryExtraList = new ArrayList<ENTHistoryExtra>();
     private int m_displayPatientId = -1; // id of the patient that will get checked in/checked out when the corresponding button is pressed
     private int m_displayRoutingSlipEntryId = -1; // id of the routingslip entry for m_displayPatientId
     // XXX Consider moving these station class names to the API
@@ -123,6 +125,14 @@ public class SessionSingleton {
     public void setShowAll(boolean flag)
     {
         m_showAll = flag;
+    }
+
+    public void clearENTExtraHistoryList() {
+        m_entHistoryExtraList.clear();
+    }
+
+    public void addENTExtraHistory(ENTHistoryExtra item) {
+        m_entHistoryExtraList.add(item);
     }
 
     public CommonSessionSingleton getCommonSessionSingleton()
