@@ -421,14 +421,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Extra container here, we add in code children that a structured like above to indicate condition
-                 name, side, and duration -->
-
-            <View
-                android:id="@+id/extra_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
 
             <!-- Extra Button -->
 
@@ -449,6 +441,14 @@
                     android:textSize="@dimen/med_hist_label_text_size" />
             </LinearLayout>
 
+            <!-- Extra container here, we add in code children that a structured like above to indicate condition
+     name, side, and duration -->
+
+            <TableLayout
+                android:id="@+id/extra_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -456,6 +456,17 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingBottom="16dp">
+
+
+                <Button
+                    android:id="@+id/remove_button"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/button_remove"
+                    android:textSize="18sp"
+                    android:padding="8sp"
+                    android:enabled="false"
+                    android:background="@drawable/button_custom" />
 
                 <View
                     android:layout_width="0dp"

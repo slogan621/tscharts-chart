@@ -180,6 +180,10 @@ public class SessionSingleton {
         return name;
     }
 
+    public ArrayList<ENTHistoryExtra>  getENTExtraList() {
+        return m_entHistoryExtraList;
+    }
+
     public void setDisplayPatientRoutingSlip(JSONObject o)
     {
         m_displayPatientRoutingSlip = o;

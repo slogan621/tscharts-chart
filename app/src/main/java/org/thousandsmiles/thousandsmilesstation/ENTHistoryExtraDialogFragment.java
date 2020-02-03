@@ -19,28 +19,96 @@ package org.thousandsmiles.thousandsmilesstation;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.widget.CompoundButtonCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import org.thousandsmiles.tscharts_lib.ENTHistory;
 import org.thousandsmiles.tscharts_lib.ENTHistoryExtra;
 
+import java.util.ArrayList;
+
 public class ENTHistoryExtraDialogFragment extends DialogFragment {
 
     private View m_view;
-    private Activity m_activity;
+    private Activity m_parentActivity;
+
+    public void setParentActivity(Activity activity) {
+        m_parentActivity = activity;
+    }
+
+    private void AppendExtraToView() {
+        TableLayout tableLayout = m_parentActivity.findViewById(R.id.extra_container);
+        Context context = m_parentActivity.getApplicationContext();
+        ArrayList<ENTHistoryExtra> extra = SessionSingleton.getInstance().getENTExtraList();
+
+        ((ViewGroup) tableLayout).removeAllViews();
+
+        for (int i = 0; i < extra.size(); i++) {
+
+            ENTHistoryExtra ex = extra.get(i);
+
+            LinearLayout layout = new LinearLayout(context);
+            layout.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            layout.setLayoutParams(llParams);
+            CheckBox cb = new CheckBox(context);
+
+
+            int states[][] = {{android.R.attr.state_checked}, {}};
+            int color1 = getResources().getColor(R.color.lightGray);
+            int color2 = getResources().getColor(R.color.colorRed);
+
+            int colors[] = {color2, color1};
+            CompoundButtonCompat.setButtonTintList(cb, new ColorStateList(states, colors));
+
+            layout.addView(cb);
+
+            TextView tv = new TextView(context);
+            tv.setText(ex.getName());
+            tv.setTextColor(getResources().getColor(R.color.colorBlack));
+            layout.addView(tv, llParams);
+            tv = new TextView(context);
+            String side = ex.getSide();
+            side = side.substring(0, 1).toUpperCase() + side.substring(1);
+            tv.setText(side);
+            tv.setTextColor(getResources().getColor(R.color.colorBlack));
+            layout.addView(tv, llParams);
+            tv = new TextView(context);
+            String duration = ex.getDuration();
+            duration = duration.substring(0, 1).toUpperCase() + duration.substring(1);
+            tv.setText(duration);
+            tv.setTextColor(getResources().getColor(R.color.colorBlack));
+            layout.addView(tv, llParams);
+
+            TableRow tr = new TableRow(context);
+            /* Create a Button to be the row-content. */
+
+            TableRow.LayoutParams tableRowParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1f);
+            tableRowParams.setMargins(8, 8, 8, 8);
+
+            tr.addView(layout, tableRowParams);
+
+            tableLayout.addView(tr, tableRowParams);
+        }
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        m_activity = getActivity();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
@@ -57,7 +125,7 @@ public class ENTHistoryExtraDialogFragment extends DialogFragment {
                         ENTHistoryExtra extra = new ENTHistoryExtra();
 
                         // read dialog contents, and then poke them into the parent dialog.
-                        View v = m_activity.findViewById(R.id.extra_container);
+
                         EditText t = (EditText) m_view.findViewById(R.id.condition_name);
                         extra.setName(t.getText().toString());
                         Boolean cb1, cb2;
@@ -74,8 +142,6 @@ public class ENTHistoryExtraDialogFragment extends DialogFragment {
                         } else {
                             extra.setSide(ENTHistory.EarSide.EAR_SIDE_NONE);
                         }
-
-
 
                         RadioButton rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_extra_duration_none);
                         if (rb.isChecked()) {
@@ -99,6 +165,7 @@ public class ENTHistoryExtraDialogFragment extends DialogFragment {
                         }
 
                         SessionSingleton.getInstance().addENTExtraHistory(extra);
+                        AppendExtraToView();
                     }
                 })
                 .setNegativeButton(R.string.checkout_cancel, new DialogInterface.OnClickListener() {

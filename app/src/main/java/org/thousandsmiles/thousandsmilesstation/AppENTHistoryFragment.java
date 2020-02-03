@@ -57,6 +57,7 @@ public class AppENTHistoryFragment extends Fragment {
     void showAddDialog()
     {
         ENTHistoryExtraDialogFragment rtc = new ENTHistoryExtraDialogFragment();
+        rtc.setParentActivity(this.getActivity());
         rtc.show(getFragmentManager(), m_activity.getString(R.string.msg_add_extra_exam_item));
     }
 
