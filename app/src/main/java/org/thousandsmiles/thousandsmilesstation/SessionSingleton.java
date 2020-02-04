@@ -42,16 +42,11 @@ import org.thousandsmiles.tscharts_lib.StationREST;
 import org.thousandsmiles.tscharts_lib.XRay;
 import org.thousandsmiles.tscharts_lib.XRayREST;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class SessionSingleton {
     private static SessionSingleton m_instance;
@@ -80,6 +75,7 @@ public class SessionSingleton {
     private ArrayList<Integer> m_activePatients = new ArrayList<Integer>();
     private ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
     private ArrayList<ENTHistoryExtra> m_entHistoryExtraList = new ArrayList<ENTHistoryExtra>();
+    private ArrayList<ENTHistoryExtra> m_entHistoryExtraDeleteList = new ArrayList<ENTHistoryExtra>();
     private int m_displayPatientId = -1; // id of the patient that will get checked in/checked out when the corresponding button is pressed
     private int m_displayRoutingSlipEntryId = -1; // id of the routingslip entry for m_displayPatientId
     // XXX Consider moving these station class names to the API
@@ -180,8 +176,28 @@ public class SessionSingleton {
         return name;
     }
 
-    public ArrayList<ENTHistoryExtra>  getENTExtraList() {
+    public ArrayList<ENTHistoryExtra>  getENTHistoryExtraList() {
         return m_entHistoryExtraList;
+    }
+
+    public ArrayList<ENTHistoryExtra>  getENTHistoryExtraDeleteList() {
+        return m_entHistoryExtraDeleteList;
+    }
+
+    public void addENTHistoryExtraToDeleteList(ENTHistoryExtra extr) {
+        m_entHistoryExtraDeleteList.add(extr);
+    }
+
+    public void removeENTHistoryExtraFromDeleteList(ENTHistoryExtra extr) {
+        m_entHistoryExtraDeleteList.remove(extr);
+    }
+
+    public boolean isInENTHistoryExtraDeleteList(ENTHistoryExtra extr) {
+        return m_entHistoryExtraDeleteList.contains(extr);
+    }
+
+    public void clearENTHistoryExtraDeleteList() {
+        m_entHistoryExtraDeleteList.clear();
     }
 
     public void setDisplayPatientRoutingSlip(JSONObject o)

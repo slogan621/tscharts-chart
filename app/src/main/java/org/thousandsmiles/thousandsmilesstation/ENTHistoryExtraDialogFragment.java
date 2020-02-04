@@ -29,6 +29,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -42,10 +43,24 @@ import org.thousandsmiles.tscharts_lib.ENTHistoryExtra;
 
 import java.util.ArrayList;
 
+
 public class ENTHistoryExtraDialogFragment extends DialogFragment {
 
     private View m_view;
     private Activity m_parentActivity;
+    private SessionSingleton m_sess = SessionSingleton.getInstance();
+
+    private void disableRemoveButton()
+    {
+        Button b = (Button) m_parentActivity.findViewById(R.id.remove_button);
+        b.setEnabled(false);
+    }
+
+    private void enableRemoveButton()
+    {
+        Button b = (Button) m_parentActivity.findViewById(R.id.remove_button);
+        b.setEnabled(true);
+    }
 
     public void setParentActivity(Activity activity) {
         m_parentActivity = activity;
@@ -54,7 +69,7 @@ public class ENTHistoryExtraDialogFragment extends DialogFragment {
     private void AppendExtraToView() {
         TableLayout tableLayout = m_parentActivity.findViewById(R.id.extra_container);
         Context context = m_parentActivity.getApplicationContext();
-        ArrayList<ENTHistoryExtra> extra = SessionSingleton.getInstance().getENTExtraList();
+        ArrayList<ENTHistoryExtra> extra = m_sess.getENTHistoryExtraList();
 
         ((ViewGroup) tableLayout).removeAllViews();
 
@@ -77,6 +92,26 @@ public class ENTHistoryExtraDialogFragment extends DialogFragment {
             CompoundButtonCompat.setButtonTintList(cb, new ColorStateList(states, colors));
 
             layout.addView(cb);
+            cb.setTag((Object) ex);
+            cb.setChecked(m_sess.isInENTHistoryExtraDeleteList(ex));
+
+            cb.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    ENTHistoryExtra extr = (ENTHistoryExtra) v.getTag();
+                    if (((CheckBox)v).isChecked()) {
+
+                        m_sess.addENTHistoryExtraToDeleteList(extr);
+                        enableRemoveButton();
+                    } else {
+                        m_sess.removeENTHistoryExtraFromDeleteList(extr);
+                        if (m_sess.getENTHistoryExtraDeleteList().size() == 0) {
+                            disableRemoveButton();
+                        }
+                    }
+                }
+            });
 
             TextView tv = new TextView(context);
             tv.setText(ex.getName());
@@ -113,6 +148,8 @@ public class ENTHistoryExtraDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        m_sess.clearENTHistoryExtraDeleteList();
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
