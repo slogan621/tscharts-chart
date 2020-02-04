@@ -24,6 +24,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -58,6 +59,7 @@ public class AppENTHistoryFragment extends Fragment {
     {
         ENTHistoryExtraDialogFragment rtc = new ENTHistoryExtraDialogFragment();
         rtc.setParentActivity(this.getActivity());
+        rtc.setAppENTHistoryFragment(this);
         rtc.show(getFragmentManager(), m_activity.getString(R.string.msg_add_extra_exam_item));
     }
 
@@ -265,7 +267,7 @@ public class AppENTHistoryFragment extends Fragment {
         }
     }
 
-    private void setDirty()
+    public void setDirty()
     {
         View button_bar_item = m_activity.findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.VISIBLE);

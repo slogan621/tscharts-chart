@@ -49,6 +49,11 @@ public class ENTHistoryExtraDialogFragment extends DialogFragment {
     private View m_view;
     private Activity m_parentActivity;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
+    private AppENTHistoryFragment m_appENTHistoryFragment;
+
+    public void setAppENTHistoryFragment(AppENTHistoryFragment frag) {
+        m_appENTHistoryFragment = frag;
+    }
 
     private void disableRemoveButton()
     {
@@ -203,6 +208,7 @@ public class ENTHistoryExtraDialogFragment extends DialogFragment {
 
                         SessionSingleton.getInstance().addENTExtraHistory(extra);
                         AppendExtraToView();
+                        m_appENTHistoryFragment.setDirty();
                     }
                 })
                 .setNegativeButton(R.string.checkout_cancel, new DialogInterface.OnClickListener() {
