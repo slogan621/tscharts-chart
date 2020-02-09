@@ -20,6 +20,7 @@ package org.thousandsmiles.thousandsmilesstation;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,22 +28,35 @@ import android.os.Looper;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.CompoundButtonCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Switch;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.ENTHistory;
+import org.thousandsmiles.tscharts_lib.ENTHistoryExtra;
+import org.thousandsmiles.tscharts_lib.ENTHistoryExtraREST;
 import org.thousandsmiles.tscharts_lib.ENTHistoryREST;
+import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
+
+import java.util.ArrayList;
 
 public class AppENTHistoryFragment extends Fragment {
     private Activity m_activity = null;
@@ -50,6 +64,7 @@ public class AppENTHistoryFragment extends Fragment {
     private ENTHistory m_entHistory = null;
     private boolean m_dirty = false;
     private View m_view = null;
+    private AppENTHistoryFragment m_this;
 
     public static AppENTHistoryFragment newInstance() {
         return new AppENTHistoryFragment();
@@ -63,18 +78,188 @@ public class AppENTHistoryFragment extends Fragment {
         rtc.show(getFragmentManager(), m_activity.getString(R.string.msg_add_extra_exam_item));
     }
 
+    public void disableRemoveButton()
+    {
+        Button b = (Button) m_activity.findViewById(R.id.remove_button);
+        b.setEnabled(false);
+    }
+
+    public void enableRemoveButton()
+    {
+        Button b = (Button) m_activity.findViewById(R.id.remove_button);
+        b.setEnabled(true);
+    }
+
+    public void updateExtrasView() {
+        TableLayout tableLayout = m_activity.findViewById(R.id.extra_container);
+        Context context = m_activity.getApplicationContext();
+        ArrayList<ENTHistoryExtra> extra = m_sess.getENTHistoryExtraList();
+
+        ((ViewGroup) tableLayout).removeAllViews();
+
+        for (int i = 0; i < extra.size(); i++) {
+
+            ENTHistoryExtra ex = extra.get(i);
+
+            LinearLayout layout = new LinearLayout(context);
+            layout.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            layout.setLayoutParams(llParams);
+            CheckBox cb = new CheckBox(context);
+
+
+            int states[][] = {{android.R.attr.state_checked}, {}};
+            int color1 = getResources().getColor(R.color.lightGray);
+            int color2 = getResources().getColor(R.color.colorRed);
+
+            int colors[] = {color2, color1};
+            CompoundButtonCompat.setButtonTintList(cb, new ColorStateList(states, colors));
+
+            layout.addView(cb);
+            cb.setTag((Object) ex);
+            cb.setChecked(m_sess.isInENTHistoryExtraDeleteList(ex));
+
+            cb.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    ENTHistoryExtra extr = (ENTHistoryExtra) v.getTag();
+                    if (((CheckBox)v).isChecked()) {
+                        m_sess.addENTHistoryExtraToDeleteList(extr);
+                        enableRemoveButton();
+                    } else {
+                        m_sess.removeENTHistoryExtraFromDeleteList(extr);
+                        if (m_sess.getENTHistoryExtraDeleteList().size() == 0) {
+                            disableRemoveButton();
+                        }
+                    }
+                }
+            });
+
+            TextView tv = new TextView(context);
+            tv.setText(ex.getName());
+            tv.setTextColor(getResources().getColor(R.color.colorBlack));
+            layout.addView(tv, llParams);
+            tv = new TextView(context);
+            String side = ex.getSide();
+            side = side.substring(0, 1).toUpperCase() + side.substring(1);
+            tv.setText(side);
+            tv.setTextColor(getResources().getColor(R.color.colorBlack));
+            layout.addView(tv, llParams);
+            tv = new TextView(context);
+            String duration = ex.getDuration();
+            duration = duration.substring(0, 1).toUpperCase() + duration.substring(1);
+            tv.setText(duration);
+            tv.setTextColor(getResources().getColor(R.color.colorBlack));
+            layout.addView(tv, llParams);
+
+            TableRow tr = new TableRow(context);
+            /* Create a Button to be the row-content. */
+
+            TableRow.LayoutParams tableRowParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1f);
+            tableRowParams.setMargins(8, 8, 8, 8);
+
+            tr.addView(layout, tableRowParams);
+
+            tableLayout.addView(tr, tableRowParams);
+        }
+    }
+
     public void handleAddButtonPress(View v) {
         showAddDialog();
+    }
+
+    private void deleteRemovalObject(final ENTHistoryExtra extra) {
+        Thread thread = new Thread(){
+            public void run() {
+                // note we use session context because this may be called after onPause()
+                ENTHistoryExtraREST rest = new ENTHistoryExtraREST(m_sess.getContext());
+                Object lock;
+                int status;
+
+                lock = rest.getEntHistoryExtraById(extra.getId());
+
+                synchronized (lock) {
+                    // we loop here in case of race conditions or spurious interrupts
+                    while (true) {
+                        try {
+                            lock.wait();
+                            break;
+                        } catch (InterruptedException e) {
+                            continue;
+                        }
+                    }
+                }
+                status = rest.getStatus();
+                if (status != 200) {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_read_ent_history_extra_data), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    lock = rest.deleteENTHistoryExtra(extra.getId());
+
+                    synchronized (lock) {
+                        // we loop here in case of race conditions or spurious interrupts
+                        while (true) {
+                            try {
+                                lock.wait();
+                                break;
+                            } catch (InterruptedException e) {
+                                continue;
+                            }
+                        }
+                    }
+                    status = rest.getStatus();
+                    if (status != 200) {
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.post(new Runnable() {
+                            public void run() {
+                                Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_delete_ent_history_extra), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.post(new Runnable() {
+                            public void run() {
+                                Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_deleted_ent_history_extra), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+            }
+        };
+        thread.start();
+    }
+
+    public void handleRemoveButtonPress(View v)
+    {
+        // remove all items in removal list from database if present, remove them
+        // from the ent history extra list maintained in session singleton,
+        // refresh the list, and then clear the removal list
+
+        ArrayList<ENTHistoryExtra> extras = m_sess.getENTHistoryExtraList();
+        ArrayList<ENTHistoryExtra> removals = m_sess.getENTHistoryExtraDeleteList();
+
+        for (int i = 0; i < removals.size(); i++) {
+            ENTHistoryExtra extra = removals.get(i);
+            deleteRemovalObject(extra);
+            removals.remove(extra);
+            extras.remove(extra);
+        }
+        updateExtrasView();
+        disableRemoveButton();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (context instanceof Activity){
-            m_activity=(Activity) context;
+        if (context instanceof Activity) {
+            m_activity = (Activity) context;
         }
-        m_sess.clearENTExtraHistoryList();
     }
 
     private void copyENTHistoryDataToUI()
@@ -656,63 +841,104 @@ public class AppENTHistoryFragment extends Fragment {
         return ret;
     }
 
-    private void getENTHistoryDataFromREST()
+    private void getENTHistoryExtraDataFromREST(final ENTHistory history)
     {
-        m_sess = SessionSingleton.getInstance();
+        m_sess.clearENTExtraHistoryList();
+        m_sess.clearENTHistoryExtraDeleteList();
 
-        m_sess.setNewENTHistory(false);
-        new Thread(new Runnable() {
+        Thread thread = new Thread(){
             public void run() {
-                Thread thread = new Thread(){
-                    public void run() {
-                        ENTHistory history;
-                        history = m_sess.getENTHistory(m_sess.getClinicId(), m_sess.getDisplayPatientId());
-                        if (history == null) {
-                            m_entHistory = new ENTHistory(); // null ??
-                            m_entHistory.setPatient(m_sess.getActivePatientId());
-                            m_entHistory.setClinic(m_sess.getClinicId());
-                            m_entHistory.setUsername("nobody");
-                            m_activity.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_get_ent_history_data), Toast.LENGTH_SHORT).show();
-                                    copyENTHistoryDataToUI(); // remove if null
-                                    setViewDirtyListeners();      // remove if null
-                                }
-                            });
-
-                        } else {
-                            m_entHistory = history;
-                            m_activity.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_got_ent_history_data), Toast.LENGTH_SHORT).show();
-                                    copyENTHistoryDataToUI();
-                                    setViewDirtyListeners();
-
-                                }
-                            });
+                if (m_sess.getENTExtraHistories(history.getId()) == true) {
+                    m_activity.runOnUiThread(new Runnable() {
+                        public void run() {
+                            updateExtrasView();
                         }
-                    }
-                };
-                thread.start();
+                    });
+
+                }
             }
-        }).start();
+        };
+        thread.start();
+    }
+
+    class UpdateENTHistoryListener implements RESTCompletionListener {
+
+        private ENTHistory m_hist = null;
+
+        public void setHistory(ENTHistory hist) {
+            m_hist = hist;
+
+        }
+        @Override
+        public void onSuccess(int code, String message, JSONArray a) {
+        }
+
+        @Override
+        public void onSuccess(int code, String message, JSONObject a) {
+            try {
+                int id = m_hist.getId();
+                m_sess.updateENTHistoryExtra(id);
+            } catch (Exception e) {
+            }
+
+        }
+
+        @Override
+        public void onSuccess(int code, String message) {
+        }
+
+        @Override
+        public void onFail(int code, String message) {
+
+        }
+    }
+
+    class CreateENTHistoryListener implements RESTCompletionListener {
+
+        @Override
+        public void onSuccess(int code, String message, JSONArray a) {
+        }
+
+        @Override
+        public void onSuccess(int code, String message, JSONObject a) {
+            try {
+                int id = a.getInt("id");
+                m_sess.updateENTHistoryExtra(id);
+            } catch (Exception e) {
+            }
+
+        }
+
+        @Override
+        public void onSuccess(int code, String message) {
+        }
+
+        @Override
+        public void onFail(int code, String message) {
+
+        }
     }
 
     void updateENTHistory()
     {
-        boolean ret = false;
-
         Thread thread = new Thread(){
             public void run() {
                 // note we use session context because this may be called after onPause()
                 ENTHistoryREST rest = new ENTHistoryREST(m_sess.getContext());
+
                 Object lock;
                 int status;
 
                 if (m_sess.getNewENTHistory() == true) {
+                    CreateENTHistoryListener listener = new CreateENTHistoryListener();
+                    rest.addListener(listener);
                     lock = rest.createENTHistory(copyENTHistoryDataFromUI());
                 } else {
-                    lock = rest.updateENTHistory(copyENTHistoryDataFromUI());
+                    ENTHistory hist = copyENTHistoryDataFromUI();
+                    UpdateENTHistoryListener listener = new UpdateENTHistoryListener();
+                    listener.setHistory(m_entHistory);
+                    rest.addListener(listener);
+                    lock = rest.updateENTHistory(hist);
                 }
 
                 synchronized (lock) {
@@ -760,6 +986,7 @@ public class AppENTHistoryFragment extends Fragment {
             Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_get_ent_history_data), Toast.LENGTH_SHORT).show();
         }
         setHasOptionsMenu(false);
+        m_this = this;
     }
 
     @Override
@@ -775,6 +1002,21 @@ public class AppENTHistoryFragment extends Fragment {
                 handleAddButtonPress(addButton);
             }
         });
+        if (m_sess.getNewENTHistory() == true) {
+            setDirty();
+        } else {
+            clearDirty();
+            getENTHistoryExtraDataFromREST(m_entHistory);
+        }
+        final View removeButton = (Button) m_activity.findViewById(R.id.remove_button);
+        removeButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                handleRemoveButtonPress(removeButton);
+            }
+        });
+
         if (m_sess.getNewENTHistory() == true) {
             setDirty();
         } else {

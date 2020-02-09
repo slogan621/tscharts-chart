@@ -312,7 +312,12 @@
     <string name="section_title_extra">Extra</string>
     <string name="ent_label_condition_name">Nombre de la condición</string>
     <string name="msg_add_extra_exam_item">Agregar Elemento de Examen Adicional</string>
-    <string name="title_ent_history_extra_dialog">Add Extra ENT Diagnosis</string>
+    <string name="title_ent_history_extra_dialog">Agregar historial adicional de ENT</string>
+    <string name="msg_unable_to_read_ent_history_extra_data">No se pueden leer los datos adicionales del historial ENT</string>
+    <string name="msg_unable_to_save_ent_history_extra">No se puede guardar el objeto adicional del historial ENT</string>
+    <string name="msg_successfully_saved_ent_history_extra">Objetos extra ENT guardados correctamente</string>
+    <string name="msg_unable_to_delete_ent_history_extra">No se puede eliminar el historial de ENT extra</string>
+    <string name="msg_successfully_deleted_ent_history_extra">Elemento extra ENT eliminado con éxito</string>
 
     <!-- End ENT History Strings -->
 

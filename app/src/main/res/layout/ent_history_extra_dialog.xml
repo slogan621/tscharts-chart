@@ -45,6 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
+                android:text="default"
                 android:inputType="text"
                 android:scrollHorizontally="true"
                 android:ellipsize="end"
@@ -134,6 +135,7 @@
 
                 <RadioButton
                     android:id="@+id/radio_button_ent_extra_duration_none"
+                    android:checked="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/none" />

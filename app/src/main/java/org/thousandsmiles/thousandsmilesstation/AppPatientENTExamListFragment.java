@@ -224,7 +224,7 @@ public class AppPatientENTExamListFragment extends Fragment {
 
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    m_sess.setNewXRay(false);
+                    m_sess.setNewENTExam(false);
                     showENTExamEditor((ENTExam) v.getTag());
                 }
             });

@@ -29,7 +29,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -42,7 +41,6 @@ import org.thousandsmiles.tscharts_lib.ENTHistory;
 import org.thousandsmiles.tscharts_lib.ENTHistoryExtra;
 
 import java.util.ArrayList;
-
 
 public class ENTHistoryExtraDialogFragment extends DialogFragment {
 
@@ -57,14 +55,12 @@ public class ENTHistoryExtraDialogFragment extends DialogFragment {
 
     private void disableRemoveButton()
     {
-        Button b = (Button) m_parentActivity.findViewById(R.id.remove_button);
-        b.setEnabled(false);
+        m_appENTHistoryFragment.disableRemoveButton();
     }
 
     private void enableRemoveButton()
     {
-        Button b = (Button) m_parentActivity.findViewById(R.id.remove_button);
-        b.setEnabled(true);
+        m_appENTHistoryFragment.enableRemoveButton();
     }
 
     public void setParentActivity(Activity activity) {
@@ -106,7 +102,6 @@ public class ENTHistoryExtraDialogFragment extends DialogFragment {
                 public void onClick(View v) {
                     ENTHistoryExtra extr = (ENTHistoryExtra) v.getTag();
                     if (((CheckBox)v).isChecked()) {
-
                         m_sess.addENTHistoryExtraToDeleteList(extr);
                         enableRemoveButton();
                     } else {
@@ -207,7 +202,7 @@ public class ENTHistoryExtraDialogFragment extends DialogFragment {
                         }
 
                         SessionSingleton.getInstance().addENTExtraHistory(extra);
-                        AppendExtraToView();
+                        m_appENTHistoryFragment.updateExtrasView();
                         m_appENTHistoryFragment.setDirty();
                     }
                 })

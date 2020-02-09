@@ -33,6 +33,7 @@ import org.thousandsmiles.tscharts_lib.ENTExam;
 import org.thousandsmiles.tscharts_lib.ENTExamREST;
 import org.thousandsmiles.tscharts_lib.ENTHistory;
 import org.thousandsmiles.tscharts_lib.ENTHistoryExtra;
+import org.thousandsmiles.tscharts_lib.ENTHistoryExtraREST;
 import org.thousandsmiles.tscharts_lib.ENTHistoryREST;
 import org.thousandsmiles.tscharts_lib.MedicalHistory;
 import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
@@ -184,6 +185,14 @@ public class SessionSingleton {
         return m_entHistoryExtraDeleteList;
     }
 
+    public void clearENTHistoryExtraList() {
+        m_entHistoryExtraList.clear();
+    }
+
+    public void clearENTHistoryExtraDeleteList() {
+        m_entHistoryExtraDeleteList.clear();
+    }
+
     public void addENTHistoryExtraToDeleteList(ENTHistoryExtra extr) {
         m_entHistoryExtraDeleteList.add(extr);
     }
@@ -194,10 +203,6 @@ public class SessionSingleton {
 
     public boolean isInENTHistoryExtraDeleteList(ENTHistoryExtra extr) {
         return m_entHistoryExtraDeleteList.contains(extr);
-    }
-
-    public void clearENTHistoryExtraDeleteList() {
-        m_entHistoryExtraDeleteList.clear();
     }
 
     public void setDisplayPatientRoutingSlip(JSONObject o)
@@ -1135,6 +1140,52 @@ public class SessionSingleton {
         return ret;
     }
 
+    boolean getENTExtraHistories(final int historyId)
+    {
+        JSONArray ret = null;
+        boolean retval = false;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final ENTHistoryExtraREST entHistoryExtraREST = new ENTHistoryExtraREST(getContext());
+            GetDataListener listener = new GetDataListener();
+            entHistoryExtraREST.addListener(listener);
+
+            Object lock = entHistoryExtraREST.getAllENTHistoriesExtra(historyId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = entHistoryExtraREST.getStatus();
+            if (status == 200) {
+                ret = listener.getResultArray();
+
+                clearENTExtraHistoryList();
+                // SYD iterate the result array and place it in the global ent history extra list
+
+                for (int i = 0; i < ret.length(); i++) {
+                    ENTHistoryExtra ex = new ENTHistoryExtra();
+                    try {
+                        ex.fromJSONObject(ret.getJSONObject(i));
+                        addENTExtraHistory(ex);
+                    } catch (Exception e) {
+
+                    }
+                }
+                retval = true;
+            }
+        }
+        return retval;
+    }
+
     JSONArray getENTExams(final int clinicId, final int patientId)
     {
         JSONArray ret = null;
@@ -1355,6 +1406,127 @@ public class SessionSingleton {
                     handler.post(new Runnable() {
                         public void run() {
                             Toast.makeText(getContext(), getContext().getString(R.string.msg_successfully_saved_ent_history), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        };
+        thread.start();
+    }
+
+    class CreateENTHistoryExtraListener implements RESTCompletionListener {
+
+        ENTHistoryExtra m_ex = null;
+
+        void setExtra(ENTHistoryExtra ex)
+        {
+          m_ex = ex;
+        }
+
+        @Override
+        public void onSuccess(int code, String message, JSONArray a) {
+        }
+
+        @Override
+        public void onSuccess(int code, String message, JSONObject a) {
+            try {
+                m_ex.setId(a.getInt("id"));
+            } catch (Exception e) {
+            }
+        }
+
+        @Override
+        public void onSuccess(int code, String message) {
+        }
+
+        @Override
+        public void onFail(int code, String message) {
+        }
+    }
+
+    class UpdateENTHistoryExtraListener implements RESTCompletionListener {
+
+        @Override
+        public void onSuccess(int code, String message, JSONArray a) {
+        }
+
+        @Override
+        public void onSuccess(int code, String message, JSONObject a) {
+
+        }
+
+        @Override
+        public void onSuccess(int code, String message) {
+        }
+
+        @Override
+        public void onFail(int code, String message) {
+        }
+    }
+
+    void updateENTHistoryExtra(final int historyId)
+    {
+        Thread thread = new Thread(){
+            public void run() {
+                boolean error = false;
+                // note we use session context because this may be called after onPause()
+
+                Object lock;
+                int status;
+
+                ArrayList<ENTHistoryExtra> extra = getENTHistoryExtraList();
+
+                for (int i = 0; i < extra.size(); i++) {
+                    ENTHistoryExtra ex = extra.get(i);
+                    ex.setHistory(historyId);
+                    ENTHistoryExtraREST rest = new ENTHistoryExtraREST(getContext());
+
+                    if (ex.getId() == 0) {
+                        CreateENTHistoryExtraListener listener = new CreateENTHistoryExtraListener();
+                        listener.setExtra(ex);
+                        rest.addListener(listener);
+                        lock = rest.createENTHistoryExtra(ex);
+                    } else {
+                        UpdateENTHistoryExtraListener listener = new UpdateENTHistoryExtraListener();
+                        rest.addListener(listener);
+                        lock = rest.updateENTHistoryExtra(ex);
+                    }
+
+                    synchronized (lock) {
+                        // we loop here in case of race conditions or spurious interrupts
+                        while (true) {
+                            try {
+                                lock.wait();
+                                break;
+                            } catch (InterruptedException e) {
+                                continue;
+                            }
+                        }
+                    }
+                    status = rest.getStatus();
+
+                    // if a create, get returned ID from response listener and update in the
+                    // global object
+
+                    if (status == 200) {
+                        //ex.setId();
+                    }
+
+                    if (status != 200) {
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.post(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getContext(), getContext().getString(R.string.msg_unable_to_save_ent_history_extra), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        error = true;
+                    }
+                }
+                if (error == false) {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), getContext().getString(R.string.msg_successfully_saved_ent_history_extra), Toast.LENGTH_LONG).show();
                         }
                     });
                 }
