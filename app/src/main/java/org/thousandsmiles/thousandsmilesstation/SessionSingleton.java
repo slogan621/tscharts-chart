@@ -1818,7 +1818,7 @@ public class SessionSingleton {
                         error = true;
                     }
                 }
-                if (error == false) {
+                if (extra.size() != 0 && error == false) {
                     Handler handler = new Handler(Looper.getMainLooper());
                     handler.post(new Runnable() {
                         public void run() {
