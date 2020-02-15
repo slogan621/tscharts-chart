@@ -971,10 +971,10 @@ public class StationActivity extends AppCompatActivity {
                         //m_fragmentName = names.get(position);
                         Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.diagnosis_name))) {
-                        //showXRaySearchResults();
-                        //m_showingAppFragment = true;
-                        //m_fragmentName = names.get(position);
-                        Toast.makeText(StationActivity.this, R.string.msg_feature_not_implemented, Toast.LENGTH_LONG).show();
+                        showENTDiagnosisSearchResults();
+                        m_showingAppFragment = true;
+                        m_fragmentName = names.get(position);
+                        //Toast.makeText(StationActivity.this, R.string.msg_feature_not_implemented, Toast.LENGTH_LONG).show();
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.treatment_plan_name))) {
                         //showXRaySearchResults();
                         //m_showingAppFragment = true;
@@ -1011,6 +1011,16 @@ public class StationActivity extends AppCompatActivity {
     {
         Bundle arguments = new Bundle();
         AppPatientENTHistoryListFragment fragment = new AppPatientENTHistoryListFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
+    }
+
+    public void showENTDiagnosisSearchResults()
+    {
+        Bundle arguments = new Bundle();
+        AppPatientENTDiagnosisListFragment fragment = new AppPatientENTDiagnosisListFragment();
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)

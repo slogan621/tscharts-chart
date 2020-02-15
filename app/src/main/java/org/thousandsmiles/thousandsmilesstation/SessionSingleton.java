@@ -29,6 +29,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.ENTDiagnosisExtra;
+import org.thousandsmiles.tscharts_lib.ENTDiagnosisExtraREST;
+import org.thousandsmiles.tscharts_lib.ENTDiagnosisREST;
 import org.thousandsmiles.tscharts_lib.ENTExam;
 import org.thousandsmiles.tscharts_lib.ENTExamREST;
 import org.thousandsmiles.tscharts_lib.ENTHistory;
@@ -77,6 +80,8 @@ public class SessionSingleton {
     private ArrayList<Integer> m_waitingPatients = new ArrayList<Integer>();
     private ArrayList<ENTHistoryExtra> m_entHistoryExtraList = new ArrayList<ENTHistoryExtra>();
     private ArrayList<ENTHistoryExtra> m_entHistoryExtraDeleteList = new ArrayList<ENTHistoryExtra>();
+    private ArrayList<ENTDiagnosisExtra> m_entDiagnosisExtraList = new ArrayList<ENTDiagnosisExtra>();
+    private ArrayList<ENTDiagnosisExtra> m_entDiagnosisExtraDeleteList = new ArrayList<ENTDiagnosisExtra>();
     private int m_displayPatientId = -1; // id of the patient that will get checked in/checked out when the corresponding button is pressed
     private int m_displayRoutingSlipEntryId = -1; // id of the routingslip entry for m_displayPatientId
     // XXX Consider moving these station class names to the API
@@ -86,6 +91,7 @@ public class SessionSingleton {
     private boolean m_newXRay = false;
     private boolean m_newENTExam = false;
     private boolean m_newENTHistory = false;
+    private boolean m_newENTDiagnosis = false;
 
     public void setNewXRay(boolean val) {
         m_newXRay = val;
@@ -103,6 +109,13 @@ public class SessionSingleton {
         return m_newENTHistory;
     }
 
+    public void setNewENTDiagnosis(boolean val) {
+        m_newENTDiagnosis = val;
+    }
+
+    public boolean getNewENTDiagnosis() {
+        return m_newENTDiagnosis;
+    }
     public void setNewENTExam(boolean val) {
         m_newENTExam = val;
     }
@@ -130,6 +143,14 @@ public class SessionSingleton {
 
     public void addENTExtraHistory(ENTHistoryExtra item) {
         m_entHistoryExtraList.add(item);
+    }
+
+    public void clearENTExtraDiagnosisList() {
+        m_entDiagnosisExtraList.clear();
+    }
+
+    public void addENTExtraDiagnosis(ENTDiagnosisExtra item) {
+        m_entDiagnosisExtraList.add(item);
     }
 
     public CommonSessionSingleton getCommonSessionSingleton()
@@ -203,6 +224,36 @@ public class SessionSingleton {
 
     public boolean isInENTHistoryExtraDeleteList(ENTHistoryExtra extr) {
         return m_entHistoryExtraDeleteList.contains(extr);
+    }
+
+    /* ENT Diagnosis extra */
+
+    public ArrayList<ENTDiagnosisExtra>  getENTDiagnosisExtraList() {
+        return m_entDiagnosisExtraList;
+    }
+
+    public ArrayList<ENTDiagnosisExtra>  getENTDiagnosisExtraDeleteList() {
+        return m_entDiagnosisExtraDeleteList;
+    }
+
+    public void clearENTDiagnosisExtraList() {
+        m_entDiagnosisExtraList.clear();
+    }
+
+    public void clearENTDiagnosisExtraDeleteList() {
+        m_entDiagnosisExtraDeleteList.clear();
+    }
+
+    public void addENTDiagnosisExtraToDeleteList(ENTDiagnosisExtra extr) {
+        m_entDiagnosisExtraDeleteList.add(extr);
+    }
+
+    public void removeENTDiagnosisExtraFromDeleteList(ENTDiagnosisExtra extr) {
+        m_entDiagnosisExtraDeleteList.remove(extr);
+    }
+
+    public boolean isInENTDiagnosisExtraDeleteList(ENTDiagnosisExtra extr) {
+        return m_entDiagnosisExtraDeleteList.contains(extr);
     }
 
     public void setDisplayPatientRoutingSlip(JSONObject o)
@@ -1108,6 +1159,84 @@ public class SessionSingleton {
         return ret;
     }
 
+    JSONArray getENTDiagnoses(final int clinicId, final int patientId)
+    {
+        JSONArray ret = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final ENTDiagnosisREST entDiagnosisREST = new ENTDiagnosisREST(getContext());
+            GetDataListener listener = new GetDataListener();
+            listener.setPatientId(patientId);
+            entDiagnosisREST.addListener(listener);
+
+            Object lock = entDiagnosisREST.getAllENTDiagnoses(clinicId, patientId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = entDiagnosisREST.getStatus();
+            if (status == 200) {
+                ret = listener.getResultArray();
+            }
+        }
+        return ret;
+    }
+
+    boolean getENTExtraDiagnoses(final int diagnosisId)
+    {
+        JSONArray ret = null;
+        boolean retval = false;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final ENTDiagnosisExtraREST entDiagnosisExtraREST = new ENTDiagnosisExtraREST(getContext());
+            GetDataListener listener = new GetDataListener();
+            entDiagnosisExtraREST.addListener(listener);
+
+            Object lock = entDiagnosisExtraREST.getAllENTDiagnosesExtra(diagnosisId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = entDiagnosisExtraREST.getStatus();
+            if (status == 200) {
+                ret = listener.getResultArray();
+
+                clearENTExtraDiagnosisList();
+                // SYD iterate the result array and place it in the global ent history extra list
+
+                for (int i = 0; i < ret.length(); i++) {
+                    ENTDiagnosisExtra ex = new ENTDiagnosisExtra();
+                    try {
+                        ex.fromJSONObject(ret.getJSONObject(i));
+                        addENTExtraDiagnosis(ex);
+                    } catch (Exception e) {
+
+                    }
+                }
+                retval = true;
+            }
+        }
+        return retval;
+    }
+
     JSONArray getENTHistories(final int clinicId, final int patientId)
     {
         JSONArray ret = null;
@@ -1535,62 +1664,171 @@ public class SessionSingleton {
         thread.start();
     }
 
-    public ENTHistory getENTHistory(int clinicid, int patientid)
+    void updateENTDiagnosis(/*final RESTCompletionListener listener */)
     {
         boolean ret = false;
-        ENTHistory history = null;
 
-        if (Looper.myLooper() != Looper.getMainLooper()) {
-            final ENTHistoryREST historyData = new ENTHistoryREST(getContext());
-            Object lock = historyData.getEntHistory(clinicid, patientid);
+        Thread thread = new Thread(){
+            public void run() {
+                // note we use session context because this may be called after onPause()
+                ENTDiagnosisREST rest = new ENTDiagnosisREST(getContext());
+                //rest.addListener(listener);
+                Object lock;
+                int status;
 
-            synchronized (lock) {
-                // we loop here in case of race conditions or spurious interrupts
-                while (true) {
-                    try {
-                        lock.wait();
-                        break;
-                    } catch (InterruptedException e) {
-                        continue;
+                lock = rest.updateENTDiagnosis(m_commonSessionSingleton.getPatientENTDiagnosis());
+
+                synchronized (lock) {
+                    // we loop here in case of race conditions or spurious interrupts
+                    while (true) {
+                        try {
+                            lock.wait();
+                            break;
+                        } catch (InterruptedException e) {
+                            continue;
+                        }
                     }
                 }
+                status = rest.getStatus();
+                if (status != 200) {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), getContext().getString(R.string.msg_unable_to_save_ent_diagnosis), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), getContext().getString(R.string.msg_successfully_saved_ent_diagnosis), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
-
-            int status = historyData.getStatus();
-            if (status == 200) {
-                history = getCommonSessionSingleton().getPatientENTHistory();
-            }
-        }
-        return history;
+        };
+        thread.start();
     }
 
-    public XRay getXRay(int clinicid, int patientid)
-    {
-        boolean ret = false;
-        XRay xray = null;
+    class CreateENTDiagnosisExtraListener implements RESTCompletionListener {
 
-        if (Looper.myLooper() != Looper.getMainLooper()) {
-            final XRayREST xrayData = new XRayREST(getContext());
-            Object lock = xrayData.getXRay(clinicid, patientid);
+        ENTDiagnosisExtra m_ex = null;
 
-            synchronized (lock) {
-                // we loop here in case of race conditions or spurious interrupts
-                while (true) {
-                    try {
-                        lock.wait();
-                        break;
-                    } catch (InterruptedException e) {
-                        continue;
-                    }
-                }
-            }
+        void setExtra(ENTDiagnosisExtra ex)
+        {
+            m_ex = ex;
+        }
 
-            int status = xrayData.getStatus();
-            if (status == 200) {
-                xray = getCommonSessionSingleton().getPatientXray();
+        @Override
+        public void onSuccess(int code, String message, JSONArray a) {
+        }
+
+        @Override
+        public void onSuccess(int code, String message, JSONObject a) {
+            try {
+                m_ex.setId(a.getInt("id"));
+            } catch (Exception e) {
             }
         }
-        return xray;
+
+        @Override
+        public void onSuccess(int code, String message) {
+        }
+
+        @Override
+        public void onFail(int code, String message) {
+        }
+    }
+
+    class UpdateENTDiagnosisExtraListener implements RESTCompletionListener {
+
+        @Override
+        public void onSuccess(int code, String message, JSONArray a) {
+        }
+
+        @Override
+        public void onSuccess(int code, String message, JSONObject a) {
+
+        }
+
+        @Override
+        public void onSuccess(int code, String message) {
+        }
+
+        @Override
+        public void onFail(int code, String message) {
+        }
+    }
+
+    void updateENTDiagnosisExtra(final int diagnosisId)
+    {
+        Thread thread = new Thread(){
+            public void run() {
+                boolean error = false;
+                // note we use session context because this may be called after onPause()
+
+                Object lock;
+                int status;
+
+                ArrayList<ENTDiagnosisExtra> extra = getENTDiagnosisExtraList();
+
+                for (int i = 0; i < extra.size(); i++) {
+                    ENTDiagnosisExtra ex = extra.get(i);
+                    ex.setDiagnosis(diagnosisId);
+                    ENTDiagnosisExtraREST rest = new ENTDiagnosisExtraREST(getContext());
+
+                    if (ex.getId() == 0) {
+                        CreateENTDiagnosisExtraListener listener = new CreateENTDiagnosisExtraListener();
+                        listener.setExtra(ex);
+                        rest.addListener(listener);
+                        lock = rest.createENTDiagnosisExtra(ex);
+                    } else {
+                        UpdateENTDiagnosisExtraListener listener = new UpdateENTDiagnosisExtraListener();
+                        rest.addListener(listener);
+                        lock = rest.updateENTDiagnosisExtra(ex);
+                    }
+
+                    synchronized (lock) {
+                        // we loop here in case of race conditions or spurious interrupts
+                        while (true) {
+                            try {
+                                lock.wait();
+                                break;
+                            } catch (InterruptedException e) {
+                                continue;
+                            }
+                        }
+                    }
+                    status = rest.getStatus();
+
+                    // if a create, get returned ID from response listener and update in the
+                    // global object
+
+                    if (status == 200) {
+                        //ex.setId();
+                    }
+
+                    if (status != 200) {
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.post(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getContext(), getContext().getString(R.string.msg_unable_to_save_ent_diagnosis_extra), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        error = true;
+                    }
+                }
+                if (error == false) {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), getContext().getString(R.string.msg_successfully_saved_ent_diagnosis_extra), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        };
+        thread.start();
     }
 
     public static SessionSingleton getInstance() {

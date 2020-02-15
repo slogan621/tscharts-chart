@@ -319,7 +319,62 @@
     <string name="msg_unable_to_delete_ent_history_extra">No se puede eliminar el historial de ENT extra</string>
     <string name="msg_successfully_deleted_ent_history_extra">Elemento extra ENT eliminado con éxito</string>
 
-    <!-- End ENT History Strings -->
+    <!-- ENT Diagnostic Strings -->
+
+    <string name="title_ent_diagnosis_extra_dialog">Editar ONG Diagnóstico adicional</string>
+    <string name="msg_unable_to_save_ent_diagnosis_extra">No se puede guardar el diagnóstico adicional ONG</string>
+    <string name="msg_successfully_saved_ent_diagnosis_extra">Diagnóstico adicional ONG guardado con éxito</string>
+    <string name="msg_unable_to_save_ent_diagnosis">No se puede guardar el diagnóstico ONG</string>
+    <string name="msg_successfully_saved_ent_diagnosis">Diagnóstico ONG guardado con éxito</string>
+    <string name="ent_label_conductive">Conductiva</string>
+    <string name="section_title_external_ear">Oído externo</string>
+    <string name="section_title_tympanic_membrame">Membrana Timpánica</string>
+    <string name="section_title_middle_ear">Middle Ear</string>
+    <string name="section_title_oral_cavity">Oído Medio</string>
+    <string name="section_title_nose">Nariz</string>
+    <string name="section_title_syndrome">Síndrome</string>
+    <string name="ent_label_hearing_loss">Pérdida de la audición</string>
+    <string name="ent_label_mixed">Mezclada</string>
+    <string name="ent_label_sensory">Sensorial</string>
+    <string name="ent_label_cerumen_impaction">Impacto Cerumen</string>
+    <string name="ent_label_ear_canal_fb">Cuerpo extraño del canal auditivo</string>
+    <string name="ent_label_atelectasis">Atelectasia</string>
+    <string name="ent_label_granuloma">Granuloma</string>
+    <string name="ent_label_monomer">Monómero</string>
+    <string name="ent_label_tube">Tubo</string>
+    <string name="ent_label_tympanic_perf">Perf timpánico</string>
+    <string name="ent_label_cholesteatoma">Colesteatoma</string>
+    <string name="ent_label_eustatian_tube_dysfunction_with_tm_retraction">Disfunción de la trompa de Eustaquio con retracción TM</string>
+    <string name="ent_label_otitis_media">Otitis Media</string>
+    <string name="ent_label_serous_otitis_media">Otitis media serosa</string>
+    <string name="ent_label_hemifacial_microsomia">Microsomía hemifacial</string>
+    <string name="ent_label_pierre_robin_syndrome">Síndrome de Pierre Robin</string>
+    <string name="oral_tonsil_enlarge">Amígdalas agrandadas</string>
+    <string name="oral_cleft_lip_repair_deformity">Deformidad de reparación de labio leporino</string>
+    <string name="oral_cleft_lip_unilateral">Labio leporino unilateral</string>
+    <string name="oral_cleft_lip_bilateral">Labio leporino bilateral</string>
+    <string name="oral_cleft_lip_unrepaired">Labio leporino sin reparar</string>
+    <string name="oral_cleft_lip_repaired">Labio leporino reparado</string>
+    <string name="oral_cleft_palate_unilateral">Paladar hendido unilateral</string>
+    <string name="oral_cleft_palate_bilateral">Paladar hendido bilateral</string>
+    <string name="oral_cleft_palate_unrepaired">Paladar hendido sin reparar</string>
+    <string name="oral_cleft_palate_repaired">Paladar hendido repararado</string>
+    <string name="oral_speech_problem">Problema del habla</string>
+    <string name="nose_deviated_septum">Tabique desviado</string>
+    <string name="nose_turbinate_hypertrophy">Hipertrofia de cornetes</string>
+    <string name="nose_deformity_secondary_to_cleft_palate">Deformidad secundaria al paladar hendido</string>
+    <string name="oral_ankyloglossia">Anquiloglosia</string>
+    <string name="ent_label_condition_value">Valor de condición</string>
+    <string name="msg_unable_to_read_ent_diagnosis_extra_data">No se pueden leer los datos adicionales del diagnóstico ONG</string>
+    <string name="msg_unable_to_delete_ent_diagnosis_extra">No se puede eliminar el diagnóstico ONG adicional</string>
+    <string name="msg_successfully_deleted_ent_diagnosis_extra">Diagnóstico ONG eliminado con éxito extra</string>
+    <string name="msg_unable_to_get_ent_diagnosis_data">No se pueden leer los datos de diagnóstico ONG</string>
+    <string name="title_unsaved_ent_diagnosis">Diagnóstico ONG sin guardar</string>
+    <string name="msg_save_ent_diagnosis">¿Guardar diagnóstico ENT?</string>
+    <string name="question_create_new_ent_diagnosis_record">¿Crear nuevo registro de diagnóstico ONG?</string>
+    <string name="button_label_add_new_ent_diagnosis">Agregar nuevo diagnóstico ONG</string>
+    <string name="msg_unable_to_get_ent_diagnoses_for_patient">Incapaz de obtener diagnósticos de ONG para la paciente</string>
+    <string name="msg_add_extra_diagnosis_item">Agregar elemento de diagnóstico adicional</string>
 
 </resources>
 

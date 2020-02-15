@@ -324,6 +324,61 @@
     <string name="msg_unable_to_delete_ent_history_extra">Unable to delete ENT history extra</string>
     <string name="msg_successfully_deleted_ent_history_extra">Successfully deleted ENT extra item</string>
 
-    <!-- End ENT Exam Strings -->
+    <!-- ENT Diagnostic Strings -->
+
+    <string name="title_ent_diagnosis_extra_dialog">Edit ENT Extra Diagnosis</string>
+    <string name="msg_unable_to_save_ent_diagnosis_extra">Unable to save ENT extra diagnosis</string>
+    <string name="msg_successfully_saved_ent_diagnosis_extra">Successfully saved ENT diagnosis extra</string>
+    <string name="msg_unable_to_save_ent_diagnosis">Unable to save ENT diagnosis</string>
+    <string name="msg_successfully_saved_ent_diagnosis">Successfully saved ENT diagnosis</string>
+    <string name="ent_label_conductive">Conductive</string>
+    <string name="section_title_external_ear">External Ear</string>
+    <string name="section_title_tympanic_membrame">Tympanic Membrame</string>
+    <string name="section_title_middle_ear">Middle Ear</string>
+    <string name="section_title_oral_cavity">Oral Cavity</string>
+    <string name="section_title_nose">Nose</string>
+    <string name="section_title_syndrome">Syndrome</string>
+    <string name="ent_label_hearing_loss">Hearing Loss</string>
+    <string name="ent_label_mixed">Mixed</string>
+    <string name="ent_label_sensory">Sensory</string>
+    <string name="ent_label_cerumen_impaction">Cerumen Impaction</string>
+    <string name="ent_label_ear_canal_fb">Ear Canal Foreign Body</string>
+    <string name="ent_label_atelectasis">Atelectasis</string>
+    <string name="ent_label_granuloma">Granuloma</string>
+    <string name="ent_label_monomer">Monomer</string>
+    <string name="ent_label_tube">Tube</string>
+    <string name="ent_label_tympanic_perf">Tympanic Perf</string>
+    <string name="ent_label_cholesteatoma">Cholesteatoma</string>
+    <string name="ent_label_eustatian_tube_dysfunction_with_tm_retraction">Eustatian Tube Dysfunction With TM Retraction</string>
+    <string name="ent_label_otitis_media">Otitis Media</string>
+    <string name="ent_label_serous_otitis_media">Serous Otitis Media</string>
+    <string name="ent_label_hemifacial_microsomia">Hemifacial Microsomia</string>
+    <string name="ent_label_pierre_robin_syndrome">Pierre Robin Syndrome</string>
+    <string name="oral_tonsil_enlarge">Enlarged tonsil</string>
+    <string name="oral_cleft_lip_repair_deformity">Cleft lip repair deformity</string>
+    <string name="oral_cleft_lip_unilateral">Cleft lip unilateral</string>
+    <string name="oral_cleft_lip_bilateral">Cleft lip bilateral</string>
+    <string name="oral_cleft_lip_unrepaired">Cleft lip unrepaired</string>
+    <string name="oral_cleft_lip_repaired">Cleft lip repaired</string>
+    <string name="oral_cleft_palate_unilateral">Cleft palate unilateral</string>
+    <string name="oral_cleft_palate_bilateral">Cleft palate bilateral</string>
+    <string name="oral_cleft_palate_unrepaired">Cleft palate unrepaired</string>
+    <string name="oral_cleft_palate_repaired">Cleft palate repaired</string>
+    <string name="oral_speech_problem">Speech problem</string>
+    <string name="nose_deviated_septum">Deviated septum</string>
+    <string name="nose_turbinate_hypertrophy">Turbinate hypertrophy</string>
+    <string name="nose_deformity_secondary_to_cleft_palate">Deformity secondary to cleft palate</string>
+    <string name="oral_ankyloglossia">Ankyloglossia</string>
+    <string name="ent_label_condition_value">Condition Value</string>
+    <string name="msg_unable_to_read_ent_diagnosis_extra_data">Unable to read ENT diagnosis extra data</string>
+    <string name="msg_unable_to_delete_ent_diagnosis_extra">Unable to delete ENT diagnosis extra</string>
+    <string name="msg_successfully_deleted_ent_diagnosis_extra">Successfully deleted ENT diagnosis extra</string>
+    <string name="msg_unable_to_get_ent_diagnosis_data">Unable to get ENT diagnosis data</string>
+    <string name="title_unsaved_ent_diagnosis">Unsaved ENT Diagnosis</string>
+    <string name="msg_save_ent_diagnosis">Save ENT Diagnosis?</string>
+    <string name="question_create_new_ent_diagnosis_record">Create new ENT Diagnosis Record?</string>
+    <string name="button_label_add_new_ent_diagnosis">Add New ENT Diagnosis</string>
+    <string name="msg_unable_to_get_ent_diagnoses_for_patient">Unable to get ENT Diagnoses for Patient</string>
+    <string name="msg_add_extra_diagnosis_item">Add Extra Diagnosis Item</string>
 
 </resources>
