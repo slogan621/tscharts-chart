@@ -38,6 +38,8 @@ import org.thousandsmiles.tscharts_lib.ENTHistory;
 import org.thousandsmiles.tscharts_lib.ENTHistoryExtra;
 import org.thousandsmiles.tscharts_lib.ENTHistoryExtraREST;
 import org.thousandsmiles.tscharts_lib.ENTHistoryREST;
+import org.thousandsmiles.tscharts_lib.ENTTreatment;
+import org.thousandsmiles.tscharts_lib.ENTTreatmentREST;
 import org.thousandsmiles.tscharts_lib.MedicalHistory;
 import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
@@ -92,6 +94,7 @@ public class SessionSingleton {
     private boolean m_newENTExam = false;
     private boolean m_newENTHistory = false;
     private boolean m_newENTDiagnosis = false;
+    private boolean m_newENTTreatment = false;
 
     public void setNewXRay(boolean val) {
         m_newXRay = val;
@@ -116,6 +119,7 @@ public class SessionSingleton {
     public boolean getNewENTDiagnosis() {
         return m_newENTDiagnosis;
     }
+
     public void setNewENTExam(boolean val) {
         m_newENTExam = val;
     }
@@ -123,6 +127,15 @@ public class SessionSingleton {
     public boolean getNewENTExam() {
         return m_newENTExam;
     }
+
+    public void setNewENTTreatment(boolean val) {
+        m_newENTTreatment = val;
+    }
+
+    public boolean getNewENTTreatment() {
+        return m_newENTTreatment;
+    }
+
 
     public void setNewMedHistory(boolean val) {
         m_newMedHistory = val;
@@ -1347,6 +1360,38 @@ public class SessionSingleton {
         return ret;
     }
 
+    JSONArray getENTTreatments(final int clinicId, final int patientId)
+    {
+        JSONArray ret = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final ENTTreatmentREST entTreatmentREST = new ENTTreatmentREST(getContext());
+            GetDataListener listener = new GetDataListener();
+            listener.setPatientId(patientId);
+            entTreatmentREST.addListener(listener);
+
+            Object lock = entTreatmentREST.getAllENTTreatments(clinicId, patientId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = entTreatmentREST.getStatus();
+            if (status == 200) {
+                ret = listener.getResultArray();
+            }
+        }
+        return ret;
+    }
+
     void updateMedicalHistory(/*final RESTCompletionListener listener */)
     {
         boolean ret = false;
@@ -1496,6 +1541,82 @@ public class SessionSingleton {
         }
         return exam;
     }
+
+    void updateENTTreatment(/*final RESTCompletionListener listener */)
+    {
+        boolean ret = false;
+
+        Thread thread = new Thread(){
+            public void run() {
+                // note we use session context because this may be called after onPause()
+                ENTTreatmentREST rest = new ENTTreatmentREST(getContext());
+                //rest.addListener(listener);
+                Object lock;
+                int status;
+
+                lock = rest.updateENTTreatment(m_commonSessionSingleton.getPatientENTTreatment());
+
+                synchronized (lock) {
+                    // we loop here in case of race conditions or spurious interrupts
+                    while (true) {
+                        try {
+                            lock.wait();
+                            break;
+                        } catch (InterruptedException e) {
+                            continue;
+                        }
+                    }
+                }
+                status = rest.getStatus();
+                if (status != 200) {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), getContext().getString(R.string.msg_unable_to_save_ent_treatment), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), getContext().getString(R.string.msg_successfully_saved_ent_treatment), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        };
+        thread.start();
+    }
+
+    public ENTTreatment getENTTreatment(int clinicid, int patientid)
+    {
+        boolean ret = false;
+        ENTTreatment treatment = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final ENTTreatmentREST treatmentData = new ENTTreatmentREST(getContext());
+            Object lock = treatmentData.getEntTreatment(clinicid, patientid);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = treatmentData.getStatus();
+            if (status == 200) {
+                treatment = getCommonSessionSingleton().getPatientENTTreatment();
+            }
+        }
+        return treatment;
+    }
+
 
     void updateENTHistory(/*final RESTCompletionListener listener */)
     {

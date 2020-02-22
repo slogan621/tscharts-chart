@@ -381,4 +381,20 @@
     <string name="msg_unable_to_get_ent_diagnoses_for_patient">Unable to get ENT Diagnoses for Patient</string>
     <string name="msg_add_extra_diagnosis_item">Add Extra Diagnosis Item</string>
 
+    <!-- ENT Treatment -->
+
+    <string name="section_title_cleaning">Ear Cleaning</string>
+    <string name="ent_label_comment">Comment</string>
+    <string name="question_create_new_ent_treatment_record">Create a new ENT treatment record?</string>
+    <string name="button_label_add_new_ent_treatment">Add New ENT Treatment</string>
+    <string name="msg_unable_to_get_ent_treatments_for_patient">Unable to get ENT treatments for patient</string>
+    <string name="msg_unable_to_get_ent_treatment_data">Unable to get ENT treatment data</string>
+    <string name="msg_successfully_got_ent_treatment_data">Successfully read ENT treatment data</string>
+    <string name="msg_unable_to_save_ent_treatment">Unable to save ENT treatment</string>
+    <string name="msg_successfully_saved_ent_treatment">Successfully saved ENT treatment</string>
+    <string name="title_unsaved_ent_treatment">Unsaved ENT Treatment</string>
+    <string name="msg_save_ent_treatment">Save ENT Treatment?</string>
+    <string name="button_label_show">Show</string>
+    <string name="button_label_hide">Hide</string>
+
 </resources>
