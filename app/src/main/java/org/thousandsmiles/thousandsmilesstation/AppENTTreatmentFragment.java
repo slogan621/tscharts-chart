@@ -2057,5 +2057,155 @@ public class AppENTTreatmentFragment extends Fragment {
                 }
             }
         });
+
+        b = (Button) getActivity().findViewById(R.id.button_audiogram_toggle);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                LinearLayout layout = getActivity().findViewById(R.id.ent_audiogram_frame);
+                if (layout.getVisibility() == View.GONE) {
+                    layout.setVisibility(View.VISIBLE);
+                    ((Button) v).setText(R.string.button_label_hide);
+                } else {
+                    layout.setVisibility(View.GONE);
+                    ((Button) v).setText(R.string.button_label_show);
+                }
+            }
+        });
+
+        b = (Button) getActivity().findViewById(R.id.button_tympanogram_toggle);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                LinearLayout layout = getActivity().findViewById(R.id.ent_tympanogram_frame);
+                if (layout.getVisibility() == View.GONE) {
+                    layout.setVisibility(View.VISIBLE);
+                    ((Button) v).setText(R.string.button_label_hide);
+                } else {
+                    layout.setVisibility(View.GONE);
+                    ((Button) v).setText(R.string.button_label_show);
+                }
+            }
+        });
+
+        b = (Button) getActivity().findViewById(R.id.button_mastoid_debrided_toggle);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                LinearLayout layout = getActivity().findViewById(R.id.ent_mastoid_debrided_frame);
+                if (layout.getVisibility() == View.GONE) {
+                    layout.setVisibility(View.VISIBLE);
+                    ((Button) v).setText(R.string.button_label_hide);
+                } else {
+                    layout.setVisibility(View.GONE);
+                    ((Button) v).setText(R.string.button_label_show);
+                }
+            }
+        });
+
+        b = (Button) getActivity().findViewById(R.id.button_antibiotic_toggle);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                LinearLayout layout = getActivity().findViewById(R.id.ent_antibiotic_frame);
+                if (layout.getVisibility() == View.GONE) {
+                    layout.setVisibility(View.VISIBLE);
+                    ((Button) v).setText(R.string.button_label_hide);
+                } else {
+                    layout.setVisibility(View.GONE);
+                    ((Button) v).setText(R.string.button_label_show);
+                }
+            }
+        });
+
+        b = (Button) getActivity().findViewById(R.id.button_boric_acid_toggle);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                LinearLayout layout = getActivity().findViewById(R.id.ent_boric_acid_frame);
+                if (layout.getVisibility() == View.GONE) {
+                    layout.setVisibility(View.VISIBLE);
+                    ((Button) v).setText(R.string.button_label_hide);
+                } else {
+                    layout.setVisibility(View.GONE);
+                    ((Button) v).setText(R.string.button_label_show);
+                }
+            }
+        });
+
+        b = (Button) getActivity().findViewById(R.id.button_fb_toggle);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                LinearLayout layout = getActivity().findViewById(R.id.ent_fb_frame);
+                if (layout.getVisibility() == View.GONE) {
+                    layout.setVisibility(View.VISIBLE);
+                    ((Button) v).setText(R.string.button_label_hide);
+                } else {
+                    layout.setVisibility(View.GONE);
+                    ((Button) v).setText(R.string.button_label_show);
+                }
+            }
+        });
+
+        b = (Button) getActivity().findViewById(R.id.button_return_to_clinic_toggle);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                LinearLayout layout = getActivity().findViewById(R.id.ent_return_to_clinic_frame);
+                if (layout.getVisibility() == View.GONE) {
+                    layout.setVisibility(View.VISIBLE);
+                    ((Button) v).setText(R.string.button_label_hide);
+                } else {
+                    layout.setVisibility(View.GONE);
+                    ((Button) v).setText(R.string.button_label_show);
+                }
+            }
+        });
+
+        b = (Button) getActivity().findViewById(R.id.button_referrals_toggle);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                LinearLayout layout = getActivity().findViewById(R.id.ent_referrals_frame);
+                if (layout.getVisibility() == View.GONE) {
+                    layout.setVisibility(View.VISIBLE);
+                    ((Button) v).setText(R.string.button_label_hide);
+                } else {
+                    layout.setVisibility(View.GONE);
+                    ((Button) v).setText(R.string.button_label_show);
+                }
+            }
+        });
+
+        b = (Button) getActivity().findViewById(R.id.button_tomorrow_toggle);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                LinearLayout layout = getActivity().findViewById(R.id.ent_tomorrow_frame);
+                if (layout.getVisibility() == View.GONE) {
+                    layout.setVisibility(View.VISIBLE);
+                    ((Button) v).setText(R.string.button_label_hide);
+                } else {
+                    layout.setVisibility(View.GONE);
+                    ((Button) v).setText(R.string.button_label_show);
+                }
+            }
+        });
+
+        b = (Button) getActivity().findViewById(R.id.button_future_toggle);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                LinearLayout layout = getActivity().findViewById(R.id.ent_future_frame);
+                if (layout.getVisibility() == View.GONE) {
+                    layout.setVisibility(View.VISIBLE);
+                    ((Button) v).setText(R.string.button_label_hide);
+                } else {
+                    layout.setVisibility(View.GONE);
+                    ((Button) v).setText(R.string.button_label_show);
+                }
+            }
+        });
     }
 }

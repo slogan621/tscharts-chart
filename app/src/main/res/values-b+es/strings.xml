@@ -391,6 +391,28 @@
     <string name="msg_save_ent_treatment">Save ENT Treatment?</string>
     <string name="button_label_show">Show</string>
     <string name="button_label_hide">Hide</string>
+    <string name="section_title_audiogram">Audiogram</string>
+    <string name="section_title_tympanogram">Tympanogram</string>
+    <string name="section_title_mastoid_debrided">Mastoid Debrided</string>
+    <string name="section_title_antibiotic">Antibiotic</string>
+    <string name="section_title_boric_acid">Boric Acid</string>
+    <string name="section_title_fb">Foreign Body</string>
+    <string name="section_title_return_to_clinic">Return to Clinic</string>
+    <string name="section_title_referrals">Referrals</string>
+    <string name="section_title_tomorrow">Tomorrow</string>
+    <string name="ent_label_tubes_side">Tubes Side</string>
+    <string name="ent_label_tplasty_side">Tplasty Side</string>
+    <string name="ent_label_eua_side">EUA Side</string>
+    <string name="ent_label_fb_side">Foreign Body Removal Side</string>
+    <string name="ent_label_myringotomy_side">Middle Ear Explore Myringotomy Side</string>
+    <string name="ent_label_cerumen_side">Cerumen Side</string>
+    <string name="ent_label_granuloma_side">Granuloma Side</string>
+    <string name="ent_label_frenulectomy">Frenulectomy</string>
+    <string name="ent_label_septorhinoplasty">Septorhinoplasty</string>
+    <string name="label_true">True</string>
+    <string name="label_false">False</string>
+    <string name="ent_label_scar_revision">Scar Revision Cleft Lip</string>
+    <string name="section_title_future">Future</string>
 
 </resources>
 
