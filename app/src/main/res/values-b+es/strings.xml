@@ -422,7 +422,7 @@
     <string name="ent_boric_acid_today">Ácido Bórico Hoy</string>
     <string name="ent_boric_acid_for_home_use">Para uso en el hogar</string>
     <string name="ent_label_return_to_clinic">Regreso a la clínica</string>
-    <string name="checkout_return_prn">PRN</string>
+    <string name="checkout_return_prn">Según sea necesario</string>
     <string name="ent_label_institution">Consulte la institución</string>
     <string name="referrals_private_ent_ensenada">ONG privada en Ensenada</string>
     <string name="referrals_childrens_hospital_tj">Hospital de Niños Tijuana</string>

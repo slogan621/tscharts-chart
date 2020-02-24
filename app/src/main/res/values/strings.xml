@@ -427,7 +427,7 @@
     <string name="ent_boric_acid_today">Boric Acid Today</string>
     <string name="ent_boric_acid_for_home_use">For Home Use</string>
     <string name="ent_label_return_to_clinic">Return To Clinic</string>
-    <string name="checkout_return_prn">PRN</string>
+    <string name="checkout_return_prn">As Needed</string>
     <string name="ent_label_institution">Refer to Institution</string>
     <string name="referrals_private_ent_ensenada">Private ENT in Ensenada</string>
     <string name="referrals_childrens_hospital_tj">Children\'s Hospital Tijuana</string>
