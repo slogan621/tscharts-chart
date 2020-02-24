@@ -418,5 +418,18 @@
     <string name="label_false">False</string>
     <string name="ent_label_scar_revision">Scar Revision Cleft Lip</string>
     <string name="section_title_future">Future</string>
+    <string name="ent_label_right_away">Right Away</string>
+    <string name="ent_label_hearing_aid_eval">Hearing Aid Evaluation</string>
+    <string name="ent_antibiotic_drops">Antibiotic Drops</string>
+    <string name="ent_antibiotic_drops_orally">Orally</string>
+    <string name="ent_antibiotic_drops_acute_infection">Acute Infection</string>
+    <string name="ent_antibiotic_drops_after_water_exposure">After Water Exposure Infection Prevention</string>
+    <string name="ent_boric_acid_today">Boric Acid Today</string>
+    <string name="ent_boric_acid_for_home_use">For Home Use</string>
+    <string name="ent_label_return_to_clinic">Return To Clinic</string>
+    <string name="checkout_return_prn">PRN</string>
+    <string name="ent_label_institution">Refer to Institution</string>
+    <string name="referrals_private_ent_ensenada">Private ENT in Ensenada</string>
+    <string name="referrals_childrens_hospital_tj">Children\'s Hospital Tijuana</string>
 
 </resources>
