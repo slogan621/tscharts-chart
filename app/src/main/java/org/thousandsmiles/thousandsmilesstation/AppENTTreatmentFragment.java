@@ -40,9 +40,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.thousandsmiles.tscharts_lib.ENTHistory;
 import org.thousandsmiles.tscharts_lib.ENTTreatment;
 import org.thousandsmiles.tscharts_lib.ENTTreatmentREST;
-import org.thousandsmiles.tscharts_lib.ENTHistory;
 
 public class AppENTTreatmentFragment extends Fragment {
     private Activity m_activity = null;
@@ -67,21 +67,366 @@ public class AppENTTreatmentFragment extends Fragment {
     private void copyENTTreatmentDataToUI()
     {
         CheckBox cb1, cb2, cb3;
-        TextView tx;
-        RadioButton rb1, rb2, rb3, rb4, rb5, rb6, rb7, rb8;
+        RadioButton rb1, rb2;
+        EditText tx;
+
+        ENTHistory.EarSide side;
+        String textVal;
+        boolean boolVal;
 
         if (m_entTreatment != null) {
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_cleaned_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_cleaned_right);
+            cb1.setChecked(false);
+            cb2.setChecked(false);
 
-            /*
-            // Ears
+            side = m_entTreatment.getEarCleanedSide();
 
-            ENTHistory.EarSide side;
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
+                    break;
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
+                    break;
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
+                    break;
+            }
 
-            side = m_entTreatment.getNormal();
+            tx = (EditText) m_view.findViewById(R.id.ent_ears_cleaned_comment);
+            textVal = m_entTreatment.getEarCleanedComment();
 
-            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_normal_left);
-            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_normal_right);
+            tx.setText(textVal);
 
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_audiogram_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_audiogram_right);
+            cb1.setChecked(false);
+            cb2.setChecked(false);
+
+            side = m_entTreatment.getAudiogramSide();
+
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
+                    break;
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
+                    break;
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
+                    break;
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_audiogram_comment);
+            textVal = m_entTreatment.getAudiogramComment();
+
+            tx.setText(textVal);
+
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_audiogram_right_away_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_audiogram_right_away_false);
+            rb1.setChecked(false);
+            rb2.setChecked(false);
+
+            boolVal = m_entTreatment.getAudiogramRightAway();
+
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_audiogram_right_away_comment);
+            textVal = m_entTreatment.getAudiogramRightAwayComment();
+            tx.setText(textVal);
+
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tympanogram_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tympanogram_right);
+            cb1.setChecked(false);
+            cb2.setChecked(false);
+
+            side = m_entTreatment.getTympanogramSide();
+
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
+                    break;
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
+                    break;
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
+                    break;
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_tympanogram_comment);
+            textVal = m_entTreatment.getTympanogramComment();
+            tx.setText(textVal);
+
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_tympanogram_right_away_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_tympanogram_right_away_false);
+            rb1.setChecked(false);
+            rb2.setChecked(false);
+
+            boolVal = m_entTreatment.getTympanogramRightAway();
+
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_tympanogram_right_away_comment);
+            textVal = m_entTreatment.getTympanogramRightAwayComment();
+            tx.setText(textVal);
+
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_mastoid_debrided_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_mastoid_debrided_right);
+            cb1.setChecked(false);
+            cb2.setChecked(false);
+
+            side = m_entTreatment.getMastoidDebridedSide();
+
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
+                    break;
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
+                    break;
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
+                    break;
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_mastoid_debrided_comment);
+            textVal = m_entTreatment.getMastoidDebridedComment();
+            tx.setText(textVal);
+
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_mastoid_debrided_hearing_aid_eval_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_mastoid_debrided_hearing_aid_eval_false);
+            rb1.setChecked(false);
+            rb2.setChecked(false);
+            boolVal = m_entTreatment.getMastoidDebridedHearingAidEval();
+
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_mastoid_debrided_hearing_aid_eval_comment);
+            textVal = m_entTreatment.getMastoidDebridedHearingAidEvalComment();
+            tx.setText(textVal);
+
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_false);
+            rb1.setChecked(false);
+            rb2.setChecked(false);
+            boolVal = m_entTreatment.getAntibioticDrops();
+
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_comment);
+            textVal = m_entTreatment.getAntibioticDropsComment();
+            tx.setText(textVal);
+
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_orally_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_orally_false);
+            rb1.setChecked(false);
+            rb2.setChecked(false);
+            boolVal = m_entTreatment.getAntibioticOrally();
+
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_orally_comment);
+            textVal = m_entTreatment.getAntibioticOrallyComment();
+            tx.setText(textVal);
+
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_acute_infection_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_acute_infection_false);
+            rb1.setChecked(false);
+            rb2.setChecked(false);
+            boolVal = m_entTreatment.getAntibioticAcuteInfection();
+
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
+            }
+            tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_acute_infection_comment);
+            textVal = m_entTreatment.getAntibioticAcuteInfectionComment();
+
+            tx.setText(textVal);
+
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_after_water_exposure_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_after_water_exposure_false);
+            rb1.setChecked(false);
+            rb2.setChecked(false);
+            boolVal = m_entTreatment.getAntibioticAfterWaterExposureInfectionPrevention();
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_after_water_exposure_comment);
+            textVal = m_entTreatment.getAntibioticAfterWaterExposureInfectionPreventionComment();
+            tx.setText(textVal);
+
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_boric_acid_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_boric_acid_right);
+            cb1.setChecked(false);
+            cb2.setChecked(false);
+            side = m_entTreatment.getBoricAcidSide();
+
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
+                    break;
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
+                    break;
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
+                    break;
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_boric_acid_comment);
+            textVal = m_entTreatment.getBoricAcidSideComment();
+            tx.setText(textVal);
+
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_today_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_today_false);
+            rb1.setChecked(false);
+            rb2.setChecked(false);
+            boolVal = m_entTreatment.getBoricAcidToday();
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_boric_acid_today_comment);
+            textVal = m_entTreatment.getBoricAcidTodayComment();
+            tx.setText(textVal);
+
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_for_home_use_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_for_home_use_false);
+            rb1.setChecked(false);
+            rb2.setChecked(false);
+            boolVal = m_entTreatment.getBoricAcidForHomeUse();
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
+            }
+            tx = (EditText) m_view.findViewById(R.id.ent_boric_acid_for_home_use_comment);
+            textVal = m_entTreatment.getBoricAcidForHomeUseComment();
+            tx.setText(textVal);
+
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_fb_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_fb_right);
+            cb1.setChecked(false);
+            cb2.setChecked(false);
+            side = m_entTreatment.getForeignBodyRemoved();
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
+                    break;
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
+                    break;
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
+                    break;
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_fb_comment);
+            textVal = m_entTreatment.getForeignBodyRemovedComment();
+            tx.setText(textVal);
+
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_return_to_clinic_3_months);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_return_to_clinic_6_months);
+            cb3 = (CheckBox) m_view.findViewById(R.id.checkbox_return_to_clinic_prn);
+
+            cb1.setChecked(false);
+            cb2.setChecked(false);
+            cb3.setChecked(false);
+
+            boolVal = m_entTreatment.getReturn3Months();
+            if (boolVal == true) {
+                cb1.setChecked(true);
+            }
+            boolVal = m_entTreatment.getReturn6Months();
+            if (boolVal == true) {
+                cb2.setChecked(true);
+            }
+            boolVal = m_entTreatment.getReturnPrn();
+            if (boolVal == true) {
+                cb3.setChecked(true);
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_return_to_clinic_comment);
+            textVal = m_entTreatment.getReturnComment();
+            tx.setText(textVal);
+
+            boolVal = m_entTreatment.getReferredPvtENTEnsenada();
+            if (boolVal == true) {
+                cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_referrals_pvt_ent_ensenada);
+            }
+            tx = (EditText) m_view.findViewById(R.id.ent_referred_pvt_ensenada_comment);
+            textVal = m_entTreatment.getReferredPvtENTEnsenadaComment();
+            tx.setText(textVal);
+
+            boolVal = m_entTreatment.getReferredChildrensHospitalTJ();
+            if (boolVal == true) {
+                cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_referrals_childrens_hospital_tj);
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_referred_childrens_hospital_tj_comment);
+            textVal = m_entTreatment.getReferredChildrensHospitalTJComment();
+            tx.setText(textVal);
+
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tubes_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tubes_right);
+            cb1.setChecked(false);
+            cb2.setChecked(false);
+            side = m_entTreatment.getTubesTomorrow();
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
+                    break;
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
+                    break;
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
+                    break;
+            }
+
+            tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_tubes_comment);
+            textVal = m_entTreatment.getTubesTomorrowComment();
+            tx.setText(textVal);
+
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tplasty_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tplasty_right);
+            side = m_entTreatment.getTPlastyTomorrow();
             cb1.setChecked(false);
             cb2.setChecked(false);
             switch (side) {
@@ -97,13 +442,17 @@ public class AppENTTreatmentFragment extends Fragment {
                     break;
             }
 
-            side = m_entTreatment.getMicrotia();
+            tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_tplasty_comment);
+            textVal = m_entTreatment.getTPlastyTomorrowComment();
+            tx.setText(textVal);
 
-            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_microtia_left);
-            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_microtia_right);
-
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_eua_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_eua_right);
             cb1.setChecked(false);
             cb2.setChecked(false);
+
+            side = m_entTreatment.getEuaTomorrow();
+
             switch (side) {
                 case EAR_SIDE_BOTH:
                     cb1.setChecked(true);
@@ -117,13 +466,15 @@ public class AppENTTreatmentFragment extends Fragment {
                     break;
             }
 
-            side = m_entTreatment.getWax();
+            tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_eua_comment);
+            textVal = m_entTreatment.getEuaTomorrowComment();
+            tx.setText(textVal);
 
-            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_wax_left);
-            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_wax_right);
-
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_fb_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_fb_right);
             cb1.setChecked(false);
             cb2.setChecked(false);
+            side = m_entTreatment.getFbRemovalTomorrow();
             switch (side) {
                 case EAR_SIDE_BOTH:
                     cb1.setChecked(true);
@@ -137,13 +488,16 @@ public class AppENTTreatmentFragment extends Fragment {
                     break;
             }
 
-            side = m_entTreatment.getDrainage();
+            tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_fb_comment);
+            textVal = m_entTreatment.getFbRemovalTomorrowComment();
+            tx.setText(textVal);
 
-            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_drainage_left);
-            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_drainage_right);
-
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_myringotomy_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_myringotomy_right);
             cb1.setChecked(false);
             cb2.setChecked(false);
+
+            side = m_entTreatment.getMiddleEarExploreMyringotomyTomorrow();
             switch (side) {
                 case EAR_SIDE_BOTH:
                     cb1.setChecked(true);
@@ -157,13 +511,16 @@ public class AppENTTreatmentFragment extends Fragment {
                     break;
             }
 
-            side = m_entTreatment.getExternalOtitis();
+            tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_myringotomy_comment);
+            textVal = m_entTreatment.getMiddleEarExploreMyringotomyTomorrowComment();
+            tx.setText(textVal);
 
-            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_otitis_left);
-            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_otitis_right);
-
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_cerumen_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_cerumen_right);
             cb1.setChecked(false);
             cb2.setChecked(false);
+
+            side = m_entTreatment.getCerumenTomorrow();
             switch (side) {
                 case EAR_SIDE_BOTH:
                     cb1.setChecked(true);
@@ -177,13 +534,17 @@ public class AppENTTreatmentFragment extends Fragment {
                     break;
             }
 
-            side = m_entTreatment.getFb();
+            tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_cerumen_comment);
+            textVal = m_entTreatment.getCerumenTomorrowComment();
+            tx.setText(textVal);
 
-            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_fb_left);
-            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_fb_right);
-
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_granuloma_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_granuloma_right);
             cb1.setChecked(false);
             cb2.setChecked(false);
+
+            side = m_entTreatment.getGranulomaTomorrow();
+
             switch (side) {
                 case EAR_SIDE_BOTH:
                     cb1.setChecked(true);
@@ -197,161 +558,59 @@ public class AppENTTreatmentFragment extends Fragment {
                     break;
             }
 
-            // tubes
+            tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_granuloma_comment);
+            textVal = m_entTreatment.getGranulomaTomorrowComment();
+            tx.setText(textVal);
 
-            ENTTreatment.ENTTube tube;
-
-            tube = m_entTreatment.getTubeLeft();
-
-            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_left_in_place);
-            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_left_extruding);
-            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_left_in_canal);
-            rb4 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_left_none);
-
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_septorhinoplasty_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_septorhinoplasty_false);
             rb1.setChecked(false);
             rb2.setChecked(false);
-            rb3.setChecked(false);
-            rb4.setChecked(false);
 
-            switch (tube) {
-                case ENT_TUBE_IN_PLACE:
-                    rb1.setChecked(true);
-                    break;
-                case ENT_TUBE_EXTRUDING:
-                    rb2.setChecked(true);
-                    break;
-                case ENT_TUBE_IN_CANAL:
-                    rb3.setChecked(true);
-                    break;
-                case ENT_TUBE_NONE:
-                    rb4.setChecked(true);
-                    break;
+            boolVal = m_entTreatment.getSeptorhinoplastyTomorrow();
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
             }
+            tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_septorhinoplasty_comment);
+            textVal = m_entTreatment.getSeptorhinoplastyTomorrowComment();
+            tx.setText(textVal);
 
-            tube = m_entTreatment.getTubeRight();
-
-            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_right_in_place);
-            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_right_extruding);
-            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_right_in_canal);
-            rb4 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_right_none);
-
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_scar_revision_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_scar_revision_false);
             rb1.setChecked(false);
             rb2.setChecked(false);
-            rb3.setChecked(false);
-            rb4.setChecked(false);
-
-            switch (tube) {
-                case ENT_TUBE_IN_PLACE:
-                    rb1.setChecked(true);
-                    break;
-                case ENT_TUBE_EXTRUDING:
-                    rb2.setChecked(true);
-                    break;
-                case ENT_TUBE_IN_CANAL:
-                    rb3.setChecked(true);
-                    break;
-                case ENT_TUBE_NONE:
-                    rb4.setChecked(true);
-                    break;
+            boolVal = m_entTreatment.getScarRevisionCleftLipTomorrow();
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
             }
 
-            // Tympanosclerosis
+            tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_scar_revision_comment);
+            textVal = m_entTreatment.getScarRevisionCleftLipTomorrowComment();
+            tx.setText(textVal);
 
-            ENTTreatment.ENTTympano tympano;
-
-            tympano = m_entTreatment.getTympanoLeft();
-
-            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_anterior);
-            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_posterior);
-            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_25);
-            rb4 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_50);
-            rb5 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_75);
-            rb6 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_total);
-            rb7 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_none);
-
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_frenulectory_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_frenulectory_false);
             rb1.setChecked(false);
             rb2.setChecked(false);
-            rb3.setChecked(false);
-            rb4.setChecked(false);
-            rb5.setChecked(false);
-            rb6.setChecked(false);
-            rb7.setChecked(false);
-
-            switch (tympano) {
-                case ENT_TYMPANOSCLEROSIS_ANTERIOR:
-                    rb1.setChecked(true);
-                    break;
-                case ENT_TYMPANOSCLEROSIS_POSTERIOR:
-                    rb2.setChecked(true);
-                    break;
-                case ENT_TYMPANOSCLEROSIS_25:
-                    rb3.setChecked(true);
-                    break;
-                case ENT_TYMPANOSCLEROSIS_50:
-                    rb4.setChecked(true);
-                    break;
-                case ENT_TYMPANOSCLEROSIS_75:
-                    rb5.setChecked(true);
-                    break;
-                case ENT_TYMPANOSCLEROSIS_TOTAL:
-                    rb6.setChecked(true);
-                    break;
-                case ENT_TYMPANOSCLEROSIS_NONE:
-                    rb7.setChecked(true);
-                    break;
+            boolVal = m_entTreatment.getFrenulectomyTomorrow();
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
             }
+            tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_frenulectomy_comment);
+            textVal = m_entTreatment.getFrenulectomyTomorrowComment();
+            tx.setText(textVal);
 
-            tympano = m_entTreatment.getTympanoRight();
-
-            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_anterior);
-            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_posterior);
-            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_25);
-            rb4 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_50);
-            rb5 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_75);
-            rb6 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_total);
-            rb7 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_none);
-
-            rb1.setChecked(false);
-            rb2.setChecked(false);
-            rb3.setChecked(false);
-            rb4.setChecked(false);
-            rb5.setChecked(false);
-            rb6.setChecked(false);
-            rb7.setChecked(false);
-
-            switch (tympano) {
-                case ENT_TYMPANOSCLEROSIS_ANTERIOR:
-                    rb1.setChecked(true);
-                    break;
-                case ENT_TYMPANOSCLEROSIS_POSTERIOR:
-                    rb2.setChecked(true);
-                    break;
-                case ENT_TYMPANOSCLEROSIS_25:
-                    rb3.setChecked(true);
-                    break;
-                case ENT_TYMPANOSCLEROSIS_50:
-                    rb4.setChecked(true);
-                    break;
-                case ENT_TYMPANOSCLEROSIS_75:
-                    rb5.setChecked(true);
-                    break;
-                case ENT_TYMPANOSCLEROSIS_TOTAL:
-                    rb6.setChecked(true);
-                    break;
-                case ENT_TYMPANOSCLEROSIS_NONE:
-                    rb7.setChecked(true);
-                    break;
-            }
-
-            // TM
-
-            side = m_entTreatment.getTmGranulations();
-
-            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_granulation_left);
-            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_granulation_right);
-
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_tubes_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_tubes_right);
             cb1.setChecked(false);
             cb2.setChecked(false);
+            side = m_entTreatment.getTubesFuture();
             switch (side) {
                 case EAR_SIDE_BOTH:
                     cb1.setChecked(true);
@@ -365,13 +624,16 @@ public class AppENTTreatmentFragment extends Fragment {
                     break;
             }
 
-            side = m_entTreatment.getTmRetraction();
+            tx = (EditText) m_view.findViewById(R.id.ent_future_tubes_comment);
+            textVal = m_entTreatment.getTubesFutureComment();
+            tx.setText(textVal);
 
-            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_retraction_left);
-            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_retraction_right);
-
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_tplasty_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_tplasty_right);
             cb1.setChecked(false);
             cb2.setChecked(false);
+
+            side = m_entTreatment.getTPlastyFuture();
             switch (side) {
                 case EAR_SIDE_BOTH:
                     cb1.setChecked(true);
@@ -385,13 +647,15 @@ public class AppENTTreatmentFragment extends Fragment {
                     break;
             }
 
-            side = m_entTreatment.getTmAtelectasis();
+            tx = (EditText) m_view.findViewById(R.id.ent_future_tplasty_comment);
+            textVal = m_entTreatment.getTPlastyFutureComment();
+            tx.setText(textVal);
 
-            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_atelectasis_left);
-            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_atelectasis_right);
-
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_eua_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_eua_right);
             cb1.setChecked(false);
             cb2.setChecked(false);
+            side = m_entTreatment.getEuaFuture();
             switch (side) {
                 case EAR_SIDE_BOTH:
                     cb1.setChecked(true);
@@ -405,248 +669,152 @@ public class AppENTTreatmentFragment extends Fragment {
                     break;
             }
 
-            // Perforations
+            tx = (EditText) m_view.findViewById(R.id.ent_future_eua_comment);
+            textVal = m_entTreatment.getEuaFutureComment();
+            tx.setText(textVal);
 
-            ENTTreatment.ENTPerf perf;
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_fb_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_fb_right);
+            cb1.setChecked(false);
+            cb2.setChecked(false);
 
-            perf = m_entTreatment.getPerfLeft();
-
-            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_anterior);
-            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_posterior);
-            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_marginal);
-            rb4 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_25);
-            rb5 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_50);
-            rb6 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_75);
-            rb7 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_total);
-            rb8 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_none);
-
-            rb1.setChecked(false);
-            rb2.setChecked(false);
-            rb3.setChecked(false);
-            rb4.setChecked(false);
-            rb5.setChecked(false);
-            rb6.setChecked(false);
-            rb7.setChecked(false);
-            rb8.setChecked(false);
-
-            switch (perf) {
-                case ENT_PERF_ANTERIOR:
-                    rb1.setChecked(true);
+            side = m_entTreatment.getFbRemovalFuture();
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
                     break;
-                case ENT_PERF_POSTERIOR:
-                    rb2.setChecked(true);
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
                     break;
-                case ENT_PERF_MARGINAL:
-                    rb3.setChecked(true);
-                    break;
-                case ENT_PERF_25:
-                    rb4.setChecked(true);
-                    break;
-                case ENT_PERF_50:
-                    rb5.setChecked(true);
-                    break;
-                case ENT_PERF_75:
-                    rb6.setChecked(true);
-                    break;
-                case ENT_PERF_TOTAL:
-                    rb7.setChecked(true);
-                    break;
-                case ENT_PERF_NONE:
-                    rb8.setChecked(true);
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
                     break;
             }
 
-            perf = m_entTreatment.getPerfRight();
+            tx = (EditText) m_view.findViewById(R.id.ent_future_fb_comment);
+            textVal = m_entTreatment.getFbRemovalFutureComment();
+            tx.setText(textVal);
 
-            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_anterior);
-            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_posterior);
-            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_marginal);
-            rb4 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_25);
-            rb5 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_50);
-            rb6 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_75);
-            rb7 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_total);
-            rb8 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_none);
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_myringotomy_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_myringotomy_right);
+            cb1.setChecked(false);
+            cb2.setChecked(false);
 
-            rb1.setChecked(false);
-            rb2.setChecked(false);
-            rb3.setChecked(false);
-            rb4.setChecked(false);
-            rb5.setChecked(false);
-            rb6.setChecked(false);
-            rb7.setChecked(false);
-            rb8.setChecked(false);
-
-            switch (perf) {
-                case ENT_PERF_ANTERIOR:
-                    rb1.setChecked(true);
+            side = m_entTreatment.getMiddleEarExploreMyringotomyFuture();
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
                     break;
-                case ENT_PERF_POSTERIOR:
-                    rb2.setChecked(true);
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
                     break;
-                case ENT_PERF_MARGINAL:
-                    rb3.setChecked(true);
-                    break;
-                case ENT_PERF_25:
-                    rb4.setChecked(true);
-                    break;
-                case ENT_PERF_50:
-                    rb5.setChecked(true);
-                    break;
-                case ENT_PERF_75:
-                    rb6.setChecked(true);
-                    break;
-                case ENT_PERF_TOTAL:
-                    rb7.setChecked(true);
-                    break;
-                case ENT_PERF_NONE:
-                    rb8.setChecked(true);
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
                     break;
             }
 
-            // Hearing loss
+            tx = (EditText) m_view.findViewById(R.id.ent_future_myringotomy_comment);
+            textVal = m_entTreatment.getMiddleEarExploreMyringotomyFutureComment();
+            tx.setText(textVal);
 
-            ENTTreatment.ENTVoiceTest voice;
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_cerumen_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_cerumen_right);
+            cb1.setChecked(false);
+            cb2.setChecked(false);
 
-            voice = m_entTreatment.getVoiceTest();
-
-            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_voice_test_normal);
-            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_voice_test_abnormal);
-            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_voice_test_none);
-
-            rb1.setChecked(false);
-            rb2.setChecked(false);
-            rb3.setChecked(false);
-
-            switch (voice) {
-                case ENT_VOICE_TEST_NORMAL:
-                    rb1.setChecked(true);
+            side = m_entTreatment.getCerumenFuture();
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
                     break;
-                case ENT_VOICE_TEST_ABNORMAL:
-                    rb2.setChecked(true);
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
                     break;
-                case ENT_VOICE_TEST_NONE:
-                    rb3.setChecked(true);
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
                     break;
             }
 
-            ENTTreatment.ENTForkTest forkTest;
+            tx = (EditText) m_view.findViewById(R.id.ent_future_cerumen_comment);
+            textVal = m_entTreatment.getCerumenFutureComment();
+            tx.setText(textVal);
 
-            forkTest = m_entTreatment.getForkAD();
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_granuloma_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_granuloma_right);
+            cb1.setChecked(false);
+            cb2.setChecked(false);
 
-            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_ad_a_greater_b);
-            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_ad_b_greater_a);
-            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_ad_a_equal_b);
-            rb4 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_ad_none);
-
-            rb1.setChecked(false);
-            rb2.setChecked(false);
-            rb3.setChecked(false);
-            rb4.setChecked(false);
-
-            switch (forkTest) {
-                case ENT_FORK_TEST_A_GREATER_B:
-                    rb1.setChecked(true);
+            side = m_entTreatment.getGranulomaFuture();
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
                     break;
-                case ENT_FORK_TEST_B_GREATER_A:
-                    rb2.setChecked(true);
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
                     break;
-                case ENT_FORK_TEST_EQUAL:
-                    rb3.setChecked(true);
-                    break;
-                case ENT_FORK_TEST_NONE:
-                    rb4.setChecked(true);
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
                     break;
             }
 
-            forkTest = m_entTreatment.getForkAS();
+            tx = (EditText) m_view.findViewById(R.id.ent_future_granuloma_comment);
+            textVal = m_entTreatment.getGranulomaFutureComment();
+            tx.setText(textVal);
 
-            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_as_a_greater_b);
-            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_as_b_greater_a);
-            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_as_a_equal_b);
-            rb4 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_as_none);
-
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_future_septorhinoplasty_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_future_septorhinoplasty_false);
             rb1.setChecked(false);
             rb2.setChecked(false);
-            rb3.setChecked(false);
-            rb4.setChecked(false);
 
-            switch (forkTest) {
-                case ENT_FORK_TEST_A_GREATER_B:
-                    rb1.setChecked(true);
-                    break;
-                case ENT_FORK_TEST_B_GREATER_A:
-                    rb2.setChecked(true);
-                    break;
-                case ENT_FORK_TEST_EQUAL:
-                    rb3.setChecked(true);
-                    break;
-                case ENT_FORK_TEST_NONE:
-                    rb4.setChecked(true);
-                    break;
+            boolVal = m_entTreatment.getSeptorhinoplastyFuture();
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
             }
 
-            ENTTreatment.ENTBC bc = m_entTreatment.getBc();
+            tx = (EditText) m_view.findViewById(R.id.ent_future_septorhinoplasty_comment);
+            textVal = m_entTreatment.getSeptorhinoplastyFutureComment();
+            tx.setText(textVal);
 
-            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_bc_ad_lat_to_ad);
-            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_bc_ad_lat_to_as);
-            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_bc_as_lat_to_ad);
-            rb4 = (RadioButton) m_view.findViewById(R.id.radio_button_bc_as_lat_to_as);
-            rb5 = (RadioButton) m_view.findViewById(R.id.radio_button_bc_none);
-
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_future_scar_revision_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_future_scar_revision_false);
             rb1.setChecked(false);
             rb2.setChecked(false);
-            rb3.setChecked(false);
-            rb4.setChecked(false);
-            rb5.setChecked(false);
-
-            switch (bc) {
-                case ENT_BC_AD_LAT_TO_AD:
-                    rb1.setChecked(true);
-                    break;
-                case ENT_BC_AD_LAT_TO_AS:
-                    rb2.setChecked(true);
-                    break;
-                case ENT_BC_AS_LAT_TO_AD:
-                    rb3.setChecked(true);
-                    break;
-                case ENT_BC_AS_LAT_TO_AS:
-                    rb4.setChecked(true);
-                    break;
-                case ENT_BC_NONE:
-                    rb5.setChecked(true);
-                    break;
+            boolVal = m_entTreatment.getScarRevisionCleftLipFuture();
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
             }
 
-            ENTTreatment.ENTFork fork;
+            tx = (EditText) m_view.findViewById(R.id.ent_future_scar_revision_comment);
+            textVal = m_entTreatment.getScarRevisionCleftLipFutureComment();
+            tx.setText(textVal);
 
-            fork = m_entTreatment.getFork();
-
-            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_fork_256);
-            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_fork_512);
-            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_fork_none);
-
+            rb1 = (RadioButton) m_view.findViewById(R.id.ent_future_frenulectory_true);
+            rb2 = (RadioButton) m_view.findViewById(R.id.ent_future_frenulectory_false);
             rb1.setChecked(false);
             rb2.setChecked(false);
-            rb3.setChecked(false);
 
-            switch (fork) {
-                case ENT_FORK_256:
-                    rb1.setChecked(true);
-                    break;
-                case ENT_FORK_512:
-                    rb2.setChecked(true);
-                    break;
-                case ENT_FORK_NONE:
-                    rb3.setChecked(true);
-                    break;
+            boolVal = m_entTreatment.getFrenulectomyFuture();
+            if (boolVal == true) {
+                rb1.setChecked(true);
+            } else {
+                rb2.setChecked(true);
             }
 
-            String notes = m_entTreatment.getComment();
+            tx = (EditText) m_view.findViewById(R.id.ent_future_frenulectomy_comment);
+            textVal = m_entTreatment.getFrenulectomyFutureComment();
+            tx.setText(textVal);
 
-            EditText t = (EditText) m_view.findViewById(R.id.ent_notes);
-
-            t.setText(notes);
-            */
+            tx = (EditText) m_view.findViewById(R.id.ent_notes);
+            textVal = m_entTreatment.getComment();
+            tx.setText(textVal);
         }
     }
 
@@ -692,8 +860,9 @@ public class AppENTTreatmentFragment extends Fragment {
     {
         CheckBox cb;
         RadioButton rb;
+        EditText tx;
 
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_normal_left);
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_cleaned_left);
         if (cb != null) {
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -701,7 +870,7 @@ public class AppENTTreatmentFragment extends Fragment {
                 }
             });
         }
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_normal_right);
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_cleaned_right);
         if (cb != null) {
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -709,643 +878,1250 @@ public class AppENTTreatmentFragment extends Fragment {
                 }
             });
         }
-
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_microtia_left);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_microtia_right);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_wax_left);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_wax_right);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_drainage_left);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_drainage_right);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_otitis_left);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_otitis_right);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_fb_left);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_fb_right);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_left_in_place);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_left_extruding);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_left_in_canal);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_left_none);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_right_in_place);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_right_extruding);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_right_in_canal);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_right_none);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_anterior);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_posterior);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_25);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_50);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_75);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_total);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_none);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_anterior);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_posterior);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_25);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_50);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_75);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_total);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_none);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_granulation_left);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_granulation_right);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_retraction_left);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_retraction_right);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_atelectasis_left);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_atelectasis_right);
-        if (cb != null) {
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_anterior);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_posterior);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_marginal);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_25);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_50);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_75);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_total);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_none);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_anterior);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_posterior);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_marginal);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_25);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_50);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_75);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_total);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_none);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_voice_test_normal);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_voice_test_abnormal);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_voice_test_none);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_ad_a_greater_b);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_ad_b_greater_a);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_ad_a_equal_b);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_ad_none);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_as_a_greater_b);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_as_b_greater_a);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_as_a_equal_b);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_as_none);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_bc_ad_lat_to_ad);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_bc_ad_lat_to_as);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_bc_as_lat_to_ad);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_bc_as_lat_to_as);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_bc_none);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_fork_256);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_fork_512);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_fork_none);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
-        }
-
-        EditText t = (EditText) m_view.findViewById(R.id.ent_notes);
-        if (t != null) {
-            t.addTextChangedListener(new TextWatcher() {
+        tx = (EditText) m_view.findViewById(R.id.ent_ears_cleaned_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
                 public void afterTextChanged(Editable s) {}
 
                 @Override
-                public void beforeTextChanged(CharSequence s, int start,
-                                              int count, int after) {
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
 
                 @Override
-                public void onTextChanged(CharSequence s, int start,
-                                          int before, int count) {
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_audiogram_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_audiogram_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_audiogram_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_audiogram_right_away_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_audiogram_right_away_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_audiogram_right_away_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tympanogram_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tympanogram_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tympanogram_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tympanogram_right_away_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tympanogram_right_away_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tympanogram_right_away_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_mastoid_debrided_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_mastoid_debrided_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_mastoid_debrided_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_mastoid_debrided_hearing_aid_eval_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_mastoid_debrided_hearing_aid_eval_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_mastoid_debrided_hearing_aid_eval_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_orally_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_orally_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_orally_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_acute_infection_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_acute_infection_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_acute_infection_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_after_water_exposure_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_after_water_exposure_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_after_water_exposure_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_boric_acid_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_boric_acid_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_boric_acid_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_today_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_today_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_boric_acid_today_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_for_home_use_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_for_home_use_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_boric_acid_for_home_use_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_fb_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_fb_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_fb_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_return_to_clinic_3_months);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_return_to_clinic_6_months);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_return_to_clinic_prn);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_return_to_clinic_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_referrals_pvt_ent_ensenada);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_referrals_childrens_hospital_tj);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_referred_pvt_ensenada_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+
+        tx = (EditText) m_view.findViewById(R.id.ent_referred_childrens_hospital_tj_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tubes_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tubes_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_tubes_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tplasty_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tplasty_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_tplasty_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_eua_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_eua_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_eua_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_fb_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_fb_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_fb_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_myringotomy_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_myringotomy_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_myringotomy_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_cerumen_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_cerumen_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_cerumen_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_granuloma_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_granuloma_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_granuloma_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_septorhinoplasty_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_septorhinoplasty_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_septorhinoplasty_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_scar_revision_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_scar_revision_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_scar_revision_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_frenulectory_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_frenulectory_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_frenulectomy_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_tubes_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_tubes_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_tubes_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_tplasty_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_tplasty_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_tplasty_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_eua_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_eua_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_eua_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_fb_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_fb_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_fb_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_myringotomy_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_myringotomy_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_myringotomy_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_cerumen_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_cerumen_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_cerumen_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_granuloma_left);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_granuloma_right);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_granuloma_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_future_septorhinoplasty_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_future_septorhinoplasty_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_septorhinoplasty_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_future_scar_revision_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_future_scar_revision_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_scar_revision_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_future_frenulectory_true);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_future_frenulectory_false);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_frenulectomy_comment);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    setDirty();
+                }
+            });
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_notes);
+        if (tx != null) {
+            tx.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
                     setDirty();
                 }
             });
@@ -1354,507 +2130,553 @@ public class AppENTTreatmentFragment extends Fragment {
 
     private ENTTreatment copyENTTreatmentDataFromUI()
     {
-        CheckBox cb1, cb2;
-        TextView tx;
+        CheckBox cb1, cb2, cb3;
+        EditText tx;
         RadioButton rb;
 
-        ENTTreatment mh;
+        ENTTreatment treatment;
 
         if (m_entTreatment == null) {
-            mh = new ENTTreatment();
+            treatment = new ENTTreatment();
         } else {
-            mh = m_entTreatment;      // copies over clinic, patient ID, etc..
+            treatment = m_entTreatment;     
         }
 
-        /*
+        treatment.setPatient(m_sess.getActivePatientId());
+        treatment.setClinic(m_sess.getClinicId());
+        treatment.setUsername("nobody");
 
-        mh.setPatient(m_sess.getActivePatientId());
-        mh.setClinic(m_sess.getClinicId());
-        mh.setUsername("nobody");
-
-        // normal
-
-        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_normal_left);
-        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_normal_right);
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_cleaned_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_cleaned_right);
         if (cb1.isChecked() && cb2.isChecked()) {
-            mh.setNormal(ENTHistory.EarSide.EAR_SIDE_BOTH);
+            treatment.setEarCleanedSide(ENTHistory.EarSide.EAR_SIDE_BOTH);
         } else if (cb1.isChecked()) {
-            mh.setNormal(ENTHistory.EarSide.EAR_SIDE_LEFT);
+            treatment.setEarCleanedSide(ENTHistory.EarSide.EAR_SIDE_LEFT);
         } else if (cb2.isChecked()) {
-            mh.setNormal(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+            treatment.setEarCleanedSide(ENTHistory.EarSide.EAR_SIDE_RIGHT);
         } else {
-            mh.setNormal(ENTHistory.EarSide.EAR_SIDE_NONE);
+            treatment.setEarCleanedSide(ENTHistory.EarSide.EAR_SIDE_NONE);
         }
 
-        // microtia
+        tx = (EditText) m_view.findViewById(R.id.ent_ears_cleaned_comment);
+        Editable text = tx.getText();
+        treatment.setEarCleanedComment(text.toString());
 
-        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_microtia_left);
-        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_microtia_right);
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_audiogram_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_audiogram_right);
         if (cb1.isChecked() && cb2.isChecked()) {
-            mh.setMicrotia(ENTHistory.EarSide.EAR_SIDE_BOTH);
+            treatment.setAudiogramSide(ENTHistory.EarSide.EAR_SIDE_BOTH);
         } else if (cb1.isChecked()) {
-            mh.setMicrotia(ENTHistory.EarSide.EAR_SIDE_LEFT);
+            treatment.setAudiogramSide(ENTHistory.EarSide.EAR_SIDE_LEFT);
         } else if (cb2.isChecked()) {
-            mh.setMicrotia(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+            treatment.setAudiogramSide(ENTHistory.EarSide.EAR_SIDE_RIGHT);
         } else {
-            mh.setMicrotia(ENTHistory.EarSide.EAR_SIDE_NONE);
+            treatment.setAudiogramSide(ENTHistory.EarSide.EAR_SIDE_NONE);
         }
 
-        // wax
+        tx = (EditText) m_view.findViewById(R.id.ent_audiogram_comment);
+        text = tx.getText();
+        treatment.setAudiogramComment(text.toString());
 
-        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_wax_left);
-        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_wax_right);
+        rb = (RadioButton) m_view.findViewById(R.id.ent_audiogram_right_away_true);
+        if (rb.isChecked()) {
+            treatment.setAudiogramRightAway(true);
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_audiogram_right_away_false);
+        if (rb.isChecked()) {
+            treatment.setAudiogramRightAway(false);
+        }
+
+        tx = (EditText) m_view.findViewById(R.id.ent_audiogram_right_away_comment);
+        text = tx.getText();
+        treatment.setAudiogramRightAwayComment(text.toString());
+
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tympanogram_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tympanogram_right);
         if (cb1.isChecked() && cb2.isChecked()) {
-            mh.setWax(ENTHistory.EarSide.EAR_SIDE_BOTH);
+            treatment.setTympanogramSide(ENTHistory.EarSide.EAR_SIDE_BOTH);
         } else if (cb1.isChecked()) {
-            mh.setWax(ENTHistory.EarSide.EAR_SIDE_LEFT);
+            treatment.setTympanogramSide(ENTHistory.EarSide.EAR_SIDE_LEFT);
         } else if (cb2.isChecked()) {
-            mh.setWax(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+            treatment.setTympanogramSide(ENTHistory.EarSide.EAR_SIDE_RIGHT);
         } else {
-            mh.setWax(ENTHistory.EarSide.EAR_SIDE_NONE);
+            treatment.setTympanogramSide(ENTHistory.EarSide.EAR_SIDE_NONE);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_tympanogram_comment);
+        text = tx.getText();
+        treatment.setTympanogramComment(text.toString());
 
-        // drainage
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tympanogram_right_away_true);
+        if (rb.isChecked()) {
+            treatment.setTympanogramRightAway(true);
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tympanogram_right_away_false);
+        if (rb.isChecked()) {
+            treatment.setTympanogramRightAway(false);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tympanogram_right_away_comment);
+        text = tx.getText();
+        treatment.setTympanogramRightAwayComment(text.toString());
 
-        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_drainage_left);
-        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_drainage_right);
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_mastoid_debrided_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_mastoid_debrided_right);
         if (cb1.isChecked() && cb2.isChecked()) {
-            mh.setDrainage(ENTHistory.EarSide.EAR_SIDE_BOTH);
+            treatment.setMastoidDebridedSide(ENTHistory.EarSide.EAR_SIDE_BOTH);
         } else if (cb1.isChecked()) {
-            mh.setDrainage(ENTHistory.EarSide.EAR_SIDE_LEFT);
+            treatment.setMastoidDebridedSide(ENTHistory.EarSide.EAR_SIDE_LEFT);
         } else if (cb2.isChecked()) {
-            mh.setDrainage(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+            treatment.setMastoidDebridedSide(ENTHistory.EarSide.EAR_SIDE_RIGHT);
         } else {
-            mh.setDrainage(ENTHistory.EarSide.EAR_SIDE_NONE);
+            treatment.setMastoidDebridedSide(ENTHistory.EarSide.EAR_SIDE_NONE);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_mastoid_debrided_comment);
+        text = tx.getText();
+        treatment.setMastoidDebridedComment(text.toString());
 
-        // otitis
+        rb = (RadioButton) m_view.findViewById(R.id.ent_mastoid_debrided_hearing_aid_eval_true);
+        if (rb.isChecked()) {
+            treatment.setMastoidDebridedHearingAidEval(true);
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_mastoid_debrided_hearing_aid_eval_false);
+        if (rb.isChecked()) {
+            treatment.setMastoidDebridedHearingAidEval(false);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_mastoid_debrided_hearing_aid_eval_comment);
+        text = tx.getText();
+        treatment.setMastoidDebridedHearingAidEvalComment(text.toString());
 
-        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_otitis_left);
-        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_otitis_right);
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_true);
+        if (rb.isChecked()) {
+            treatment.setAntibioticDrops(true);
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_false);
+        if (rb.isChecked()) {
+            treatment.setAntibioticDrops(false);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_comment);
+        text = tx.getText();
+        treatment.setAntibioticDropsComment(text.toString());
+
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_orally_true);
+        if (rb.isChecked()) {
+            treatment.setAntibioticOrally(true);
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_orally_false);
+        if (rb.isChecked()) {
+            treatment.setAntibioticOrally(false);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_orally_comment);
+        text = tx.getText();
+        treatment.setAntibioticOrallyComment(text.toString());
+
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_acute_infection_true);
+        if (rb.isChecked()) {
+            treatment.setAntibioticAcuteInfection(true);
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_acute_infection_false);
+        if (rb.isChecked()) {
+            treatment.setAntibioticAcuteInfection(false);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_acute_infection_comment);
+        text = tx.getText();
+        treatment.setAntibioticAcuteInfectionComment(text.toString());
+
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_after_water_exposure_true);
+        if (rb.isChecked()) {
+            treatment.setAntibioticAfterWaterExposureInfectionPrevention(true);
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_after_water_exposure_false);
+        if (rb.isChecked()) {
+            treatment.setAntibioticAfterWaterExposureInfectionPrevention(false);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_after_water_exposure_comment);
+        text = tx.getText();
+        treatment.setAntibioticAfterWaterExposureInfectionPreventionComment(text.toString());
+
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_boric_acid_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_boric_acid_right);
         if (cb1.isChecked() && cb2.isChecked()) {
-            mh.setExternalOtitis(ENTHistory.EarSide.EAR_SIDE_BOTH);
+            treatment.setBoricAcidSide(ENTHistory.EarSide.EAR_SIDE_BOTH);
         } else if (cb1.isChecked()) {
-            mh.setExternalOtitis(ENTHistory.EarSide.EAR_SIDE_LEFT);
+            treatment.setBoricAcidSide(ENTHistory.EarSide.EAR_SIDE_LEFT);
         } else if (cb2.isChecked()) {
-            mh.setExternalOtitis(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+            treatment.setBoricAcidSide(ENTHistory.EarSide.EAR_SIDE_RIGHT);
         } else {
-            mh.setExternalOtitis(ENTHistory.EarSide.EAR_SIDE_NONE);
+            treatment.setBoricAcidSide(ENTHistory.EarSide.EAR_SIDE_NONE);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_boric_acid_comment);
+        text = tx.getText();
+        treatment.setBoricAcidSideComment(text.toString());
 
-        // fb
+        rb = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_today_true);
+        if (rb.isChecked()) {
+            treatment.setBoricAcidToday(true);
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_today_false);
+        if (rb.isChecked()) {
+            treatment.setBoricAcidToday(false);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_boric_acid_today_comment);
+        text = tx.getText();
+        treatment.setBoricAcidTodayComment(text.toString());
 
-        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_fb_left);
-        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_fb_right);
+        rb = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_for_home_use_true);
+        if (rb.isChecked()) {
+            treatment.setBoricAcidForHomeUse(true);
+        }
+        rb = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_for_home_use_false);
+        if (rb.isChecked()) {
+            treatment.setBoricAcidForHomeUse(true);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_boric_acid_for_home_use_comment);
+        text = tx.getText();
+        treatment.setBoricAcidForHomeUseComment(text.toString());
+
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_fb_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_fb_right);
         if (cb1.isChecked() && cb2.isChecked()) {
-            mh.setFb(ENTHistory.EarSide.EAR_SIDE_BOTH);
+            treatment.setForeignBodyRemoved(ENTHistory.EarSide.EAR_SIDE_BOTH);
         } else if (cb1.isChecked()) {
-            mh.setFb(ENTHistory.EarSide.EAR_SIDE_LEFT);
+            treatment.setForeignBodyRemoved(ENTHistory.EarSide.EAR_SIDE_LEFT);
         } else if (cb2.isChecked()) {
-            mh.setFb(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+            treatment.setForeignBodyRemoved(ENTHistory.EarSide.EAR_SIDE_RIGHT);
         } else {
-            mh.setFb(ENTHistory.EarSide.EAR_SIDE_NONE);
+            treatment.setForeignBodyRemoved(ENTHistory.EarSide.EAR_SIDE_NONE);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_fb_comment);
+        text = tx.getText();
+        treatment.setForeignBodyRemovedComment(text.toString());
 
-        // tubes
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_left_in_place);
-
-        if (rb.isChecked()) {
-            mh.setTubeLeft(ENTTreatment.ENTTube.ENT_TUBE_IN_PLACE);
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_return_to_clinic_3_months);
+        if (cb1.isChecked()) {
+            treatment.setReturn3Months(true);
+        } else {
+            treatment.setReturn3Months(false);
         }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_left_extruding);
-
-        if (rb.isChecked()) {
-            mh.setTubeLeft(ENTTreatment.ENTTube.ENT_TUBE_EXTRUDING);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_return_to_clinic_6_months);
+        if (cb1.isChecked()) {
+            treatment.setReturn6Months(true);
         }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_left_in_canal);
-
-        if (rb.isChecked()) {
-            mh.setTubeLeft(ENTTreatment.ENTTube.ENT_TUBE_IN_CANAL);
+        else {
+            treatment.setReturn6Months(false);
         }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_left_none);
-
-        if (rb.isChecked()) {
-            mh.setTubeLeft(ENTTreatment.ENTTube.ENT_TUBE_NONE);
+        cb3 = (CheckBox) m_view.findViewById(R.id.checkbox_return_to_clinic_prn);
+        if (cb1.isChecked()) {
+            treatment.setReturnPrn(true);
+        } else {
+            treatment.setReturnPrn(false);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_return_to_clinic_comment);
+        text = tx.getText();
+        treatment.setReturnComment(text.toString());
 
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_right_in_place);
-
-        if (rb.isChecked()) {
-            mh.setTubeRight(ENTTreatment.ENTTube.ENT_TUBE_IN_PLACE);
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_referrals_pvt_ent_ensenada);
+        if (cb1.isChecked()) {
+            treatment.setReferredPvtENTEnsenada(true);
+        } else {
+            treatment.setReferredPvtENTEnsenada(false);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_referred_pvt_ensenada_comment);
+        text = tx.getText();
+        treatment.setReferredPvtENTEnsenadaComment(text.toString());
 
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_right_extruding);
-
-        if (rb.isChecked()) {
-            mh.setTubeRight(ENTTreatment.ENTTube.ENT_TUBE_EXTRUDING);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_referrals_childrens_hospital_tj);
+        if (cb1.isChecked()) {
+            treatment.setReferredChildrensHospitalTJ(true);
+        } else {
+            treatment.setReferredChildrensHospitalTJ(false);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_referred_childrens_hospital_tj_comment);
+        text = tx.getText();
+        treatment.setReferredChildrensHospitalTJComment(text.toString());
 
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_right_in_canal);
-
-        if (rb.isChecked()) {
-            mh.setTubeRight(ENTTreatment.ENTTube.ENT_TUBE_IN_CANAL);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tubes_right_none);
-
-        if (rb.isChecked()) {
-            mh.setTubeRight(ENTTreatment.ENTTube.ENT_TUBE_NONE);
-        }
-
-        // tympano
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_anterior);
-
-        if (rb.isChecked()) {
-            mh.setTympanoLeft(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_ANTERIOR);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_posterior);
-
-        if (rb.isChecked()) {
-            mh.setTympanoLeft(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_POSTERIOR);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_25);
-
-        if (rb.isChecked()) {
-            mh.setTympanoLeft(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_25);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_50);
-
-        if (rb.isChecked()) {
-            mh.setTympanoLeft(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_50);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_75);
-
-        if (rb.isChecked()) {
-            mh.setTympanoLeft(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_75);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_total);
-
-        if (rb.isChecked()) {
-            mh.setTympanoLeft(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_TOTAL);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_left_none);
-
-        if (rb.isChecked()) {
-            mh.setTympanoLeft(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_NONE);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_anterior);
-
-        if (rb.isChecked()) {
-            mh.setTympanoRight(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_ANTERIOR);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_posterior);
-
-        if (rb.isChecked()) {
-            mh.setTympanoRight(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_POSTERIOR);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_25);
-
-        if (rb.isChecked()) {
-            mh.setTympanoRight(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_25);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_50);
-
-        if (rb.isChecked()) {
-            mh.setTympanoRight(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_50);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_75);
-
-        if (rb.isChecked()) {
-            mh.setTympanoRight(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_75);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_total);
-
-        if (rb.isChecked()) {
-            mh.setTympanoRight(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_TOTAL);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tympano_right_none);
-
-        if (rb.isChecked()) {
-            mh.setTympanoRight(ENTTreatment.ENTTympano.ENT_TYMPANOSCLEROSIS_NONE);
-        }
-
-        // tm
-
-        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_granulation_left);
-        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_granulation_right);
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tubes_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tubes_right);
         if (cb1.isChecked() && cb2.isChecked()) {
-            mh.setTmGranulations(ENTHistory.EarSide.EAR_SIDE_BOTH);
+            treatment.setTubesTomorrow(ENTHistory.EarSide.EAR_SIDE_BOTH);
         } else if (cb1.isChecked()) {
-            mh.setTmGranulations(ENTHistory.EarSide.EAR_SIDE_LEFT);
+            treatment.setTubesTomorrow(ENTHistory.EarSide.EAR_SIDE_LEFT);
         } else if (cb2.isChecked()) {
-            mh.setTmGranulations(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+            treatment.setTubesTomorrow(ENTHistory.EarSide.EAR_SIDE_RIGHT);
         } else {
-            mh.setTmGranulations(ENTHistory.EarSide.EAR_SIDE_NONE);
+            treatment.setTubesTomorrow(ENTHistory.EarSide.EAR_SIDE_NONE);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_tubes_comment);
+        text = tx.getText();
+        treatment.setTubesTomorrowComment(text.toString());
 
-        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_retraction_left);
-        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_retraction_right);
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tplasty_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tplasty_right);
         if (cb1.isChecked() && cb2.isChecked()) {
-            mh.setTmRetraction(ENTHistory.EarSide.EAR_SIDE_BOTH);
+            treatment.setTPlastyTomorrow(ENTHistory.EarSide.EAR_SIDE_BOTH);
         } else if (cb1.isChecked()) {
-            mh.setTmRetraction(ENTHistory.EarSide.EAR_SIDE_LEFT);
+            treatment.setTPlastyTomorrow(ENTHistory.EarSide.EAR_SIDE_LEFT);
         } else if (cb2.isChecked()) {
-            mh.setTmRetraction(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+            treatment.setTPlastyTomorrow(ENTHistory.EarSide.EAR_SIDE_RIGHT);
         } else {
-            mh.setTmRetraction(ENTHistory.EarSide.EAR_SIDE_NONE);
+            treatment.setTPlastyTomorrow(ENTHistory.EarSide.EAR_SIDE_NONE);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_tplasty_comment);
+        text = tx.getText();
+        treatment.setTPlastyTomorrowComment(text.toString());
 
-        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_atelectasis_left);
-        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tm_atelectasis_right);
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_eua_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_eua_right);
         if (cb1.isChecked() && cb2.isChecked()) {
-            mh.setTmAtelectasis(ENTHistory.EarSide.EAR_SIDE_BOTH);
+            treatment.setEuaTomorrow(ENTHistory.EarSide.EAR_SIDE_BOTH);
         } else if (cb1.isChecked()) {
-            mh.setTmAtelectasis(ENTHistory.EarSide.EAR_SIDE_LEFT);
+            treatment.setEuaTomorrow(ENTHistory.EarSide.EAR_SIDE_LEFT);
         } else if (cb2.isChecked()) {
-            mh.setTmAtelectasis(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+            treatment.setEuaTomorrow(ENTHistory.EarSide.EAR_SIDE_RIGHT);
         } else {
-            mh.setTmAtelectasis(ENTHistory.EarSide.EAR_SIDE_NONE);
+            treatment.setEuaTomorrow(ENTHistory.EarSide.EAR_SIDE_NONE);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_eua_comment);
+        text = tx.getText();
+        treatment.setEuaTomorrowComment(text.toString());
 
-        // perforations
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_fb_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_fb_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            treatment.setFbRemovalTomorrow(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            treatment.setFbRemovalTomorrow(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            treatment.setFbRemovalTomorrow(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            treatment.setFbRemovalTomorrow(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_fb_comment);
+        text = tx.getText();
+        treatment.setFbRemovalTomorrowComment(text.toString());
 
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_anterior);
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_myringotomy_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_myringotomy_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            treatment.setMiddleEarExploreMyringotomyTomorrow(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            treatment.setMiddleEarExploreMyringotomyTomorrow(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            treatment.setMiddleEarExploreMyringotomyTomorrow(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            treatment.setMiddleEarExploreMyringotomyTomorrow(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_myringotomy_comment);
+        text = tx.getText();
+        treatment.setMiddleEarExploreMyringotomyTomorrowComment(text.toString());
 
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_cerumen_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_cerumen_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            treatment.setCerumenTomorrow(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            treatment.setCerumenTomorrow(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            treatment.setCerumenTomorrow(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            treatment.setCerumenTomorrow(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_cerumen_comment);
+        text = tx.getText();
+        treatment.setCerumenTomorrowComment(text.toString());
+
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_granuloma_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_granuloma_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            treatment.setGranulomaTomorrow(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            treatment.setGranulomaTomorrow(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            treatment.setGranulomaTomorrow(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            treatment.setGranulomaTomorrow(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_granuloma_comment);
+        text = tx.getText();
+        treatment.setGranulomaTomorrowComment(text.toString());
+
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_septorhinoplasty_true);
         if (rb.isChecked()) {
-            mh.setPerfLeft(ENTTreatment.ENTPerf.ENT_PERF_ANTERIOR);
+            treatment.setSeptorhinoplastyTomorrow(true);
         }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_posterior);
-
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_septorhinoplasty_false);
         if (rb.isChecked()) {
-            mh.setPerfLeft(ENTTreatment.ENTPerf.ENT_PERF_POSTERIOR);
+            treatment.setSeptorhinoplastyTomorrow(false);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_septorhinoplasty_comment);
+        text = tx.getText();
+        treatment.setSeptorhinoplastyTomorrowComment(text.toString());
 
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_marginal);
-
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_scar_revision_true);
         if (rb.isChecked()) {
-            mh.setPerfLeft(ENTTreatment.ENTPerf.ENT_PERF_MARGINAL);
+            treatment.setScarRevisionCleftLipTomorrow(true);
         }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_25);
-
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_scar_revision_false);
         if (rb.isChecked()) {
-            mh.setPerfLeft(ENTTreatment.ENTPerf.ENT_PERF_25);
+            treatment.setScarRevisionCleftLipTomorrow(false);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_scar_revision_comment);
+        text = tx.getText();
+        treatment.setScarRevisionCleftLipTomorrowComment(text.toString());
 
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_50);
-
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_frenulectory_true);
         if (rb.isChecked()) {
-            mh.setPerfLeft(ENTTreatment.ENTPerf.ENT_PERF_50);
+            treatment.setFrenulectomyTomorrow(true);
         }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_75);
-
+        rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_frenulectory_false);
         if (rb.isChecked()) {
-            mh.setPerfLeft(ENTTreatment.ENTPerf.ENT_PERF_75);
+            treatment.setFrenulectomyTomorrow(false);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_frenulectomy_comment);
+        text = tx.getText();
+        treatment.setFrenulectomyTomorrowComment(text.toString());
 
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_total);
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_tubes_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_tubes_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            treatment.setTubesFuture(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            treatment.setTubesFuture(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            treatment.setTubesFuture(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            treatment.setTubesFuture(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_tubes_comment);
+        text = tx.getText();
+        treatment.setTubesFutureComment(text.toString());
 
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_tplasty_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_tplasty_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            treatment.setTPlastyFuture(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            treatment.setTPlastyFuture(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            treatment.setTPlastyFuture(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            treatment.setTPlastyFuture(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_tplasty_comment);
+        text = tx.getText();
+        treatment.setTPlastyFutureComment(text.toString());
+
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_eua_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_eua_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            treatment.setEuaFuture(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            treatment.setEuaFuture(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            treatment.setEuaFuture(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            treatment.setEuaFuture(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_eua_comment);
+        text = tx.getText();
+        treatment.setEuaFutureComment(text.toString());
+
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_fb_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_fb_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            treatment.setFbRemovalFuture(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            treatment.setFbRemovalFuture(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            treatment.setFbRemovalFuture(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            treatment.setFbRemovalFuture(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_fb_comment);
+        text = tx.getText();
+        treatment.setFbRemovalFutureComment(text.toString());
+
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_myringotomy_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_myringotomy_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            treatment.setMiddleEarExploreMyringotomyFuture(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            treatment.setMiddleEarExploreMyringotomyFuture(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            treatment.setMiddleEarExploreMyringotomyFuture(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            treatment.setMiddleEarExploreMyringotomyFuture(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_myringotomy_comment);
+        text = tx.getText();
+        treatment.setMiddleEarExploreMyringotomyFutureComment(text.toString());
+
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_cerumen_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_cerumen_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            treatment.setCerumenFuture(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            treatment.setCerumenFuture(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            treatment.setCerumenFuture(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            treatment.setCerumenFuture(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_cerumen_comment);
+        text = tx.getText();
+        treatment.setCerumenFutureComment(text.toString());
+
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_future_granuloma_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_future_granuloma_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            treatment.setGranulomaFuture(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            treatment.setGranulomaFuture(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            treatment.setGranulomaFuture(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            treatment.setGranulomaFuture(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_granuloma_comment);
+        text = tx.getText();
+        treatment.setGranulomaFutureComment(text.toString());
+
+        rb = (RadioButton) m_view.findViewById(R.id.ent_future_septorhinoplasty_true);
         if (rb.isChecked()) {
-            mh.setPerfLeft(ENTTreatment.ENTPerf.ENT_PERF_TOTAL);
+            treatment.setSeptorhinoplastyFuture(true);
         }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_left_none);
-
+        rb = (RadioButton) m_view.findViewById(R.id.ent_future_septorhinoplasty_false);
         if (rb.isChecked()) {
-            mh.setPerfLeft(ENTTreatment.ENTPerf.ENT_PERF_NONE);
+            treatment.setSeptorhinoplastyFuture(false);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_septorhinoplasty_comment);
+        text = tx.getText();
+        treatment.setSeptorhinoplastyFutureComment(text.toString());
 
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_anterior);
-
+        rb = (RadioButton) m_view.findViewById(R.id.ent_future_scar_revision_true);
         if (rb.isChecked()) {
-            mh.setPerfRight(ENTTreatment.ENTPerf.ENT_PERF_ANTERIOR);
+            treatment.setScarRevisionCleftLipFuture(true);
         }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_posterior);
-
+        rb = (RadioButton) m_view.findViewById(R.id.ent_future_scar_revision_false);
         if (rb.isChecked()) {
-            mh.setPerfRight(ENTTreatment.ENTPerf.ENT_PERF_POSTERIOR);
+            treatment.setScarRevisionCleftLipFuture(false);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_scar_revision_comment);
+        text = tx.getText();
+        treatment.setScarRevisionCleftLipFutureComment(text.toString());
 
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_marginal);
-
+        rb = (RadioButton) m_view.findViewById(R.id.ent_future_frenulectory_true);
         if (rb.isChecked()) {
-            mh.setPerfRight(ENTTreatment.ENTPerf.ENT_PERF_MARGINAL);
+            treatment.setFrenulectomyFuture(true);
         }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_25);
-
+        rb = (RadioButton) m_view.findViewById(R.id.ent_future_frenulectory_false);
         if (rb.isChecked()) {
-            mh.setPerfRight(ENTTreatment.ENTPerf.ENT_PERF_25);
+            treatment.setFrenulectomyFuture(false);
         }
+        tx = (EditText) m_view.findViewById(R.id.ent_future_frenulectomy_comment);
+        text = tx.getText();
+        treatment.setFrenulectomyFutureComment(text.toString());
 
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_50);
+        tx = (EditText) m_view.findViewById(R.id.ent_notes);
+        text = tx.getText();
+        treatment.setComment(text.toString());
 
-        if (rb.isChecked()) {
-            mh.setPerfRight(ENTTreatment.ENTPerf.ENT_PERF_50);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_75);
-
-        if (rb.isChecked()) {
-            mh.setPerfRight(ENTTreatment.ENTPerf.ENT_PERF_75);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_total);
-
-        if (rb.isChecked()) {
-            mh.setPerfRight(ENTTreatment.ENTPerf.ENT_PERF_TOTAL);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_perf_right_none);
-
-        if (rb.isChecked()) {
-            mh.setPerfRight(ENTTreatment.ENTPerf.ENT_PERF_NONE);
-        }
-
-        // voice test
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_voice_test_normal);
-
-        if (rb.isChecked()) {
-            mh.setVoiceTest(ENTTreatment.ENTVoiceTest.ENT_VOICE_TEST_NORMAL);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_voice_test_abnormal);
-
-        if (rb.isChecked()) {
-            mh.setVoiceTest(ENTTreatment.ENTVoiceTest.ENT_VOICE_TEST_ABNORMAL);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_voice_test_none);
-
-        if (rb.isChecked()) {
-            mh.setVoiceTest(ENTTreatment.ENTVoiceTest.ENT_VOICE_TEST_NONE);
-        }
-
-        // tuning fork test
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_ad_a_greater_b);
-
-        if (rb.isChecked()) {
-            mh.setForkAD(ENTTreatment.ENTForkTest.ENT_FORK_TEST_A_GREATER_B);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_ad_b_greater_a);
-
-        if (rb.isChecked()) {
-            mh.setForkAD(ENTTreatment.ENTForkTest.ENT_FORK_TEST_B_GREATER_A);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_ad_a_equal_b);
-
-        if (rb.isChecked()) {
-            mh.setForkAD(ENTTreatment.ENTForkTest.ENT_FORK_TEST_EQUAL);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_ad_none);
-
-        if (rb.isChecked()) {
-            mh.setForkAD(ENTTreatment.ENTForkTest.ENT_FORK_TEST_NONE);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_as_a_greater_b);
-
-        if (rb.isChecked()) {
-            mh.setForkAS(ENTTreatment.ENTForkTest.ENT_FORK_TEST_A_GREATER_B);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_as_b_greater_a);
-
-        if (rb.isChecked()) {
-            mh.setForkAS(ENTTreatment.ENTForkTest.ENT_FORK_TEST_B_GREATER_A);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_as_a_equal_b);
-
-        if (rb.isChecked()) {
-            mh.setForkAS(ENTTreatment.ENTForkTest.ENT_FORK_TEST_EQUAL);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_tuning_fork_as_none);
-
-        if (rb.isChecked()) {
-            mh.setForkAS(ENTTreatment.ENTForkTest.ENT_FORK_TEST_NONE);
-        }
-
-        // bc
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_bc_ad_lat_to_ad);
-
-        if (rb.isChecked()) {
-            mh.setBc(ENTTreatment.ENTBC.ENT_BC_AD_LAT_TO_AD);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_bc_ad_lat_to_as);
-
-        if (rb.isChecked()) {
-            mh.setBc(ENTTreatment.ENTBC.ENT_BC_AD_LAT_TO_AS);
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_bc_as_lat_to_ad);
-
-        if (rb.isChecked()) {
-            mh.setBc(ENTTreatment.ENTBC.ENT_BC_AS_LAT_TO_AD);
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_bc_as_lat_to_as);
-
-        if (rb.isChecked()) {
-            mh.setBc(ENTTreatment.ENTBC.ENT_BC_AS_LAT_TO_AS);
-        }
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_bc_none);
-
-        if (rb.isChecked()) {
-            mh.setBc(ENTTreatment.ENTBC.ENT_BC_NONE);
-        }
-
-        // fork
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_fork_256);
-
-        if (rb.isChecked()) {
-            mh.setFork(ENTTreatment.ENTFork.ENT_FORK_256);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_fork_512);
-
-        if (rb.isChecked()) {
-            mh.setFork(ENTTreatment.ENTFork.ENT_FORK_512);
-        }
-
-        rb = (RadioButton) m_view.findViewById(R.id.radio_button_fork_none);
-
-        if (rb.isChecked()) {
-            mh.setFork(ENTTreatment.ENTFork.ENT_FORK_NONE);
-        }
-
-        EditText t = (EditText) m_view.findViewById(R.id.ent_notes);
-
-        Editable text = t.getText();
-
-        mh.setComment(text.toString());
-        */
-
-        return mh;
+        return treatment;
     }
 
     private boolean validateFields()

@@ -1867,7 +1867,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ent_label_institution" />
+                        android:text="@string/referrals_private_ent_ensenada" />
 
                     <View
                         android:layout_width="0dp"
@@ -1884,6 +1884,79 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/referrals_private_ent_ensenada" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="16dp"></ImageView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ent_label_comment" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true" />
+
+                        <EditText
+                            android:id="@+id/ent_referred_pvt_ensenada_comment"
+                            android:layout_width="match_parent"
+                            android:layout_height="180dp"
+                            android:background="@drawable/edittext_border"
+                            android:gravity="top"
+                            android:inputType="text|textMultiLine" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="16dp"></ImageView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/referrals_childrens_hospital_tj" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <CheckBox
                             android:id="@+id/checkbox_referrals_childrens_hospital_tj"
@@ -1928,7 +2001,7 @@
                             android:focusableInTouchMode="true" />
 
                         <EditText
-                            android:id="@+id/ent_referrals_comment"
+                            android:id="@+id/ent_referred_childrens_hospital_tj_comment"
                             android:layout_width="match_parent"
                             android:layout_height="180dp"
                             android:background="@drawable/edittext_border"
@@ -1936,6 +2009,7 @@
                             android:inputType="text|textMultiLine" />
                     </LinearLayout>
                 </LinearLayout>
+
             </LinearLayout>
 
             <!-- Tomorrow -->
