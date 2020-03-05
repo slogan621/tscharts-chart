@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017
- * (C) Copyright Thousand Smiles Foundation 2017
+ * (C) Copyright Syd Logan 2017-2019
+ * (C) Copyright Thousand Smiles Foundation 2017-2019
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -166,6 +166,41 @@ public class AppListItems {
 
         item = new AppListItem();
         item.setName(m_context.getString(R.string.medical_history_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.ent_history_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.exam_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.audiogram_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.audiology_selector);
+        items.add(item);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.diagnosis_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.treatment_plan_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);

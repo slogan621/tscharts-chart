@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017-2019
- * (C) Copyright Thousand Smiles Foundation 2017-2019
+ * (C) Copyright Syd Logan 2017-2020
+ * (C) Copyright Thousand Smiles Foundation 2017-2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.SearchReturnToClinicStationHelper;
@@ -81,6 +80,7 @@ public class StationActivity extends AppCompatActivity {
         setContentView(R.layout.main_view);
         View button_bar_item = findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.GONE);
+        hideButtonBarButtons();
         m_appListItems.setContext(getApplicationContext());
         m_appListItems.init();
     }
@@ -483,7 +483,7 @@ public class StationActivity extends AppCompatActivity {
                 if (button_bar_item.getVisibility() == View.VISIBLE)
                     button_bar_item.setVisibility(View.INVISIBLE);
 
-                /* if station is dental, otherwise set to invisible */
+                /* if station is dental or ENT, otherwise set to invisible */
 
                 if (m_sess.isDentalStation()) {
                     button_bar_item = findViewById(R.id.sendtostation_button);
@@ -593,6 +593,26 @@ public class StationActivity extends AppCompatActivity {
             }
         } catch (JSONException e) {
         }
+    }
+
+    private void hideButtonBarButtons()
+    {
+        View button_bar_item;
+        button_bar_item = findViewById(R.id.away_button);
+        if (button_bar_item.getVisibility() == View.VISIBLE)
+            button_bar_item.setVisibility(View.INVISIBLE);
+        button_bar_item = findViewById(R.id.back_button);
+        if (button_bar_item.getVisibility() == View.VISIBLE)
+            button_bar_item.setVisibility(View.INVISIBLE);
+        button_bar_item = findViewById(R.id.checkin_button);
+        if (button_bar_item.getVisibility() == View.VISIBLE)
+            button_bar_item.setVisibility(View.INVISIBLE);
+        button_bar_item = findViewById(R.id.checkout_button);
+        if (button_bar_item.getVisibility() == View.VISIBLE)
+            button_bar_item.setVisibility(View.INVISIBLE);
+        button_bar_item = findViewById(R.id.sendtostation_button);
+        if (button_bar_item.getVisibility() == View.VISIBLE)
+            button_bar_item.setVisibility(View.INVISIBLE);
     }
 
     private void updateStationDetail()
@@ -920,7 +940,9 @@ public class StationActivity extends AppCompatActivity {
 
                 String selectedName = names.get(position);
 
-                if (!m_showingAppFragment || names.get(position).equals(getApplicationContext().getString(R.string.xray_name)) || selectedName.equals(m_fragmentName) == false) {
+                if (!m_showingAppFragment || names.get(position).equals(getApplicationContext().getString(R.string.xray_name)) ||
+                        names.get(position).equals(getApplicationContext().getString(R.string.exam_name)) ||
+                        selectedName.equals(m_fragmentName) == false) {
                     if (names.get(position).equals(getApplicationContext().getString(R.string.routing_slip_name))) {
                         showRoutingSlip();
                         m_showingAppFragment = true;
@@ -933,6 +955,32 @@ public class StationActivity extends AppCompatActivity {
                         showXRaySearchResults();
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
+                    } else if (names.get(position).equals(getApplicationContext().getString(R.string.ent_history_name))) {
+                        showENTHistorySearchResults();
+                        m_showingAppFragment = true;
+                        m_fragmentName = names.get(position);
+                        //Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
+                    } else if (names.get(position).equals(getApplicationContext().getString(R.string.exam_name))) {
+                        showENTExamSearchResults();
+                        m_showingAppFragment = true;
+                        m_fragmentName = names.get(position);
+                        //Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
+                    } else if (names.get(position).equals(getApplicationContext().getString(R.string.audiogram_name))) {
+                        //showXRaySearchResults();
+                        //m_showingAppFragment = true;
+                        //m_fragmentName = names.get(position);
+                        Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
+                    } else if (names.get(position).equals(getApplicationContext().getString(R.string.diagnosis_name))) {
+                        showENTDiagnosisSearchResults();
+                        m_showingAppFragment = true;
+                        m_fragmentName = names.get(position);
+                        //Toast.makeText(StationActivity.this, R.string.msg_feature_not_implemented, Toast.LENGTH_LONG).show();
+                    } else if (names.get(position).equals(getApplicationContext().getString(R.string.treatment_plan_name))) {
+                        showENTTreatmentSearchResults();
+                        m_showingAppFragment = true;
+                        m_fragmentName = names.get(position);
+                        //Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
+
                     }
                 }
             }
@@ -953,6 +1001,46 @@ public class StationActivity extends AppCompatActivity {
     {
         Bundle arguments = new Bundle();
         AppPatientXRayListFragment fragment = new AppPatientXRayListFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
+    }
+
+    public void showENTHistorySearchResults()
+    {
+        Bundle arguments = new Bundle();
+        AppPatientENTHistoryListFragment fragment = new AppPatientENTHistoryListFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
+    }
+
+    public void showENTDiagnosisSearchResults()
+    {
+        Bundle arguments = new Bundle();
+        AppPatientENTDiagnosisListFragment fragment = new AppPatientENTDiagnosisListFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
+    }
+
+    public void showENTTreatmentSearchResults()
+    {
+        Bundle arguments = new Bundle();
+        AppPatientENTTreatmentListFragment fragment = new AppPatientENTTreatmentListFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
+    }
+
+    public void showENTExamSearchResults()
+    {
+        Bundle arguments = new Bundle();
+        AppPatientENTExamListFragment fragment = new AppPatientENTExamListFragment();
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)

@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2019
- * (C) Copyright Thousand Smiles Foundation 2019
+ * (C) Copyright Syd Logan 2020
+ * (C) Copyright Thousand Smiles Foundation 2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,16 +39,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
-import org.thousandsmiles.tscharts_lib.XRay;
+import org.thousandsmiles.tscharts_lib.ENTTreatment;
 
 import java.util.ArrayList;
 
-public class AppPatientXRayListFragment extends Fragment {
+public class AppPatientENTTreatmentListFragment extends Fragment {
     private int mColumns;
     private boolean m_goingDown = false;
     private SessionSingleton m_sess;
     private CommonSessionSingleton m_commonSess;
-    private ArrayList<XRay> m_xrays = new ArrayList<XRay>();
+    private ArrayList<ENTTreatment> m_entTreatments = new ArrayList<ENTTreatment>();
     private Activity m_activity;
 
     @Override
@@ -57,12 +57,12 @@ public class AppPatientXRayListFragment extends Fragment {
 
         if (context instanceof Activity){
             m_activity=(Activity) context;
-            initializeXRayData();
+            initializeENTTreatmentData();
         }
     }
 
-    private void clearXRayList() {
-        m_xrays.clear();
+    private void clearENTTreatmentList() {
+        m_entTreatments.clear();
     }
 
     private void ClearSearchResultTable()
@@ -94,18 +94,18 @@ public class AppPatientXRayListFragment extends Fragment {
         }
     }
 
-    private void showXRayEditor(XRay xray)
+    private void showENTTreatmentEditor(ENTTreatment treatment)
     {
         Bundle arguments = new Bundle();
-        arguments.putSerializable("xray", xray);
-        AppPatientXRayEditorFragment fragment = new AppPatientXRayEditorFragment();
+        arguments.putSerializable("treatment", treatment);
+        AppENTTreatmentFragment fragment = new AppENTTreatmentFragment();
         fragment.setArguments(arguments);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
                 .commit();
     }
 
-    private void LayoutXRayTable() {
+    private void LayoutENTTreatmentTable() {
         TableLayout layout = (TableLayout) m_activity.findViewById(R.id.namestablelayout);
         TableRow row = null;
         int count;
@@ -140,13 +140,13 @@ public class AppPatientXRayListFragment extends Fragment {
             public void onClick(View v) {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
-                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_xray_record));
+                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_ent_treatment_record));
                 alertDialogBuilder.setPositiveButton(R.string.button_yes,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
-                            m_sess.setNewXRay(true);
-                            showXRayEditor(new XRay());
+                            m_sess.setNewENTTreatment(true);
+                            showENTTreatmentEditor(new ENTTreatment());
                             }
                         });
 
@@ -168,7 +168,7 @@ public class AppPatientXRayListFragment extends Fragment {
         row.setWeightSum((float)1.0);
 
         TextView txt = new TextView(m_activity);
-        txt.setText(R.string.button_label_add_new_xray);
+        txt.setText(R.string.button_label_add_new_ent_treatment);
         txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
         txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
@@ -186,12 +186,12 @@ public class AppPatientXRayListFragment extends Fragment {
 
         count = 1;
 
-        int extraCells = (m_xrays.size() + 1) % 3;
+        int extraCells = (m_entTreatments.size() + 1) % 3;
         if (extraCells != 0) {
             extraCells = 3 - extraCells;
         }
 
-        for (int i = 0; i < m_xrays.size(); i++) {
+        for (int i = 0; i < m_entTreatments.size(); i++) {
             newRow = false;
             if ((count % 3) == 0) {
                 newRow = true;
@@ -218,14 +218,14 @@ public class AppPatientXRayListFragment extends Fragment {
                     button.setImageDrawable(getResources().getDrawable(R.drawable.xray));
             }
 
-            XRay xray = m_xrays.get(i);
-            button.setTag(xray);
+            ENTTreatment ENTTreatment = m_entTreatments.get(i);
+            button.setTag(ENTTreatment);
 
 
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    m_sess.setNewXRay(false);
-                    showXRayEditor((XRay) v.getTag());
+                    m_sess.setNewENTTreatment(false);
+                    showENTTreatmentEditor((ENTTreatment) v.getTag());
                 }
             });
 
@@ -234,15 +234,15 @@ public class AppPatientXRayListFragment extends Fragment {
             txt = new TextView(m_activity);
             CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
             sess.setContext(getContext());
-            JSONObject o = sess.getClinicById(xray.getClinic());
-            String clinicStr = String.format("Clinic ID %d",xray.getClinic());
+            JSONObject o = sess.getClinicById(ENTTreatment.getClinic());
+            String clinicStr = String.format("Clinic ID %d",ENTTreatment.getClinic());
 
             if (o != null) {
                 try {
-                    clinicStr = String.format("Clinic ID %d %s %s", xray.getClinic(),
+                    clinicStr = String.format("Clinic ID %d %s %s", ENTTreatment.getClinic(),
                             o.getString("location"), o.getString("start"));
                 } catch (JSONException e) {
-                    clinicStr = String.format("Clinic ID %d",xray.getClinic());
+                    clinicStr = String.format("Clinic ID %d",ENTTreatment.getClinic());
                 }
             }
 
@@ -273,12 +273,12 @@ public class AppPatientXRayListFragment extends Fragment {
         }
     }
 
-    public static AppPatientXRayListFragment newInstance()
+    public static AppPatientENTTreatmentListFragment newInstance()
     {
-        return new AppPatientXRayListFragment();
+        return new AppPatientENTTreatmentListFragment();
     }
 
-    private void initializeXRayData() {
+    private void initializeENTTreatmentData() {
 
         m_commonSess = CommonSessionSingleton.getInstance();
         m_sess = SessionSingleton.getInstance();
@@ -287,25 +287,25 @@ public class AppPatientXRayListFragment extends Fragment {
             public void run() {
                 Thread thread = new Thread(){
                     public void run() {
-                        JSONArray xrays;
-                        clearXRayList();
-                        xrays = m_sess.getXRays(m_sess.getClinicId(), m_sess.getDisplayPatientId());
-                        if (xrays == null) {
+                        JSONArray ENTTreatments;
+                        clearENTTreatmentList();
+                        ENTTreatments = m_sess.getENTTreatments(m_sess.getClinicId(), m_sess.getDisplayPatientId());
+                        if (ENTTreatments == null) {
                             m_activity.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_xrays_for_patient, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_ent_treatments_for_patient, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
-                            for (int i = 0; i < xrays.length(); i++) {
+                            for (int i = 0; i < ENTTreatments.length(); i++) {
                                 try {
-                                    XRay xray = new XRay();
-                                    JSONObject o = (JSONObject) xrays.get(i);
-                                    xray.fromJSONObject(o);
-                                    m_xrays.add(xray);
+                                    ENTTreatment ENTTreatment = new ENTTreatment();
+                                    JSONObject o = (JSONObject) ENTTreatments.get(i);
+                                    ENTTreatment.fromJSONObject(o);
+                                    m_entTreatments.add(ENTTreatment);
                                     CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
                                     sess.setContext(getContext());
-                                    JSONObject co = sess.getClinicById(xray.getClinic());
+                                    JSONObject co = sess.getClinicById(ENTTreatment.getClinic());
                                     if (co == null) {
                                         try {
                                             Thread.sleep(500);
@@ -318,7 +318,7 @@ public class AppPatientXRayListFragment extends Fragment {
                          }
                          m_activity.runOnUiThread(new Runnable() {
                             public void run() {
-                                LayoutXRayTable();
+                                LayoutENTTreatmentTable();
                             }
                          });
                     }

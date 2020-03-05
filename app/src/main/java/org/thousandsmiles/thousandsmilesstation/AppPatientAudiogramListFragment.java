@@ -43,7 +43,7 @@ import org.thousandsmiles.tscharts_lib.XRay;
 
 import java.util.ArrayList;
 
-public class AppPatientXRayListFragment extends Fragment {
+public class AppPatientAudiogramListFragment extends Fragment {
     private int mColumns;
     private boolean m_goingDown = false;
     private SessionSingleton m_sess;
@@ -273,9 +273,9 @@ public class AppPatientXRayListFragment extends Fragment {
         }
     }
 
-    public static AppPatientXRayListFragment newInstance()
+    public static AppPatientAudiogramListFragment newInstance()
     {
-        return new AppPatientXRayListFragment();
+        return new AppPatientAudiogramListFragment();
     }
 
     private void initializeXRayData() {

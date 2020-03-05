@@ -33,7 +33,9 @@
     <!-- button labels -->
 
     <string name="button_select">Seleccionar</string>
-    <string name="button_label_add_new">Nuevo registro de rayos x</string>
+    <string name="button_label_add_new_xray">Nuevo registro de rayos x</string>
+    <string name="button_label_add_new_ent_history">Nuevo registro de historia de ONG</string>
+    <string name="button_label_add_new_ent_exam">Nuevo registro de examen de ONG</string>
 
     <!-- Checkout -->
 
@@ -108,6 +110,7 @@
     <string name="select_medications_cancel">Cancelar</string>
 
     <string name="medical_history_name">Historial médico</string>
+    <string name="ent_history_name">Historial ONG</string>
     <string name="routing_slip_name">Ficha de transmisión</string>
     <string name="xray_search_results_name">Resultados de búsqueda de rayos X</string>
 
@@ -115,7 +118,7 @@
     <string name="station_name_x_ray">Rayos X</string>
     <string name="station_name_audiology">Audiología</string>
     <string name="station_name_speech">El habla</string>
-    <string name="station_name_ent">ENT</string>
+    <string name="station_name_ent">ONG</string>
     <string name="station_name_hygiene">Higiene</string>
     <string name="station_name_surgery_screening">Cribado cirúrgico</string>
     <string name="station_name_ortho">Orto</string>
@@ -127,6 +130,10 @@
     <string name="msg_unable_to_save_medical_history">No se logró guardar historial médico</string>
     <string name="title_unsaved_medical_history">Cambios sin guardar del historial médico</string> 
     <string name="msg_save_medical_history">¿Guardar cambios al historial médico?</string>
+    <string name="title_unsaved_ent_exam">Cambios no guardados en el examen ONT</string>
+    <string name="msg_save_ent_exam">¿Guardar cambios en el examen ONT?</string>
+    <string name="title_unsaved_ent_history">Cambios no guardados del historial ONT</string>
+    <string name="msg_save_ent_history">¿Guardar cambios en el historial ONT?</string>
     <string name="title_unsaved_xray">Cambios sin guardar del Rayos X</string>
     <string name="msg_save_xray">¿Guardar cambios al Rayos X?</string>
     <string name="button_yes">Sí</string>
@@ -212,8 +219,12 @@
     <string name="unable_to_set_return_to_clinic_state_to_checked_out_dest">Unable to set Return To Clinic Station state to checked_out_dest</string>
     <string name="msg_successfully_updated_return_to_clinic_state_to_checked_out_dest">Successfully updated Return To Clinic Station state to checked_out_dest</string>
     <string name="question_create_new_xray_record">¿Crear un nuevo registro de rayos X?</string>
+    <string name="question_create_new_ent_history_record">¿Crear un nuevo registro de examen de ONG?</string>
+    <string name="question_create_new_ent_exam_record">¿Crear un nuevo registro de examen ONG?</string>
     <string name="xray_name">Rayos-X</string>
     <string name="msg_unable_to_get_xrays_for_patient">No se pueden obtener radiografías para el paciente</string>
+    <string name="msg_unable_to_get_ent_histories_for_patient">Incapaz de obtener historias de ONG para el paciente.</string>
+    <string name="msg_unable_to_get_ent_exams_for_patient">Incapaz de obtener exámenes de ONG para el paciente.</string>
     <string name="xray_type">Tipo de rayos x</string>
     <string name="xray_type_full">Completo</string>
     <string name="xray_type_anteriors_bitewings">Anteriores - Bitewings</string>
@@ -224,7 +235,197 @@
     <string name="msg_successfully_got_x_ray_data">Leer con éxito los datos de rayos X</string>
     <string name="msg_successfully_saved_xray">Datos de Rayos X guardados exitosamente</string>
     <string name="msg_unable_to_save_xray">Error al guardar datos de rayos X</string>
+    <string name="msg_unable_to_get_ent_exam_data">No se pueden leer los datos del examen de ONG</string>
+    <string name="msg_successfully_got_ent_exam_data">Lea con éxito los datos del examen de ONG</string>
+    <string name="msg_successfully_saved_ent_exam">Examen ONG guardado con éxito</string>
+    <string name="msg_unable_to_save_ent_exam">No se puede guardar el examen de ONG</string>
+    <string name="msg_unable_to_get_ent_history_data">No se pueden leer los datos del historial de ONG</string>
+    <string name="msg_successfully_got_ent_history_data">Lea con éxito los datos del historial de ONG</string>
+    <string name="msg_successfully_saved_ent_history">Historial ONG guardado con éxito</string>
+    <string name="msg_unable_to_save_ent_history">No se puede guardar el historial de ONG</string>
     <string name="set_all">Establecer todos</string>
     <string name="clear_all">Limpiar todo</string>
+    <string name="msg_feature_not_implemented">Artículo no implementado</string>
+    <string name="exam_name">Examen</string>
+    <string name="audiogram_name">Audiogram</string>
+    <string name="diagnosis_name">Diagnóstico</string>
+    <string name="treatment_plan_name">Plan de tratamienton</string>
+
+    <!-- ENT Exam Strings -->
+
+    <string name="section_title_ears">Orejas</string>
+    <string name="ent_label_normal">Normal</string>
+    <string name="left">Izquierda</string>
+    <string name="right">Derecho</string>
+    <string name="ent_label_microtia">Microtia</string>
+    <string name="ent_label_wax">Cera del oído</string>
+    <string name="ent_label_drainage">Drenaje</string>
+    <string name="ent_label_otitis">Otitis externa</string>
+    <string name="ent_label_fb">Cuerpo extraño</string>
+    <string name="section_title_tube">Tubos</string>
+    <string name="ent_in_place">En su lugar</string>
+    <string name="ent_extruding">Extrusión</string>
+    <string name="ent_in_canal">En canal</string>
+    <string name="section_title_tympano">Timpanosclerosis</string>
+    <string name="ent_anterior">Anterior</string>
+    <string name="ent_posterior">Posterior</string>
+    <string name="ent_25">25%</string>
+    <string name="ent_50">50%</string>
+    <string name="ent_75">75%</string>
+    <string name="ent_total">Total</string>
+    <string name="none">Ninguna</string>
+    <string name="section_title_tm">Membrana timpánica</string>
+    <string name="ent_label_tm_granulation">Granulación</string>
+    <string name="ent_label_tm_retraction">Retracción</string>
+    <string name="ent_label_tm_atelectasis">Atelectasia</string>
+    <string name="section_title_perf">Perforaciones</string>
+    <string name="ent_marginal">Marginal</string>
+    <string name="section_title_hearing_loss">Pérdida de la Audición</string>
+    <string name="voice_test">Prueba de Voz</string>
+    <string name="normal">Normal</string>
+    <string name="abnormal">Anormal</string>
+    <string name="tuning_fork_test_ad">Prueba de horquilla AD</string>
+    <string name="a_greater_b"><![CDATA[A > B]]></string>
+    <string name="b_greater_a"><![CDATA[B > A]]></string>
+    <string name="a_equal_b">A = B</string>
+    <string name="tuning_fork_test_as">Prueba de horquilla AS</string>
+    <string name="bc">BC</string>
+    <string name="ad_lat_to_ad">AD lateraliza a AD</string>
+    <string name="ad_lat_to_as">AD lateraliza a AS</string>
+    <string name="as_lat_to_ad">AS lateraliza a AD</string>
+    <string name="as_lat_to_as">AS lateraliza a AS</string>
+    <string name="fork">Diapasón</string>
+    <string name="fork_256">256</string>
+    <string name="fork_512">512</string>
+    <string name="section_title_notes">Notas</string>
+
+    <!-- ENT History Strings -->
+
+    <string name="section_title_pain">Dolor</string>
+    <string name="ent_label_side">Lado</string>
+    <string name="ent_label_duration">Duración</string>
+    <string name="days">Dias</string>
+    <string name="weeks">Semanas</string>
+    <string name="months">Meses</string>
+    <string name="intermittent">Intermitente</string>
+    <string name="section_title_drainage">Drenaje del Oído</string>
+    <string name="section_title_extra">Extra</string>
+    <string name="ent_label_condition_name">Nombre de la condición</string>
+    <string name="msg_add_extra_exam_item">Agregar Elemento de Examen Adicional</string>
+    <string name="title_ent_history_extra_dialog">Agregar historial adicional de ENT</string>
+    <string name="msg_unable_to_read_ent_history_extra_data">No se pueden leer los datos adicionales del historial ENT</string>
+    <string name="msg_unable_to_save_ent_history_extra">No se puede guardar el objeto adicional del historial ENT</string>
+    <string name="msg_successfully_saved_ent_history_extra">Objetos extra ENT guardados correctamente</string>
+    <string name="msg_unable_to_delete_ent_history_extra">No se puede eliminar el historial de ENT extra</string>
+    <string name="msg_successfully_deleted_ent_history_extra">Elemento extra ENT eliminado con éxito</string>
+
+    <!-- ENT Diagnostic Strings -->
+
+    <string name="title_ent_diagnosis_extra_dialog">Editar ONG Diagnóstico adicional</string>
+    <string name="msg_unable_to_save_ent_diagnosis_extra">No se puede guardar el diagnóstico adicional ONG</string>
+    <string name="msg_successfully_saved_ent_diagnosis_extra">Diagnóstico adicional ONG guardado con éxito</string>
+    <string name="msg_unable_to_save_ent_diagnosis">No se puede guardar el diagnóstico ONG</string>
+    <string name="msg_successfully_saved_ent_diagnosis">Diagnóstico ONG guardado con éxito</string>
+    <string name="ent_label_conductive">Conductiva</string>
+    <string name="section_title_external_ear">Oído externo</string>
+    <string name="section_title_tympanic_membrame">Membrana Timpánica</string>
+    <string name="section_title_middle_ear">Middle Ear</string>
+    <string name="section_title_oral_cavity">Oído Medio</string>
+    <string name="section_title_nose">Nariz</string>
+    <string name="section_title_syndrome">Síndrome</string>
+    <string name="ent_label_hearing_loss">Pérdida de la audición</string>
+    <string name="ent_label_mixed">Mezclada</string>
+    <string name="ent_label_sensory">Sensorial</string>
+    <string name="ent_label_cerumen_impaction">Impacto Cerumen</string>
+    <string name="ent_label_ear_canal_fb">Cuerpo extraño del canal auditivo</string>
+    <string name="ent_label_atelectasis">Atelectasia</string>
+    <string name="ent_label_granuloma">Granuloma</string>
+    <string name="ent_label_monomer">Monómero</string>
+    <string name="ent_label_tube">Tubo</string>
+    <string name="ent_label_tympanic_perf">Perf timpánico</string>
+    <string name="ent_label_cholesteatoma">Colesteatoma</string>
+    <string name="ent_label_eustatian_tube_dysfunction_with_tm_retraction">Disfunción de la trompa de Eustaquio con retracción TM</string>
+    <string name="ent_label_otitis_media">Otitis Media</string>
+    <string name="ent_label_serous_otitis_media">Otitis media serosa</string>
+    <string name="ent_label_hemifacial_microsomia">Microsomía hemifacial</string>
+    <string name="ent_label_pierre_robin_syndrome">Síndrome de Pierre Robin</string>
+    <string name="oral_tonsil_enlarge">Amígdalas agrandadas</string>
+    <string name="oral_cleft_lip_repair_deformity">Deformidad de reparación de labio leporino</string>
+    <string name="oral_cleft_lip_unilateral">Labio leporino unilateral</string>
+    <string name="oral_cleft_lip_bilateral">Labio leporino bilateral</string>
+    <string name="oral_cleft_lip_unrepaired">Labio leporino sin reparar</string>
+    <string name="oral_cleft_lip_repaired">Labio leporino reparado</string>
+    <string name="oral_cleft_palate_unilateral">Paladar hendido unilateral</string>
+    <string name="oral_cleft_palate_bilateral">Paladar hendido bilateral</string>
+    <string name="oral_cleft_palate_unrepaired">Paladar hendido sin reparar</string>
+    <string name="oral_cleft_palate_repaired">Paladar hendido repararado</string>
+    <string name="oral_speech_problem">Problema del habla</string>
+    <string name="nose_deviated_septum">Tabique desviado</string>
+    <string name="nose_turbinate_hypertrophy">Hipertrofia de cornetes</string>
+    <string name="nose_deformity_secondary_to_cleft_palate">Deformidad secundaria al paladar hendido</string>
+    <string name="oral_ankyloglossia">Anquiloglosia</string>
+    <string name="ent_label_condition_value">Valor de condición</string>
+    <string name="msg_unable_to_read_ent_diagnosis_extra_data">No se pueden leer los datos adicionales del diagnóstico ONG</string>
+    <string name="msg_unable_to_delete_ent_diagnosis_extra">No se puede eliminar el diagnóstico ONG adicional</string>
+    <string name="msg_successfully_deleted_ent_diagnosis_extra">Diagnóstico ONG eliminado con éxito extra</string>
+    <string name="msg_unable_to_get_ent_diagnosis_data">No se pueden leer los datos de diagnóstico ONG</string>
+    <string name="title_unsaved_ent_diagnosis">Diagnóstico ONG sin guardar</string>
+    <string name="msg_save_ent_diagnosis">¿Guardar diagnóstico ONG?</string>
+    <string name="question_create_new_ent_diagnosis_record">¿Crear nuevo registro de diagnóstico ONG?</string>
+    <string name="button_label_add_new_ent_diagnosis">Agregar nuevo diagnóstico ONG</string>
+    <string name="msg_unable_to_get_ent_diagnoses_for_patient">Incapaz de obtener diagnósticos de ONG para la paciente</string>
+    <string name="msg_add_extra_diagnosis_item">Agregar elemento de diagnóstico adicional</string>
+
+    <!-- ENT Treatment -->
+
+    <string name="section_title_cleaning">Limpieza del oído</string>
+    <string name="ent_label_comment">Comentario</string>
+    <string name="question_create_new_ent_treatment_record">¿Crear un nuevo registro de tratamiento ONG?</string>
+    <string name="button_label_add_new_ent_treatment">Agregar nuevo tratamiento ONG</string>
+    <string name="msg_unable_to_get_ent_treatments_for_patient">Incapaz de recibir tratamientos ONG para el paciente</string>
+    <string name="msg_unable_to_get_ent_treatment_data">Incapaz de obtener datos de tratamiento ONG</string>
+    <string name="msg_successfully_got_ent_treatment_data">Leer con éxito los datos del tratamiento ONG</string>
+    <string name="msg_unable_to_save_ent_treatment">No se puede guardar el tratamiento ONG</string>
+    <string name="msg_successfully_saved_ent_treatment">Tratamiento ONG guardado con éxito</string>
+    <string name="title_unsaved_ent_treatment">Tratamiento ONG sin guardar</string>
+    <string name="msg_save_ent_treatment">¿Guardar tratamiento ONG?</string>
+    <string name="button_label_show">Mostrar</string>
+    <string name="button_label_hide">Esconder</string>
+    <string name="section_title_audiogram">Audiograma</string>
+    <string name="section_title_tympanogram">Timpanograma</string>
+    <string name="section_title_mastoid_debrided">Desbridada mastoidea</string>
+    <string name="section_title_antibiotic">Antibiótico</string>
+    <string name="section_title_boric_acid">Ácido Bórico</string>
+    <string name="section_title_fb">Cuerpo extraño</string>
+    <string name="section_title_return_to_clinic">Regreso a la clínica</string>
+    <string name="section_title_referrals">Referencias</string>
+    <string name="section_title_tomorrow">Mañana</string>
+    <string name="ent_label_tubes_side">Lado de los tubos</string>
+    <string name="ent_label_tplasty_side">Lado de otoplastia</string>
+    <string name="ent_label_eua_side">Lado de la EUA</string>
+    <string name="ent_label_fb_side">Lado de extracción de cuerpo extraño</string>
+    <string name="ent_label_myringotomy_side">Lado de Miringotomía</string>
+    <string name="ent_label_cerumen_side">Lado Cerumen</string>
+    <string name="ent_label_granuloma_side">Lado del granuloma</string>
+    <string name="ent_label_frenulectomy">Frenulectomía</string>
+    <string name="ent_label_septorhinoplasty">Septorrinoplastia</string>
+    <string name="label_true">Verdad</string>
+    <string name="label_false">Falso</string>
+    <string name="ent_label_scar_revision">Revisión de cicatriz labio leporino</string>
+    <string name="section_title_future">Futuro</string>
+    <string name="ent_label_right_away">Inmediatamente</string>
+    <string name="ent_label_hearing_aid_eval">Evaluación de audífonos</string>
+    <string name="ent_antibiotic_drops">Gotas antibióticas</string>
+    <string name="ent_antibiotic_drops_orally">Oralmente</string>
+    <string name="ent_antibiotic_drops_acute_infection">Infección aguda</string>
+    <string name="ent_antibiotic_drops_after_water_exposure">Prevención de infecciones después de la exposición al agua</string>
+    <string name="ent_boric_acid_today">Ácido Bórico Hoy</string>
+    <string name="ent_boric_acid_for_home_use">Para uso en el hogar</string>
+    <string name="ent_label_return_to_clinic">Regreso a la clínica</string>
+    <string name="checkout_return_prn">Según sea necesario</string>
+    <string name="ent_label_institution">Consulte la institución</string>
+    <string name="referrals_private_ent_ensenada">ONG privada en Ensenada</string>
+    <string name="referrals_childrens_hospital_tj">Hospital de Niños Tijuana</string>
+
 </resources>
 
