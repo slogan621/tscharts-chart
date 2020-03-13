@@ -42,6 +42,7 @@ import org.thousandsmiles.tscharts_lib.ENTTreatment;
 import org.thousandsmiles.tscharts_lib.ENTTreatmentREST;
 import org.thousandsmiles.tscharts_lib.MedicalHistory;
 import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
+import org.thousandsmiles.tscharts_lib.PatientREST;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
 import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
 import org.thousandsmiles.tscharts_lib.StationREST;
@@ -756,6 +757,26 @@ public class SessionSingleton {
         return ret;
     }
 
+    public class GetPatientDataListener implements RESTCompletionListener {
+        public void onFail(int code, String msg)
+        {
+        }
+
+        public void onSuccess(int code, String msg)
+        {
+        }
+
+        public void onSuccess(int code, String msg, JSONObject o)
+        {
+            SessionSingleton sess = SessionSingleton.getInstance();
+            sess.addPatientData(o);
+        }
+
+        public void onSuccess(int code, String msg, JSONArray a)
+        {
+        }
+    }
+
     public JSONObject getPatientData(final int id) {
 
         JSONObject o = null;
@@ -765,6 +786,7 @@ public class SessionSingleton {
         }
         if (o == null && Looper.myLooper() != Looper.getMainLooper()) {
             final PatientREST patientData = new PatientREST(getContext());
+            patientData.addListener(new GetPatientDataListener());
             Object lock = patientData.getPatientData(id);
 
             synchronized (lock) {
