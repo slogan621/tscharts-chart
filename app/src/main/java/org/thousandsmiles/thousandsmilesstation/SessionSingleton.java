@@ -45,6 +45,7 @@ import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
 import org.thousandsmiles.tscharts_lib.PatientREST;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
 import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
+import org.thousandsmiles.tscharts_lib.RoutingSlipREST;
 import org.thousandsmiles.tscharts_lib.StationREST;
 import org.thousandsmiles.tscharts_lib.XRay;
 import org.thousandsmiles.tscharts_lib.XRayREST;
@@ -1003,6 +1004,25 @@ public class SessionSingleton {
 
         public void onSuccess(int code, String msg, JSONObject o)
         {
+            SessionSingleton.getInstance().setDisplayPatientRoutingSlip(o);
+        }
+
+        public void onSuccess(int code, String msg, JSONArray a)
+        {
+        }
+    }
+
+    public class GetRoutingSlipEntryListener implements RESTCompletionListener {
+        public void onFail(int code, String msg)
+        {
+        }
+
+        public void onSuccess(int code, String msg)
+        {
+        }
+
+        public void onSuccess(int code, String msg, JSONObject o)
+        {
             SessionSingleton sess = SessionSingleton.getInstance();
             sess.setRoutingSlipEntryResponse(o);
         }
@@ -1019,7 +1039,7 @@ public class SessionSingleton {
 
         if (Looper.myLooper() != Looper.getMainLooper()) {
             final RoutingSlipEntryREST rsData = new RoutingSlipEntryREST(getContext());
-            rsData.addListener(new GetRoutingSlipListener());
+            rsData.addListener(new GetRoutingSlipEntryListener());
             Object lock = rsData.getRoutingSlipEntry(id);
 
             synchronized (lock) {
@@ -1073,6 +1093,7 @@ public class SessionSingleton {
         if (Looper.myLooper() != Looper.getMainLooper()) {
             final RoutingSlipREST rsData = new RoutingSlipREST(getContext());
             Object lock = rsData.getRoutingSlip(clinic, patient);
+            rsData.addListener(new GetRoutingSlipListener());
 
             synchronized (lock) {
                 // we loop here in case of race conditions or spurious interrupts
