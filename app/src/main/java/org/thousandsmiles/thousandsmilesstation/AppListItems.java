@@ -86,6 +86,12 @@ public class AppListItems {
         AppListItem item;
 
         item = new AppListItem();
+        item.setName(m_context.getString(R.string.routing_slip_name));
+        item.setImageId(R.drawable.routing);
+        item.setSelector(R.drawable.app_routing_slip_selector);
+        items.add(item);
+
+        item = new AppListItem();
         item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
