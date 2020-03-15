@@ -134,4 +134,21 @@ public class RoutingSlipREST extends RESTful {
 
         return m_lock;
     }
+
+    public Object getRoutingSlip(int clinicId, String category) {
+
+        VolleySingleton volley = VolleySingleton.getInstance();
+
+        volley.initQueueIf(getContext());
+
+        RequestQueue queue = volley.getQueue();
+
+        String url = String.format("%s://%s:%s/tscharts/v1/routingslip?category=%s&clinic=%d", getProtocol(), getIP(), getPort(), category, clinicId);
+
+        RoutingSlipREST.AuthJSONObjectRequest request = new RoutingSlipREST.AuthJSONObjectRequest(Request.Method.GET, url, null,  new RoutingSlipREST.GetRoutingSlipResponseListener(), new RoutingSlipREST.ErrorListener());
+
+        queue.add((JsonObjectRequest) request);
+
+        return m_lock;
+    }
 }
