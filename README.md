@@ -1,7 +1,12 @@
-# tscharts-station
+# tscharts-chart
 
-Android UI used for patient checkin and checkout, and access to digital medical
-records at clinicstations of a Thousand Smiles clinic.
+Android UI used to search for patients and access medical charts at a 
+Thousand Smiles clinic.
+
+This project is derived from the deprecated tscharts-station app at 
+https://github.com/slogan621/tscharts-station. It provides a non-scheduler 
+based way to access patient charts, less complicated to manage and easier
+to train patients to use.
 
 # Overview
 
@@ -13,8 +18,8 @@ https://www.youtube.com/playlist?list=PLPoa7kXBiFDVmroxIjCOmvcHhGIjsZUCJ is a Yo
 # License
 
 ```
-(C) Copyright Syd Logan 2017
-(C) Copyright Thousand Smiles Foundation 2017
+(C) Copyright Syd Logan 2017-2020
+(C) Copyright Thousand Smiles Foundation 2017-2020
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
