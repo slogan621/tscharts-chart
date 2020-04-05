@@ -1,6 +1,6 @@
 <resources> 
-    <string name="app_name">Estación</string>
-    <string name="app_name_full">Estación Mil Sonrisas</string>
+    <string name="app_name">Carta Digital</string>
+    <string name="app_name_full">Carta Digital Mil Sonrisas</string>
     <string name="title_item_detail">Detalle de posición</string>
 
     <!-- Strings related to login -->
@@ -18,7 +18,7 @@
     <string name="error_internal_error"> Error interno. Reportar este problema</string>
     <string name="error_unknown"> Error interno. Reportar este problema </string>
     <string name="error_unable_to_connect"> No se puede conectar. Asegúrese de estar conectado el inalámbrico, que la dirección IP y las configuraciones del puerto son correctas, y que la conexión al internet está presente.</string>
-    <string name="error_unable_to_get_clinicstation_data">No se logra obtener datos de la clínicaestación</string>
+    <string name="error_unable_to_get_station_data">No se logra obtener datos de la estación</string>
     <string name="permission_rationale">"Se requiere autorizaciones para contactos para ofrecer finalización de correos electrónicos."</string>
 <string name="column_label_waiting">Pacientes a la espera</string>
 <string name="column_label_active"> Pacientes activos</string>
@@ -161,7 +161,7 @@
     <string name="msg_successful_station_active">Se logró hacer la estación activa</string> 
     <string name="msg_unsuccessful_station_active">No se logró hacer la estación activa</string>
     <string name="msg_unable_process_station">No se logró procesar esta estación. Intente otra vez.</string> 
-    <string name="question_sign_in_to_station">¿Registrarse en la estación de la clínica %s?</string> 
+    <string name="question_sign_in_as_station">¿Iniciar sesión como estación %s?</string>
     <string name="msg_select_another_station">Seleccionar otra estación</string>
     <string name="title_return_to_clinic">Volver a la clínica</string>
     <string name="msg_unable_to_get_patient_headshot">No se logra leer foto de rostro del paciente</string>
@@ -427,5 +427,69 @@
     <string name="referrals_private_ent_ensenada">ONG privada en Ensenada</string>
     <string name="referrals_childrens_hospital_tj">Hospital de Niños Tijuana</string>
 
+
+    <string name="msg_select_station_preference">Por favor seleccione la preferencia de estación</string>
+    <string name="title_patient_selector">Select Patient</string>
+    <string name="question_select_this_patient">Select this patient?</string>
+    <string name="patient_search_hint"> Ingresar cualquier parte del nombre, o fecha de nacimiento completo, con el formato mm/dd/aaaa</string>
+    <string name="button_search">Buscar</string>
+    <string name="error_no_matching_patients_found">No se encuentra dicho paciente</string>
+    <string name="msg_select_another_patient">Seleccionar otra paciente</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="title_checkin_dialog">Paciente registrado</string>
+    <string name="error_unable_to_get_patient_data">Incapaz de obtener datos del paciente</string>
+
+    <string name="msg_button_save">"Salvar"</string>
+    <string name="title_action_dialog">Select an Action for Patient</string>
+    <string name="msg_action_dialog">Seleccione una acción para el paciente %s (ID =%d) haciendo clic en el ícono de abajo o haga clic en el botón Cancelar.</string>
+    <string name="msg_button_delete_from_clinic">Eliminar paciente de la clínica</string>
+    <string name="title_delete_patient_from_clinic_dialog">Eliminar paciente de la clínica</string>
+    <string name="title_set_patient_old_id_dialog">Editar la ID de la tabla anterior del paciente</string>
+    <string name="msg_button_remove_from_xray_queue">"Retire al paciente de la línea de rayos X"</string>
+    <string name="msg_button_view_patient_summary">Ver resumen del paciente</string>
+    <string name="msg_button_edit_old_id">Editar la ID de la tabla anterior del paciente</string>
+
+    <string name="title_delete_queue_dialog">Retirar un Paciente de la Línea</string>
+    <string name="delete_yes">Retirar</string>
+    <string name="delete_cancel">Cancelar</string>
+    <string name="msg_delete">Retirar</string>
+    <string name="msg_remove_from_queue">"¿Retire al paciente %s (ID=%d) de la línea %s?"</string>
+    <string name="msg_delete_patient_from_clinic">"¿Retire al paciente %s (ID=%d) de la clínica?"</string>
+
+    <string name="msg_unable_to_find_routing_slip_entries_for_patient">No se pueden encontrar entradas de enrutamiento para el paciente</string>
+    <string name="msg_failed_to_get_routing_slip_entries">Error al obtener entradas de enrutamiento</string>
+    <string name="msg_failed_to_mark_routing_slip_removed">Error al marcar el enrutamiento eliminado</string>
+    <string name="msg_failed_to_get_routing_slips_for_patient">No se pudieron obtener notas de ruta para el paciente</string>
+    <string name="msg_failed_to_update_patient_old_id">Error al actualizar ID anterior para paciente</string>
+    <string name="msg_patient_successful_update_old_id">Actualice con éxito la antigua identificación del historial del paciente</string>
+    <string name="msg_patient_unsuccessful_update_old_id">La actualización de la identificación de la tabla anterior del paciente no tuvo éxito</string>
+    <string name="msg_id_must_be_a_number">¡La identificación debe ser un número!</string>
+
+    <string name="msg_patient_successfully_deleted_from_clinic">Paciente eliminado con éxito de la clínica</string>
+    <string name="msg_patient_unsuccessfully_deleted_from_clinic">Paciente no pudo ser eliminado de la clínica</string>
+
+    <string name="patient_id">Identificación</string>
+    <string name="patient_oldid">Identificación Viejo</string>
+    <string name="patient_name">Nombre del paciente</string>
+    <string name="patient_address">Dirección del paciente</string>
+    <string name="address_street_1">Calle 1</string>
+    <string name="address_street_2">Calle 2</string>
+    <string name="address_colonia">Colonia</string>
+    <string name="address_city">Ciudad</string>
+    <string name="address_state">Estado</string>
+    <string name="patient_gender_dob">Género y fecha de nacimiento</string>
+    <string name="patient_contact_info">Información de contacto del paciente </string>
+    <string name="phone_1">Teléfono 1</string>
+    <string name="phone_2">Teléfono 2</string>
+    <string name="e_mail">Dirección de correo electrónico</string>
+    <string name="title_patient_summary">Resumen del paciente</string>
+
+    <string name="cancel">Cancelar</string>
+    <string name="msg_patient_successfully_removed">Paciente eliminada con éxito</string>
+    <string name="msg_patient_unsuccessfully_removed">El paciente no fue eliminado con éxito</string>
+    <string name="error_timeout_getting_patient_routing_slip">Tiempo de espera para obtener la hoja de ruta del pacientep</string>
+    <string name="error_interrupted_getting_patient_routing_slip">Interrumpida tratando de obtener el deslizamiento de enrutamiento del paciente</string>
+    <string name="msg_failed_to_record_old_patient_id">No se pudo registrar la identificación del paciente anterior</string>
 </resources>
 

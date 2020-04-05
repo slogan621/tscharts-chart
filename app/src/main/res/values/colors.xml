@@ -20,4 +20,7 @@
     <color name="colorYellow">#FFFF00</color>
     <color name="skyBlue">#00FFFF</color>
     <color name="colorGreen">#00FF00</color>
+
+    <color name="boyBlue">#ff6288C5</color>
+    <color name="girlPink">#ffE388C5</color>
 </resources>

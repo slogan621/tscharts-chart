@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Station</string>
-    <string name="app_name_full">Thousand Smiles Station</string>
+    <string name="app_name">Digital Chart</string>
+    <string name="app_name_full">Thousand Smiles Digital Chart</string>
     <string name="title_item_detail">Item Detail</string>
 
     <!-- Strings related to login -->
@@ -18,7 +18,7 @@
     <string name="error_internal_error">Internal Error. Please report this problem</string>
     <string name="error_unknown">Unknown Error. Please report this problem</string>
     <string name="error_unable_to_connect">Unable to connect. Make sure wireless is enabled, that the IP address and port settings are correct, and internet connectivity is present.</string>
-    <string name="error_unable_to_get_clinicstation_data">Unable to get clinic station data</string>
+    <string name="error_unable_to_get_station_data">Unable to get station data</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -164,7 +164,7 @@
     <string name="msg_successful_station_active">Successfully made station active</string>
     <string name="msg_unsuccessful_station_active">Unable to make station active</string>
     <string name="msg_unable_process_station">Unable to process this station. Please try again.</string>
-    <string name="question_sign_in_to_station">Sign in to clinic station %s?</string>
+    <string name="question_sign_in_as_station">Sign in as station %s?</string>
     <string name="msg_select_another_station">Please select another station</string>
     <string name="title_return_to_clinic">Return To Clinic</string>
     <string name="msg_away">Away</string>
@@ -186,8 +186,8 @@
     <string name="msg_enter_a_medication">Enter a medication then click add</string>
 
     <string name="label_summary_id">Patient ID</string>
-    <string name="maternal_last">Paternal Last</string>
-    <string name="paternal_last">Maternal Last</string>
+    <string name="maternal_last">Maternal Last</string>
+    <string name="paternal_last">Paternal Last</string>
     <string name="first_name">First</string>
     <string name="middle_name">Middle</string>
     <string name="gender">Gender</string>
@@ -431,5 +431,70 @@
     <string name="ent_label_institution">Refer to Institution</string>
     <string name="referrals_private_ent_ensenada">Private ENT in Ensenada</string>
     <string name="referrals_childrens_hospital_tj">Children\'s Hospital Tijuana</string>
+    <string name="msg_select_station_preference">Please Select Station Preference</string>
+    <string name="title_patient_selector">Select Patient</string>
+    <string name="question_select_this_patient">Select this patient?</string>
+    <string name="patient_search_hint">Enter any part of name, or complete birthdate in format mm/dd/yyyy</string>
+    <string name="button_search">Search</string>
+    <string name="error_no_matching_patients_found">No matching patients found</string>
+    <string name="msg_select_another_patient">Select another patient</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="title_checkin_dialog">Checkin Patient</string>
+    <string name="error_unable_to_get_patient_data">Unable to get patient data</string>
 
+    <string name="title_action_dialog">Select an Action for Patient</string>
+    <string name="msg_action_dialog">Select an action for patient %s (ID=%d) by clicking an icon below, or click the Cancel button.</string>
+    <string name="msg_button_remove_from_xray_queue">"Remove from X-Ray queue"</string>
+    <string name="msg_button_save">"Save"</string>
+    <string name="msg_button_delete_from_clinic">Delete Patient From Clinic</string>
+    <string name="msg_button_view_patient_summary">View Patient Summary</string>
+    <string name="msg_button_edit_old_id">Edit Patient\'s Previous Chart ID</string>
+    <string name="title_delete_patient_from_clinic_dialog">Delete Patient From Clinic</string>
+    <string name="title_set_patient_old_id_dialog">Edit Patient Previous Chart ID</string>
+    <string name="msg_unable_to_find_routing_slip_entries_for_patient">Unable to find routing slip entries for patient</string>
+    <string name="msg_failed_to_get_routing_slip_entries">Failed to get routing slip entries</string>
+    <string name="msg_failed_to_mark_routing_slip_removed">Failed to mark routing slip removed</string>
+    <string name="msg_failed_to_get_routing_slips_for_patient">Failed to get routing slips for patient</string>
+    <string name="msg_failed_to_update_patient_old_id">Failed to update previous ID for patient</string>
+    <string name="msg_patient_successful_update_old_id">Successfully update patient\'s old chart ID</string>
+    <string name="msg_patient_unsuccessful_update_old_id">Update of patient\'s old chart ID was successful</string>
+    <string name="msg_id_must_be_a_number">ID must be a number!</string>
+
+
+    <string name="title_delete_queue_dialog">Delete Patient from Queue</string>
+    <string name="delete_yes">Delete</string>
+    <string name="delete_cancel">Cancel</string>
+    <string name="msg_delete">Delete</string>
+    <string name="msg_remove_from_queue">"Remove patient %s (ID=%d) from %s queue?"</string>
+    <string name="msg_delete_patient_from_clinic">"Delete patient %s (ID=%d) from the clinic?"</string>
+
+    <string name="msg_patient_successfully_deleted_from_clinic">Patient successfully deleted from clinic</string>
+    <string name="msg_patient_unsuccessfully_deleted_from_clinic">Patient failed to be deleted from the clinic</string>
+
+    <string name="patient_id">ID</string>
+    <string name="patient_oldid">Old ID</string>
+    <string name="patient_name">Patient Name</string>
+    <string name="patient_address">Patient Address</string>
+    <string name="address_street_1">Street 1</string>
+    <string name="address_street_2">Street 2</string>
+    <string name="address_colonia">Colony</string>
+    <string name="address_city">City</string>
+    <string name="address_state">State</string>
+    <string name="patient_gender_dob">Gender and Date of Birth</string>
+    <string name="patient_contact_info">Patient Contact Information</string>
+    <string name="phone_1">Phone 1</string>
+    <string name="phone_2">Phone 2</string>
+    <string name="e_mail">E-Mail Address</string>
+
+    <string name="cancel">Cancel</string>
+
+    <!-- patient summary dialog -->
+
+    <string name="title_patient_summary">Patient Summary</string>
+    <string name="msg_patient_successfully_removed">Patient successfully removed</string>
+    <string name="msg_patient_unsuccessfully_removed">Patient was not successfully removed</string>
+    <string name="error_timeout_getting_patient_routing_slip">Timeout getting patient routing slip</string>
+    <string name="error_interrupted_getting_patient_routing_slip">Interrupted trying to get patient routing slip</string>
+    <string name="msg_failed_to_record_old_patient_id">Failed to record previous patient ID</string>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.thousandsmiles.thousandsmilesstation">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.thousandsmiles.thousandsmileschart">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,30 +12,41 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name="org.thousandsmiles.thousandsmileschart.LoginActivity"
             android:label="@string/app_name_full"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
-            android:name=".StationActivity"
+            android:name="org.thousandsmiles.thousandsmileschart.StationActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan"
-            android:label="@string/app_name_full">
+            android:label="@string/app_name_full"
+            tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
-            android:name=".StationSelectorActivity"
+            android:name="org.thousandsmiles.thousandsmileschart.PatientSelectorActivity"
             android:screenOrientation="landscape"
-            android:label="@string/title_station_selector">
+            android:label="@string/title_patient_selector"
+            tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="org.thousandsmiles.thousandsmileschart.StationSelectorActivity"
             android:screenOrientation="landscape"
-            android:label="@string/title_activity_settings">
+            android:label="@string/title_station_selector"
+            tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
-            android:name=".SplashActivity"
+            android:name="org.thousandsmiles.thousandsmileschart.SettingsActivity"
             android:screenOrientation="landscape"
-            android:label="@string/app_name">
+            android:label="@string/title_activity_settings"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
+        <activity
+            android:name="org.thousandsmiles.thousandsmileschart.SplashActivity"
+            android:screenOrientation="landscape"
+            android:label="@string/app_name"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

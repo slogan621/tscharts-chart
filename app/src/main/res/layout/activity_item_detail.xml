@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
+    tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment">
 
     <FrameLayout
         android:id="@+id/frameLayout"

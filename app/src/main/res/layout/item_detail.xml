@@ -42,7 +42,7 @@
                         android:paddingLeft="4dp"
                         android:textSize="16dp"
                         android:textIsSelectable="false"
-                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment" />
                     <TextView
                         android:id="@+id/detail_row_value_id"
                         style="?android:attr/textAppearanceLarge"
@@ -52,7 +52,7 @@
                         android:paddingLeft="4dp"
                         android:textIsSelectable="true"
                         android:textSize="20dp"
-                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment" />
                     </LinearLayout>
                 </TableRow>
                 <TableRow>
@@ -70,7 +70,7 @@
                         android:paddingLeft="4dp"
                         android:textSize="16dp"
                         android:textIsSelectable="false"
-                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment" />
                     <TextView
                         android:id="@+id/detail_row_value_paternal_last"
                         style="?android:attr/textAppearanceLarge"
@@ -80,7 +80,7 @@
                         android:paddingLeft="4dp"
                         android:textIsSelectable="true"
                         android:textSize="20dp"
-                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment" />
                     </LinearLayout>
                 </TableRow>
                 <TableRow>
@@ -98,7 +98,7 @@
                         android:paddingLeft="4dp"
                         android:textSize="16dp"
                         android:textIsSelectable="false"
-                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment" />
                     <TextView
                         android:id="@+id/detail_row_value_maternal_last"
                         style="?android:attr/textAppearanceLarge"
@@ -108,7 +108,7 @@
                         android:paddingLeft="4dp"
                         android:textIsSelectable="true"
                         android:textSize="20dp"
-                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment" />
                     </LinearLayout>
                 </TableRow>
                 <TableRow>
@@ -126,7 +126,7 @@
                         android:paddingLeft="4dp"
                         android:textSize="16dp"
                         android:textIsSelectable="false"
-                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment" />
                     <TextView
                         android:id="@+id/detail_row_value_first"
                         style="?android:attr/textAppearanceLarge"
@@ -136,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:textIsSelectable="true"
                         android:textSize="20dp"
-                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment" />
                     </LinearLayout>
                 </TableRow>
                 <TableRow>
@@ -154,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
                         android:textIsSelectable="false"
-                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment" />
                     <TextView
                         android:id="@+id/detail_row_value_gender"
                         style="?android:attr/textAppearanceLarge"
@@ -164,7 +164,7 @@
                         android:paddingLeft="4dp"
                         android:textIsSelectable="true"
                         android:textSize="20dp"
-                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment" />
                     </LinearLayout>
                 </TableRow>
                 <TableRow>
@@ -183,7 +183,7 @@
                         android:paddingLeft="4dp"
                         android:textSize="16dp"
                         android:textIsSelectable="false"
-                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment" />
                     <TextView
                         android:id="@+id/detail_row_value_dob"
                         style="?android:attr/textAppearanceLarge"
@@ -192,7 +192,7 @@
                         android:paddingLeft="4dp"
                         android:textIsSelectable="true"
                         android:textSize="20dp"
-                        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailFragment" />
+                        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailFragment" />
                     </LinearLayout>
                 </TableRow>
             </TableLayout>

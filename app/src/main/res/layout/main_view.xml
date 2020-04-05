@@ -7,7 +7,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="vertical"
     android:showDividers="middle"
-    tools:context="org.thousandsmiles.thousandsmilesstation.StationActivity">
+    tools:context="org.thousandsmiles.thousandsmileschart.StationActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,7 +22,7 @@
         android:divider="?android:attr/dividerHorizontal"
         android:orientation="horizontal"
         android:showDividers="middle"
-        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
+        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailActivity">
 
         <ListView
             android:id="@+id/app_item_list"
@@ -43,7 +43,7 @@
             android:baselineAligned="false"
             android:orientation="vertical"
             android:showDividers="middle"
-            tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
+            tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailActivity">
 
             <LinearLayout
                 android:id="@+id/id_panel"
@@ -53,13 +53,13 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/station_icon"
+                    android:id="@+id/chart_icon"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_gravity="center_vertical" />
 
                 <TextView
-                    android:id="@+id/station_name_state"
+                    android:id="@+id/chart_name"
                     style="?android:attr/textAppearanceLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -89,92 +89,10 @@
             android:orientation="vertical"
 
             android:showDividers="middle"
-            tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
+            tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailActivity">
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/waiting_item_list_box"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingRight="5dp"
-            android:gravity="center_horizontal"
-            tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
-
-            <TextView
-                android:id="@+id/waiting_item_list_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textSize="24dp"
-                android:background="@color/colorYellow"
-                android:text="@string/column_label_waiting" />
-
-            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/waiting_item_list"
-                android:name="org.thousandsmiles.thousandsmiles.ItemListFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:layout_gravity="center_horizontal"
-                app:layoutManager="LinearLayoutManager"
-                tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity"
-                tools:listitem="@layout/item_list_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/active_item_list_box"
-            android:paddingLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textSize="24dp"
-                android:background="@color/colorGreen"
-                android:text="@string/column_label_active" />
-
-            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/active_item_list"
-                android:name="org.thousandsmiles.thousandsmiles.ItemListFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:layout_gravity="center_horizontal"
-                app:layoutManager="LinearLayoutManager"
-                tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity"
-                tools:listitem="@layout/item_list_content" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/show_all_waiting_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-        </View>
-        <CheckBox
-            android:id="@+id/show_all_waiting"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_height="wrap_content"
-            android:text="@string/show_all_waiting" />
     </LinearLayout>
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -188,69 +106,15 @@
         android:orientation="horizontal"
         android:showDividers="middle"
         android:background="@color/lightGray"
-        tools:context="org.thousandsmiles.thousandsmilesstation.ItemDetailActivity">
+        tools:context="org.thousandsmiles.thousandsmileschart.ItemDetailActivity">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/checkin_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:visibility="visible"
-            android:background="@drawable/button_custom"
-            android:clickable="true"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/checkin_image"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/checkin_selector" />
-
-            <TextView
-                android:id="@+id/checkin_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="5dp"
-                android:text="@string/button_check_in" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/checkout_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/button_custom"
-            android:clickable="true"
-            android:visibility="visible"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/checkout_image"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/checkout_selector" />
-
-            <TextView
-                android:id="@+id/checkout_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="5dp"
-                android:text="@string/button_check_out" />
-        </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/sendtostation_button"
+                android:id="@+id/checkout_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -260,20 +124,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/sendtostation_image"
+                    android:id="@+id/checkout_image"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    android:src="@drawable/sendtoxray_selector" />
+                    android:src="@drawable/checkout_selector" />
 
                 <TextView
-                    android:id="@+id/sendtostation_label"
+                    android:id="@+id/checkout_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="5dp"
-                    android:text="@string/button_send_to_xray" />
+                    android:text="@string/button_check_out" />
             </LinearLayout>
 
         <LinearLayout
@@ -317,33 +181,6 @@
             android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/away_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/button_custom"
-            android:clickable="true"
-            android:visibility="visible"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/away_image"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/away_selector" />
-
-            <TextView
-                android:id="@+id/away_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="5dp"
-                android:text="@string/msg_away" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -370,6 +207,5 @@
                 android:text="@string/msg_return" />
         </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>
