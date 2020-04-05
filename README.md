@@ -6,7 +6,7 @@ Thousand Smiles clinic.
 This project is derived from the deprecated tscharts-station app at 
 https://github.com/slogan621/tscharts-station. It provides a non-scheduler 
 based way to access patient charts, less complicated to manage and easier
-to train patients to use.
+to train volunteers to use.
 
 # Overview
 
