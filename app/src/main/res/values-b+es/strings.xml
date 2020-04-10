@@ -445,10 +445,10 @@
     <string name="msg_action_dialog">Seleccione una acción para el paciente %s (ID =%d) haciendo clic en el ícono de abajo o haga clic en el botón Cancelar.</string>
     <string name="msg_button_delete_from_clinic">Eliminar paciente de la clínica</string>
     <string name="title_delete_patient_from_clinic_dialog">Eliminar paciente de la clínica</string>
-    <string name="title_set_patient_old_id_dialog">Editar la ID de la tabla anterior del paciente</string>
+    <string name="title_set_patient_old_id_dialog">Editar la ID de la tabla anterior</string>
     <string name="msg_button_remove_from_xray_queue">"Retire al paciente de la línea de rayos X"</string>
     <string name="msg_button_view_patient_summary">Ver resumen del paciente</string>
-    <string name="msg_button_edit_old_id">Editar la ID de la tabla anterior del paciente</string>
+    <string name="msg_button_edit_old_id">Editar la ID de la tabla anterior</string>
 
     <string name="title_delete_queue_dialog">Retirar un Paciente de la Línea</string>
     <string name="delete_yes">Retirar</string>
@@ -491,5 +491,6 @@
     <string name="error_timeout_getting_patient_routing_slip">Tiempo de espera para obtener la hoja de ruta del pacientep</string>
     <string name="error_interrupted_getting_patient_routing_slip">Interrumpida tratando de obtener el deslizamiento de enrutamiento del paciente</string>
     <string name="msg_failed_to_record_old_patient_id">No se pudo registrar la identificación del paciente anterior</string>
+    <string name="patient_has_recent_xrays">Tiene radiografías recientes</string>
 </resources>
 

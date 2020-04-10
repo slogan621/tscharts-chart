@@ -26,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -40,32 +42,35 @@ public class ActionDialogAdapter extends BaseAdapter {
     private ArrayList<Integer> m_actionTextIds = new ArrayList<Integer>();
     private HashMap<PatientOp, Integer> m_opMap = new HashMap<PatientOp, Integer>();
 
-    public void initialize() {
+    public void initialize(int patientId) {
         int offset = 0;
 
-        m_opMap.put(PatientOp.RemoveFromXRay, offset);
-        offset++;
-        m_actionIds.add(R.drawable.xray_selector);
-        m_actionTextIds.add(R.string.msg_button_remove_from_xray_queue);
+        if (CommonSessionSingleton.getInstance().hasCurrentXRay(patientId, 365)) {
+            m_opMap.put(PatientOp.RemoveFromXRay, offset);
+            offset++;
+            m_actionIds.add(R.drawable.xray_remove_selector);
+            m_actionTextIds.add(R.string.msg_button_remove_from_xray_queue);
+        }
 
         m_opMap.put(PatientOp.DeletePatientFromClinic, offset);
         offset++;
         m_actionIds.add(R.drawable.delete_selector);
         m_actionTextIds.add(R.string.msg_button_delete_from_clinic);
 
+        m_opMap.put(PatientOp.ViewPatientData, offset);
+        offset++;
         m_actionIds.add(R.drawable.view_summary_selector);
         m_actionTextIds.add(R.string.msg_button_view_patient_summary);
-        m_opMap.put(PatientOp.ViewPatientData, offset);
+
+        m_opMap.put(PatientOp.EditOldChartId, offset);
         offset++;
         m_actionIds.add(R.drawable.edit_oldid_selector);
         m_actionTextIds.add(R.string.msg_button_edit_old_id);
-        m_opMap.put(PatientOp.EditOldChartId, offset);
-        offset++;
 
-        m_actionIds.add(R.drawable.checkin_selector);
-        m_actionTextIds.add(R.string.button_check_in);
         m_opMap.put(PatientOp.SignPatientIn, offset);
         offset++;
+        m_actionIds.add(R.drawable.checkin_selector);
+        m_actionTextIds.add(R.string.button_check_in);
     }
 
     public int getPosition(PatientOp op) {

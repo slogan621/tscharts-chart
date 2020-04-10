@@ -449,8 +449,8 @@
     <string name="msg_button_save">"Save"</string>
     <string name="msg_button_delete_from_clinic">Delete Patient From Clinic</string>
     <string name="msg_button_view_patient_summary">View Patient Summary</string>
-    <string name="msg_button_edit_old_id">Edit Patient\'s Previous Chart ID</string>
-    <string name="title_delete_patient_from_clinic_dialog">Delete Patient From Clinic</string>
+    <string name="msg_button_edit_old_id">Edit Previous Chart ID</string>
+    <string name="title_delete_patient_from_clinic_dialog">Remove Patient From Clinic</string>
     <string name="title_set_patient_old_id_dialog">Edit Patient Previous Chart ID</string>
     <string name="msg_unable_to_find_routing_slip_entries_for_patient">Unable to find routing slip entries for patient</string>
     <string name="msg_failed_to_get_routing_slip_entries">Failed to get routing slip entries</string>
@@ -497,4 +497,5 @@
     <string name="error_timeout_getting_patient_routing_slip">Timeout getting patient routing slip</string>
     <string name="error_interrupted_getting_patient_routing_slip">Interrupted trying to get patient routing slip</string>
     <string name="msg_failed_to_record_old_patient_id">Failed to record previous patient ID</string>
+    <string name="patient_has_recent_xrays">Patient has recent X-Rays</string>
 </resources>

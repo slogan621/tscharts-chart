@@ -53,6 +53,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.ClinicREST;
+import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.HeadshotImage;
 import org.thousandsmiles.tscharts_lib.HideyHelper;
 import org.thousandsmiles.tscharts_lib.ImageDisplayedListener;
@@ -175,7 +176,6 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
             m_searchBar.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-
 
     private void ClearSearchResultTable()
     {
@@ -697,7 +697,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         GridView grid = v.findViewById(R.id.myGrid);
         grid.setClickable(true);
         m_actionAdapter = new ActionDialogAdapter();
-        m_actionAdapter.initialize();
+        m_actionAdapter.initialize(rd.getId());
 
         SessionSingleton sess = SessionSingleton.getInstance();
 

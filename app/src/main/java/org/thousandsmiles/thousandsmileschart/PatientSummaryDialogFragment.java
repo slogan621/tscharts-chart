@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2019
- * (C) Copyright Thousand Smiles Foundation 2019
+ * (C) Copyright Syd Logan 2019-2020
+ * (C) Copyright Thousand Smiles Foundation 2019-2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,14 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.HideyHelper;
 import org.thousandsmiles.tscharts_lib.PatientData;
+
+import static android.view.View.GONE;
 
 public class PatientSummaryDialogFragment extends DialogFragment {
 
@@ -104,6 +108,15 @@ public class PatientSummaryDialogFragment extends DialogFragment {
         text.setText(String.format("%s", m_patientData.getState()));
         text = m_view.findViewById(R.id.value_email);
         text.setText(String.format("%s", m_patientData.getEmail()));
+        text = m_view.findViewById(R.id.value_recent_xrays);
+        ImageView v = m_view.findViewById(R.id.img_recent_xrays);
+        if (m_patientData.getIsCurrentXray() == false) {
+            text.setText(String.format("%s", getString(R.string.no)));
+            v.setVisibility(View.GONE);
+        } else {
+            text.setText(String.format("%s", getString(R.string.yes)));
+            v.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -111,6 +124,10 @@ public class PatientSummaryDialogFragment extends DialogFragment {
         m_rd = getArguments().getParcelable(null);
         m_activity = getActivity();
         m_patientData.fromJSONObject(SessionSingleton.getInstance().getPatientData(m_rd.getId()));
+
+        // xray data should already be cached and not require REST call to backend
+
+        m_patientData.setIsCurrentXray(CommonSessionSingleton.getInstance().hasCurrentXRay(m_rd.getId(), 365));
         m_builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
 
