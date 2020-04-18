@@ -215,7 +215,7 @@ public class AppPatientENTHistoryListFragment extends Fragment {
                 button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
 
             } else {
-                button.setImageDrawable(getResources().getDrawable(R.drawable.xray));
+                button.setImageDrawable(getResources().getDrawable(R.drawable.medhist));
             }
 
             ENTHistory ENTHistory = m_entHistories.get(i);

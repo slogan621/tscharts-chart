@@ -215,7 +215,7 @@ public class AppPatientENTDiagnosisListFragment extends Fragment {
                 button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
 
             } else {
-                button.setImageDrawable(getResources().getDrawable(R.drawable.xray));
+                button.setImageDrawable(getResources().getDrawable(R.drawable.medhist));
             }
 
             ENTDiagnosis ENTDiagnosis = m_entDiagnoses.get(i);

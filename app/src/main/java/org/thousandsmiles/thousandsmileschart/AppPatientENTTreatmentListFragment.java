@@ -215,7 +215,7 @@ public class AppPatientENTTreatmentListFragment extends Fragment {
                 button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
 
             } else {
-                    button.setImageDrawable(getResources().getDrawable(R.drawable.xray));
+                    button.setImageDrawable(getResources().getDrawable(R.drawable.medhist));
             }
 
             ENTTreatment ENTTreatment = m_entTreatments.get(i);

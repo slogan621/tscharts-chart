@@ -215,7 +215,7 @@ public class AppPatientENTExamListFragment extends Fragment {
                 button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
 
             } else {
-                    button.setImageDrawable(getResources().getDrawable(R.drawable.xray));
+                    button.setImageDrawable(getResources().getDrawable(R.drawable.medhist));
             }
 
             ENTExam ENTExam = m_entExams.get(i);

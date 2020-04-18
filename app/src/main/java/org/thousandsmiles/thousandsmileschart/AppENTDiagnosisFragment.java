@@ -1869,12 +1869,6 @@ public class AppENTDiagnosisFragment extends Fragment {
                 handleRemoveButtonPress(removeButton);
             }
         });
-
-        if (m_sess.getNewENTDiagnosis() == true) {
-            setDirty();
-        } else {
-            clearDirty();
-        }
     }
 
     @Override
