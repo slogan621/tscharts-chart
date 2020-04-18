@@ -217,34 +217,10 @@ public class StationActivity extends AppCompatActivity {
 
     private void updateViewVisibilities()
     {
-            /*
-            m_isActive = activeObject.getBoolean("active");
-            m_isAway = activeObject.getBoolean("away");
-            m_isDental = true; // XXX
-
-             */
-
             m_isActive = true;
             m_isAway = false;
 
             View button_bar_item;
-
-            /*
-            View id_panel;
-
-            id_panel = findViewById(R.id.id_panel);
-            if (id_panel != null)
-            {
-                if (m_isActive) {
-                    id_panel.setBackgroundColor(getResources().getColor(R.color.colorGreen));
-                } else if (m_isAway) {
-                    id_panel.setBackgroundColor(getResources().getColor(R.color.skyBlue));
-                }
-                else {
-                    id_panel.setBackgroundColor(getResources().getColor(R.color.colorYellow));
-                }
-            }
-            */
 
             if (m_isActive) {
 

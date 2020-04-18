@@ -154,6 +154,13 @@ public class AppListItems {
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
         m_stationToAppList.put(m_context.getString(R.string.station_name_audiology), items);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.audiogram_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.audiology_selector);
+        items.add(item);
+        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
     }
 
     private void initSpeech() {

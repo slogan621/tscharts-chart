@@ -51,6 +51,7 @@ public class AppPatientAudiogramListFragment extends Fragment {
     private CommonSessionSingleton m_commonSess;
     private ArrayList<Audiogram> m_audiograms = new ArrayList<Audiogram>();
     private Activity m_activity;
+    private boolean m_isEditable = true;
 
     @Override
     public void onAttach(Context context) {
@@ -129,6 +130,8 @@ public class AppPatientAudiogramListFragment extends Fragment {
         parms.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
         parms.gravity = (Gravity.CENTER_VERTICAL);
 
+        m_isEditable = m_sess.getActiveStationName().equals("Audiology") ? true : false;
+
         btnLO.setLayoutParams(parms);
         ImageButton button = new ImageButton(m_activity);
 
@@ -173,19 +176,20 @@ public class AppPatientAudiogramListFragment extends Fragment {
         txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
         txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+
         btnLO.addView(txt);
 
         row.setLayoutParams(parms);
 
-        if (row != null) {
+        count = 0;
+        if (row != null && m_isEditable) {
             row.addView(btnLO);
+            count += 1;
         }
 
         if (newRow == true) {
             layout.addView(row, new TableLayout.LayoutParams(0, TableLayout.LayoutParams.WRAP_CONTENT));
         }
-
-        count = 1;
 
         int extraCells = (m_audiograms.size() + 1) % 3;
         if (extraCells != 0) {
@@ -209,7 +213,7 @@ public class AppPatientAudiogramListFragment extends Fragment {
 
             button = new ImageButton(m_activity);
 
-            if (count == 0) {
+            if (count == 0 && m_isEditable) {
 
                 btnLO.setBackgroundColor(getResources().getColor(R.color.lightGray));
                 button.setBackgroundColor(getResources().getColor(R.color.lightGray));

@@ -83,17 +83,13 @@ public class AudiogramPhotoFragment extends Fragment {
         private String m_path = "";
         int m_headshotImage = 0;
 
-        private void activate()
-        {
-            m_sess.getCommonSessionSingleton().setPhotoPath(m_path);
-        }
-
         public void onPhotoTaken() {
             ImageView v;
             setToCopyOfFile(m_tmpPhoto.getFile());
             v = (ImageView) m_activity.findViewById(m_headshotImage);
             if (v != null) {
                 v.setClickable(true);
+                setDirty();
                 Picasso.with(getContext()).load(m_file).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(m_buttonImageView);
             }
         }
@@ -156,19 +152,6 @@ public class AudiogramPhotoFragment extends Fragment {
             catch (IOException e) {
                 m_file = null;
                 m_path = "";
-            }
-        }
-
-        private void displayMainImage()
-        {
-            Picasso.with(getContext()).load(m_file).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(m_mainImageView);
-        }
-
-        public void selectImage()
-        {
-            if (m_file != null) {
-                activate();
-                displayMainImage();
             }
         }
 
@@ -290,11 +273,6 @@ public class AudiogramPhotoFragment extends Fragment {
         return new AudiogramPhotoFragment();
     }
 
-    public void restorePhotoPath()
-    {
-        m_sess.getCommonSessionSingleton().setPhotoPath(m_currentPhotoPath);
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -310,7 +288,6 @@ public class AudiogramPhotoFragment extends Fragment {
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             m_photo.onPhotoTaken();
-            //setDirty();
         }
         m_inCamera = false;
     }
@@ -330,7 +307,7 @@ public class AudiogramPhotoFragment extends Fragment {
                 Object lock;
                 int status;
 
-                File file = new File(CommonSessionSingleton.getInstance().getPhotoPath());
+                File file = m_tmpPhoto.m_file;
 
                 lock = rest.createImage(file, m_sess.getClinicId(), m_sess.getDisplayPatientId(), "Audiogram");
 
@@ -372,7 +349,7 @@ public class AudiogramPhotoFragment extends Fragment {
             public void run() {
                 // note we use session context because this may be called after onPause()
 
-                File file = new File(CommonSessionSingleton.getInstance().getPhotoPath());
+                File file = m_tmpPhoto.m_file;
                 listener.setFile(file);
                 listener.setContext(m_activity);
                 listener.setImageView(m_mainImageView);
@@ -491,7 +468,7 @@ public class AudiogramPhotoFragment extends Fragment {
         m_photo.setHeadshotImage(R.id.audiogram_image);
         m_tmpPhoto = new PhotoFile();
         m_tmpPhoto.create();
-        m_currentPhotoPath = m_sess.getCommonSessionSingleton().getPhotoPath();
+        m_currentPhotoPath = m_tmpPhoto.m_file.getPath();
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         try {
@@ -586,8 +563,6 @@ public class AudiogramPhotoFragment extends Fragment {
                      }
                 });
 
-                int id = m_audiogram.getId();
-                //m_audiogram.setImage(a.getInt("id"));
             } catch (Exception e) {
             }
         }
@@ -623,7 +598,6 @@ public class AudiogramPhotoFragment extends Fragment {
 
             builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    //m_sess.getCommonSessionSingleton().updatePatientAudiogram(mh);
                     CreateAudiogramImageListener listener = new CreateAudiogramImageListener();
                     listener.setAudiogram(m_audiogram);
                     createAudiogramImage(listener);
