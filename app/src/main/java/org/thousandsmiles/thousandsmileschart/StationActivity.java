@@ -304,7 +304,6 @@ public class StationActivity extends AppCompatActivity {
         setButtonBarCallbacks();
     }
 
-
     @Override
     public void onBackPressed() {
 
@@ -385,10 +384,9 @@ public class StationActivity extends AppCompatActivity {
                         m_fragmentName = names.get(position);
                         //Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.audiogram_name))) {
-                        //showXRaySearchResults();
-                        //m_showingAppFragment = true;
-                        //m_fragmentName = names.get(position);
-                        Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
+                        showAudiogramSearchResults();
+                        m_showingAppFragment = true;
+                        m_fragmentName = names.get(position);
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.diagnosis_name))) {
                         showENTDiagnosisSearchResults();
                         m_showingAppFragment = true;
@@ -434,6 +432,21 @@ public class StationActivity extends AppCompatActivity {
         v.setImageDrawable(res);
         TextView t = findViewById(R.id.chart_name);
         t.setText(R.string.xray_name);
+    }
+
+    public void showAudiogramSearchResults()
+    {
+        Bundle arguments = new Bundle();
+        AppPatientAudiogramListFragment fragment = new AppPatientAudiogramListFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
+        ImageView v = findViewById(R.id.chart_icon);
+        Drawable res = getResources().getDrawable(R.drawable.audiology_pressed);
+        v.setImageDrawable(res);
+        TextView t = findViewById(R.id.chart_name);
+        t.setText(R.string.audiogram_name);
     }
 
     public void showENTHistorySearchResults()

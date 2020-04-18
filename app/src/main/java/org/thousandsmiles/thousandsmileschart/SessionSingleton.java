@@ -28,6 +28,8 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.Audiogram;
+import org.thousandsmiles.tscharts_lib.AudiogramREST;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.ENTDiagnosisExtra;
 import org.thousandsmiles.tscharts_lib.ENTDiagnosisExtraREST;
@@ -94,6 +96,7 @@ public class SessionSingleton {
     private boolean m_newENTHistory = false;
     private boolean m_newENTDiagnosis = false;
     private boolean m_newENTTreatment = false;
+    private boolean m_newAudiogram = false;
     private HashMap<Integer, PatientData> m_patientHashMap = new HashMap<Integer, PatientData>();
 
     public boolean setPatientOldId(int curId, int oldId) {
@@ -131,6 +134,15 @@ public class SessionSingleton {
             }
         }
         return ret;
+    }
+
+    public void setNewAudiogram(boolean val)
+    {
+        m_newAudiogram = val;
+    }
+
+    public boolean getNewAudiogram() {
+        return m_newAudiogram;
     }
 
     public void setNewXRay(boolean val) {
@@ -813,6 +825,38 @@ public class SessionSingleton {
             }
 
             int status = xrayREST.getStatus();
+            if (status == 200) {
+                ret = listener.getResultArray();
+            }
+        }
+        return ret;
+    }
+
+    JSONArray getAudiograms(final int clinicId, final int patientId)
+    {
+        JSONArray ret = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final AudiogramREST audiogramREST = new AudiogramREST(getContext());
+            GetDataListener listener = new GetDataListener();
+            listener.setPatientId(patientId);
+            audiogramREST.addListener(listener);
+
+            Object lock = audiogramREST.getAudiogram(clinicId, patientId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = audiogramREST.getStatus();
             if (status == 200) {
                 ret = listener.getResultArray();
             }
@@ -1597,6 +1641,35 @@ public class SessionSingleton {
             }
         };
         thread.start();
+    }
+
+    public Audiogram getAudiogram(int clinicid, int patientid, int imageId)
+    {
+        boolean ret = false;
+        Audiogram audiogram = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final AudiogramREST audiogramData = new AudiogramREST(getContext());
+            Object lock = audiogramData.getAudiogram(clinicid, patientid, imageId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = audiogramData.getStatus();
+            if (status == 200) {
+                audiogram = getCommonSessionSingleton().getPatientAudiogram();
+            }
+        }
+        return audiogram;
     }
 
     public static SessionSingleton getInstance() {

@@ -36,6 +36,7 @@
     <string name="button_label_add_new_xray">Nuevo registro de rayos x</string>
     <string name="button_label_add_new_ent_history">Nuevo registro de historia de ONG</string>
     <string name="button_label_add_new_ent_exam">Nuevo registro de examen de ONG</string>
+    <string name="button_label_add_new_audiogram">Nuevo audiograma</string>
 
     <!-- Checkout -->
 
@@ -225,6 +226,7 @@
     <string name="msg_unable_to_get_xrays_for_patient">No se pueden obtener radiografías para el paciente</string>
     <string name="msg_unable_to_get_ent_histories_for_patient">Incapaz de obtener historias de ONG para el paciente.</string>
     <string name="msg_unable_to_get_ent_exams_for_patient">Incapaz de obtener exámenes de ONG para el paciente.</string>
+    <string name="msg_unable_to_get_audiograms_for_patient">Incapaz de obtener audiogramas para la paciente.</string>
     <string name="xray_type">Tipo de rayos x</string>
     <string name="xray_type_full">Completo</string>
     <string name="xray_type_anteriors_bitewings">Anteriores - Bitewings</string>
@@ -492,5 +494,13 @@
     <string name="error_interrupted_getting_patient_routing_slip">Interrumpida tratando de obtener el deslizamiento de enrutamiento del paciente</string>
     <string name="msg_failed_to_record_old_patient_id">No se pudo registrar la identificación del paciente anterior</string>
     <string name="patient_has_recent_xrays">Tiene radiografías recientes</string>
+    <string name="question_create_new_audiogram_record">¿Crear un nuevo registro de audiograma?</string>
+
+    <string name="title_unsaved_audiogram">Audiograma sin guardar</string>
+    <string name="msg_save_audiogram">¿Guardar audiograma?</string>
+    <string name="msg_unable_to_save_audiogram">No se puede guardar el audiograma</string>
+    <string name="msg_successfully_saved_audiogram">Audiograma guardado exitosamente</string>
+    <string name="msg_unable_to_get_audiogram_data">No se pueden obtener datos de audiograma</string>
+    <string name="msg_successfully_got_audiogram_data">Obtuve con éxito los datos de audiograma</string>
 </resources>
 

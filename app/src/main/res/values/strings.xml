@@ -142,6 +142,7 @@
     <string name="button_label_add_new_xray">New X-Ray Record</string>
     <string name="button_label_add_new_ent_history">New ENT History Record</string>
     <string name="button_label_add_new_ent_exam">New ENT Exam Record</string>
+    <string name="button_label_add_new_audiogram">New Audiogram Record</string>
     <string name="msg_unable_to_get_routing_slip">Unable to get routing slip data</string>
     <string name="msg_successfully_got_routing_slip">Successfully got routing slip data</string>
     <string name="unable_to_add_routing_slip_entry">Unable to add routing slip entry</string>
@@ -230,6 +231,7 @@
     <string name="msg_unable_to_get_xrays_for_patient">Unable to get X-Rays for patient</string>
     <string name="msg_unable_to_get_ent_histories_for_patient">Unable to get ENT Histories for patient</string>
     <string name="msg_unable_to_get_ent_exams_for_patient">Unable to get ENT Exams for patient</string>
+    <string name="msg_unable_to_get_audiograms_for_patient">Unable to get Audiograms for patient</string>
     <string name="xray_type">X-Ray Type</string>
     <string name="xray_type_full">Full</string>
     <string name="xray_type_anteriors_bitewings">Anteriors-Bitewings</string>
@@ -498,4 +500,12 @@
     <string name="error_interrupted_getting_patient_routing_slip">Interrupted trying to get patient routing slip</string>
     <string name="msg_failed_to_record_old_patient_id">Failed to record previous patient ID</string>
     <string name="patient_has_recent_xrays">Patient has recent X-Rays</string>
+    <string name="question_create_new_audiogram_record">Create a new Audiogram Record?</string>
+
+    <string name="title_unsaved_audiogram">Unsaved Audiogram</string>
+    <string name="msg_save_audiogram">Save Audiogram?</string>
+    <string name="msg_unable_to_save_audiogram">Unable to save audiogram</string>
+    <string name="msg_successfully_saved_audiogram">Successfully saved audiogram</string>
+    <string name="msg_unable_to_get_audiogram_data">Unable to get audiogram data</string>
+    <string name="msg_successfully_got_audiogram_data">Successfully got audiogram data</string>
 </resources>
