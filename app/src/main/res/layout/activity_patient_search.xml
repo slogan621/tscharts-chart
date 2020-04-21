@@ -38,12 +38,11 @@
         android:visibility="gone" />
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.8"
-        android:padding="8dip">
+        android:padding="16dp">
 
         <LinearLayout
             android:id="@+id/patient_search_bar"
@@ -66,6 +65,164 @@
                 android:text="@string/button_search"
                 android:layout_width="wrap_content" />
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lightGray"
+            android:text="@string/section_title_station_filters"
+            android:textSize="@dimen/med_hist_label_text_size" />
+
+        <View
+            android:layout_height="16dp"
+            android:layout_width="16dp"/>
+
+        <RadioGroup
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <View
+                android:layout_width="16dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+            <RadioButton
+                android:padding="16dp"
+                android:button="@null"
+                android:id="@+id/radio_audiology"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="@string/station_name_audiology"
+                android:gravity="center"
+                android:drawableTop="@drawable/audiology_selector"
+                android:checked="true" />
+
+
+            <View
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_width="16dp"/>
+
+            <RadioButton
+                android:padding="16dp"
+                android:button="@null"
+                android:id="@+id/radio_ent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="@string/station_name_ent"
+                android:gravity="center"
+                android:drawableTop="@drawable/ent_selector" />
+
+
+            <View
+                    android:layout_height="match_parent"
+                android:layout_weight="1"
+                    android:layout_width="16dp"/>
+
+
+            <RadioButton
+                android:padding="16dp"
+                android:button="@null"
+                android:id="@+id/radio_surgery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="@string/station_name_surgery_screening"
+                android:gravity="center"
+                android:drawableTop="@drawable/surgery_selector" />
+
+                <View
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="16dp"/>
+
+            <RadioButton
+                android:padding="16dp"
+                android:button="@null"
+                android:id="@+id/radio_speech"
+                android:layout_width="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content"
+                android:text="@string/station_name_speech"
+                android:gravity="center"
+                android:drawableTop="@drawable/speech_selector" />
+
+                <View
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="16dp"/>
+
+            <RadioButton
+                android:padding="16dp"
+                android:button="@null"
+                android:id="@+id/radio_xray"
+                android:layout_width="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content"
+                android:text="@string/station_name_x_ray"
+                android:gravity="center"
+                android:drawableTop="@drawable/xray_selector" />
+
+                <View
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="16dp"/>
+
+            <RadioButton
+                android:padding="16dp"
+                android:button="@null"
+                android:id="@+id/radio_ortho"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/station_name_ortho"
+                android:gravity="center"
+                android:drawableTop="@drawable/ortho_selector" />
+
+
+            <View
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_width="16dp"/>
+
+            <RadioButton
+                android:padding="16dp"
+                android:button="@null"
+                android:id="@+id/radio_dental"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/station_name_dental"
+                android:drawableTop="@drawable/dental_selector" />
+
+
+            <View
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_width="16dp"/>
+
+
+            <RadioButton
+                android:padding="16dp"
+                android:button="@null"
+                android:id="@+id/radio_hygiene"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/station_name_hygiene"
+                android:drawableTop="@drawable/hygiene_selector" />
+
+
+            <View
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_width="16dp"/>
+        </RadioGroup>
 
         <View
             android:layout_width="match_parent"

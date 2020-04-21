@@ -508,4 +508,5 @@
     <string name="msg_successfully_saved_audiogram">Successfully saved audiogram</string>
     <string name="msg_unable_to_get_audiogram_data">Unable to get audiogram data</string>
     <string name="msg_successfully_got_audiogram_data">Successfully got audiogram data</string>
+    <string name="section_title_station_filters">Station Filters</string>
 </resources>

@@ -502,5 +502,6 @@
     <string name="msg_successfully_saved_audiogram">Audiograma guardado exitosamente</string>
     <string name="msg_unable_to_get_audiogram_data">No se pueden obtener datos de audiograma</string>
     <string name="msg_successfully_got_audiogram_data">Obtuve con éxito los datos de audiograma</string>
+    <string name="section_title_station_filters">Filtros de Estación</string>
 </resources>
 
