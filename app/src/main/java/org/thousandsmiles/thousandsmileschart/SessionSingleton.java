@@ -237,6 +237,7 @@ public class SessionSingleton {
         m_stationToSpanish.put("Surgery Screening", "Cribado cirúrgico");
         m_stationToSpanish.put("Speech", "El habla");
         m_stationToSpanish.put("Hygiene", "Higiene");
+        m_stationToSpanish.put("Runner", "Corredor");
     }
 
     public void clearPatientSearchResultData()
@@ -373,6 +374,7 @@ public class SessionSingleton {
         m_stationToSelector.put("Surgery Screening", R.drawable.surgery_selector);
         m_stationToSelector.put("X-Ray", R.drawable.xray_selector);
         m_stationToSelector.put("Hygiene", R.drawable.hygiene_selector);
+        m_stationToSelector.put("Runner", R.drawable.runner_selector);
     }
 
     public void initStationNameToUnvisitedSelectorMap()
@@ -386,6 +388,7 @@ public class SessionSingleton {
         m_stationToUnvisitedSelector.put("Surgery Screening", R.drawable.surgery_unvisited_selector);
         m_stationToUnvisitedSelector.put("X-Ray", R.drawable.xray_unvisited_selector);
         m_stationToUnvisitedSelector.put("Hygiene", R.drawable.hygiene_unvisited_selector);
+        m_stationToUnvisitedSelector.put("Runner", R.drawable.runner_unvisited_selector);
     }
 
     public int getStationIconResource(int id) {
@@ -490,15 +493,28 @@ public class SessionSingleton {
     public void addStationData(JSONArray data) {
         int i;
         JSONObject stationdata;
+        int maxId = -999;
 
         for (i = 0; i < data.length(); i++)  {
             try {
                 stationdata = data.getJSONObject(i);
+                int id = stationdata.getInt("id");
+                if (id > maxId) {
+                    maxId = id;
+                }
                 m_stationIdToName.put(stationdata.getInt("id"), stationdata.getString("name"));
                 m_stationData.add(stationdata);
             } catch (JSONException e) {
                 return;
             }
+        }
+        m_stationIdToName.put(maxId + 1, m_ctx.getString(R.string.station_name_runner));
+        JSONObject o = new JSONObject();
+        try {
+            o.put("id", maxId + 1);
+            o.put("name", "Runner");
+            m_stationData.add(o);
+        } catch (Exception e) {
         }
     }
 
@@ -511,6 +527,9 @@ public class SessionSingleton {
         Iterator it = m_stationIdToName.entrySet().iterator();
         while (it.hasNext()) {
             HashMap.Entry pair = (HashMap.Entry) it.next();
+            if (pair.getValue().toString().equals("Runner")) {
+                continue;
+            }
             Station m = new Station();
             m.setName(pair.getValue().toString());
             m.setStation((int) pair.getKey());
