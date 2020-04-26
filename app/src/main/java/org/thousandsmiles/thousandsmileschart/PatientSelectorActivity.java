@@ -40,10 +40,13 @@ import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -80,6 +83,130 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
     private ActionDialogAdapter m_actionAdapter;
     private View m_progressView;
     private View m_searchBar;
+
+    private enum SearchStation {
+        SEARCH_AUDIOLOGY,
+        SEARCH_ENT,
+        SEARCH_SPEECH,
+        SEARCH_SURGERY_SCREENING,
+        SEARCH_DENTAL,
+        SEARCH_XRAY,
+        SEARCH_HYGIENE,
+        SEARCH_ORTHO,
+        SEARCH_ALL
+    };
+
+    private HashMap<SearchStation, Integer> m_searchStationToStationId = new HashMap<SearchStation, Integer>();
+
+    private SearchStation m_searchStation = SearchStation.SEARCH_ALL;
+
+    private void setSearchStationToIdMap() {
+        m_searchStationToStationId.put(SearchStation.SEARCH_AUDIOLOGY, m_sess.getStationIdFromName("Audiology"));
+        m_searchStationToStationId.put(SearchStation.SEARCH_ENT, m_sess.getStationIdFromName("ENT"));
+        m_searchStationToStationId.put(SearchStation.SEARCH_SPEECH, m_sess.getStationIdFromName("Speech"));
+        m_searchStationToStationId.put(SearchStation.SEARCH_SURGERY_SCREENING, m_sess.getStationIdFromName("Surgery Screening"));
+        m_searchStationToStationId.put(SearchStation.SEARCH_DENTAL, m_sess.getStationIdFromName("Dental"));
+        m_searchStationToStationId.put(SearchStation.SEARCH_XRAY, m_sess.getStationIdFromName("X-Ray"));
+        m_searchStationToStationId.put(SearchStation.SEARCH_HYGIENE, m_sess.getStationIdFromName("Hygiene"));
+        m_searchStationToStationId.put(SearchStation.SEARCH_ORTHO, m_sess.getStationIdFromName("Ortho"));
+    }
+
+    private void setStationFilterCheckListeners()
+    {
+       RadioButton rb = m_activity.findViewById(R.id.radio_audiology);
+       if (rb != null) {
+           rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                   if (isChecked) {
+                       m_searchStation = SearchStation.SEARCH_AUDIOLOGY;
+                   }
+               }
+           });
+       }
+        rb = m_activity.findViewById(R.id.radio_ent);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        m_searchStation = SearchStation.SEARCH_ENT;
+                    }
+                }
+            });
+        }
+        rb = m_activity.findViewById(R.id.radio_surgery);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        m_searchStation = SearchStation.SEARCH_SURGERY_SCREENING;
+                    }
+                }
+            });
+        }
+        rb = m_activity.findViewById(R.id.radio_speech);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        m_searchStation = SearchStation.SEARCH_SPEECH;
+                    }
+                }
+            });
+        }
+        rb = m_activity.findViewById(R.id.radio_dental);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        m_searchStation = SearchStation.SEARCH_DENTAL;
+                    }
+                }
+            });
+        }
+        rb = m_activity.findViewById(R.id.radio_xray);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        m_searchStation = SearchStation.SEARCH_XRAY;
+                    }
+                }
+            });
+        }
+        rb = m_activity.findViewById(R.id.radio_ortho);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        m_searchStation = SearchStation.SEARCH_ORTHO;
+                    }
+                }
+            });
+        }
+        rb = m_activity.findViewById(R.id.radio_hygiene);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        m_searchStation = SearchStation.SEARCH_HYGIENE;
+                    }
+                }
+            });
+        }
+        /*
+        rb = m_activity.findViewById(R.id.radio_all);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        m_searchStation = SearchStation.SEARCH_ALL;
+                    }
+                }
+            });
+        }
+
+         */
+    }
 
     public void handleButtonPress(View v)
     {
@@ -146,6 +273,8 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
         m_progressView = findViewById(R.id.search_progress);
         m_searchBar = findViewById(R.id.patient_search_bar);
+        setStationFilterCheckListeners();
+        setSearchStationToIdMap();
     }
 
     /**
@@ -225,46 +354,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
         btnLO.setLayoutParams(parms);
 
-
         ImageButton button = new ImageButton(getApplicationContext());
-
-        /*
-        btnLO.setBackgroundColor(getResources().getColor(R.color.lightGray));
-
-        button.setBackgroundColor(getResources().getColor(R.color.lightGray));
-        button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
-
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_context);
-            alertDialogBuilder.setMessage(m_activity.getString(R.string.question_select_this_patient));
-            alertDialogBuilder.setPositiveButton(R.string.button_yes,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            //m_sess.setIsNewPatient(true);
-                            //m_sess.resetNewPatientObjects();
-                            Intent intent = new Intent(m_activity, StationActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    });
-
-            alertDialogBuilder.setNegativeButton(R.string.button_no,new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //Toast.makeText(PatientSearchActivity.this, R.string.msg_select_another_category,Toast.LENGTH_LONG).show();
-                }
-            });
-
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
-            }
-        });
-
-        btnLO.addView(button);
-
-         */
 
         boolean newRow = true;
         row = new TableRow(getApplicationContext());
@@ -438,6 +528,49 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         }
     }
 
+    private boolean stationInRoutingSlip(int station, ArrayList<RoutingSlipEntry> rseList)
+    {
+        boolean ret = false;
+
+        for (int i = 0; i < rseList.size(); i++) {
+            if (rseList.get(i).getStation() == station) {
+                ret = true;
+                break;
+            }
+        }
+        return ret;
+    }
+
+    private void filterPatientSearchResults(int station)
+    {
+        m_sess.getPatientSearchResultData();
+
+        // int stationId = getStationIdForSearchStation();
+
+        HashMap<Integer, PatientData> map = m_sess.getPatientHashMap();
+        HashMap<Integer, PatientData> copy = new HashMap<Integer, PatientData>();
+
+        for (Map.Entry<Integer, PatientData> entry : map.entrySet()) {
+
+            Integer key = entry.getKey();
+            PatientData value = entry.getValue();
+
+            ArrayList<RoutingSlipEntry> rseList = m_sess.getRoutingSlipCacheEntries(value.getId());
+
+            if (stationInRoutingSlip(station, rseList)) {
+                copy.put(key, value);
+            }
+        }
+        m_sess.replacePatientHashMap(copy);
+
+        PatientSelectorActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                LayoutSearchResults();
+                Button button = (Button) findViewById(R.id.patient_search_button);
+                button.setEnabled(true);
+            }
+        });
+    }
 
     private void getMatchingPatients(final String searchTerm)
     {
@@ -449,11 +582,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
         m_sess.clearPatientSearchResultData();
 
-        /*
-        m_sess.setIsNewPatient(false);
-        m_sess.setIsNewMedicalHistory(false);
-
-         */
+        final int stationId = m_searchStationToStationId.get(m_searchStation);
 
         final Date d = isDateString(searchTerm);
         new Thread(new Runnable() {
@@ -471,7 +600,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
             final Object lock;
 
             if (d != null) {
-                lock = x.findPatientsByDOB(d);
+               lock = x.findPatientsByDOB(d, m_sess.getClinicId(), m_sess.getClinicId());
             } else if (searchTerm.length() < 2) {
                 lock = x.findPatientsByName("impossible_patient_name");
             } else {
@@ -499,14 +628,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                 });
 
                 if (x.getStatus() == 200) {
-                    m_sess.getPatientSearchResultData();
-                    PatientSelectorActivity.this.runOnUiThread(new Runnable() {
-                        public void run() {
-                        LayoutSearchResults();
-                        Button button = (Button) findViewById(R.id.patient_search_button);
-                        button.setEnabled(true);
-                        }
-                    });
+                    filterPatientSearchResults(stationId);
                     return;
                 } else if (x.getStatus() == 101) {
                     PatientSelectorActivity.this.runOnUiThread(new Runnable() {

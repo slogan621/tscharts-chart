@@ -81,6 +81,7 @@ public class StationActivity extends AppCompatActivity {
         hideButtonBarButtons();
         m_appListItems.setContext(getApplicationContext());
         m_appListItems.init();
+        m_sess.updateCategoryDataTask();
     }
 
     @Override

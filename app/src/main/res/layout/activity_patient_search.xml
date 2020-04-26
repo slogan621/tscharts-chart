@@ -83,12 +83,11 @@
             android:layout_height="wrap_content" >
 
             <View
-                android:layout_width="16dp"
+                android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent" />
 
             <RadioButton
-                android:padding="16dp"
                 android:button="@null"
                 android:id="@+id/radio_audiology"
                 android:layout_width="wrap_content"
@@ -103,10 +102,9 @@
             <View
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_width="16dp"/>
+                android:layout_width="0dp"/>
 
             <RadioButton
-                android:padding="16dp"
                 android:button="@null"
                 android:id="@+id/radio_ent"
                 android:layout_width="wrap_content"
@@ -116,15 +114,12 @@
                 android:gravity="center"
                 android:drawableTop="@drawable/ent_selector" />
 
-
             <View
                     android:layout_height="match_parent"
                 android:layout_weight="1"
-                    android:layout_width="16dp"/>
-
+                    android:layout_width="0dp"/>
 
             <RadioButton
-                android:padding="16dp"
                 android:button="@null"
                 android:id="@+id/radio_surgery"
                 android:layout_width="wrap_content"
@@ -137,10 +132,9 @@
                 <View
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_width="16dp"/>
+                    android:layout_width="0dp"/>
 
             <RadioButton
-                android:padding="16dp"
                 android:button="@null"
                 android:id="@+id/radio_speech"
                 android:layout_width="wrap_content"
@@ -153,10 +147,9 @@
                 <View
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_width="16dp"/>
+                    android:layout_width="0dp"/>
 
             <RadioButton
-                android:padding="16dp"
                 android:button="@null"
                 android:id="@+id/radio_xray"
                 android:layout_width="wrap_content"
@@ -169,10 +162,9 @@
                 <View
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_width="16dp"/>
+                    android:layout_width="0dp"/>
 
             <RadioButton
-                android:padding="16dp"
                 android:button="@null"
                 android:id="@+id/radio_ortho"
                 android:background="@android:color/transparent"
@@ -186,10 +178,9 @@
             <View
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_width="16dp"/>
+                android:layout_width="0dp"/>
 
             <RadioButton
-                android:padding="16dp"
                 android:button="@null"
                 android:id="@+id/radio_dental"
                 android:background="@android:color/transparent"
@@ -203,11 +194,9 @@
             <View
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_width="16dp"/>
-
+                android:layout_width="0dp"/>
 
             <RadioButton
-                android:padding="16dp"
                 android:button="@null"
                 android:id="@+id/radio_hygiene"
                 android:layout_width="wrap_content"
@@ -217,11 +206,10 @@
                 android:text="@string/station_name_hygiene"
                 android:drawableTop="@drawable/hygiene_selector" />
 
-
             <View
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_width="16dp"/>
+                android:layout_width="0dp"/>
         </RadioGroup>
 
         <View

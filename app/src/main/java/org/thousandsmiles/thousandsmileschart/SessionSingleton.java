@@ -18,6 +18,7 @@
 package org.thousandsmiles.thousandsmileschart;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
@@ -30,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.Audiogram;
 import org.thousandsmiles.tscharts_lib.AudiogramREST;
+import org.thousandsmiles.tscharts_lib.CategoryREST;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.ENTDiagnosisExtra;
 import org.thousandsmiles.tscharts_lib.ENTDiagnosisExtraREST;
@@ -69,6 +71,29 @@ public class SessionSingleton {
     private JSONObject m_displayPatientRoutingSlip = null;
     private JSONObject m_routingSlipEntryResponse = null;
     private JSONArray m_patientSearchResults = null;
+
+    // following are used to filter search results based on the station that was selected during patient search
+
+    // cache of patient routing slip entries, indexed by patient ID.
+
+    private static HashMap<Integer, ArrayList<RoutingSlipEntry>> m_patientRoutingSlipEntries = new HashMap<Integer, ArrayList<RoutingSlipEntry>>();
+
+    // get routing slip cache entries
+
+    ArrayList <RoutingSlipEntry> getRoutingSlipCacheEntries(int patient) {
+        if (m_patientRoutingSlipEntries.containsKey(patient)) {
+            // cache hit, return what we have
+
+            return m_patientRoutingSlipEntries.get(patient);
+        }
+        ArrayList<RoutingSlipEntry> ret = getRoutingSlipEntries(getClinicId(), patient);
+        m_patientRoutingSlipEntries.put(patient, ret);
+        return ret;
+    }
+
+    // end of data used to filter search results based on station
+
+    private static HashMap<Integer, ArrayList<Integer>> m_stationToCategory = new HashMap<Integer, ArrayList<Integer>>();
     private static HashMap<Integer, JSONObject> m_patientData = new HashMap<Integer, JSONObject>();
     private static HashMap<Integer, String> m_stationIdToName = new HashMap<Integer, String>();
     private static HashMap<String, Integer> m_clinicStationNameToId = new HashMap<String, Integer>();
@@ -86,6 +111,7 @@ public class SessionSingleton {
     private ArrayList<ENTHistoryExtra> m_entHistoryExtraDeleteList = new ArrayList<ENTHistoryExtra>();
     private ArrayList<ENTDiagnosisExtra> m_entDiagnosisExtraList = new ArrayList<ENTDiagnosisExtra>();
     private ArrayList<ENTDiagnosisExtra> m_entDiagnosisExtraDeleteList = new ArrayList<ENTDiagnosisExtra>();
+    private static ArrayList<JSONObject> m_categoryData = new ArrayList<JSONObject>();
     private int m_displayPatientId = -1; // id of the patient that will get checked in/checked out when the corresponding button is pressed
     private int m_displayRoutingSlipEntryId = -1; // id of the routingslip entry for m_displayPatientId
     // XXX Consider moving these station class names to the API
@@ -98,6 +124,126 @@ public class SessionSingleton {
     private boolean m_newENTTreatment = false;
     private boolean m_newAudiogram = false;
     private HashMap<Integer, PatientData> m_patientHashMap = new HashMap<Integer, PatientData>();
+
+    public void replacePatientHashMap(HashMap<Integer, PatientData> map)
+    {
+        m_patientHashMap = (HashMap<Integer, PatientData>) map.clone();
+    }
+
+    private Integer getCategory(String name) {
+        Integer ret = null;
+
+        for (int i = 0; i < m_categoryData.size(); i++) {
+            try {
+                JSONObject o = m_categoryData.get(i);
+                int id = o.getInt("id");
+                String catName = o.getString("name");
+                if (catName.equals(name)) {
+                    ret = i;
+                    break;
+                }
+
+            } catch (Exception e) {
+
+            }
+        }
+        return ret;
+    }
+
+    public void initializeStationToCategoryMap() {
+        for (int i = 0; i < m_stationData.size(); i++) {
+            JSONObject o = m_stationData.get(i);
+            try {
+                String name = o.getString("name");
+                int id = o.getInt("id");
+                ArrayList l = new ArrayList<Integer>();
+
+                if (name.equals("Dental")) {
+                    Integer cat = getCategory("Dental");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                } else if (name.equals("X-Ray")) {
+                    Integer cat = getCategory("Dental");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                    cat = getCategory("New Cleft");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                    cat = getCategory("Returning Cleft");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                    cat = getCategory("Ortho");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                }  else if (name.equals("Speech")) {
+                    Integer cat = getCategory("New Cleft");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                    cat = getCategory("Returning Cleft");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                }  else if (name.equals("Surgery Screening")) {
+                    Integer cat = getCategory("New Cleft");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                    cat = getCategory("Returning Cleft");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                }  else if (name.equals("Audiology")) {
+                    Integer cat = getCategory("New Cleft");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                    cat = getCategory("Returning Cleft");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                }  else if (name.equals("ENT")) {
+                    Integer cat = getCategory("New Cleft");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                    cat = getCategory("Returning Cleft");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                }  else if (name.equals("Hygiene")) {
+                    Integer cat = getCategory("Dental");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                    cat = getCategory("Ortho");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                }  else if (name.equals("Ortho")) {
+                    Integer cat = getCategory("Ortho");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                    cat = getCategory("New Cleft");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                    cat = getCategory("Returning Cleft");
+                    if (cat != null) {
+                        l.add(cat);
+                    }
+                }
+                m_stationToCategory.put(id, l);
+            } catch (Exception e) {
+            }
+        }
+    }
 
     public boolean setPatientOldId(int curId, int oldId) {
         PatientData data;
@@ -263,7 +409,6 @@ public class SessionSingleton {
         return item;
     }
 
-
     public void setPatientSearchResults(JSONArray results)
     {
         m_patientSearchResults = results;
@@ -274,6 +419,16 @@ public class SessionSingleton {
         for (int i = 0; m_patientSearchResults != null && i < m_patientSearchResults.length(); i++) {
             try {
                 getPatientData(m_patientSearchResults.getInt(i));
+            } catch (JSONException e) {
+            }
+        }
+    }
+
+    public void getPatientSearchResultRoutingSlipEntries()
+    {
+        for (int i = 0; m_patientSearchResults != null && i < m_patientSearchResults.length(); i++) {
+            try {
+                getPatientRoutingSlipEntries(m_patientSearchResults.getInt(i));
             } catch (JSONException e) {
             }
         }
@@ -423,7 +578,6 @@ public class SessionSingleton {
         return ret;
     }
 
-
     public int getStationIdFromName(String name) {
         int ret = -1;
         Iterator it = m_stationIdToName.entrySet().iterator();
@@ -485,6 +639,114 @@ public class SessionSingleton {
         {
         }
     }
+
+    public void addCategoryData(JSONArray data) {
+        int i;
+        JSONObject categorydata;
+
+        for (i = 0; i < data.length(); i++)  {
+            try {
+                categorydata = data.getJSONObject(i);
+                m_categoryData.add(categorydata);
+            } catch (JSONException e) {
+                return;
+            }
+        }
+    }
+
+    public JSONObject getCategoryData(int i) {
+        JSONObject ret = null;
+
+        ret = m_categoryData.get(i);
+        return ret;
+    }
+
+    public int getCategoryCount() {
+        return m_categoryData.size();
+    }
+
+    public void updateCategoryDataTask() {
+        UpdateCategoryData task = new UpdateCategoryData();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
+    }
+
+    private class UpdateCategoryData extends AsyncTask<Object, Object, Object> {
+
+        @Override
+        protected String doInBackground(Object... params) {
+            updateCategoryData();
+            return "";
+        }
+
+        // This is called from background thread but runs in UI
+        @Override
+        protected void onProgressUpdate(Object... values) {
+            super.onProgressUpdate(values);
+            // Do things like update the progress bar
+        }
+
+        // This runs in UI when background thread finishes
+        @Override
+        protected void onPostExecute(Object result) {
+            super.onPostExecute(result);
+
+            // Do things like hide the progress bar or change a TextView
+        }
+    }
+
+    public boolean updateCategoryData() {
+        boolean ret = false;
+
+        m_categoryData.clear();
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final CategoryREST categoryData = new CategoryREST(getContext());
+            categoryData.addListener(new GetCategoryListener());
+            Object lock = categoryData.getCategoryData();
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = categoryData.getStatus();
+            if (status == 200) {
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
+    class GetCategoryListener implements RESTCompletionListener {
+
+        @Override
+        public void onSuccess(int code, String message, JSONArray a) {
+            try {
+                addCategoryData(a);
+                initializeStationToCategoryMap();
+            } catch (Exception e) {
+            }
+        }
+
+        @Override
+        public void onSuccess(int code, String message, JSONObject a) {
+        }
+
+        @Override
+        public void onSuccess(int code, String message) {
+        }
+
+        @Override
+        public void onFail(int code, String message) {
+        }
+    }
+
 
     public String getActiveStationName() {
         return m_stationIdToName.get(m_stationStationId);
@@ -610,6 +872,43 @@ public class SessionSingleton {
         }
     }
 
+    public JSONObject getPatientRoutingSlipEntries(final int id)
+    {
+        JSONObject o = null;
+
+        if (m_patientData != null) {
+            o = m_patientData.get(id);
+        }
+        if (o == null && Looper.myLooper() != Looper.getMainLooper()) {
+            final PatientREST patientData = new PatientREST(getContext());
+            patientData.addListener(new GetPatientDataListener());
+            Object lock = patientData.getPatientData(id);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = patientData.getStatus();
+            if (status == 200) {
+                o = m_patientHashMap.get(id).toJSONObject();
+                m_patientData.put(id, o);
+                CommonSessionSingleton.getInstance().hasCurrentXRay(id, 365);
+            }
+        }
+        if (o == null) {
+            return o;
+        }
+        return o;
+    }
+
     public JSONObject getPatientData(final int id) {
 
         JSONObject o = null;
@@ -696,8 +995,7 @@ public class SessionSingleton {
 
         public void onSuccess(int code, String msg, JSONObject o)
         {
-            SessionSingleton sess = SessionSingleton.getInstance();
-            sess.setRoutingSlipEntryResponse(o);
+            setRoutingSlipEntryResponse(o);
         }
 
         public void onSuccess(int code, String msg, JSONArray a)
