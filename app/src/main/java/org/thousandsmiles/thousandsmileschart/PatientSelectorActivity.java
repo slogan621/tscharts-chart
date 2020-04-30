@@ -653,7 +653,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
             if (d != null) {
                lock = x.findPatientsByDOB(d, m_sess.getClinicId(), m_sess.getClinicId());
             } else if (searchTerm.length() < 2) {
-                lock = x.findPatientsByName("impossible_patient_name");
+                lock = x.findPatientsByClinic(m_sess.getClinicId());
             } else {
                 lock = x.findPatientsByNameAndClinicId(searchTerm, m_sess.getClinicId());
             }
