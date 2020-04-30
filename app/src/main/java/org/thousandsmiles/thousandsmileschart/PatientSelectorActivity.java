@@ -23,6 +23,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,6 +42,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -57,6 +59,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.ClinicREST;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.DatePickerFragment;
 import org.thousandsmiles.tscharts_lib.HeadshotImage;
 import org.thousandsmiles.tscharts_lib.HideyHelper;
 import org.thousandsmiles.tscharts_lib.ImageDisplayedListener;
@@ -75,7 +78,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class PatientSelectorActivity extends AppCompatActivity implements ImageDisplayedListener {
+public class PatientSelectorActivity extends AppCompatActivity implements ImageDisplayedListener, DatePickerDialog.OnDateSetListener {
 
     private Activity m_activity = this;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
@@ -111,10 +114,26 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         m_searchStationToStationId.put(SearchStation.SEARCH_ORTHO, m_sess.getStationIdFromName("Ortho"));
     }
 
+    private void setDate(final Calendar calendar) {
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        String dateString = String.format("%02d-%02d-%d", month, day, year);
+        ((TextView) findViewById(R.id.patient_search)).setText(dateString);
+    }
+
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, day);
+        setDate(c);
+    }
+
     private void setStationFilterCheckListeners()
     {
        RadioButton rb = m_activity.findViewById(R.id.radio_audiology);
-       if (rb != null) {
+        if (rb != null) {
            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                    if (isChecked) {
@@ -122,7 +141,17 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                    }
                }
            });
-       }
+        }
+        rb = m_activity.findViewById(R.id.radio_globe);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        m_searchStation = SearchStation.SEARCH_ALL;
+                    }
+                }
+            });
+        }
         rb = m_activity.findViewById(R.id.radio_ent);
         if (rb != null) {
             rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
@@ -275,6 +304,17 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         m_searchBar = findViewById(R.id.patient_search_bar);
         setStationFilterCheckListeners();
         setSearchStationToIdMap();
+
+        ImageButton button = findViewById(R.id.patient_search_date_picker);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerFragment fragment = new DatePickerFragment();
+                fragment.setListeningActivity(PatientSelectorActivity.this);
+                fragment.show(m_activity.getFragmentManager(), "date");
+            }
+        });
     }
 
     /**
@@ -555,6 +595,13 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
             Integer key = entry.getKey();
             PatientData value = entry.getValue();
 
+            if (m_searchStation == SearchStation.SEARCH_ALL) {
+                copy.put(key, value);
+                continue;
+            }
+
+            // otherwise, see if there is a match
+
             ArrayList<RoutingSlipEntry> rseList = m_sess.getRoutingSlipCacheEntries(value.getId());
 
             if (stationInRoutingSlip(station, rseList)) {
@@ -572,8 +619,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         });
     }
 
-    private void getMatchingPatients(final String searchTerm)
-    {
+    private void getMatchingPatients(final String searchTerm) {
         // analyze search term, looking for DOB string, gender, or name. Then, search.
 
         ArrayList<Integer> ret = new ArrayList<Integer>();
@@ -582,7 +628,12 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
         m_sess.clearPatientSearchResultData();
 
-        final int stationId = m_searchStationToStationId.get(m_searchStation);
+        final int stationId;
+        if (m_searchStation != SearchStation.SEARCH_ALL) {
+            stationId = m_searchStationToStationId.get(m_searchStation);
+        } else {
+            stationId = -1;
+        }
 
         final Date d = isDateString(searchTerm);
         new Thread(new Runnable() {

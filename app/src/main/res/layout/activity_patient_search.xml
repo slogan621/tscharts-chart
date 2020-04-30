@@ -118,7 +118,7 @@
                 android:text="@string/station_name_audiology"
                 android:gravity="center"
                 android:drawableTop="@drawable/audiology_selector"
-                android:checked="true" />
+                android:checked="false" />
 
 
             <View
