@@ -64,6 +64,12 @@
                 android:id="@+id/patient_search_button"
                 android:text="@string/button_search"
                 android:layout_width="wrap_content" />
+
+            <ImageButton
+                android:id="@+id/patient_search_date_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/date_range_black_48dp"/>
         </LinearLayout>
 
         <TextView
@@ -81,6 +87,22 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
+
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+            <RadioButton
+                android:button="@null"
+                android:id="@+id/radio_globe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="@string/station_name_search_all"
+                android:gravity="center"
+                android:drawableTop="@drawable/globe_selector"
+                android:checked="true" />
 
             <View
                 android:layout_width="0dp"
