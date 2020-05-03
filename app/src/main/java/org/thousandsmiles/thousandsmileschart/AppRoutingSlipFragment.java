@@ -99,12 +99,12 @@ public class AppRoutingSlipFragment extends Fragment {
         return ret;
     }
 
-    private void createAvailableList()
+    private void createAvailableList(boolean includeSelf)
     {
         m_available = new ArrayList<RoutingSlipEntry>();
         for (int i = 0; i < m_stations.size(); i++) {
             Station p = m_stations.get(i);
-            if (p.getStation() != m_sess.getStationStationId()) {
+            if (includeSelf == true || p.getStation() != m_sess.getStationStationId()) {
                 RoutingSlipEntry q = new RoutingSlipEntry();
                 q.setName(p.getName());
                 if (stationInRoutingSlipList(p) == false) {
@@ -185,7 +185,7 @@ public class AppRoutingSlipFragment extends Fragment {
         m_dirty = false;
         mBoardView.clearBoard();
         createCurrentList();
-        createAvailableList();
+        createAvailableList(true);  // include self, in station app, this would be false since we should not allow ourselves in the routing slip
         addColumnList(1);   // stations not yet visited and not in routing slip
         addColumnList(2);   // stations not yet visited
     }
