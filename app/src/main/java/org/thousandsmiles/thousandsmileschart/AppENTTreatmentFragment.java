@@ -49,6 +49,11 @@ public class AppENTTreatmentFragment extends Fragment {
     private ENTTreatment m_entTreatment = null;
     private boolean m_dirty = false;
     private View m_view = null;
+    private AppFragmentContext m_ctx = new AppFragmentContext();
+
+    public void setAppFragmentContext(AppFragmentContext ctx) {
+        m_ctx = ctx;
+    }
 
     public static AppENTTreatmentFragment newInstance() {
         return new AppENTTreatmentFragment();
@@ -819,9 +824,12 @@ public class AppENTTreatmentFragment extends Fragment {
 
     private void setDirty()
     {
+        if (m_ctx.getReadOnly()) {
+            return;
+        }
         View button_bar_item = m_activity.findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.VISIBLE);
-        m_entTreatment = copyENTTreatmentDataFromUI();
+
         button_bar_item.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -841,6 +849,7 @@ public class AppENTTreatmentFragment extends Fragment {
                     AlertDialog alert = builder.create();
                     alert.show();
                 } else {
+                    m_entTreatment = copyENTTreatmentDataFromUI();
                     updateENTTreatment();
                 }
             }
@@ -863,6 +872,9 @@ public class AppENTTreatmentFragment extends Fragment {
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_cleaned_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -871,6 +883,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_cleaned_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -879,6 +894,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_ears_cleaned_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -896,6 +914,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_audiogram_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -904,6 +925,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_audiogram_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -912,6 +936,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_audiogram_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -929,6 +956,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_audiogram_right_away_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -937,6 +967,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_audiogram_right_away_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -945,6 +978,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_audiogram_right_away_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -962,6 +998,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tympanogram_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -970,6 +1009,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_tympanogram_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -978,6 +1020,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_tympanogram_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -995,6 +1040,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_tympanogram_right_away_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1003,6 +1051,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_tympanogram_right_away_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1011,6 +1062,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_tympanogram_right_away_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1028,6 +1082,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_mastoid_debrided_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1036,6 +1093,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_mastoid_debrided_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1044,6 +1104,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_mastoid_debrided_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1061,6 +1124,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_mastoid_debrided_hearing_aid_eval_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1069,6 +1135,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_mastoid_debrided_hearing_aid_eval_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1077,6 +1146,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_mastoid_debrided_hearing_aid_eval_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1094,6 +1166,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1102,6 +1177,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1110,6 +1188,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1127,6 +1208,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_orally_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1135,6 +1219,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_orally_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1143,6 +1230,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_orally_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1160,6 +1250,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_acute_infection_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1168,6 +1261,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_acute_infection_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1176,6 +1272,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_acute_infection_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1193,6 +1292,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_after_water_exposure_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1201,6 +1303,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_antibiotic_drops_after_water_exposure_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1209,6 +1314,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_antibiotic_drops_after_water_exposure_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1226,6 +1334,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_boric_acid_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1234,6 +1345,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_boric_acid_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1242,6 +1356,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_boric_acid_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1259,6 +1376,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_today_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1267,6 +1387,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_today_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1275,6 +1398,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_boric_acid_today_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1292,6 +1418,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_for_home_use_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1300,6 +1429,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_boric_acid_for_home_use_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1308,6 +1440,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_boric_acid_for_home_use_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1325,6 +1460,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_fb_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1333,6 +1471,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_fb_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1341,6 +1482,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_fb_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1358,6 +1502,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_return_to_clinic_3_months);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1366,6 +1513,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_return_to_clinic_6_months);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1374,6 +1524,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_return_to_clinic_prn);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1382,6 +1535,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_return_to_clinic_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1399,6 +1555,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_referrals_pvt_ent_ensenada);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1407,6 +1566,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_referrals_childrens_hospital_tj);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1415,6 +1577,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_referred_pvt_ensenada_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1433,6 +1598,9 @@ public class AppENTTreatmentFragment extends Fragment {
 
         tx = (EditText) m_view.findViewById(R.id.ent_referred_childrens_hospital_tj_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1450,6 +1618,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tubes_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1458,6 +1629,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tubes_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1466,6 +1640,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_tubes_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1483,6 +1660,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tplasty_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1491,6 +1671,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_tplasty_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1499,6 +1682,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_tplasty_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1516,6 +1702,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_eua_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1524,6 +1713,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_eua_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1532,6 +1724,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_eua_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1549,6 +1744,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_fb_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1557,6 +1755,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_fb_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1565,6 +1766,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_fb_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1582,6 +1786,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_myringotomy_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1590,6 +1797,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_myringotomy_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1598,6 +1808,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_myringotomy_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1615,6 +1828,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_cerumen_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1623,6 +1839,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_cerumen_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1631,6 +1850,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_cerumen_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1648,6 +1870,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_granuloma_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1656,6 +1881,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_tomorrow_granuloma_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1664,6 +1892,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_granuloma_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1681,6 +1912,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_septorhinoplasty_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1689,6 +1923,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_septorhinoplasty_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1697,6 +1934,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_septorhinoplasty_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1714,6 +1954,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_scar_revision_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1722,6 +1965,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_scar_revision_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1730,6 +1976,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_scar_revision_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1747,6 +1996,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_frenulectory_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1755,6 +2007,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_tomorrow_frenulectory_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1763,6 +2018,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_tomorrow_frenulectomy_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1780,6 +2038,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_tubes_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1788,6 +2049,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_tubes_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1796,6 +2060,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_future_tubes_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1813,6 +2080,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_tplasty_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1821,6 +2091,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_tplasty_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1829,6 +2102,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_future_tplasty_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1846,6 +2122,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_eua_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1854,6 +2133,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_eua_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1862,6 +2144,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_future_eua_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1879,6 +2164,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_fb_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1887,6 +2175,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_fb_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1895,6 +2186,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_future_fb_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1912,6 +2206,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_myringotomy_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1920,6 +2217,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_myringotomy_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1928,6 +2228,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_future_myringotomy_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1945,6 +2248,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_cerumen_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1953,6 +2259,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_cerumen_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1961,6 +2270,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_future_cerumen_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -1978,6 +2290,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_granuloma_left);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1986,6 +2301,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_future_granuloma_right);
         if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -1994,6 +2312,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_future_granuloma_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -2011,6 +2332,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_future_septorhinoplasty_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -2019,6 +2343,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_future_septorhinoplasty_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -2027,6 +2354,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_future_septorhinoplasty_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -2044,6 +2374,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_future_scar_revision_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -2052,6 +2385,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_future_scar_revision_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -2060,6 +2396,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_future_scar_revision_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -2077,6 +2416,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_future_frenulectory_true);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -2085,6 +2427,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         rb = (RadioButton) m_view.findViewById(R.id.ent_future_frenulectory_false);
         if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -2093,6 +2438,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_future_frenulectomy_comment);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -2110,6 +2458,9 @@ public class AppENTTreatmentFragment extends Fragment {
         }
         tx = (EditText) m_view.findViewById(R.id.ent_notes);
         if (tx != null) {
+            if (m_ctx.getReadOnly() == true) {
+                tx.setEnabled(false);
+            }
             tx.addTextChangedListener(new TextWatcher() {
 
                 @Override

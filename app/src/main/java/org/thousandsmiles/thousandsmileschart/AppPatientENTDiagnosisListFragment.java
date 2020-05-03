@@ -50,6 +50,11 @@ public class AppPatientENTDiagnosisListFragment extends Fragment {
     private CommonSessionSingleton m_commonSess;
     private ArrayList<ENTDiagnosis> m_entDiagnoses = new ArrayList<ENTDiagnosis>();
     private Activity m_activity;
+    private AppFragmentContext m_ctx = new AppFragmentContext();
+
+    public void setAppFragmentContext(AppFragmentContext ctx) {
+        m_ctx = ctx;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -99,6 +104,9 @@ public class AppPatientENTDiagnosisListFragment extends Fragment {
         Bundle arguments = new Bundle();
         arguments.putSerializable("diagnosis", exam);
         AppENTDiagnosisFragment fragment = new AppENTDiagnosisFragment();
+        AppFragmentContext ctx = new AppFragmentContext();
+        ctx.setReadOnly(m_ctx.getReadOnly());
+        fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
@@ -161,8 +169,9 @@ public class AppPatientENTDiagnosisListFragment extends Fragment {
             }
         });
 
-        btnLO.addView(button);
-
+        if (!m_ctx.getReadOnly()) {
+            btnLO.addView(button);
+        }
         boolean newRow = true;
         row = new TableRow(m_activity);
         row.setWeightSum((float)1.0);
@@ -172,7 +181,9 @@ public class AppPatientENTDiagnosisListFragment extends Fragment {
         txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
         txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        btnLO.addView(txt);
+        if (!m_ctx.getReadOnly()) {
+            btnLO.addView(txt);
+        }
 
         row.setLayoutParams(parms);
 

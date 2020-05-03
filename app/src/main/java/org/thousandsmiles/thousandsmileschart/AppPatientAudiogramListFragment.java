@@ -220,7 +220,7 @@ public class AppPatientAudiogramListFragment extends Fragment {
                 button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
 
             } else {
-                    button.setImageDrawable(getResources().getDrawable(R.drawable.audiology));
+                button.setImageDrawable(getResources().getDrawable(R.drawable.audiology));
             }
 
             Audiogram audiogram = m_audiograms.get(i);

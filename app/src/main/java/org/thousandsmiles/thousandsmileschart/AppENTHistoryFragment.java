@@ -39,6 +39,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -61,6 +62,11 @@ public class AppENTHistoryFragment extends Fragment {
     private boolean m_dirty = false;
     private View m_view = null;
     private AppENTHistoryFragment m_this;
+    private AppFragmentContext m_ctx = new AppFragmentContext();
+
+    public void setAppFragmentContext(AppFragmentContext ctx) {
+        m_ctx = ctx;
+    }
 
     public static AppENTHistoryFragment newInstance() {
         return new AppENTHistoryFragment();
@@ -131,6 +137,10 @@ public class AppENTHistoryFragment extends Fragment {
                     }
                 }
             });
+
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
 
             TextView tv = new TextView(context);
             tv.setText(ex.getName());
@@ -450,9 +460,12 @@ public class AppENTHistoryFragment extends Fragment {
 
     public void setDirty()
     {
+        if (m_ctx.getReadOnly()) {
+            return;
+        }
         View button_bar_item = m_activity.findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.VISIBLE);
-        m_entHistory = copyENTHistoryDataFromUI();
+
         button_bar_item.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -472,6 +485,7 @@ public class AppENTHistoryFragment extends Fragment {
                     AlertDialog alert = builder.create();
                     alert.show();
                 } else {
+                    m_entHistory = copyENTHistoryDataFromUI();
                     updateENTHistory();
                 }
             }
@@ -490,17 +504,20 @@ public class AppENTHistoryFragment extends Fragment {
     {
         CheckBox cb;
         RadioButton rb;
+        RadioGroup rg;
+        boolean readOnly = m_ctx.getReadOnly();
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_pain_left);
         if (cb != null) {
+            cb.setEnabled(!readOnly);
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    setDirty();
-                }
-            });
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) { setDirty();
+                    }
+                });
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_pain_right);
         if (cb != null) {
+            cb.setEnabled(!readOnly);
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -510,6 +527,7 @@ public class AppENTHistoryFragment extends Fragment {
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_drainage_left);
         if (cb != null) {
+            cb.setEnabled(!readOnly);
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -518,6 +536,7 @@ public class AppENTHistoryFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_drainage_right);
         if (cb != null) {
+            cb.setEnabled(!readOnly);
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -525,9 +544,9 @@ public class AppENTHistoryFragment extends Fragment {
             });
         }
 
-
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_hearing_loss_left);
         if (cb != null) {
+            cb.setEnabled(!readOnly);
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -536,6 +555,7 @@ public class AppENTHistoryFragment extends Fragment {
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_hearing_loss_right);
         if (cb != null) {
+            cb.setEnabled(!readOnly);
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -543,33 +563,44 @@ public class AppENTHistoryFragment extends Fragment {
             });
         }
 
+        rg = (RadioGroup) m_view.findViewById(R.id.radio_group_ent_pain);
+        if (rg != null) {
+            rg.setEnabled(false);
+        }
 
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_pain_duration_none);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
                 }
             });
         }
+
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_pain_duration_days);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
                 }
             });
         }
+
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_pain_duration_weeks);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
                 }
             });
         }
+
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_pain_duration_months);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -579,6 +610,7 @@ public class AppENTHistoryFragment extends Fragment {
 
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_pain_duration_intermittent);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -586,32 +618,44 @@ public class AppENTHistoryFragment extends Fragment {
             });
         }
 
+        rg = (RadioGroup) m_view.findViewById(R.id.radio_group_ent_drainage);
+        if (rg != null) {
+            rg.setEnabled(false);
+        }
+
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_drainage_duration_none);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
                 }
             });
         }
+
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_drainage_duration_days);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
                 }
             });
         }
+
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_drainage_duration_weeks);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
                 }
             });
         }
+
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_drainage_duration_months);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -621,6 +665,7 @@ public class AppENTHistoryFragment extends Fragment {
 
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_drainage_duration_intermittent);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -628,33 +673,44 @@ public class AppENTHistoryFragment extends Fragment {
             });
         }
 
+        rg = (RadioGroup) m_view.findViewById(R.id.radio_group_ent_hearing_loss);
+        if (rg != null) {
+            rg.setEnabled(false);
+        }
 
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_none);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
                 }
             });
         }
+
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_days);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
                 }
             });
         }
+
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_weeks);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
                 }
             });
         }
+
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_months);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -664,6 +720,7 @@ public class AppENTHistoryFragment extends Fragment {
 
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_intermittent);
         if (rb != null) {
+            rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -673,6 +730,7 @@ public class AppENTHistoryFragment extends Fragment {
 
         EditText t = (EditText) m_view.findViewById(R.id.ent_notes);
         if (t != null) {
+            t.setEnabled(!readOnly);
             t.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -689,6 +747,11 @@ public class AppENTHistoryFragment extends Fragment {
                     setDirty();
                 }
             });
+        }
+
+        Button bt = (Button) m_view.findViewById(R.id.add_button);
+        if (bt != null) {
+            bt.setEnabled(!m_ctx.getReadOnly());
         }
     }
 

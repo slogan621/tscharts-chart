@@ -323,6 +323,7 @@
                         android:orientation="horizontal">
 
                         <RadioGroup
+                            android:id="@+id/radio_group_audiogram"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -542,6 +543,7 @@
                         android:orientation="horizontal">
 
                         <RadioGroup
+                            android:id="@+id/radio_group_tympanogram"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -761,6 +763,7 @@
                         android:orientation="horizontal">
 
                         <RadioGroup
+                            android:id="@+id/radio_group_ent_mastoid_debrided_hearing_aid_eval"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -896,6 +899,7 @@
                         android:orientation="horizontal">
 
                         <RadioGroup
+                            android:id="@+id/radio_group_ent_antibiotic_drops"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -987,6 +991,7 @@
                         android:orientation="horizontal">
 
                         <RadioGroup
+                            android:id="@+id/radio_group_ent_antibiotic_drops_orally"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -1079,6 +1084,7 @@
                         android:orientation="horizontal">
 
                         <RadioGroup
+                            android:id="@+id/radio_group_ent_antibiotic_drops_acute"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -1171,6 +1177,7 @@
                         android:orientation="horizontal">
 
                         <RadioGroup
+                            android:id="@+id/radio_group_ent_antibiotic_drops_water"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -1391,6 +1398,7 @@
                         android:orientation="horizontal">
 
                         <RadioGroup
+                            android:id="@+id/radio_group_ent_boric_acid_today"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -1483,6 +1491,7 @@
                         android:orientation="horizontal">
 
                         <RadioGroup
+                            android:id="@+id/radio_group_ent_boric_acid_home"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -2791,6 +2800,7 @@
                             android:orientation="horizontal">
 
                             <RadioGroup
+                                android:id="@+id/radio_group_ent_tomorrow_septorhinoplasty"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
@@ -2897,6 +2907,7 @@
                             android:orientation="horizontal">
 
                             <RadioGroup
+                                android:id="@+id/radio_group_ent_tomorrow_scar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
@@ -3003,6 +3014,7 @@
                             android:orientation="horizontal">
 
                             <RadioGroup
+                                android:id="@+id/radio_group_ent_tomorrow_frenulectory"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
@@ -3847,6 +3859,7 @@
                             android:orientation="horizontal">
 
                             <RadioGroup
+                                android:id="@+id/radio_group_ent_future_septorhinoplasty"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
@@ -3953,6 +3966,7 @@
                             android:orientation="horizontal">
 
                             <RadioGroup
+                                android:id="@+id/radio_group_ent_future_scar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
@@ -4059,6 +4073,7 @@
                             android:orientation="horizontal">
 
                             <RadioGroup
+                                android:id="@+id/radio_group_ent_future_frenulectory"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">

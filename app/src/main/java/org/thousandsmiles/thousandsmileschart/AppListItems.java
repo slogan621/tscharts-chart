@@ -37,6 +37,7 @@ public class AppListItems {
         private String m_name;
         private int m_imageId;
         private int m_selector;
+        private boolean m_readOnly = false;
 
         public void setName(String name) {
             m_name = name;
@@ -60,6 +61,14 @@ public class AppListItems {
 
         public int getSelector() {
             return m_selector;
+        }
+
+        public void setReadOnly(boolean val) {
+            m_readOnly = val;
+        }
+
+        public boolean getReadOnly() {
+            return m_readOnly;
         }
     }
 
@@ -166,14 +175,42 @@ public class AppListItems {
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put(m_context.getString(R.string.station_name_audiology), items);
 
         item = new AppListItem();
         item.setName(m_context.getString(R.string.audiogram_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.audiology_selector);
         items.add(item);
-        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.ent_history_name));
+        item.setImageId(R.drawable.medhist);
+        item.setReadOnly(true);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.exam_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setReadOnly(true);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.diagnosis_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setReadOnly(true);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.treatment_plan_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setReadOnly(true);
+        items.add(item);
+
+        m_stationToAppList.put(m_context.getString(R.string.station_name_audiology), items);
     }
 
     private void initSpeech() {
@@ -210,41 +247,38 @@ public class AppListItems {
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
 
         item = new AppListItem();
         item.setName(m_context.getString(R.string.ent_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
 
         item = new AppListItem();
         item.setName(m_context.getString(R.string.exam_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
 
         item = new AppListItem();
         item.setName(m_context.getString(R.string.audiogram_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.audiology_selector);
+        item.setReadOnly(true);
         items.add(item);
-        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
 
         item = new AppListItem();
         item.setName(m_context.getString(R.string.diagnosis_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
-        m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
 
         item = new AppListItem();
         item.setName(m_context.getString(R.string.treatment_plan_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
+
         m_stationToAppList.put(m_context.getString(R.string.station_name_ent), items);
     }
 
@@ -263,6 +297,42 @@ public class AppListItems {
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.ent_history_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setReadOnly(true);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.exam_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setReadOnly(true);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.audiogram_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.audiology_selector);
+        item.setReadOnly(true);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.diagnosis_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setReadOnly(true);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.treatment_plan_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setReadOnly(true);
+        items.add(item);
+
         m_stationToAppList.put(m_context.getString(R.string.station_name_surgery_screening), items);
     }
 
@@ -313,6 +383,18 @@ public class AppListItems {
         if (items != null) {
             for (int i = 0; i < items.size(); i++) {
                 ret.add(items.get(i).getName());
+            }
+        }
+        return ret;
+    }
+
+    public ArrayList<Boolean> getReadOnlyFlags(String station) {
+        ArrayList<AppListItem> items = m_stationToAppList.get(station);
+        ArrayList<Boolean> ret = new ArrayList<Boolean>();
+
+        if (items != null) {
+            for (int i = 0; i < items.size(); i++) {
+                ret.add(items.get(i).getReadOnly());
             }
         }
         return ret;

@@ -354,6 +354,7 @@
                     android:layout_weight="1" />
 
                 <RadioGroup
+                    android:id="@+id/radio_group_ent_tubes_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -408,6 +409,7 @@
                     android:layout_weight="1" />
 
                 <RadioGroup
+                    android:id="@+id/radio_group_ent_tubes_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -481,6 +483,7 @@
                     android:layout_weight="1" />
 
                 <RadioGroup
+                    android:id="@+id/radio_group_ent_tympano_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -552,6 +555,7 @@
                     android:layout_weight="1" />
 
                 <RadioGroup
+                    android:id="@+id/radio_group_ent_tympano_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -789,6 +793,7 @@
                     android:layout_weight="1" />
 
                 <RadioGroup
+                    android:id="@+id/radio_group_ent_perf_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -867,6 +872,7 @@
                     android:layout_weight="1" />
 
                 <RadioGroup
+                    android:id="@+id/radio_group_ent_perf_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -964,6 +970,7 @@
                     android:layout_weight="1" />
 
                 <RadioGroup
+                    android:id="@+id/radio_group_ent_voice_test"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -1012,6 +1019,7 @@
                     android:layout_weight="1" />
 
                 <RadioGroup
+                    android:id="@+id/radio_group_ent_tuning_fork_ad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -1066,6 +1074,7 @@
                     android:layout_weight="1" />
 
                 <RadioGroup
+                    android:id="@+id/radio_group_ent_tuning_fork_as"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -1120,6 +1129,7 @@
                     android:layout_weight="1" />
 
                 <RadioGroup
+                    android:id="@+id/radio_group_bc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -1180,6 +1190,7 @@
                     android:layout_weight="1" />
 
                 <RadioGroup
+                    android:id="@+id/radio_group_fork"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">

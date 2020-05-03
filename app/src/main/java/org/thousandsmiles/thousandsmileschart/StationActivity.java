@@ -317,6 +317,7 @@ public class StationActivity extends AppCompatActivity {
         final ArrayList<String> names = m_appListItems.getNames(station);
         final ArrayList<Integer> imageIds = m_appListItems.getImageIds(station);
         final ArrayList<Integer> selectors = m_appListItems.getSelectors(station);
+        final ArrayList<Boolean> readOnlyFlags = m_appListItems.getReadOnlyFlags(station);
 
         AppsList adapter = new AppsList(StationActivity.this, names, imageIds, selectors);
 
@@ -351,12 +352,12 @@ public class StationActivity extends AppCompatActivity {
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.ent_history_name))) {
-                        showENTHistorySearchResults();
+                        showENTHistorySearchResults(readOnlyFlags.get(position));
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
                         //Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.exam_name))) {
-                        showENTExamSearchResults();
+                        showENTExamSearchResults(readOnlyFlags.get(position));
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
                         //Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
@@ -365,12 +366,12 @@ public class StationActivity extends AppCompatActivity {
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.diagnosis_name))) {
-                        showENTDiagnosisSearchResults();
+                        showENTDiagnosisSearchResults(readOnlyFlags.get(position));
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
                         //Toast.makeText(StationActivity.this, R.string.msg_feature_not_implemented, Toast.LENGTH_LONG).show();
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.treatment_plan_name))) {
-                        showENTTreatmentSearchResults();
+                        showENTTreatmentSearchResults(readOnlyFlags.get(position));
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
                         //Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
@@ -426,10 +427,13 @@ public class StationActivity extends AppCompatActivity {
         t.setText(R.string.audiogram_name);
     }
 
-    public void showENTHistorySearchResults()
+    public void showENTHistorySearchResults(Boolean readOnly)
     {
         Bundle arguments = new Bundle();
         AppPatientENTHistoryListFragment fragment = new AppPatientENTHistoryListFragment();
+        AppFragmentContext ctx = new AppFragmentContext();
+        ctx.setReadOnly(readOnly);
+        fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
@@ -441,10 +445,13 @@ public class StationActivity extends AppCompatActivity {
         t.setText(R.string.ent_history_name);
     }
 
-    public void showENTDiagnosisSearchResults()
+    public void showENTDiagnosisSearchResults(Boolean readOnly)
     {
         Bundle arguments = new Bundle();
         AppPatientENTDiagnosisListFragment fragment = new AppPatientENTDiagnosisListFragment();
+        AppFragmentContext ctx = new AppFragmentContext();
+        ctx.setReadOnly(readOnly);
+        fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
@@ -456,10 +463,13 @@ public class StationActivity extends AppCompatActivity {
         t.setText(R.string.diagnosis_name);
     }
 
-    public void showENTTreatmentSearchResults()
+    public void showENTTreatmentSearchResults(Boolean readOnly)
     {
         Bundle arguments = new Bundle();
         AppPatientENTTreatmentListFragment fragment = new AppPatientENTTreatmentListFragment();
+        AppFragmentContext ctx = new AppFragmentContext();
+        ctx.setReadOnly(readOnly);
+        fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
@@ -471,10 +481,13 @@ public class StationActivity extends AppCompatActivity {
         t.setText(R.string.treatment_plan_name);
     }
 
-    public void showENTExamSearchResults()
+    public void showENTExamSearchResults(Boolean readOnly)
     {
         Bundle arguments = new Bundle();
         AppPatientENTExamListFragment fragment = new AppPatientENTExamListFragment();
+        AppFragmentContext ctx = new AppFragmentContext();
+        ctx.setReadOnly(readOnly);
+        fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)

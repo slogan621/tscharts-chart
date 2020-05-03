@@ -50,6 +50,11 @@ public class AppPatientENTHistoryListFragment extends Fragment {
     private CommonSessionSingleton m_commonSess;
     private ArrayList<ENTHistory> m_entHistories = new ArrayList<ENTHistory>();
     private Activity m_activity;
+    private AppFragmentContext m_ctx = new AppFragmentContext();
+
+    public void setAppFragmentContext(AppFragmentContext ctx) {
+        m_ctx = ctx;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -98,7 +103,11 @@ public class AppPatientENTHistoryListFragment extends Fragment {
     {
         Bundle arguments = new Bundle();
         arguments.putSerializable("history", exam);
+
         AppENTHistoryFragment fragment = new AppENTHistoryFragment();
+        AppFragmentContext ctx = new AppFragmentContext();
+        ctx.setReadOnly(m_ctx.getReadOnly());
+        fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
@@ -136,43 +145,50 @@ public class AppPatientENTHistoryListFragment extends Fragment {
         button.setBackgroundColor(getResources().getColor(R.color.lightGray));
         button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
 
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        if (!m_ctx.getReadOnly()) {
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
-                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_ent_history_record));
-                alertDialogBuilder.setPositiveButton(R.string.button_yes,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                m_sess.setNewENTHistory(true);
-                                showENTHistory(new ENTHistory());
-                            }
-                        });
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
 
-                alertDialogBuilder.setNegativeButton(R.string.button_no,new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
+                    alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_ent_history_record));
+                    alertDialogBuilder.setPositiveButton(R.string.button_yes,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    m_sess.setNewENTHistory(true);
+                                    showENTHistory(new ENTHistory());
+                                }
+                            });
 
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-            }
-        });
+                    alertDialogBuilder.setNegativeButton(R.string.button_no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
 
-        btnLO.addView(button);
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }
+            });
+
+            btnLO.addView(button);
+        }
 
         boolean newRow = true;
         row = new TableRow(m_activity);
         row.setWeightSum((float)1.0);
 
-        TextView txt = new TextView(m_activity);
-        txt.setText(R.string.button_label_add_new_ent_history);
-        txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-        txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
-        txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        btnLO.addView(txt);
+        TextView txt;
+
+        if (!m_ctx.getReadOnly()) {
+            txt = new TextView(m_activity);
+            txt.setText(R.string.button_label_add_new_ent_history);
+            txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            btnLO.addView(txt);
+        }
 
         row.setLayoutParams(parms);
 

@@ -50,6 +50,11 @@ public class AppPatientENTTreatmentListFragment extends Fragment {
     private CommonSessionSingleton m_commonSess;
     private ArrayList<ENTTreatment> m_entTreatments = new ArrayList<ENTTreatment>();
     private Activity m_activity;
+    private AppFragmentContext m_ctx = new AppFragmentContext();
+
+    public void setAppFragmentContext(AppFragmentContext ctx) {
+        m_ctx = ctx;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -99,6 +104,9 @@ public class AppPatientENTTreatmentListFragment extends Fragment {
         Bundle arguments = new Bundle();
         arguments.putSerializable("treatment", treatment);
         AppENTTreatmentFragment fragment = new AppENTTreatmentFragment();
+        AppFragmentContext ctx = new AppFragmentContext();
+        ctx.setReadOnly(m_ctx.getReadOnly());
+        fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
@@ -161,7 +169,9 @@ public class AppPatientENTTreatmentListFragment extends Fragment {
             }
         });
 
-        btnLO.addView(button);
+        if (!m_ctx.getReadOnly()) {
+            btnLO.addView(button);
+        }
 
         boolean newRow = true;
         row = new TableRow(m_activity);
@@ -172,7 +182,9 @@ public class AppPatientENTTreatmentListFragment extends Fragment {
         txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
         txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        btnLO.addView(txt);
+        if (!m_ctx.getReadOnly()) {
+            btnLO.addView(txt);
+        }
 
         row.setLayoutParams(parms);
 
@@ -215,7 +227,7 @@ public class AppPatientENTTreatmentListFragment extends Fragment {
                 button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
 
             } else {
-                    button.setImageDrawable(getResources().getDrawable(R.drawable.medhist));
+                button.setImageDrawable(getResources().getDrawable(R.drawable.medhist));
             }
 
             ENTTreatment ENTTreatment = m_entTreatments.get(i);
