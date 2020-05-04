@@ -272,7 +272,7 @@ public class AppENTHistoryFragment extends Fragment {
     {
         CheckBox cb1, cb2, cb3;
         TextView tx;
-        RadioButton rb1, rb2, rb3, rb4, rb5;
+        RadioButton rb1, rb2, rb3, rb4, rb5, rb6;
 
         if (m_entHistory != null) {
 
@@ -354,12 +354,14 @@ public class AppENTHistoryFragment extends Fragment {
             rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_pain_duration_weeks);
             rb4 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_pain_duration_months);
             rb5 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_pain_duration_intermittent);
+            rb6 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_pain_duration_permanent);
 
             rb1.setChecked(true);
             rb2.setChecked(false);
             rb3.setChecked(false);
             rb4.setChecked(false);
             rb5.setChecked(false);
+            rb6.setChecked(false);
 
             switch (duration) {
                 case EAR_DURATION_NONE:
@@ -376,6 +378,9 @@ public class AppENTHistoryFragment extends Fragment {
                     break;
                 case EAR_DURATION_INTERMITTENT:
                     rb5.setChecked(true);
+                    break;
+                case EAR_DURATION_PERMANENT:
+                    rb6.setChecked(true);
                     break;
             }
 
@@ -388,13 +393,14 @@ public class AppENTHistoryFragment extends Fragment {
             rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_drainage_duration_weeks);
             rb4 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_drainage_duration_months);
             rb5 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_drainage_duration_intermittent);
-
+            rb6 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_drainage_duration_permanent);
 
             rb1.setChecked(true);
             rb2.setChecked(false);
             rb3.setChecked(false);
             rb4.setChecked(false);
             rb5.setChecked(false);
+            rb6.setChecked(false);
 
             switch (duration) {
                 case EAR_DURATION_NONE:
@@ -412,6 +418,9 @@ public class AppENTHistoryFragment extends Fragment {
                 case EAR_DURATION_INTERMITTENT:
                     rb5.setChecked(true);
                     break;
+                case EAR_DURATION_PERMANENT:
+                    rb6.setChecked(true);
+                    break;
             }
 
             // Hearing loss duration
@@ -423,13 +432,14 @@ public class AppENTHistoryFragment extends Fragment {
             rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_weeks);
             rb4 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_months);
             rb5 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_intermittent);
-
+            rb6 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_permanent);
 
             rb1.setChecked(true);
             rb2.setChecked(false);
             rb3.setChecked(false);
             rb4.setChecked(false);
             rb5.setChecked(false);
+            rb6.setChecked(false);
 
             switch (duration) {
                 case EAR_DURATION_NONE:
@@ -445,6 +455,9 @@ public class AppENTHistoryFragment extends Fragment {
                     rb4.setChecked(true);
                     break;
                 case EAR_DURATION_INTERMITTENT:
+                    rb5.setChecked(true);
+                    break;
+                case EAR_DURATION_PERMANENT:
                     rb5.setChecked(true);
                     break;
             }
@@ -618,6 +631,16 @@ public class AppENTHistoryFragment extends Fragment {
             });
         }
 
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_pain_duration_permanent);
+        if (rb != null) {
+            rb.setEnabled(!readOnly);
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
         rg = (RadioGroup) m_view.findViewById(R.id.radio_group_ent_drainage);
         if (rg != null) {
             rg.setEnabled(false);
@@ -673,6 +696,16 @@ public class AppENTHistoryFragment extends Fragment {
             });
         }
 
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_drainage_duration_permanent);
+        if (rb != null) {
+            rb.setEnabled(!readOnly);
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
         rg = (RadioGroup) m_view.findViewById(R.id.radio_group_ent_hearing_loss);
         if (rg != null) {
             rg.setEnabled(false);
@@ -719,6 +752,16 @@ public class AppENTHistoryFragment extends Fragment {
         }
 
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_intermittent);
+        if (rb != null) {
+            rb.setEnabled(!readOnly);
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_permanent);
         if (rb != null) {
             rb.setEnabled(!readOnly);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -835,6 +878,11 @@ public class AppENTHistoryFragment extends Fragment {
             mh.setPainDuration(ENTHistory.ENTDuration.EAR_DURATION_INTERMITTENT);
         }
 
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_pain_duration_permanent);
+        if (rb.isChecked()) {
+            mh.setPainDuration(ENTHistory.ENTDuration.EAR_DURATION_PERMANENT);
+        }
+
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_drainage_duration_none);
         if (rb.isChecked()) {
             mh.setDrainageDuration(ENTHistory.ENTDuration.EAR_DURATION_NONE);
@@ -860,6 +908,11 @@ public class AppENTHistoryFragment extends Fragment {
             mh.setDrainageDuration(ENTHistory.ENTDuration.EAR_DURATION_INTERMITTENT);
         }
 
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_drainage_duration_permanent);
+        if (rb.isChecked()) {
+            mh.setDrainageDuration(ENTHistory.ENTDuration.EAR_DURATION_PERMANENT);
+        }
+
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_none);
         if (rb.isChecked()) {
             mh.setHearingLossDuration(ENTHistory.ENTDuration.EAR_DURATION_NONE);
@@ -883,6 +936,11 @@ public class AppENTHistoryFragment extends Fragment {
         rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_intermittent);
         if (rb.isChecked()) {
             mh.setHearingLossDuration(ENTHistory.ENTDuration.EAR_DURATION_INTERMITTENT);
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_hearing_loss_duration_permanent);
+        if (rb.isChecked()) {
+            mh.setHearingLossDuration(ENTHistory.ENTDuration.EAR_DURATION_PERMANENT);
         }
 
         EditText t = (EditText) m_view.findViewById(R.id.ent_notes);

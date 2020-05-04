@@ -160,10 +160,16 @@
                             android:text="@string/months" />
 
                         <RadioButton
-                            android:id="@+id/radio_button_ent_pain_duration_intermittent"
+                        android:id="@+id/radio_button_ent_pain_duration_intermittent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/intermittent" />
+
+                        <RadioButton
+                            android:id="@+id/radio_button_ent_pain_duration_permanent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/intermittent" />
+                            android:text="@string/permanent" />
                     </RadioGroup>
                 </LinearLayout>
             </LinearLayout>
@@ -292,6 +298,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/intermittent" />
+
+                        <RadioButton
+                            android:id="@+id/radio_button_ent_drainage_duration_permanent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/permanent" />
                     </RadioGroup>
                 </LinearLayout>
             </LinearLayout>
@@ -420,6 +432,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/intermittent" />
+
+                        <RadioButton
+                            android:id="@+id/radio_button_ent_hearing_loss_duration_permanent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/permanent" />
                     </RadioGroup>
                 </LinearLayout>
             </LinearLayout>
