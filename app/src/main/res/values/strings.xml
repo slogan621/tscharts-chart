@@ -512,4 +512,7 @@
     <string name="msg_successfully_got_audiogram_data">Successfully got audiogram data</string>
     <string name="section_title_station_filters">Station Filters</string>
     <string name="station_name_search_all">Search All</string>
+    <string name="xray_images">X-Ray Images</string>
+    <string name="msg_unable_to_get_xray_thumbnails_for_patient">Unable to get X-Ray image thumbnails</string>
+    <string name="button_label_view_selected">View Selected</string>
 </resources>

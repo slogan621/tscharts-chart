@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2019
- * (C) Copyright Thousand Smiles Foundation 2019
+ * (C) Copyright Syd Logan 2019-2020
+ * (C) Copyright Thousand Smiles Foundation 2019-2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,10 @@
 package org.thousandsmiles.thousandsmileschart;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -28,23 +30,41 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.CompoundButtonCompat;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.HeadshotImage;
+import org.thousandsmiles.tscharts_lib.ImageDisplayedListener;
+import org.thousandsmiles.tscharts_lib.PatientData;
 import org.thousandsmiles.tscharts_lib.XRay;
 import org.thousandsmiles.tscharts_lib.XRayREST;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class AppPatientXRayEditorFragment extends Fragment {
     private StationActivity m_activity = null;
@@ -58,6 +78,8 @@ public class AppPatientXRayEditorFragment extends Fragment {
     private ToothMapState m_childToothMapState;
     private ToothMapState m_adultToothMapState;
     private XRay.XRayMouthType m_mouthType;
+    private XRayThumbnailTable m_currentXRayThumbnailTable = new XRayThumbnailTable(R.id.xray_current_image_table);
+    private XRayThumbnailTable m_olderXRayThumbnailTable = new XRayThumbnailTable(R.id.xray_older_image_table);;
 
     private void initImageMaps() {
         m_childImageMap = new ImageMap();
@@ -185,12 +207,317 @@ public class AppPatientXRayEditorFragment extends Fragment {
         return new AppPatientXRayEditorFragment();
     }
 
+    private class XRayThumbnailTable implements ImageDisplayedListener  {
+
+        private int m_tableId;
+        private ArrayList<XRayImage> m_thumbnails = new ArrayList<XRayImage>();
+        private ArrayList<XRayImage> m_viewList = new ArrayList<XRayImage>();
+
+        public XRayThumbnailTable(int tableId) {
+            m_tableId = tableId;
+        }
+
+        public void onImageDisplayed(int imageId, String path)
+        {
+            SessionSingleton sess = SessionSingleton.getInstance();
+            sess.getCommonSessionSingleton().addHeadShotPath(imageId, path);
+            sess.getCommonSessionSingleton().startNextHeadshotJob();
+        }
+
+        public void onImageError(int imageId, String path, int errorCode)
+        {
+            if (errorCode != 404) {
+                m_activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_get_patient_headshot), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            SessionSingleton.getInstance().getCommonSessionSingleton().removeHeadShotPath(imageId);
+            SessionSingleton.getInstance().getCommonSessionSingleton().startNextHeadshotJob();
+        }
+
+        private void clearXRayThumbnailList() {
+            m_thumbnails.clear();
+        }
+
+        private void setTableId(int id) {
+            m_tableId = id;
+        }
+
+        public void add(XRayImage item) {
+            m_thumbnails.add(item);
+        }
+
+        private void ClearXRayThumbnailTable ()
+        {
+            TableLayout layout = (TableLayout) m_activity.findViewById(m_tableId);
+
+            if (layout != null) {
+                int count = layout.getChildCount();
+                for (int i = 0; i < count; i++) {
+                    View child = layout.getChildAt(i);
+                    if (child instanceof TableRow) ((ViewGroup) child).removeAllViews();
+                }
+            }
+        }
+
+        private void HideXRayThumbnailTable ()
+        {
+            View v = (View) m_activity.findViewById(m_tableId);
+            if (v != null) {
+                v.setVisibility(View.GONE);
+            }
+        }
+
+        private void ShowXRayThumbnailTable()
+        {
+            View v = (View) m_activity.findViewById(m_tableId);
+            if (v != null) {
+                v.setVisibility(View.VISIBLE);
+            }
+        }
+
+        private void setViewButtonEnabled(boolean enabled) {
+            Button view = m_activity.findViewById(R.id.button_xray_view_selected);
+            if (view != null) {
+                view.setEnabled(enabled);
+            }
+        }
+
+        private void LayoutCurrentXRayThumbnailTable () {
+
+            TableLayout layout = (TableLayout) m_activity.findViewById(m_tableId);
+            TableRow row = null;
+            int count;
+
+            ClearXRayThumbnailTable();
+            ShowXRayThumbnailTable();
+
+            LinearLayout btnLO = new LinearLayout(m_activity.getApplicationContext());
+
+            LinearLayout.LayoutParams paramsLO = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            btnLO.setOrientation(LinearLayout.VERTICAL);
+
+
+            TableRow.LayoutParams parms = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+
+            int leftMargin = 10;
+            int topMargin = 2;
+            int rightMargin = 10;
+            int bottomMargin = 2;
+            parms.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+            parms.gravity = (Gravity.CENTER_VERTICAL);
+
+            btnLO.setLayoutParams(parms);
+
+            ImageButton button = new ImageButton(m_activity.getApplicationContext());
+
+            boolean newRow = true;
+            row = new TableRow(m_activity.getApplicationContext());
+            row.setWeightSum((float) 1.0);
+
+            TextView txt = new TextView(m_activity.getApplicationContext());
+
+            row.setLayoutParams(parms);
+
+            if (row != null) {
+                row.addView(btnLO);
+            }
+
+            if (newRow == true) {
+                layout.addView(row, new TableLayout.LayoutParams(0, TableLayout.LayoutParams.WRAP_CONTENT));
+            }
+
+            HashMap<Integer, PatientData> map = m_sess.getPatientHashMap();
+
+            count = 0;
+            int extraCells = (map.size() + 1) % 3;
+            if (extraCells != 0) {
+                extraCells = 3 - extraCells;
+            }
+
+            for (int i = 0; i < m_thumbnails.size(); i++) {
+
+                XRayImage img = m_thumbnails.get(i);
+
+                newRow = false;
+                if (true || (count % 3) == 0) { // XXX
+                    newRow = true;
+                    row = new TableRow(m_activity.getApplicationContext());
+                    row.setWeightSum((float) 1.0);
+                    row.setLayoutParams(parms);
+                }
+
+                btnLO = new LinearLayout(m_activity.getApplicationContext());
+
+                btnLO.setOrientation(LinearLayout.VERTICAL);
+
+                btnLO.setLayoutParams(parms);
+
+                button = new ImageButton(m_activity.getApplicationContext());
+
+                button.setTag(img);
+
+                ActivityManager.MemoryInfo memoryInfo = m_sess.getCommonSessionSingleton().getAvailableMemory();
+
+                if (!memoryInfo.lowMemory) {
+                    HeadshotImage headshot = new HeadshotImage();
+                    headshot.setImageType("Xray");
+                    m_sess.getCommonSessionSingleton().addHeadshotImage(headshot);
+                    headshot.setActivity(m_activity);
+                    headshot.setImageView(button);
+                    headshot.registerListener(this);
+                    Thread t = headshot.getImage(img.getId());
+                    m_sess.getCommonSessionSingleton().addHeadshotJob(headshot);
+                } else {
+                    m_activity.runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(m_activity.getApplicationContext(), R.string.error_unable_to_connect, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+                button.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        XRayImage o = (XRayImage) v.getTag();
+                        //showActionDialog(o);
+                        //confirmPatientSelection(o);
+                    }
+                });
+
+                btnLO.addView(button);
+
+                txt = new TextView(m_activity.getApplicationContext());
+                try {
+                    String start = m_sess.getCommonSessionSingleton().getClinicById(img.getClinic()).getString("start");
+                    String end = m_sess.getCommonSessionSingleton().getClinicById(img.getClinic()).getString("end");
+                    String val;
+                    if (start.equals(end)) {
+                        val = start;
+                    } else {
+                        val = String.format("%s - %s", start, end);
+                    }
+                    txt.setText(String.format("Clinic Date %s", val));
+                } catch (Exception e) {
+                    txt.setText(String.format("Error getting clinic date"));
+                }
+                txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                btnLO.addView(txt);
+
+                txt = new TextView(m_activity.getApplicationContext());
+                txt.setText(String.format("C%03d-P%05d-%06d", img.getClinic(), img.getPatient(), img.getId()));
+                txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                btnLO.addView(txt);
+
+                LinearLayout chkboxLO = new LinearLayout(m_activity.getApplicationContext());
+                chkboxLO.setOrientation(LinearLayout.HORIZONTAL);
+                chkboxLO.setGravity(Gravity.CENTER_VERTICAL);
+
+                CheckBox ch = new CheckBox(m_activity.getApplicationContext());
+                ch.setChecked(false);
+                ch.setTag(img);
+                ColorStateList darkStateList = ContextCompat.getColorStateList(getContext(), R.color.colorBlack);
+                CompoundButtonCompat.setButtonTintList(ch, darkStateList);
+                ch.setGravity(Gravity.CENTER_VERTICAL);
+                ch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        XRayImage xray = (XRayImage) buttonView.getTag();
+                        if (isChecked) {
+                            m_viewList.add(xray);
+                        } else {
+                            m_viewList.remove(xray);
+                        }
+                        setViewButtonEnabled(m_viewList.size() == 0 ? false : true);
+                    }
+                });
+                chkboxLO.addView(ch);
+                chkboxLO.addView(btnLO);
+
+                if (row != null) {
+                    row.addView(chkboxLO);
+                }
+
+                if (newRow == true) {
+                    layout.addView(row, new TableLayout.LayoutParams(0, TableLayout.LayoutParams.WRAP_CONTENT));
+                }
+                count++;
+            }
+
+            for (int i = 0; i < extraCells; i++) {
+                btnLO = new LinearLayout(m_activity.getApplicationContext());
+
+                btnLO.setOrientation(LinearLayout.VERTICAL);
+
+                btnLO.setLayoutParams(parms);
+                if (row != null) {
+                    row.addView(btnLO);
+                }
+            }
+            m_sess.getCommonSessionSingleton().startNextHeadshotJob();
+        }
+    }
+
+    private void initializeXRayThumbnailData() {
+
+        m_sess = SessionSingleton.getInstance();
+
+        new Thread(new Runnable() {
+            public void run() {
+                Thread thread = new Thread(){
+                    public void run() {
+                        JSONArray xrays;
+                        m_currentXRayThumbnailTable.clearXRayThumbnailList();
+                        xrays = m_sess.getXRayThumbnails(m_sess.getClinicId(), m_sess.getDisplayPatientId());
+                        if (xrays == null) {
+                            m_activity.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_xray_thumbnails_for_patient, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            for (int i = 0; i < xrays.length(); i++) {
+                                try {
+                                    XRayImage xray = new XRayImage();
+                                    xray.setId(xrays.getInt(i));
+                                    xray.setClinic(m_sess.getClinicId());
+                                    xray.setPatient(m_sess.getDisplayPatientId());
+                                    m_currentXRayThumbnailTable.add(xray);
+                                    CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
+                                    sess.setContext(getContext());
+                                    JSONObject co = sess.getClinicById(xray.getClinic());
+                                    if (co == null) {
+                                        try {
+                                            Thread.sleep(500);
+                                        } catch (Exception e) {
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                }
+                            }
+                        }
+                        m_activity.runOnUiThread(new Runnable() {
+                            public void run() {
+                                m_currentXRayThumbnailTable.LayoutCurrentXRayThumbnailTable();
+                            }
+                        });
+                    }
+                };
+                thread.start();
+            }
+        }).start();
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         if (context instanceof Activity){
             m_activity=(StationActivity) context;
+            initializeXRayThumbnailData();
         }
     }
 
@@ -198,10 +525,13 @@ public class AppPatientXRayEditorFragment extends Fragment {
     {
         RadioButton rb1, rb2;
         XRay.XRayType type;
+        boolean enableUI = m_sess.isXRayStation();
 
         if (m_xray != null) {
             rb1 = (RadioButton) m_view.findViewById(R.id.xray_type_full);
             rb2 = (RadioButton) m_view.findViewById(R.id.xray_type_anteriors_bitewings);
+            rb1.setEnabled(enableUI);
+            rb2.setEnabled(enableUI);
             type = m_xray.getType();
             switch(type) {
                 case XRAY_TYPE_FULL:
@@ -216,6 +546,8 @@ public class AppPatientXRayEditorFragment extends Fragment {
 
             rb1 = (RadioButton) m_view.findViewById(R.id.xray_mouth_type_child);
             rb2 = (RadioButton) m_view.findViewById(R.id.xray_mouth_type_adult);
+            rb1.setEnabled(enableUI);
+            rb2.setEnabled(enableUI);
             m_mouthType = m_xray.getMouthType();
             switch(m_mouthType) {
                 case XRAY_MOUTH_TYPE_CHILD:
@@ -496,7 +828,8 @@ public class AppPatientXRayEditorFragment extends Fragment {
         }
 
         Button button = (Button) m_view.findViewById(R.id.button_xray_set);
-        if (button != null) {
+        button.setEnabled(m_sess.isXRayStation());
+        if (m_sess.isXRayStation() && button != null) {
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     m_xray.setTeeth(0xffffffff);
@@ -507,7 +840,8 @@ public class AppPatientXRayEditorFragment extends Fragment {
         }
 
         button = (Button) m_view.findViewById(R.id.button_xray_clear);
-        if (button != null) {
+        button.setEnabled(m_sess.isXRayStation());
+        if (m_sess.isXRayStation() && button != null) {
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     m_xray.setTeeth(0);
@@ -521,6 +855,9 @@ public class AppPatientXRayEditorFragment extends Fragment {
         mouthImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent ev) {
+                if (m_sess.isXRayStation() == false) {
+                    return false;
+                }
                 boolean ret = false;
 
                 int x = (int) ev.getX();

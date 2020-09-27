@@ -2,8 +2,8 @@
 <!--
 
 /*
- * (C) Copyright Syd Logan 2019
- * (C) Copyright Thousand Smiles Foundation 2019
+ * (C) Copyright Syd Logan 2019-2020
+ * (C) Copyright Thousand Smiles Foundation 2019-2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -114,7 +114,6 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="16dp"></ImageView>
 
-
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,6 +132,69 @@
                     android:text="@string/xray_type_anteriors_bitewings" />
             </RadioGroup>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@color/lightGray"
+                android:text="@string/xray_images"
+                android:textSize="@dimen/med_hist_label_text_size" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_xray_view_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_custom"
+            android:clickable="true"
+            android:enabled="false"
+            android:text="@string/button_label_view_selected"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="16dp"></ImageView>
+
+                <TableLayout
+                    android:id="@+id/xray_current_image_table"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                </TableLayout>
+
+                <TableLayout
+                    android:id="@+id/xray_older_image_table"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                </TableLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
     </LinearLayout>
 
     <LinearLayout

@@ -506,5 +506,8 @@
     <string name="msg_successfully_got_audiogram_data">Obtuve con éxito los datos de audiograma</string>
     <string name="section_title_station_filters">Filtros de Estación</string>
     <string name="station_name_search_all">Busca Todo</string>
+    <string name="xray_images">X-Ray Images</string>
+    <string name="msg_unable_to_get_xray_thumbnails_for_patient">Unable to get X-Ray image thumbnails</string>
+    <string name="button_label_view_selected">View Selected</string>
 </resources>
 

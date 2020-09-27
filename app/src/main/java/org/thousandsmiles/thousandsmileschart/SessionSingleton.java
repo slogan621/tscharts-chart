@@ -43,6 +43,7 @@ import org.thousandsmiles.tscharts_lib.ENTHistoryExtraREST;
 import org.thousandsmiles.tscharts_lib.ENTHistoryREST;
 import org.thousandsmiles.tscharts_lib.ENTTreatment;
 import org.thousandsmiles.tscharts_lib.ENTTreatmentREST;
+import org.thousandsmiles.tscharts_lib.ImageREST;
 import org.thousandsmiles.tscharts_lib.MedicalHistory;
 import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
 import org.thousandsmiles.tscharts_lib.PatientData;
@@ -146,6 +147,16 @@ public class SessionSingleton {
             } catch (Exception e) {
 
             }
+        }
+        return ret;
+    }
+
+    public boolean isXRayStation() {
+        boolean ret = false;
+        int id = getStationStationId();
+        String name = getStationNameFromId(id);
+        if (name.equals("X-Ray")) {
+            ret = true;
         }
         return ret;
     }
@@ -1115,6 +1126,38 @@ public class SessionSingleton {
         PatientData pd = new PatientData();
         pd.fromJSONObject(data);
         m_patientHashMap.put(id, pd);
+    }
+
+    JSONArray getXRayThumbnails(final int clinicId, final int patientId)
+    {
+        JSONArray ret = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final ImageREST imageREST = new ImageREST(getContext());
+            GetDataListener listener = new GetDataListener();
+            listener.setPatientId(patientId);
+            imageREST.addListener(listener);
+
+            Object lock = imageREST.getTypedImagesForPatientAndClinic(clinicId, patientId, "Xray");
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = imageREST.getStatus();
+            if (status == 200) {
+                ret = listener.getResultArray();
+            }
+        }
+        return ret;
     }
 
     JSONArray getXRays(final int clinicId, final int patientId)

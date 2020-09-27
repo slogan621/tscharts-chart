@@ -59,7 +59,7 @@ public class AppPatientAudiogramListFragment extends Fragment {
 
         if (context instanceof Activity){
             m_activity=(Activity) context;
-            initializeXRayData();
+            initializeAudiogramData();
         }
     }
 
@@ -283,7 +283,7 @@ public class AppPatientAudiogramListFragment extends Fragment {
         return new AppPatientAudiogramListFragment();
     }
 
-    private void initializeXRayData() {
+    private void initializeAudiogramData() {
 
         m_commonSess = CommonSessionSingleton.getInstance();
         m_sess = SessionSingleton.getInstance();

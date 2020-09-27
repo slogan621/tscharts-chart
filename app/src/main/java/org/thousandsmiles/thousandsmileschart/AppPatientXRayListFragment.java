@@ -129,50 +129,55 @@ public class AppPatientXRayListFragment extends Fragment {
         parms.gravity = (Gravity.CENTER_VERTICAL);
 
         btnLO.setLayoutParams(parms);
+
         ImageButton button = new ImageButton(m_activity);
+        if (m_sess.isXRayStation()) {
 
-        btnLO.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            btnLO.setBackgroundColor(getResources().getColor(R.color.lightGray));
 
-        button.setBackgroundColor(getResources().getColor(R.color.lightGray));
-        button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
+            button.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
 
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
-                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_xray_record));
-                alertDialogBuilder.setPositiveButton(R.string.button_yes,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                            m_sess.setNewXRay(true);
-                            showXRayEditor(new XRay());
-                            }
-                        });
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
+                    alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_xray_record));
+                    alertDialogBuilder.setPositiveButton(R.string.button_yes,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    m_sess.setNewXRay(true);
+                                    showXRayEditor(new XRay());
+                                }
+                            });
 
-                alertDialogBuilder.setNegativeButton(R.string.button_no,new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
+                    alertDialogBuilder.setNegativeButton(R.string.button_no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
 
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-            }
-        });
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }
+            });
 
-        btnLO.addView(button);
+            btnLO.addView(button);
+        }
 
         boolean newRow = true;
         row = new TableRow(m_activity);
         row.setWeightSum((float)1.0);
 
         TextView txt = new TextView(m_activity);
-        txt.setText(R.string.button_label_add_new_xray);
-        txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-        txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
-        txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        btnLO.addView(txt);
+        if (m_sess.isXRayStation()) {
+            txt.setText(R.string.button_label_add_new_xray);
+            txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            btnLO.addView(txt);
+        }
 
         row.setLayoutParams(parms);
 
@@ -184,7 +189,7 @@ public class AppPatientXRayListFragment extends Fragment {
             layout.addView(row, new TableLayout.LayoutParams(0, TableLayout.LayoutParams.WRAP_CONTENT));
         }
 
-        count = 1;
+        count = m_sess.isXRayStation() ? 1 : 0;
 
         int extraCells = (m_xrays.size() + 1) % 3;
         if (extraCells != 0) {
@@ -208,7 +213,7 @@ public class AppPatientXRayListFragment extends Fragment {
 
             button = new ImageButton(m_activity);
 
-            if (count == 0) {
+            if (count == 0 && m_sess.isXRayStation() == true) {
 
                 btnLO.setBackgroundColor(getResources().getColor(R.color.lightGray));
                 button.setBackgroundColor(getResources().getColor(R.color.lightGray));
