@@ -1,28 +1,10 @@
-<!--
-
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/xrays_detail"
-    style="?android:attr/textAppearanceLarge"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="org.thousandsmiles.x_raydemo.XraysDetailFragment" />
-    -->
 
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-    -->
+
     <ImageView
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/xrays_image_detail"
@@ -51,7 +33,16 @@
         app:layout_anchor="@id/fab"
         app:layout_anchorGravity="top"
         android:src="@drawable/falsecolor3b_216px_transparent" />
-<!--
-</FrameLayout>
--->
+
+    <TextView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/xrays_detail"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        android:editable="false"
+        android:layout_gravity="top" />
+
 </android.support.design.widget.CoordinatorLayout>

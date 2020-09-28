@@ -33,6 +33,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -48,15 +49,12 @@ public class XraysDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     ArrayList<XRayImage> m_images = null;
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private DummyContent.DummyItem mItem;
     private View m_rootView;
     private int m_index;
     boolean m_swiped;
     boolean m_swipeBack;
     private GestureDetectorCompat m_detector;
+    SessionSingleton m_sess = SessionSingleton.getInstance();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -188,16 +186,34 @@ public class XraysDetailFragment extends Fragment {
     }
 
     private void displayImage() {
-        ImageView mImageView;
-        PhotoViewAttacher mAttacher;
+        ImageView imageView;
+        TextView textView = null;
+        PhotoViewAttacher attacher;
+        XRayImage image = m_images.get(m_index);
 
-        mImageView = (ImageView) m_rootView.findViewById(R.id.xrays_image_detail);
+        imageView = (ImageView) m_rootView.findViewById(R.id.xrays_image_detail);
 
-        mImageView.setImageBitmap(m_images.get(m_index).getBitmap());
+        imageView.setImageBitmap(image.getBitmap());
 
-        // following swallows the touch events that I want so we can flick let and right, need to resolve
-        mAttacher = new PhotoViewAttacher(mImageView);
-        mAttacher.setOnSingleFlingListener(new SingleFlingListener());
+        textView = (TextView) m_rootView.findViewById(R.id.xrays_detail);
+        if (textView != null) {
+            try {
+                String start = m_sess.getCommonSessionSingleton().getClinicById(image.getClinic()).getString("start");
+                String end = m_sess.getCommonSessionSingleton().getClinicById(image.getClinic()).getString("end");
+                String val;
+                if (start.equals(end)) {
+                    val = start;
+                } else {
+                    val = String.format("%s - %s", start, end);
+                }
+                textView.setText(String.format("Clinic Date %s C%03d-P%05d-%06d", val, image.getClinic(), image.getPatient(), image.getId()));
+            } catch (Exception e) {
+                textView.setText(String.format("C%03d-P%05d-%06d", image.getClinic(), image.getPatient(), image.getId()));
+            }
+        }
+
+        attacher = new PhotoViewAttacher(imageView);
+        attacher.setOnSingleFlingListener(new SingleFlingListener());
     }
 
     @Override
