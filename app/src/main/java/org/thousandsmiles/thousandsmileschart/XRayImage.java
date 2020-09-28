@@ -17,6 +17,8 @@
 
 package org.thousandsmiles.thousandsmileschart;
 
+import android.graphics.Bitmap;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,7 +29,7 @@ public class XRayImage implements Serializable {
     private int m_patient;
     private int m_clinic;
     private int m_id;
-
+    private Bitmap m_bitmap = null;
 
     public int fromJSONObject(JSONObject o)
     {
@@ -64,24 +66,32 @@ public class XRayImage implements Serializable {
         return m_patient;
     }
 
-    public void setPatient(int m_patient) {
-        this.m_patient = m_patient;
+    public void setPatient(int patient) {
+        this.m_patient = patient;
     }
 
     public int getClinic() {
         return m_clinic;
     }
 
-    public void setClinic(int m_clinic) {
-        this.m_clinic = m_clinic;
+    public void setClinic(int clinic) {
+        this.m_clinic = clinic;
     }
 
     public int getId() {
         return m_id;
     }
 
-    public void setId(int m_id) {
-        this.m_id = m_id;
+    public void setId(int id) {
+        this.m_id = id;
+    }
+
+    public Bitmap getBitmap() {
+        return m_bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.m_bitmap = bitmap;
     }
 
     public XRayImage() {
@@ -91,5 +101,6 @@ public class XRayImage implements Serializable {
         this.m_patient = rhs.m_patient;
         this.m_clinic = rhs.m_clinic;
         this.m_id = rhs.m_id;
+        this.m_bitmap = rhs.m_bitmap;
     }
 }

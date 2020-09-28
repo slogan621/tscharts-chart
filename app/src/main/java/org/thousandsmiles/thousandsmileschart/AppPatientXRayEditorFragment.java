@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -64,7 +65,6 @@ import org.thousandsmiles.tscharts_lib.XRayREST;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 public class AppPatientXRayEditorFragment extends Fragment {
     private StationActivity m_activity = null;
@@ -217,11 +217,28 @@ public class AppPatientXRayEditorFragment extends Fragment {
             m_tableId = tableId;
         }
 
+        private int searchThumbnails(int id) {
+            int ret = -1;
+
+            for (int i = 0; i < m_thumbnails.size(); i++) {
+                if (m_thumbnails.get(i).getId() == id) {
+                    ret = i;
+                    break;
+                }
+            }
+            return ret;
+        }
+
         public void onImageDisplayed(int imageId, String path)
         {
             SessionSingleton sess = SessionSingleton.getInstance();
             sess.getCommonSessionSingleton().addHeadShotPath(imageId, path);
             sess.getCommonSessionSingleton().startNextHeadshotJob();
+            int idx = searchThumbnails(imageId);
+            if (idx != -1) {
+                Bitmap bitmap = BitmapFactory.decodeFile(path);
+                m_thumbnails.get(idx).setBitmap(bitmap);
+            }
         }
 
         public void onImageError(int imageId, String path, int errorCode)
@@ -434,6 +451,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
                         setViewButtonEnabled(m_viewList.size() == 0 ? false : true);
                     }
                 });
+
                 chkboxLO.addView(ch);
                 chkboxLO.addView(btnLO);
 
@@ -464,7 +482,6 @@ public class AppPatientXRayEditorFragment extends Fragment {
     private void initializeXRayThumbnailData() {
 
         m_sess = SessionSingleton.getInstance();
-
         new Thread(new Runnable() {
             public void run() {
                 Thread thread = new Thread(){
@@ -582,7 +599,6 @@ public class AppPatientXRayEditorFragment extends Fragment {
                 }
                 m_activity.showXRaySearchResults();
             }
-
         });
         m_dirty = true;
     }
@@ -602,7 +618,6 @@ public class AppPatientXRayEditorFragment extends Fragment {
         } else {
             img.setImageBitmap(m_adultImageMap.getBitmap());
         }
-
         colorTeeth();
     }
 
@@ -851,6 +866,15 @@ public class AppPatientXRayEditorFragment extends Fragment {
             });
         }
 
+        button = (Button) m_view.findViewById(R.id.button_xray_view_selected);
+        if (button != null) {
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                  showXRayViewer();
+                }
+            });
+        }
+
         final View mouthImage = (View)getActivity().findViewById(R.id.xray_mouth_image);
         mouthImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -898,6 +922,18 @@ public class AppPatientXRayEditorFragment extends Fragment {
                 return ret;
             }
         });
+    }
+
+    private void showXRayViewer()
+    {
+        XraysDetailFragment fragment = new XraysDetailFragment();
+        Bundle arguments = new Bundle();
+        arguments.putSerializable("xrays", m_currentXRayThumbnailTable.m_viewList);
+        fragment.setArguments(arguments);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
     }
 
     @Override

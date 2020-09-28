@@ -1,0 +1,57 @@
+<!--
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/xrays_detail"
+    style="?android:attr/textAppearanceLarge"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:textIsSelectable="true"
+    tools:context="org.thousandsmiles.x_raydemo.XraysDetailFragment" />
+    -->
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    -->
+    <ImageView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/xrays_image_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:context="org.thousandsmiles.thousandsmileschart.StationActivity"
+        android:src="@drawable/image1" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:fabSize="normal"
+        android:src="@drawable/histogram3b_216px_transparent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/colorize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:fabSize="normal"
+        app:layout_anchor="@id/fab"
+        app:layout_anchorGravity="top"
+        android:src="@drawable/histogram3b_216px_transparent" />
+<!--
+</FrameLayout>
+-->
+</android.support.design.widget.CoordinatorLayout>
