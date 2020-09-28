@@ -70,24 +70,6 @@ public class XraysDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         m_images = (ArrayList<XRayImage>) getArguments().getSerializable("xrays");
-
-        /*
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            String arg = getArguments().getString(ARG_ITEM_ID);
-            mItem = DummyContent.ITEM_MAP.get(arg);
-
-            Activity activity = this.getActivity();
-            //CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            //if (appBarLayout != null) {
-            //    appBarLayout.setTitle(mItem.content);
-            //}
-        }
-
-         */
-
     }
 
     public void doHistogramEqualization() {
@@ -136,6 +118,8 @@ public class XraysDetailFragment extends Fragment {
         });
     }
 
+    // XXX following currently unused, flings are communicated with ImageViewer class
+
     class GestureListener extends GestureDetector.SimpleOnGestureListener {
         private static final String DEBUG_TAG = "Gestures";
 
@@ -176,6 +160,33 @@ public class XraysDetailFragment extends Fragment {
         }
     }
 
+    private class SingleFlingListener implements PhotoViewAttacher.OnSingleFlingListener {
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if (abs((int)velocityX) > abs((int)velocityY)) {
+                m_swiped = true;
+                if (velocityX < 0) {
+                    m_swipeBack = false;
+                    if (m_index == m_images.size() - 1) {
+                        m_index = 0;
+                    } else {
+                        m_index += 1;
+                    }
+                } else {
+                    m_swipeBack = true;
+                    if (m_index == 0) {
+                        m_index = m_images.size() - 1;
+                    } else {
+                        m_index -= 1;
+                    }
+                }
+                displayImage();
+            }
+            return true;
+        }
+    }
+
     private void displayImage() {
         ImageView mImageView;
         PhotoViewAttacher mAttacher;
@@ -185,7 +196,8 @@ public class XraysDetailFragment extends Fragment {
         mImageView.setImageBitmap(m_images.get(m_index).getBitmap());
 
         // following swallows the touch events that I want so we can flick let and right, need to resolve
-        //mAttacher = new PhotoViewAttacher(mImageView);
+        mAttacher = new PhotoViewAttacher(mImageView);
+        mAttacher.setOnSingleFlingListener(new SingleFlingListener());
     }
 
     @Override
@@ -196,21 +208,6 @@ public class XraysDetailFragment extends Fragment {
         m_index = 0;
 
         displayImage();
-        m_detector = new GestureDetectorCompat(getActivity().getApplicationContext(), new GestureListener());
-
-        m_rootView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                m_detector.onTouchEvent(event);
-                /*
-                if(event.getAction() == MotionEvent.ACTION_MOVE){
-
-                }
-
-                 */
-                return true;
-            }
-        });
-
         return rootView;
     }
 }

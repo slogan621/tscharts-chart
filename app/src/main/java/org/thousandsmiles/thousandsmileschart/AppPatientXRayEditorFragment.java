@@ -519,6 +519,8 @@ public class AppPatientXRayEditorFragment extends Fragment {
                         m_activity.runOnUiThread(new Runnable() {
                             public void run() {
                                 m_currentXRayThumbnailTable.LayoutXRayThumbnailTable();
+                                /* now process older thumbnails, using current list to detect duplicates */
+                                initializePastXRayThumbnailData();
                             }
                         });
                     }
@@ -589,7 +591,6 @@ public class AppPatientXRayEditorFragment extends Fragment {
         if (context instanceof Activity){
             m_activity=(StationActivity) context;
             initializeCurrentXRayThumbnailData();
-            initializePastXRayThumbnailData();
         }
     }
 
