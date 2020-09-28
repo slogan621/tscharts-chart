@@ -302,7 +302,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
             }
         }
 
-        private void LayoutCurrentXRayThumbnailTable () {
+        private void LayoutXRayThumbnailTable () {
 
             TableLayout layout = (TableLayout) m_activity.findViewById(m_tableId);
             TableRow row = null;
@@ -479,7 +479,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
         }
     }
 
-    private void initializeXRayThumbnailData() {
+    private void initializeCurrentXRayThumbnailData() {
 
         m_sess = SessionSingleton.getInstance();
         new Thread(new Runnable() {
@@ -518,7 +518,61 @@ public class AppPatientXRayEditorFragment extends Fragment {
                         }
                         m_activity.runOnUiThread(new Runnable() {
                             public void run() {
-                                m_currentXRayThumbnailTable.LayoutCurrentXRayThumbnailTable();
+                                m_currentXRayThumbnailTable.LayoutXRayThumbnailTable();
+                            }
+                        });
+                    }
+                };
+                thread.start();
+            }
+        }).start();
+    }
+
+    private void initializePastXRayThumbnailData() {
+
+        m_sess = SessionSingleton.getInstance();
+        new Thread(new Runnable() {
+            public void run() {
+                Thread thread = new Thread(){
+                    public void run() {
+                        JSONArray xrays;
+                        m_olderXRayThumbnailTable.clearXRayThumbnailList();
+                        xrays = m_sess.getXRayThumbnails(-1, m_sess.getDisplayPatientId());
+                        if (xrays == null) {
+                            m_activity.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_xray_thumbnails_for_patient, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            for (int i = 0; i < xrays.length(); i++) {
+                                try {
+                                    int id = xrays.getInt(i);
+                                    if (m_currentXRayThumbnailTable.searchThumbnails(id) != -1) {
+                                        // current clinic XRay, skip
+                                        continue;
+                                    }
+                                    XRayImage xray = new XRayImage();
+                                    xray.setId(xrays.getInt(i));
+                                    xray.setClinic(m_sess.getClinicId());
+                                    xray.setPatient(m_sess.getDisplayPatientId());
+                                    m_olderXRayThumbnailTable.add(xray);
+                                    CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
+                                    sess.setContext(getContext());
+                                    JSONObject co = sess.getClinicById(xray.getClinic());
+                                    if (co == null) {
+                                        try {
+                                            Thread.sleep(500);
+                                        } catch (Exception e) {
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                }
+                            }
+                        }
+                        m_activity.runOnUiThread(new Runnable() {
+                            public void run() {
+                                m_olderXRayThumbnailTable.LayoutXRayThumbnailTable();
                             }
                         });
                     }
@@ -534,7 +588,8 @@ public class AppPatientXRayEditorFragment extends Fragment {
 
         if (context instanceof Activity){
             m_activity=(StationActivity) context;
-            initializeXRayThumbnailData();
+            initializeCurrentXRayThumbnailData();
+            initializePastXRayThumbnailData();
         }
     }
 

@@ -1138,7 +1138,12 @@ public class SessionSingleton {
             listener.setPatientId(patientId);
             imageREST.addListener(listener);
 
-            Object lock = imageREST.getTypedImagesForPatientAndClinic(clinicId, patientId, "Xray");
+            Object lock;
+            if (clinicId == -1) {
+                lock = imageREST.getTypedImagesForPatient(patientId, "Xray");
+            } else {
+                lock = imageREST.getTypedImagesForPatientAndClinic(clinicId, patientId, "Xray");
+            }
 
             synchronized (lock) {
                 // we loop here in case of race conditions or spurious interrupts
