@@ -50,7 +50,7 @@
         app:fabSize="normal"
         app:layout_anchor="@id/fab"
         app:layout_anchorGravity="top"
-        android:src="@drawable/histogram3b_216px_transparent" />
+        android:src="@drawable/falsecolor3b_216px_transparent" />
 <!--
 </FrameLayout>
 -->
