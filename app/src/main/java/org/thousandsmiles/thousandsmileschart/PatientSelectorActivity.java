@@ -379,8 +379,6 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
         LinearLayout btnLO = new LinearLayout(this);
 
-        LinearLayout.LayoutParams paramsLO = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         btnLO.setOrientation(LinearLayout.VERTICAL);
 
         TableRow.LayoutParams parms = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
@@ -400,7 +398,6 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         row = new TableRow(getApplicationContext());
         row.setWeightSum((float)1.0);
 
-
         TextView txt = new TextView(getApplicationContext());
 
         row.setLayoutParams(parms);
@@ -410,16 +407,13 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         }
 
         if (newRow == true) {
-            layout.addView(row, new TableLayout.LayoutParams(0, TableLayout.LayoutParams.WRAP_CONTENT));
+            layout.addView(row, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
         }
 
         HashMap<Integer, PatientData> map = m_sess.getPatientHashMap();
 
         count = 0;
         int extraCells = (map.size() + 1) % 3;
-        if (extraCells != 0) {
-            extraCells = 3 - extraCells;
-        }
 
         for (Map.Entry<Integer, PatientData> entry : map.entrySet()) {
             Integer key = entry.getKey();
@@ -500,21 +494,32 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
             }
 
             if (newRow == true) {
-                layout.addView(row, new TableLayout.LayoutParams(0, TableLayout.LayoutParams.WRAP_CONTENT));
+                layout.addView(row, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
             }
             count++;
         }
+
+        // this matters most if there is a single row with less than 3 columns. Add invisible headshots to fill
+        // the space, otherwise, the items in a single row result will expand to fill all available space.
 
         for (int i = 0; i < extraCells; i++) {
             btnLO = new LinearLayout(this);
 
             btnLO.setOrientation(LinearLayout.VERTICAL);
 
+            button = new ImageButton(getApplicationContext());
+
+            button.setImageDrawable(getResources().getDrawable(R.drawable.girlfront));
+
+            button.setVisibility(View.INVISIBLE); // we want it to take space, not be visible
             btnLO.setLayoutParams(parms);
+            btnLO.addView(button);
+
             if (row != null) {
                 row.addView(btnLO);
             }
         }
+
         m_sess.getCommonSessionSingleton().startNextHeadshotJob();
     }
 

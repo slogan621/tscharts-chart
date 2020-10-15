@@ -238,7 +238,7 @@
             android:layout_width="match_parent"
             android:layout_height="5dp"/>
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        <ScrollView
             android:id="@+id/container_scroll_view"
             android:layout_width="match_parent"
             android:layout_gravity="center_horizontal"
@@ -247,7 +247,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                <TableLayout
                     android:id="@+id/namestablelayout"
                     android:stretchColumns="*"
                     android:layout_width="match_parent"
