@@ -82,11 +82,19 @@ public class SessionSingleton {
     // get routing slip cache entries
 
     ArrayList <RoutingSlipEntry> getRoutingSlipCacheEntries(int patient) {
+
+        /* disable the cache retrieval until some for of notification of items being
+           added or removed is available. For now, always read from backend. */
+
+        /*
         if (m_patientRoutingSlipEntries.containsKey(patient)) {
             // cache hit, return what we have
 
             return m_patientRoutingSlipEntries.get(patient);
         }
+        
+         */
+
         ArrayList<RoutingSlipEntry> ret = getRoutingSlipEntries(getClinicId(), patient);
         m_patientRoutingSlipEntries.put(patient, ret);
         return ret;
