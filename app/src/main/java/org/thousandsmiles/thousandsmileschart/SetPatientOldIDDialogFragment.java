@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2019
- * (C) Copyright Thousand Smiles Foundation 2019
+ * (C) Copyright Syd Logan 2019-2020
+ * (C) Copyright Thousand Smiles Foundation 2019-2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public class SetPatientOldIDDialogFragment extends DialogFragment {
         text = m_view.findViewById(R.id.value_curp);
         text.setText(String.format("%s", m_patientData.getCURP()));
         text = m_view.findViewById(R.id.value_dob);
-        text.setText(String.format("%s", m_patientData.getDob()));
+        text.setText(String.format("%s", m_patientData.getDobMilitary(getContext())));
         text = m_view.findViewById(R.id.value_first);
         text.setText(String.format("%s", m_patientData.getFirst()));
         text = m_view.findViewById(R.id.value_middle);

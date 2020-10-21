@@ -28,8 +28,6 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
-import org.thousandsmiles.tscharts_lib.ReturnToClinicStationREST;
-import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
 
 public class CheckoutPatient extends AsyncTask<Object, Object, Object> implements RESTCompletionListener {
 

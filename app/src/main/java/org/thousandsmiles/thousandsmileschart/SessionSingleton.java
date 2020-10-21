@@ -92,7 +92,7 @@ public class SessionSingleton {
 
             return m_patientRoutingSlipEntries.get(patient);
         }
-        
+
          */
 
         ArrayList<RoutingSlipEntry> ret = getRoutingSlipEntries(getClinicId(), patient);

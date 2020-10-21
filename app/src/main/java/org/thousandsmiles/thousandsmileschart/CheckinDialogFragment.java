@@ -90,7 +90,7 @@ public class CheckinDialogFragment extends DialogFragment {
             motherLast = o.getMotherLast();
             first = o.getFirst();
             middle = o.getMiddle();
-            dob = o.getDob();
+            dob = o.getDobMilitary(m_sess.getContext());
             gender = o.getGender();
 
             // Inflate and set the layout for the dialog
