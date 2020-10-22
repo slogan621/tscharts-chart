@@ -119,17 +119,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/xray_type_full"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/xray_type_full" />
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/xray_type_anteriors_bitewings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/xray_type_anteriors_bitewings" />
+
+                <CheckBox
+                    android:id="@+id/xray_type_panoramic_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/xray_type_panoramic_view" />
+
+                <CheckBox
+                    android:id="@+id/xray_type_cephalometric"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/xray_type_cephalometric" />
             </RadioGroup>
         </LinearLayout>
 

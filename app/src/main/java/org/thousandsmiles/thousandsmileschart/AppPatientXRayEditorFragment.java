@@ -597,24 +597,37 @@ public class AppPatientXRayEditorFragment extends Fragment {
     private void copyXRayDataToUI()
     {
         RadioButton rb1, rb2;
-        XRay.XRayType type;
+        CheckBox cb1, cb2, cb3, cb4;
+        ArrayList<String> typeList;
         boolean enableUI = m_sess.isXRayStation();
 
         if (m_xray != null) {
-            rb1 = (RadioButton) m_view.findViewById(R.id.xray_type_full);
-            rb2 = (RadioButton) m_view.findViewById(R.id.xray_type_anteriors_bitewings);
-            rb1.setEnabled(enableUI);
-            rb2.setEnabled(enableUI);
-            type = m_xray.getType();
-            switch(type) {
-                case XRAY_TYPE_FULL:
-                    rb1.setChecked(true);
-                    rb2.setChecked(false);
-                    break;
-                case XRAY_TYPE_ANTERIORS_BITEWINGS:
-                    rb1.setChecked(false);
-                    rb2.setChecked(true);
-                    break;
+            cb1 = (CheckBox) m_view.findViewById(R.id.xray_type_full);
+            cb2 = (CheckBox) m_view.findViewById(R.id.xray_type_anteriors_bitewings);
+            cb3 = (CheckBox) m_view.findViewById(R.id.xray_type_panoramic_view);
+            cb4 = (CheckBox) m_view.findViewById(R.id.xray_type_cephalometric);
+
+            cb1.setEnabled(enableUI);
+            cb2.setEnabled(enableUI);
+            cb3.setEnabled(enableUI);
+            cb4.setEnabled(enableUI);
+
+            typeList = m_xray.getXrayTypeList();
+            cb1.setChecked(false);
+            cb2.setChecked(false);
+            cb3.setChecked(false);
+            cb4.setChecked(false);
+            for (int i = 0; i < typeList.size(); i++) {
+                String type = typeList.get(i);
+                if (type.equals(XRay.XRAY_TYPE_FULL)) {
+                    cb1.setChecked(true);
+                } else if (type.equals(XRay.XRAY_TYPE_ANTERIORS_BITEWINGS)) {
+                    cb2.setChecked(true);
+                } else if (type.equals(XRay.XRAY_TYPE_PANORAMIC_VIEW)) {
+                    cb3.setChecked(true);
+                } else if (type.equals(XRay.XRAY_TYPE_CEPHALOMETRIC)) {
+                    cb4.setChecked(true);
+                }
             }
 
             rb1 = (RadioButton) m_view.findViewById(R.id.xray_mouth_type_child);
@@ -737,6 +750,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
     private void setViewDirtyListeners()
     {
         RadioButton rb;
+        CheckBox cb;
 
         rb = (RadioButton) m_view.findViewById(R.id.xray_mouth_type_child);
         if (rb != null) {
@@ -760,18 +774,36 @@ public class AppPatientXRayEditorFragment extends Fragment {
             });
         }
 
-        rb = (RadioButton) m_view.findViewById(R.id.xray_type_full);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cb = (CheckBox) m_view.findViewById(R.id.xray_type_full);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
                 }
             });
         }
 
-        rb = (RadioButton) m_view.findViewById(R.id.xray_type_anteriors_bitewings);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cb = (CheckBox) m_view.findViewById(R.id.xray_type_anteriors_bitewings);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        cb = (CheckBox) m_view.findViewById(R.id.xray_type_cephalometric);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        cb = (CheckBox) m_view.findViewById(R.id.xray_type_panoramic_view);
+        if (cb != null) {
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
                 }
@@ -791,6 +823,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
     private XRay copyXRayDataFromUI()
     {
         RadioButton rb;
+        CheckBox cb;
         boolean checked;
 
         XRay xray;
@@ -810,12 +843,39 @@ public class AppPatientXRayEditorFragment extends Fragment {
             }
         }
 
-        rb = (RadioButton) m_view.findViewById(R.id.xray_type_full);
-        if (rb != null) {
-            if (rb.isChecked()) {
-                xray.setType(XRay.XRayType.XRAY_TYPE_FULL);
+        cb = (CheckBox) m_view.findViewById(R.id.xray_type_full);
+        if (cb != null) {
+            if (cb.isChecked()) {
+                xray.addType(XRay.XRAY_TYPE_FULL);
             } else {
-                xray.setType(XRay.XRayType.XRAY_TYPE_ANTERIORS_BITEWINGS);
+                xray.removeType(XRay.XRAY_TYPE_FULL);
+            }
+        }
+
+        cb = (CheckBox) m_view.findViewById(R.id.xray_type_anteriors_bitewings);
+        if (cb != null) {
+            if (cb.isChecked()) {
+                xray.addType(XRay.XRAY_TYPE_ANTERIORS_BITEWINGS);
+            } else {
+                xray.removeType(XRay.XRAY_TYPE_ANTERIORS_BITEWINGS);
+            }
+        }
+
+        cb = (CheckBox) m_view.findViewById(R.id.xray_type_panoramic_view);
+        if (cb != null) {
+            if (cb.isChecked()) {
+                xray.addType(XRay.XRAY_TYPE_PANORAMIC_VIEW);
+            } else {
+                xray.removeType(XRay.XRAY_TYPE_PANORAMIC_VIEW);
+            }
+        }
+
+        cb = (CheckBox) m_view.findViewById(R.id.xray_type_cephalometric);
+        if (cb != null) {
+            if (cb.isChecked()) {
+                xray.addType(XRay.XRAY_TYPE_CEPHALOMETRIC);
+            } else {
+                xray.removeType(XRay.XRAY_TYPE_CEPHALOMETRIC);
             }
         }
 
@@ -835,7 +895,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
 
                 if (m_sess.getNewXRay() == true) {
                     lock = rest.createXRay(m_sess.getDisplayPatientId(), m_sess.getClinicId(),
-                            m_xray.getTeeth(), m_xray.getTypeAsString(), m_xray.getMouthTypeAsString());
+                            m_xray.getTeeth(), m_xray.getType(), m_xray.getMouthTypeAsString());
                     m_sess.setNewXRay(false);
                 } else {
                     lock = rest.updateXRay(m_xray);

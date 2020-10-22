@@ -231,6 +231,8 @@
     <string name="xray_type">Tipo de rayos x</string>
     <string name="xray_type_full">Completo</string>
     <string name="xray_type_anteriors_bitewings">Anteriores - Bitewings</string>
+    <string name="xray_type_panoramic_view">Vista panorámica</string>
+    <string name="xray_type_cephalometric">Cefalométrico</string>
     <string name="xray_mouth_type">Tipo de boca</string>
     <string name="xray_mouth_type_child">Niño</string>
     <string name="xray_mouth_type_adult">Adulto</string>

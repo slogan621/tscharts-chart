@@ -236,6 +236,8 @@
     <string name="xray_type">X-Ray Type</string>
     <string name="xray_type_full">Full</string>
     <string name="xray_type_anteriors_bitewings">Anteriors-Bitewings</string>
+    <string name="xray_type_panoramic_view">Panoramic View</string>
+    <string name="xray_type_cephalometric">Cephalometric</string>
     <string name="xray_mouth_type">Mouth Type</string>
     <string name="xray_mouth_type_child">Child</string>
     <string name="xray_mouth_type_adult">Adult</string>
