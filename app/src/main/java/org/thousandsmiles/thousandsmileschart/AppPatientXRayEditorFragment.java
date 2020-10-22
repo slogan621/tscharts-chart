@@ -895,7 +895,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
 
                 if (m_sess.getNewXRay() == true) {
                     lock = rest.createXRay(m_sess.getDisplayPatientId(), m_sess.getClinicId(),
-                            m_xray.getTeeth(), m_xray.getType(), m_xray.getMouthTypeAsString());
+                            m_xray.getTeeth(), m_xray.convertFromDBXrayTypeToCSV(m_xray.getType()), m_xray.getMouthTypeAsString());
                     m_sess.setNewXRay(false);
                 } else {
                     lock = rest.updateXRay(m_xray);
