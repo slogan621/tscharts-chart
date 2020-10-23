@@ -68,6 +68,7 @@ import org.thousandsmiles.tscharts_lib.PatientREST;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
 
 import java.text.DateFormat;
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -120,7 +121,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        String dateString = String.format("%02d-%02d-%d", month, day, year);
+        String dateString = String.format("%02d%s%04d", day, new DateFormatSymbols().getMonths()[month - 1].substring(0, 3).toUpperCase(), year);
         ((TextView) findViewById(R.id.patient_search)).setText(dateString);
     }
 
@@ -523,32 +524,6 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         m_sess.getCommonSessionSingleton().startNextHeadshotJob();
     }
 
-    private Date isDateString(String s) {
-        // supports variations where year is yyyy or yy day is dd and month is MM
-
-        Date ret = null;
-
-        String[] formats = {
-                "MM-dd-yy",
-                "MM/dd/yy",
-                "MM dd yy",
-                "MM-dd-yyyy",
-                "MM/dd/yyyy",
-                "MM dd yyyy"
-        };
-
-        for (int i = 0; i < formats.length; i++){
-            try {
-                DateFormat df = new SimpleDateFormat(formats[i], Locale.ENGLISH);
-                Date date = df.parse(s);
-                ret = date;
-                break;
-            } catch (ParseException pe) {
-            }
-        }
-        return ret;
-    }
-
     class GetMatchingPatientsListener implements RESTCompletionListener {
 
         @Override
@@ -640,7 +615,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
             stationId = -1;
         }
 
-        final Date d = isDateString(searchTerm);
+        final Date d = CommonSessionSingleton.getInstance().isDateString(searchTerm);
         new Thread(new Runnable() {
             public void run() {
 

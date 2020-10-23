@@ -437,7 +437,7 @@
     <string name="msg_select_station_preference">Por favor seleccione la preferencia de estación</string>
     <string name="title_patient_selector">Select Patient</string>
     <string name="question_select_this_patient">Select this patient?</string>
-    <string name="patient_search_hint"> Ingresar cualquier parte del nombre, o fecha de nacimiento completo, con el formato mm/dd/aaaa</string>
+    <string name="patient_search_hint">Ingrese cualquier parte del nombre del paciente, o seleccione la fecha de nacimiento del paciente usando el ícono de calendario, luego haga clic en BUSCAR</string>
     <string name="button_search">Buscar</string>
     <string name="error_no_matching_patients_found">No se encuentra dicho paciente</string>
     <string name="msg_select_another_patient">Seleccionar otra paciente</string>
