@@ -246,7 +246,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
             if (errorCode != 404) {
                 m_activity.runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_get_patient_headshot), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_get_xray_thumbnails_for_patient), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -304,78 +304,38 @@ public class AppPatientXRayEditorFragment extends Fragment {
 
         private void LayoutXRayThumbnailTable () {
 
-            TableLayout layout = (TableLayout) m_activity.findViewById(m_tableId);
+            TableLayout tableLayout = (TableLayout) m_activity.findViewById(m_tableId);
+            // debug tableLayout.setBackgroundColor(getResources().getColor(R.color.colorYellow));
             TableRow row = null;
-            int count;
 
             ClearXRayThumbnailTable();
             ShowXRayThumbnailTable();
 
-            LinearLayout btnLO = new LinearLayout(m_activity.getApplicationContext());
-
-            LinearLayout.LayoutParams paramsLO = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            btnLO.setOrientation(LinearLayout.VERTICAL);
-
-
-            TableRow.LayoutParams parms = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-
-            int leftMargin = 10;
-            int topMargin = 2;
-            int rightMargin = 10;
-            int bottomMargin = 2;
-            parms.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
-            parms.gravity = (Gravity.CENTER_VERTICAL);
-
-            btnLO.setLayoutParams(parms);
-
-            ImageButton button = new ImageButton(m_activity.getApplicationContext());
-
-            boolean newRow = true;
-            row = new TableRow(m_activity.getApplicationContext());
-            row.setWeightSum((float) 1.0);
-
             TextView txt = new TextView(m_activity.getApplicationContext());
 
-            row.setLayoutParams(parms);
-
-            if (row != null) {
-                row.addView(btnLO);
-            }
-
-            if (newRow == true) {
-                layout.addView(row, new TableLayout.LayoutParams(0, TableLayout.LayoutParams.WRAP_CONTENT));
-            }
-
             HashMap<Integer, PatientData> map = m_sess.getPatientHashMap();
-
-            count = 0;
-            int extraCells = (map.size() + 1) % 3;
-            if (extraCells != 0) {
-                extraCells = 3 - extraCells;
-            }
 
             for (int i = 0; i < m_thumbnails.size(); i++) {
 
                 XRayImage img = m_thumbnails.get(i);
 
-                newRow = false;
-                if (true || (count % 3) == 0) { // XXX
-                    newRow = true;
-                    row = new TableRow(m_activity.getApplicationContext());
-                    row.setWeightSum((float) 1.0);
-                    row.setLayoutParams(parms);
-                }
 
-                btnLO = new LinearLayout(m_activity.getApplicationContext());
+                row = new TableRow(m_activity.getApplicationContext());
+                TableRow.LayoutParams tableRowLOParams = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, (float) 1.0);
+                // debug row.setBackgroundColor(getResources().getColor(R.color.colorThousandsmiles));
 
-                btnLO.setOrientation(LinearLayout.VERTICAL);
+                LinearLayout imageAndLabelsLO = new LinearLayout(m_activity.getApplicationContext());
+                LinearLayout.LayoutParams imageAndLabelsLOParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, (float) 1.0);
 
-                btnLO.setLayoutParams(parms);
+                imageAndLabelsLO.setOrientation(LinearLayout.VERTICAL);
+                // debug imageAndLabelsLO.setBackgroundColor(getResources().getColor(R.color.colorRed));
+                imageAndLabelsLO.setLayoutParams(imageAndLabelsLOParams);
 
-                button = new ImageButton(m_activity.getApplicationContext());
+                ImageView imgView = new ImageView(m_activity.getApplicationContext());
 
-                button.setTag(img);
+                imgView.setTag(img);
 
                 ActivityManager.MemoryInfo memoryInfo = m_sess.getCommonSessionSingleton().getAvailableMemory();
 
@@ -384,7 +344,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
                     headshot.setImageType("Xray");
                     m_sess.getCommonSessionSingleton().addHeadshotImage(headshot);
                     headshot.setActivity(m_activity);
-                    headshot.setImageView(button);
+                    headshot.setImageView(imgView);
                     headshot.registerListener(this);
                     Thread t = headshot.getImage(img.getId());
                     m_sess.getCommonSessionSingleton().addHeadshotJob(headshot);
@@ -396,15 +356,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
                     });
                 }
 
-                button.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        XRayImage o = (XRayImage) v.getTag();
-                        //showActionDialog(o);
-                        //confirmPatientSelection(o);
-                    }
-                });
-
-                btnLO.addView(button);
+                imageAndLabelsLO.addView(imgView);
 
                 txt = new TextView(m_activity.getApplicationContext());
                 try {
@@ -420,19 +372,23 @@ public class AppPatientXRayEditorFragment extends Fragment {
                 } catch (Exception e) {
                     txt.setText(String.format("Error getting clinic date"));
                 }
+
                 txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-                btnLO.addView(txt);
+
+                imageAndLabelsLO.addView(txt);
 
                 txt = new TextView(m_activity.getApplicationContext());
                 txt.setText(String.format("C%03d-P%05d-%06d", img.getClinic(), img.getPatient(), img.getId()));
                 txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-                btnLO.addView(txt);
 
-                LinearLayout chkboxLO = new LinearLayout(m_activity.getApplicationContext());
-                chkboxLO.setOrientation(LinearLayout.HORIZONTAL);
-                chkboxLO.setGravity(Gravity.CENTER_VERTICAL);
+                imageAndLabelsLO.addView(txt);
+
+                LinearLayout chkboxAndImageLO = new LinearLayout(m_activity.getApplicationContext());
+                chkboxAndImageLO.setOrientation(LinearLayout.HORIZONTAL);
+                chkboxAndImageLO.setGravity(Gravity.CENTER_VERTICAL);
+                // debug  chkboxAndImageLO.setBackgroundColor(getResources().getColor(R.color.colorGreen));
 
                 CheckBox ch = new CheckBox(m_activity.getApplicationContext());
                 ch.setChecked(false);
@@ -452,29 +408,16 @@ public class AppPatientXRayEditorFragment extends Fragment {
                     }
                 });
 
-                chkboxLO.addView(ch);
-                chkboxLO.addView(btnLO);
+                chkboxAndImageLO.addView(ch);
+                chkboxAndImageLO.addView(imageAndLabelsLO);
 
                 if (row != null) {
-                    row.addView(chkboxLO);
+                    row.addView(chkboxAndImageLO, tableRowLOParams);
                 }
 
-                if (newRow == true) {
-                    layout.addView(row, new TableLayout.LayoutParams(0, TableLayout.LayoutParams.WRAP_CONTENT));
-                }
-                count++;
+                 tableLayout.addView(row, tableRowLOParams);
             }
 
-            for (int i = 0; i < extraCells; i++) {
-                btnLO = new LinearLayout(m_activity.getApplicationContext());
-
-                btnLO.setOrientation(LinearLayout.VERTICAL);
-
-                btnLO.setLayoutParams(parms);
-                if (row != null) {
-                    row.addView(btnLO);
-                }
-            }
             m_sess.getCommonSessionSingleton().startNextHeadshotJob();
         }
     }
