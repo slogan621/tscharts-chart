@@ -517,4 +517,5 @@
     <string name="xray_images">X-Ray Images</string>
     <string name="msg_unable_to_get_xray_thumbnails_for_patient">Unable to get X-Ray image thumbnails</string>
     <string name="button_label_view_selected">View Selected</string>
+    <string name="dental_chart_name">Dental Chart</string>
 </resources>
