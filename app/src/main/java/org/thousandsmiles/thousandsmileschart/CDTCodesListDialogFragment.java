@@ -85,14 +85,17 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
 
     private ArrayList<CDTCodesModel> getCheckedCDTCodesFromUI()
     {
-        return new ArrayList<CDTCodesModel>();
-        //return m_listAdapter.getCheckedItems();
+        return m_listAdapter.getCheckedItems();
     }
 
-    private ArrayList<CDTCodesModel> getCompletedCheckedCDTCodesFromUI()
+    private ArrayList<CDTCodesModel> getCompletedCDTCodesFromUI()
     {
-        return new ArrayList<CDTCodesModel>();
-        //return m_listAdapter.getCompletedCheckedItems();
+        return m_listAdapter.getCompletedItems();
+    }
+
+    private ArrayList<CDTCodesModel> getUncompletedCDTCodesFromUI()
+    {
+        return m_listAdapter.getUncompletedItems();
     }
 
     private void removeCDTCodesFromUI(ArrayList<CDTCodesModel> codes)
@@ -136,6 +139,7 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
                 v.setVisibility(View.VISIBLE);
                 if (m_added.indexOf(cdtCode) == -1) {
                     m_added.add(cdtCode);
+                    m_listAdapter.stateListAdd(cdtCode);
                 }
                 m_removed.remove(cdtCode);
             } catch (Exception e) {
@@ -163,9 +167,10 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
     }
 
     private void onCompletion() {
-        ArrayList checkedItems = getCompletedCheckedCDTCodesFromUI();
+        ArrayList completedItems = getCompletedCDTCodesFromUI();
+        ArrayList uncompletedItems = getUncompletedCDTCodesFromUI();
         for (int i = 0; i < m_listeners.size(); i++) {
-            m_listeners.get(i).onCompletion(m_tooth, m_added, m_removed, m_completed, m_uncompleted);
+            m_listeners.get(i).onCompletion(m_tooth, m_added, m_removed, completedItems, uncompletedItems);
         }
     }
 
@@ -255,8 +260,8 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
             public void onClick(View v)
             {
                 AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.cdtcodesautocomplete);
-                String med = textView.getText().toString();
-                CDTCodesModel m = m_list.getModel(med);
+                String cdt = textView.getText().toString();
+                CDTCodesModel m = m_list.getModel(cdt);
                 if (m != null) {
                     addCDTCodeToUI(m);
                 }

@@ -104,8 +104,8 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
     }
 
     @Override
-    public void onCompletion(String tooth, ArrayList<CDTCodesModel> addedItems, ArrayList<CDTCodesModel> removedItems, ArrayList<CDTCodesModel> uncompletedItems,
-                             ArrayList<CDTCodesModel> completedItems) {
+    public void onCompletion(String tooth, ArrayList<CDTCodesModel> addedItems, ArrayList<CDTCodesModel> removedItems, ArrayList<CDTCodesModel> completedItems,
+                             ArrayList<CDTCodesModel> uncompletedItems) {
         colorTeeth();
     }
 

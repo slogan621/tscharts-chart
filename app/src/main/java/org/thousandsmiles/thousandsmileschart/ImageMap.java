@@ -101,12 +101,6 @@ public class ImageMap {
     private int m_coloredPixel;
     private int m_uncoloredPixel;
     private ArrayList<ImageMapObject> m_objectList = new ArrayList<ImageMapObject>();
-    private int m_scaleFactor = 100;
-
-    enum ImageMapState {
-        COLORED,
-        UNCOLORED
-    }
 
     public void setBitmap(Bitmap b) {
         m_bitmap = b;

@@ -29,7 +29,10 @@ import android.widget.TextView;
 import org.thousandsmiles.tscharts_lib.CDTCodesModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
 
@@ -39,23 +42,26 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
         private boolean m_isCompleted;
     }
 
-    private ArrayList<CDTCodesModelCheckboxState> m_statelist = new ArrayList<CDTCodesModelCheckboxState>();
+    private HashMap<String, CDTCodesModelCheckboxState> m_stateList = new HashMap<String, CDTCodesModelCheckboxState>();
     private List<CDTCodesModel> m_list;
     private final Activity m_context;
-    boolean m_checkAll_flag = false;
-    boolean m_checkItem_flag = false;
 
     public CDTCodesAdapter(Activity context, List<CDTCodesModel> list) {
         super(context, R.layout.cdt_codes_list_row, list);
         this.m_context = context;
         m_list = list;
         for (int i = 0; i < list.size(); i++) {
-            CDTCodesModelCheckboxState state  = new CDTCodesModelCheckboxState();
-            state.m_model = list.get(i);
-            state.m_isSelected = false;
-            state.m_isCompleted = false; // XXX
-            this.m_statelist.add(state);
+            stateListAdd(list.get(i));
         }
+    }
+
+    public void stateListAdd(CDTCodesModel m)
+    {
+        CDTCodesModelCheckboxState state  = new CDTCodesModelCheckboxState();
+        state.m_model = m;
+        state.m_isSelected = false;
+        state.m_isCompleted = false; // XXX
+        this.m_stateList.put(state.m_model.repr(), state);
     }
 
     static class ViewHolder {
@@ -67,29 +73,54 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
     public ArrayList<CDTCodesModel> getCheckedItems()
     {
         ArrayList<CDTCodesModel> ret = new ArrayList<CDTCodesModel>();
-/*
-        for (int i = 0 ; i < m_list.size() ; i++){
-            if (m_list.get(i).m_isSelected) {
-                ret.add(m_list.get(i).m_model);
+        Iterator it = m_stateList.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            if (pair != null) {
+                CDTCodesModelCheckboxState st = (CDTCodesModelCheckboxState) pair.getValue();
+                if (st.m_isSelected) {
+                    ret.add(st.m_model);
+                }
             }
         }
-        */
+
         return ret;
     }
 
-    public ArrayList<CDTCodesModel> getCompletedCheckedItems()
+    public ArrayList<CDTCodesModel> getCompletedItems()
     {
         ArrayList<CDTCodesModel> ret = new ArrayList<CDTCodesModel>();
-/*
-        for (int i = 0 ; i < m_list.size() ; i++){
-            if (m_list.get(i).m_isCompleted) {
-                ret.add(m_list.get(i).m_model);
+        Iterator it = m_stateList.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            if (pair != null) {
+                CDTCodesModelCheckboxState st = (CDTCodesModelCheckboxState) pair.getValue();
+                if (st.m_isCompleted) {
+                    ret.add(st.m_model);
+                }
             }
         }
 
- */
         return ret;
     }
+
+    public ArrayList<CDTCodesModel> getUncompletedItems()
+    {
+        ArrayList<CDTCodesModel> ret = new ArrayList<CDTCodesModel>();
+        Iterator it = m_stateList.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            if (pair != null) {
+                CDTCodesModelCheckboxState st = (CDTCodesModelCheckboxState) pair.getValue();
+                if (st.m_isCompleted == false) {
+                    ret.add(st.m_model);
+                }
+            }
+        }
+
+        return ret;
+    }
+
 
     public ArrayList<CDTCodesModel> getAllItems()
     {
@@ -129,7 +160,7 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
-                    //m_list.get(getPosition).m_isSelected = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
+                    m_stateList.get(m_list.get(getPosition).repr()).m_isSelected = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
                 }
             });
             viewHolder.completed = (CheckBox) convertView.findViewById(R.id.completed);
@@ -138,7 +169,7 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
-                    //m_list.get(getPosition).m_isCompleted = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
+                    m_stateList.get(m_list.get(getPosition).repr()).m_isCompleted = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
                 }
             });
             convertView.setTag(viewHolder);
@@ -152,13 +183,12 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
         viewHolder.completed.setTag(position);// This line is important.
 
         viewHolder.text.setText(m_list.get(position).repr());
-        /*
-        viewHolder.checkbox.setChecked(m_list.get(position).m_isSelected);
-        viewHolder.completed.setChecked(m_list.get(position).m_isCompleted);
 
-         */
+        //viewHolder.checkbox.setChecked(m_list.get(position).m_isSelected);
+        viewHolder.completed.setChecked(m_stateList.get(m_list.get(position).repr()).m_isCompleted);
+
         viewHolder.checkbox.setChecked(false);
-        viewHolder.completed.setChecked(false);
+        //viewHolder.completed.setChecked(false);
         return convertView;
     }
 }
