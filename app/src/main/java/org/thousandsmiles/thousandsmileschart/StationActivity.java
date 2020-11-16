@@ -18,40 +18,19 @@
 package org.thousandsmiles.thousandsmileschart;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.thousandsmiles.tscharts_lib.HideyHelper;
-import org.thousandsmiles.tscharts_lib.SearchReturnToClinicStationHelper;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
 
 public class StationActivity extends AppCompatActivity {
 
@@ -377,6 +356,13 @@ public class StationActivity extends AppCompatActivity {
                         //Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
 
                     }
+                    else if (names.get(position).equals(getApplicationContext().getString(R.string.dental_chart_name))) {
+                        showDentalChartSearchResults(readOnlyFlags.get(position));
+                        m_showingAppFragment = true;
+                        m_fragmentName = names.get(position);
+                        //Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
+
+                    }
                 }
             }
         });
@@ -497,6 +483,24 @@ public class StationActivity extends AppCompatActivity {
         v.setImageDrawable(res);
         TextView t = findViewById(R.id.chart_name);
         t.setText(R.string.exam_name);
+    }
+
+    public void showDentalChartSearchResults(Boolean readOnly)
+    {
+        Bundle arguments = new Bundle();
+        AppPatientDentalTreatmentListFragment fragment = new AppPatientDentalTreatmentListFragment();
+        AppFragmentContext ctx = new AppFragmentContext();
+        ctx.setReadOnly(readOnly);
+        fragment.setAppFragmentContext(ctx);
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
+        ImageView v = findViewById(R.id.chart_icon);
+        Drawable res = getResources().getDrawable(R.drawable.medhist_pressed);
+        v.setImageDrawable(res);
+        TextView t = findViewById(R.id.chart_name);
+        t.setText(R.string.dental_chart_name);
     }
 
     public void showMedicalHistory()

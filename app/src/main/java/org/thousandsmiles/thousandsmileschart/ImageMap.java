@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2019
- * (C) Copyright Thousand Smiles Foundation 2019
+ * (C) Copyright Syd Logan 2019-2020
+ * (C) Copyright Thousand Smiles Foundation 2019-2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import java.util.Iterator;
 public class ImageMap {
     public class ImageMapObject {
         Point m_origin;
+        Point m_midPoint;
+        Point m_fill;           // pre-calculated fill point
         int m_width;
         int m_height;
         Object m_tag = null;
@@ -37,6 +39,24 @@ public class ImageMap {
         public Point getOrigin()
         {
             return m_origin;
+        }
+
+        public void setMidPoint(Point val) {
+            m_midPoint = val;
+        }
+
+        public Point getMidPoint()
+        {
+            return m_midPoint;
+        }
+
+        public void setFill(Point val) {
+            m_fill = val;
+        }
+
+        public Point getFill()
+        {
+            return m_fill;
         }
 
         public void setWidth(int val) {
@@ -148,7 +168,6 @@ public class ImageMap {
         return ret;
     }
 
-
     public ImageMapObject hitTest(int x, int y) {
         ImageMapObject ret = null;
 
@@ -167,7 +186,20 @@ public class ImageMap {
         m.setOrigin(origin);
         m.setWidth(width);
         m.setHeight(height);
+        m.setMidPoint(new Point((origin.x + width) / 2, (origin.y + height) / 2));
         m.setTag(tag);
+        m.setFill(new Point(origin.x + 10, origin.y + 10));
+        m_objectList.add(m);
+    }
+
+    public void addImageMapObject(Point origin, int width, int height, Object tag, Point fill) {
+        ImageMapObject m = new ImageMapObject();
+        m.setOrigin(origin);
+        m.setWidth(width);
+        m.setHeight(height);
+        m.setMidPoint(new Point((origin.x + width) / 2, (origin.y + height) / 2));
+        m.setTag(tag);
+        m.setFill(fill);
         m_objectList.add(m);
     }
 }

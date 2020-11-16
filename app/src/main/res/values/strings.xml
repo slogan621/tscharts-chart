@@ -144,6 +144,7 @@
     <string name="button_label_add_new_ent_history">New ENT History Record</string>
     <string name="button_label_add_new_ent_exam">New ENT Exam Record</string>
     <string name="button_label_add_new_audiogram">New Audiogram Record</string>
+    <string name="button_label_add_new_dental_treatment">New Dental Treatment Record</string>
     <string name="msg_unable_to_get_routing_slip">Unable to get routing slip data</string>
     <string name="msg_successfully_got_routing_slip">Successfully got routing slip data</string>
     <string name="unable_to_add_routing_slip_entry">Unable to add routing slip entry</string>
@@ -228,6 +229,7 @@
     <string name="question_create_new_xray_record">Create a New X-Ray Record?</string>
     <string name="question_create_new_ent_history_record">Create a New ENT History Record?</string>
     <string name="question_create_new_ent_exam_record">Create a New ENT Exam Record?</string>
+    <string name="question_create_new_dental_treatment_record">Create a new dental treatment record?</string>
     <string name="xray_name">X-Rays</string>
     <string name="msg_unable_to_get_xrays_for_patient">Unable to get X-Rays for patient</string>
     <string name="msg_unable_to_get_ent_histories_for_patient">Unable to get ENT Histories for patient</string>
@@ -517,5 +519,17 @@
     <string name="xray_images">X-Ray Images</string>
     <string name="msg_unable_to_get_xray_thumbnails_for_patient">Unable to get X-Ray image thumbnails</string>
     <string name="button_label_view_selected">View Selected</string>
-    <string name="dental_chart_name">Dental Chart</string>
+    <string name="dental_chart_name">Dental Treatment</string>
+    <string name="msg_unable_to_get_dental_treatments_for_patient">Unable to get dental treatments for patient</string>
+    <string name="title_unsaved_dental_treatment">Unsaved Dental Treatment</string>
+    <string name="msg_save_dental_treatment">Save Dental Treatment?</string>
+    <string name="msg_unable_to_save_dental_treatment">Unable to save dental treatment</string>
+    <string name="msg_successfully_saved_dental_treatment">Successfully save dental treatment</string>
+    <string name="msg_unable_to_get_dental_treatment_data">Unable to get dental treatment data</string>
+    <string name="msg_successfully_got_dental_treatment_data">Successfully read dental treatment data</string>
+    <string name="msg_enter_a_cdt_code">Enter a CDT Code</string>
+    <string name="msg_failed_to_set_cdt_code">Failed to set CDT code</string>
+    <string name="msg_enter_a_cdt_code_or_condition_here">Enter a CDT code or treatment here</string>
+    <string name="title_edit_cdt_codes_dialog">Add or Remove Treatments</string>
+    <string name="completed">Completed</string>
 </resources>

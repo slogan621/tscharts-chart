@@ -33,6 +33,8 @@ import org.thousandsmiles.tscharts_lib.Audiogram;
 import org.thousandsmiles.tscharts_lib.AudiogramREST;
 import org.thousandsmiles.tscharts_lib.CategoryREST;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.DentalTreatment;
+import org.thousandsmiles.tscharts_lib.DentalTreatmentREST;
 import org.thousandsmiles.tscharts_lib.ENTDiagnosisExtra;
 import org.thousandsmiles.tscharts_lib.ENTDiagnosisExtraREST;
 import org.thousandsmiles.tscharts_lib.ENTDiagnosisREST;
@@ -132,6 +134,7 @@ public class SessionSingleton {
     private boolean m_newENTDiagnosis = false;
     private boolean m_newENTTreatment = false;
     private boolean m_newAudiogram = false;
+    private boolean m_newDentalTreatment = false;
     private HashMap<Integer, PatientData> m_patientHashMap = new HashMap<Integer, PatientData>();
 
     public void replacePatientHashMap(HashMap<Integer, PatientData> map)
@@ -308,6 +311,15 @@ public class SessionSingleton {
 
     public boolean getNewAudiogram() {
         return m_newAudiogram;
+    }
+
+    public void setNewDentalTreatment(boolean val)
+    {
+        m_newDentalTreatment = val;
+    }
+
+    public boolean getNewDentalTreatment() {
+        return m_newDentalTreatment;
     }
 
     public void setNewXRay(boolean val) {
@@ -2044,6 +2056,113 @@ public class SessionSingleton {
         }
         return audiogram;
     }
+
+    JSONArray getDentalTreatments(final int clinicId, final int patientId)
+    {
+        JSONArray ret = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final DentalTreatmentREST dentalTreatmentREST = new DentalTreatmentREST(getContext());
+            GetDataListener listener = new GetDataListener();
+            listener.setPatientId(patientId);
+            dentalTreatmentREST.addListener(listener);
+
+            Object lock = dentalTreatmentREST.getAllDentalTreatments(clinicId, patientId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = dentalTreatmentREST.getStatus();
+            if (status == 200) {
+                ret = listener.getResultArray();
+            }
+        }
+        return ret;
+    }
+
+    void updateDentalTreatment(/*final RESTCompletionListener listener */)
+    {
+        boolean ret = false;
+
+        Thread thread = new Thread(){
+            public void run() {
+                // note we use session context because this may be called after onPause()
+                DentalTreatmentREST rest = new DentalTreatmentREST(getContext());
+                //rest.addListener(listener);
+                Object lock;
+                int status;
+
+                lock = rest.updateDentalTreatment(m_commonSessionSingleton.getPatientDentalTreatment());
+
+                synchronized (lock) {
+                    // we loop here in case of race conditions or spurious interrupts
+                    while (true) {
+                        try {
+                            lock.wait();
+                            break;
+                        } catch (InterruptedException e) {
+                            continue;
+                        }
+                    }
+                }
+                status = rest.getStatus();
+                if (status != 200) {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), getContext().getString(R.string.msg_unable_to_save_dental_treatment), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), getContext().getString(R.string.msg_successfully_saved_dental_treatment), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        };
+        thread.start();
+    }
+
+    public DentalTreatment getDentalTreatment(int clinicid, int patientid) {
+        boolean ret = false;
+        DentalTreatment dentalTreatment = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final DentalTreatmentREST dentalTreatmentREST = new DentalTreatmentREST(getContext());
+            Object lock = dentalTreatmentREST.getDentalTreatment(clinicid, patientid);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = dentalTreatmentREST.getStatus();
+            if (status == 200) {
+                dentalTreatment = getCommonSessionSingleton().getPatientDentalTreatment();
+            }
+        }
+        return dentalTreatment;
+    }
+
 
     public static SessionSingleton getInstance() {
         if (m_instance == null) {

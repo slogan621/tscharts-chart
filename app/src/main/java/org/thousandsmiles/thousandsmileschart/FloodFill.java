@@ -124,6 +124,7 @@ public class FloodFill {
         int width = m_bitmap.getWidth();
         int height = m_bitmap.getHeight();
         int density = m_bitmap.getDensity();
+        int val;
         int target = m_targetColor;
         int replacement = m_replacementColor;
         Point node = m_point;
@@ -136,13 +137,13 @@ public class FloodFill {
             do {
                 int x = node.x;
                 int y = node.y;
-                while (x > 0 && m_bitmap.getPixel(x - 1, y) == target) {
+                while (x > 0 && (val = m_bitmap.getPixel(x - 1, y)) == target) {
                     x--;
                 }
 
                 boolean spanUp = false;
                 boolean spanDown = false;
-                while (x < width) {
+                while (x < width && y < height) {
                   int p = m_bitmap.getPixel(x, y);
                   if (p != target) {
                       break;

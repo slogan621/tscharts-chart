@@ -185,14 +185,15 @@ public class AppPatientENTDiagnosisListFragment extends Fragment {
             btnLO.addView(txt);
         }
 
-        row.setLayoutParams(parms);
+
 
         if (row != null) {
+            row.setLayoutParams(parms);
             row.addView(btnLO);
-        }
 
-        if (newRow == true) {
-            layout.addView(row, new TableLayout.LayoutParams(0, TableLayout.LayoutParams.WRAP_CONTENT));
+            if (newRow == true) {
+                layout.addView(row, new TableLayout.LayoutParams(0, TableLayout.LayoutParams.WRAP_CONTENT));
+            }
         }
 
         count = 1;

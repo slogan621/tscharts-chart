@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@+id/label"
+        android:scrollHorizontally="false"
+        android:breakStrategy="balanced"
+        android:layout_marginRight="32dp"
+        android:textSize="24dp" >
+    </android.support.v7.widget.AppCompatTextView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/completed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="10dip"
+            android:text="@string/completed"
+            android:focusable="false"
+            android:focusableInTouchMode="false" >
+        </CheckBox>
+
+        <CheckBox
+            android:id="@+id/check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="10dip"
+            android:text="@string/button_remove"
+            android:focusable="false"
+            android:focusableInTouchMode="false" >
+        </CheckBox>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2019-2020
- * (C) Copyright Thousand Smiles Foundation 2019-2020
+ * (C) Copyright Syd Logan 2020
+ * (C) Copyright Thousand Smiles Foundation 2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +22,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -38,20 +42,28 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.thousandsmiles.tscharts_lib.Audiogram;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
-import org.thousandsmiles.tscharts_lib.XRay;
+import org.thousandsmiles.tscharts_lib.DentalState;
+import org.thousandsmiles.tscharts_lib.DentalTreatment;
 
 import java.util.ArrayList;
 
-public class AppPatientAudiogramListFragment extends Fragment {
+import static java.lang.Math.abs;
+
+public class AppPatientDentalTreatmentListFragment extends Fragment {
     private int mColumns;
     private boolean m_goingDown = false;
     private SessionSingleton m_sess;
     private CommonSessionSingleton m_commonSess;
-    private ArrayList<Audiogram> m_audiograms = new ArrayList<Audiogram>();
+    private ArrayList<DentalTreatment> m_treatments = new ArrayList<DentalTreatment>();
+    private ArrayList<DentalState> m_wholeMouthState = new ArrayList<DentalState>();
+    private ArrayList<DentalState> m_perToothState = new ArrayList<DentalState>();
     private Activity m_activity;
-    private boolean m_isEditable = true;
+    private AppFragmentContext m_ctx = new AppFragmentContext();
+
+    public void setAppFragmentContext(AppFragmentContext ctx) {
+        m_ctx = ctx;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -59,12 +71,18 @@ public class AppPatientAudiogramListFragment extends Fragment {
 
         if (context instanceof Activity){
             m_activity=(Activity) context;
-            initializeAudiogramData();
+            initializeTreatmentData();
         }
     }
 
-    private void clearAudiogramList() {
-        m_audiograms.clear();
+    private void clearWholeMouthStateList() {
+        m_wholeMouthState.clear();
+    }
+    private void clearPerToothStateList() {
+        m_perToothState.clear();
+    }
+    private void clearTreatmentList() {
+        m_treatments.clear();
     }
 
     private void ClearSearchResultTable()
@@ -96,18 +114,21 @@ public class AppPatientAudiogramListFragment extends Fragment {
         }
     }
 
-    private void showAudiogramEditor(Audiogram audiogram)
+    private void showDentalTreatmentEditor(DentalTreatment treatment)
     {
         Bundle arguments = new Bundle();
-        arguments.putSerializable("audiogram", audiogram);
-        AudiogramPhotoFragment fragment = new AudiogramPhotoFragment();
+        arguments.putSerializable("treatment", treatment);
+        AppDentalTreatmentFragment fragment = new AppDentalTreatmentFragment();
+        AppFragmentContext ctx = new AppFragmentContext();
+        ctx.setReadOnly(m_ctx.getReadOnly());
+        fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
                 .commit();
     }
 
-    private void LayoutAudiogramTable() {
+    private void LayoutDentalTreatmentTable() {
         TableLayout layout = (TableLayout) m_activity.findViewById(R.id.namestablelayout);
         TableRow row = null;
         int count;
@@ -130,8 +151,6 @@ public class AppPatientAudiogramListFragment extends Fragment {
         parms.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
         parms.gravity = (Gravity.CENTER_VERTICAL);
 
-        m_isEditable = m_sess.getActiveStationName().equals("Audiology") ? true : false;
-
         btnLO.setLayoutParams(parms);
         ImageButton button = new ImageButton(m_activity);
 
@@ -144,13 +163,13 @@ public class AppPatientAudiogramListFragment extends Fragment {
             public void onClick(View v) {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
-                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_audiogram_record));
+                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_dental_treatment_record));
                 alertDialogBuilder.setPositiveButton(R.string.button_yes,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
-                            m_sess.setNewAudiogram(true);
-                            showAudiogramEditor(new Audiogram());
+                            m_sess.setNewENTExam(true);
+                            showDentalTreatmentEditor(new DentalTreatment());
                             }
                         });
 
@@ -165,38 +184,41 @@ public class AppPatientAudiogramListFragment extends Fragment {
             }
         });
 
-        btnLO.addView(button);
+        if (!m_ctx.getReadOnly()) {
+            btnLO.addView(button);
+        }
 
         boolean newRow = true;
         row = new TableRow(m_activity);
         row.setWeightSum((float)1.0);
 
         TextView txt = new TextView(m_activity);
-        txt.setText(R.string.button_label_add_new_audiogram);
+        txt.setText(R.string.button_label_add_new_dental_treatment);
         txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
         txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-
-        btnLO.addView(txt);
+        if (!m_ctx.getReadOnly()) {
+            btnLO.addView(txt);
+        }
 
         row.setLayoutParams(parms);
 
-        count = 0;
-        if (row != null && m_isEditable) {
+        if (row != null) {
             row.addView(btnLO);
-            count += 1;
         }
 
-        if (row != null && newRow == true) {
+        if (newRow == true) {
             layout.addView(row, new TableLayout.LayoutParams(0, TableLayout.LayoutParams.WRAP_CONTENT));
         }
 
-        int extraCells = (m_audiograms.size() + 1) % 3;
+        count = 1;
+
+        int extraCells = (m_treatments.size() + 1) % 3;
         if (extraCells != 0) {
             extraCells = 3 - extraCells;
         }
 
-        for (int i = 0; i < m_audiograms.size(); i++) {
+        for (int i = 0; i < m_treatments.size(); i++) {
             newRow = false;
             if ((count % 3) == 0) {
                 newRow = true;
@@ -213,24 +235,24 @@ public class AppPatientAudiogramListFragment extends Fragment {
 
             button = new ImageButton(m_activity);
 
-            if (count == 0 && m_isEditable) {
+            if (count == 0) {
 
                 btnLO.setBackgroundColor(getResources().getColor(R.color.lightGray));
                 button.setBackgroundColor(getResources().getColor(R.color.lightGray));
                 button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
 
             } else {
-                button.setImageDrawable(getResources().getDrawable(R.drawable.audiology));
+                    button.setImageDrawable(getResources().getDrawable(R.drawable.medhist));
             }
 
-            Audiogram audiogram = m_audiograms.get(i);
-            button.setTag(audiogram);
+            DentalTreatment treatment = m_treatments.get(i);
+            button.setTag(treatment);
 
 
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    m_sess.setNewAudiogram(false);
-                    showAudiogramEditor((Audiogram) v.getTag());
+                    m_sess.setNewDentalTreatment(false);
+                    showDentalTreatmentEditor((DentalTreatment) v.getTag());
                 }
             });
 
@@ -239,15 +261,15 @@ public class AppPatientAudiogramListFragment extends Fragment {
             txt = new TextView(m_activity);
             CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
             sess.setContext(getContext());
-            JSONObject o = sess.getClinicById(audiogram.getClinic());
-            String clinicStr = String.format("Clinic ID %d",audiogram.getClinic());
+            JSONObject o = sess.getClinicById(treatment.getClinic());
+            String clinicStr = String.format("Clinic ID %d",treatment.getClinic());
 
             if (o != null) {
                 try {
-                    clinicStr = String.format("Clinic ID %d %s %s", audiogram.getClinic(),
+                    clinicStr = String.format("Clinic ID %d %s %s", treatment.getClinic(),
                             o.getString("location"), o.getString("start"));
                 } catch (JSONException e) {
-                    clinicStr = String.format("Clinic ID %d",audiogram.getClinic());
+                    clinicStr = String.format("Clinic ID %d",treatment.getClinic());
                 }
             }
 
@@ -278,12 +300,12 @@ public class AppPatientAudiogramListFragment extends Fragment {
         }
     }
 
-    public static AppPatientAudiogramListFragment newInstance()
+    public static AppPatientDentalTreatmentListFragment newInstance()
     {
-        return new AppPatientAudiogramListFragment();
+        return new AppPatientDentalTreatmentListFragment();
     }
 
-    private void initializeAudiogramData() {
+    private void initializeTreatmentData() {
 
         m_commonSess = CommonSessionSingleton.getInstance();
         m_sess = SessionSingleton.getInstance();
@@ -292,25 +314,25 @@ public class AppPatientAudiogramListFragment extends Fragment {
             public void run() {
                 Thread thread = new Thread(){
                     public void run() {
-                        JSONArray audiograms;
-                        clearAudiogramList();
-                        audiograms = m_sess.getAudiograms(m_sess.getClinicId(), m_sess.getDisplayPatientId());
-                        if (audiograms == null) {
+                        JSONArray treatments;
+                        clearTreatmentList();
+                        treatments = m_sess.getDentalTreatments(m_sess.getClinicId(), m_sess.getDisplayPatientId());
+                        if (treatments == null) {
                             m_activity.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_audiograms_for_patient, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_dental_treatments_for_patient, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
-                            for (int i = 0; i < audiograms.length(); i++) {
+                            for (int i = 0; i < treatments.length(); i++) {
                                 try {
-                                    Audiogram audiogram = new Audiogram();
-                                    JSONObject o = (JSONObject) audiograms.get(i);
-                                    audiogram.fromJSONObject(o);
-                                    m_audiograms.add(audiogram);
+                                    DentalTreatment treatment = new DentalTreatment();
+                                    JSONObject o = (JSONObject) treatments.get(i);
+                                    treatment.fromJSONObject(o);
+                                    m_treatments.add(treatment);
                                     CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
                                     sess.setContext(getContext());
-                                    JSONObject co = sess.getClinicById(audiogram.getClinic());
+                                    JSONObject co = sess.getClinicById(treatment.getClinic());
                                     if (co == null) {
                                         try {
                                             Thread.sleep(500);
@@ -323,7 +345,7 @@ public class AppPatientAudiogramListFragment extends Fragment {
                          }
                          m_activity.runOnUiThread(new Runnable() {
                             public void run() {
-                                LayoutAudiogramTable();
+                                LayoutDentalTreatmentTable();
                             }
                          });
                     }

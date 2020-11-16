@@ -94,6 +94,12 @@ public class AppListItems {
         item.setSelector(R.drawable.app_xray_selector);
         items.add(item);
 
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.dental_chart_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+
         m_stationToAppList.put(m_context.getString(R.string.station_name_dental), items);
     }
 
@@ -117,6 +123,12 @@ public class AppListItems {
         item.setName(m_context.getString(R.string.xray_name));
         item.setImageId(R.drawable.xray);
         item.setSelector(R.drawable.app_xray_selector);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.dental_chart_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
 
         m_stationToAppList.put(m_context.getString(R.string.station_name_hygiene), items);
