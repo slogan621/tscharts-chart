@@ -106,6 +106,24 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
     @Override
     public void onCompletion(String tooth, ArrayList<CDTCodesModel> addedItems, ArrayList<CDTCodesModel> removedItems, ArrayList<CDTCodesModel> completedItems,
                              ArrayList<CDTCodesModel> uncompletedItems) {
+        int color;
+        if (completedItems.size() > 0) {
+            if (uncompletedItems.size() == 0) {
+                color = getResources().getColor(R.color.colorGreen);   // all work completed
+            } else {
+                color = getResources().getColor(R.color.colorYellow);  // some work completed
+            }
+        } else {
+            color = getResources().getColor(R.color.colorRed);         // no work completed
+        }
+
+        int idx = stringToTooth(m_topTooth, tooth);
+        if (m_topTooth == true) {
+            m_topToothImageMap.setItemColor(idx, color);
+        } else {
+            m_bottomToothImageMap.setItemColor(idx, color);
+        }
+
         colorTeeth();
     }
 
@@ -196,7 +214,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         }
     }
 
-    private String mapToothObject(boolean top, int index) {
+    private String toothToString(boolean top, int index) {
         String ret = "";
         if (top == true) {
             if (index > 16) {
@@ -214,6 +232,27 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                 ret = String.format("%c", index + 'K');
             } else {
                 ret = String.format("%d", index);
+            }
+        }
+        return ret;
+    }
+
+    private int stringToTooth(boolean top, String str) {
+        int ret;
+        int ascii = (int) str.charAt(0);
+
+        if (top == true) {
+            if (ascii >= 'A') {
+                ret = ascii - 'A' + 16;
+            } else {
+                ret = Integer.parseInt(str) - 1;
+            }
+        } else {
+            if (ascii >= 'K') {
+                ret = ascii - 'K' + 16;
+            } else {
+                ret = Integer.parseInt(str);
+                ret = ret - 17;
             }
         }
         return ret;
@@ -305,26 +344,16 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                     m_topToothMapState.addSelected(tooth);
                     m_activity.runOnUiThread(new Runnable() {
                         public void run() {
-                            String msg = String.format("top tooth %s", mapToothObject(true, tooth));
+                            String msg = String.format("top tooth %s", toothToString(true, tooth));
                             Toast.makeText(m_activity, msg, Toast.LENGTH_SHORT).show();
                         }
                     });
-                    /*
-                    if (m_topToothMapState.isSelected(tooth)) {
-                        m_topToothMapState.clearSelected(tooth);
-                    } else {
-                        m_topToothMapState.addSelected(tooth);
-                    }
 
-                     */
                     CDTCodesListDialogFragment mld = new CDTCodesListDialogFragment();
                     mld.setPatientId(m_sess.getDisplayPatientId());
                     mld.subscribe(this);
-                    mld.setToothNumber(mapToothObject(true, tooth));
+                    mld.setToothNumber(toothToString(true, tooth));
                     mld.show(getFragmentManager(), m_activity.getString(R.string.title_edit_cdt_codes_dialog));
-                    //m_xray.setTeeth(m_childToothMapState.getSelected());
-                    //setDirty();
-                    //colorTeeth();
                 }
             } else {
                 Log.d(DEBUG_TAG, String.format("bottomTooth: %d, %d", x, y));
@@ -334,27 +363,16 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                     m_bottomToothMapState.addSelected(tooth);
                     m_activity.runOnUiThread(new Runnable() {
                         public void run() {
-                            String msg = String.format("bottom tooth %s", mapToothObject(false, tooth));
+                            String msg = String.format("bottom tooth %s", toothToString(false, tooth));
                             Toast.makeText(m_activity, msg, Toast.LENGTH_SHORT).show();
                         }
                     });
-                    /*
-                    if (m_bottomToothMapState.isSelected(tooth)) {
-                        m_bottomToothMapState.clearSelected(tooth);
-                    } else {
-                        m_bottomToothMapState.addSelected(tooth);
-                    }
 
-                     */
                     CDTCodesListDialogFragment mld = new CDTCodesListDialogFragment();
                     mld.setPatientId(m_sess.getDisplayPatientId());
                     mld.subscribe(this);
-                    mld.setToothNumber(mapToothObject(false, tooth));
-                    //mld.setTextField("");
+                    mld.setToothNumber(toothToString(false, tooth));
                     mld.show(getFragmentManager(), m_activity.getString(R.string.title_edit_cdt_codes_dialog));
-                    //m_xray.setTeeth(m_adultToothMapState.getSelected());
-                    //setDirty();
-                    //colorTeeth();
                 }
             }
             if (im != null) {
@@ -370,14 +388,10 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
         if (m_topTooth == true) {
             state = m_topToothMapState;
-            //state.set(0x0F);
-            //state.set(m_xray.getTeeth);
             ArrayList<ImageMap.ImageMapObject> o = m_topToothImageMap.getImageMapObjects();
             it = o.iterator();
         } else {
             state = m_bottomToothMapState;
-            //state.set(0x0F);
-            //state.set(m_xray.getTeeth());
             ArrayList<ImageMap.ImageMapObject> o = m_bottomToothImageMap.getImageMapObjects();
             it = o.iterator();
         }
@@ -398,19 +412,15 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
             if (state.isSelected((int) o.getTag())) {
 
                 Point q = o.getFill();
-                //Point q = new Point(p.x + 10, p.y + 10);
-
-                //Point q = o.getMidPoint();
                 ff.setPoint(q);
                 ff.setTargetColor(getResources().getColor(R.color.colorWhite));
-                ff.setReplacementColor(m_bottomToothImageMap.getColoredPixel());
+                ff.setReplacementColor(o.getColor());
                 ff.fill();
             }
         }
 
         Bitmap b = ff.getBitmap();
         ImageView img = (ImageView) m_view.findViewById(R.id.dental_treatment_toothchart);
-        //img.setImageBitmap(b);
         BitmapDrawable ob = new BitmapDrawable(getResources(), b);
         img.setBackground(ob);
     }
@@ -2647,7 +2657,6 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         }
         setHasOptionsMenu(false);
         initImageMaps();
-        //colorTeeth();
     }
 
     @Override
@@ -2751,7 +2760,6 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                 return m_detector.onTouchEvent(event);
             }
         });
-        //colorTeeth();
         return view;
     }
 

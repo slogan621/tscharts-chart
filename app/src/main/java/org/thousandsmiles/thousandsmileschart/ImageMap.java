@@ -30,6 +30,7 @@ public class ImageMap {
         Point m_fill;           // pre-calculated fill point
         int m_width;
         int m_height;
+        int m_color;
         Object m_tag = null;
 
         public void setOrigin(Point val) {
@@ -48,6 +49,15 @@ public class ImageMap {
         public Point getMidPoint()
         {
             return m_midPoint;
+        }
+
+        public void setColor(int val) {
+            m_color = val;
+        }
+
+        public int getColor()
+        {
+            return m_color;
         }
 
         public void setFill(Point val) {
@@ -136,6 +146,23 @@ public class ImageMap {
     public void setUncoloredPixel(int pixel)
     {
         m_uncoloredPixel = pixel;
+    }
+
+    public boolean setItemColor(int index, int color) {
+         boolean ret = false;
+         if (index >= 0 && index < m_objectList.size()) {
+            m_objectList.get(index).setColor(color);
+            ret = true;
+         }
+         return ret;
+    }
+
+    public int getItemColor(int index) {
+         int ret = 0;
+         if (index >= 0 && index < m_objectList.size()) {
+             ret = m_objectList.get(index).getColor();
+         }
+         return ret;
     }
 
     public int getColoredPixel()
