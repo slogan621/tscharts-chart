@@ -6,8 +6,8 @@ android {
         applicationId "org.thousandsmiles.thousandsmileschart"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0, April 26, 2020"
+        versionCode 2
+        versionName "2.0, November 17, 2020"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
