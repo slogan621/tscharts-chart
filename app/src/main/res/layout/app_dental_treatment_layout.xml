@@ -52,7 +52,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
-            <!-- Ears -->
+            <!-- Dental Treatment -->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:background="@color/lightGray"
-                    android:text="@string/section_title_ears"
+                    android:text="@string/section_title_dental_exam"
                     android:textSize="@dimen/med_hist_label_text_size" />
             </LinearLayout>
 
@@ -87,7 +87,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ent_label_normal" />
+                    android:text="@string/dental_label_exam" />
 
                 <View
                     android:layout_width="0dp"
@@ -100,16 +100,10 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/checkbox_ent_ears_normal_left"
+                        android:id="@+id/checkbox_exam"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/left" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_ears_normal_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/right" />
+                        />
                 </LinearLayout>
             </LinearLayout>
 
@@ -121,209 +115,16 @@
                 android:paddingRight="16dp"
                 android:paddingBottom="16dp">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/dental_exam_notes"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
+                    android:background="@drawable/edittext_border"
+                    android:gravity="top"
+                    android:lines="3"
+                    android:inputType="text|textMultiLine" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ent_label_microtia" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_ears_microtia_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/left" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_ears_microtia_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/right" />
-                </LinearLayout>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ent_label_wax" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_ears_wax_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/left" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_ears_wax_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/right" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ent_label_drainage" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_ears_drainage_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/left" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_ears_drainage_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/right" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ent_label_otitis" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_ears_otitis_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/left" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_ears_otitis_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/right" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ent_label_fb" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_ears_fb_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/left" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_ears_fb_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/right" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Tubes -->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -338,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:background="@color/lightGray"
-                    android:text="@string/section_title_tube"
+                    android:text="@string/section_title_dental_prophy"
                     android:textSize="@dimen/med_hist_label_text_size" />
             </LinearLayout>
 
@@ -358,301 +159,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/left" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <RadioGroup
-                    android:id="@+id/radio_group_ent_tubes_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tubes_left_in_place"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_in_place" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tubes_left_extruding"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_extruding" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tubes_left_in_canal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_in_canal" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tubes_left_none"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/none" />
-                </RadioGroup>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/right" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <RadioGroup
-                    android:id="@+id/radio_group_ent_tubes_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tubes_right_in_place"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_in_place" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tubes_right_extruding"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_extruding" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tubes_right_in_canal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_in_canal" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tubes_right_none"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/none" />
-                </RadioGroup>
-            </LinearLayout>
-
-            <!-- Tympanosclerosis -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:background="@color/lightGray"
-                    android:text="@string/section_title_tympano"
-                    android:textSize="@dimen/med_hist_label_text_size" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/left" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <RadioGroup
-                    android:id="@+id/radio_group_ent_tympano_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_left_anterior"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_anterior" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_left_posterior"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_posterior" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_left_25"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_25" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_left_50"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_50" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_left_75"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_75" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_left_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_total" />
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_left_none"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/none" />
-                </RadioGroup>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/right" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <RadioGroup
-                    android:id="@+id/radio_group_ent_tympano_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_right_anterior"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_anterior" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_right_posterior"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_posterior" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_right_25"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_25" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_right_50"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_50" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_right_75"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_75" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_right_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_total" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tympano_right_none"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/none" />
-                </RadioGroup>
-            </LinearLayout>
-
-
-            <!-- TM -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:background="@color/lightGray"
-                    android:text="@string/section_title_tm"
-                    android:textSize="@dimen/med_hist_label_text_size" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ent_label_tm_granulation" />
+                    android:text="@string/dental_label_prophy" />
 
                 <View
                     android:layout_width="0dp"
@@ -665,16 +172,10 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/checkbox_ent_tm_granulation_left"
+                        android:id="@+id/checkbox_prophy"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/left" />
+                        android:layout_height="wrap_content" />
 
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_tm_granulation_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/right" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -686,83 +187,16 @@
                 android:paddingRight="16dp"
                 android:paddingBottom="16dp">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/dental_prophy_notes"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
+                    android:background="@drawable/edittext_border"
+                    android:gravity="top"
+                    android:lines="3"
+                    android:inputType="text|textMultiLine" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ent_label_tm_retraction" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_tm_retraction_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/left" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_tm_retraction_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/right" />
-                </LinearLayout>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ent_label_tm_atelectasis" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_tm_atelectasis_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/left" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_ent_tm_atelectasis_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/right" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Perf -->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -777,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:background="@color/lightGray"
-                    android:text="@string/section_title_perf"
+                    android:text="@string/section_title_dental_srp"
                     android:textSize="@dimen/med_hist_label_text_size" />
             </LinearLayout>
 
@@ -797,67 +231,42 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/left" />
+                    android:text="@string/dental_label_srp" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <RadioGroup
-                    android:id="@+id/radio_group_ent_perf_left"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_left_anterior"
+                    <CheckBox
+                        android:id="@+id/checkbox_dental_srp_ur"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ent_anterior" />
+                        android:text="@string/dental_label_srp_ur" />
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_left_posterior"
+                    <CheckBox
+                        android:id="@+id/checkbox_dental_srp_lr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ent_posterior" />
+                        android:text="@string/dental_label_srp_lr" />
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_left_marginal"
+                    <CheckBox
+                        android:id="@+id/checkbox_dental_srp_ul"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ent_marginal" />
+                        android:text="@string/dental_label_srp_ul" />
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_left_25"
+                    <CheckBox
+                        android:id="@+id/checkbox_dental_srp_ll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ent_25" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_left_50"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_50" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_left_75"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_75" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_left_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_total" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_left_none"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/none" />
-                </RadioGroup>
+                        android:text="@string/dental_label_srp_ll" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -868,78 +277,16 @@
                 android:paddingRight="16dp"
                 android:paddingBottom="16dp">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/dental_srp_notes"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
+                    android:background="@drawable/edittext_border"
+                    android:gravity="top"
+                    android:lines="3"
+                    android:inputType="text|textMultiLine" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/right" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <RadioGroup
-                    android:id="@+id/radio_group_ent_perf_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_right_anterior"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_anterior" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_right_posterior"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_posterior" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_right_marginal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_marginal" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_right_25"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_25" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_right_50"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_50" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_right_75"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_75" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_right_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ent_total" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_perf_right_none"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/none" />
-                </RadioGroup>
             </LinearLayout>
-
-            <!-- Hearing loss -->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -954,7 +301,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:background="@color/lightGray"
-                    android:text="@string/section_title_hearing_loss"
+                    android:text="@string/section_title_dental_xrays"
                     android:textSize="@dimen/med_hist_label_text_size" />
             </LinearLayout>
 
@@ -974,37 +321,60 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/voice_test" />
+                    android:text="@string/dental_label_xrays_viewed" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <RadioGroup
-                    android:id="@+id/radio_group_ent_voice_test"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_voice_test_normal"
+                    <CheckBox
+                        android:id="@+id/checkbox_dental_xrays_viewed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/normal" />
+                        />
+                </LinearLayout>
+            </LinearLayout>
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_voice_test_abnormal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/abnormal" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_voice_test_none"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/none" />
-                </RadioGroup>
+                <EditText
+                    android:id="@+id/dental_xrays_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:gravity="top"
+                    android:lines="3"
+                    android:inputType="text|textMultiLine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@color/lightGray"
+                    android:text="@string/section_title_dental_head_and_neck_oral_cancer_exam"
+                    android:textSize="@dimen/med_hist_label_text_size" />
             </LinearLayout>
 
             <LinearLayout
@@ -1023,43 +393,59 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tuning_fork_test_ad" />
+                    android:text="@string/dental_label_head_and_neck_oral_cancer_exam" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <RadioGroup
-                    android:id="@+id/radio_group_ent_tuning_fork_ad"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tuning_fork_ad_a_greater_b"
+                    <CheckBox
+                        android:id="@+id/checkbox_dental_head_and_neck_oral_cancer_exam"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/a_greater_b" />
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tuning_fork_ad_b_greater_a"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/b_greater_a" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tuning_fork_ad_a_equal_b"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/a_equal_b" />
+                <EditText
+                    android:id="@+id/dental_head_and_neck_oral_cancer_exam_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:gravity="top"
+                    android:lines="3"
+                    android:inputType="text|textMultiLine" />
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tuning_fork_ad_none"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/none" />
-                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@color/lightGray"
+                    android:text="@string/section_title_oral_hygiene"
+                    android:textSize="@dimen/med_hist_label_text_size" />
             </LinearLayout>
 
             <LinearLayout
@@ -1078,43 +464,61 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tuning_fork_test_as" />
+                    android:text="@string/dental_label_oral_hygiene_instruction" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <RadioGroup
-                    android:id="@+id/radio_group_ent_tuning_fork_as"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tuning_fork_as_a_greater_b"
+                    <CheckBox
+                        android:id="@+id/checkbox_dental_oral_hygiene_instruction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/a_greater_b" />
+                        />
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tuning_fork_as_b_greater_a"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/b_greater_a" />
+                </LinearLayout>
+            </LinearLayout>
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tuning_fork_as_a_equal_b"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/a_equal_b" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
 
-                    <RadioButton
-                        android:id="@+id/radio_button_ent_tuning_fork_as_none"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/none" />
-                </RadioGroup>
+                <EditText
+                    android:id="@+id/dental_oral_hygiene_instruction_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:gravity="top"
+                    android:lines="3"
+                    android:inputType="text|textMultiLine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@color/lightGray"
+                    android:text="@string/section_title_dental_flouride"
+                    android:textSize="@dimen/med_hist_label_text_size" />
             </LinearLayout>
 
             <LinearLayout
@@ -1133,49 +537,61 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/bc" />
+                    android:text="@string/dental_label_flouride_tx_varnish" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <RadioGroup
-                    android:id="@+id/radio_group_bc"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/radio_button_bc_ad_lat_to_ad"
+                    <CheckBox
+                        android:id="@+id/checkbox_dental_flouride_tx_varnish"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ad_lat_to_ad" />
+                        />
 
-                    <RadioButton
-                        android:id="@+id/radio_button_bc_ad_lat_to_as"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ad_lat_to_as" />
+                </LinearLayout>
+            </LinearLayout>
 
-                    <RadioButton
-                        android:id="@+id/radio_button_bc_as_lat_to_ad"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/as_lat_to_ad" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
 
-                    <RadioButton
-                        android:id="@+id/radio_button_bc_as_lat_to_as"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/as_lat_to_as" />
+                <EditText
+                    android:id="@+id/dental_flouride_tx_varnish_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:gravity="top"
+                    android:lines="3"
+                    android:inputType="text|textMultiLine" />
 
-                    <RadioButton
-                        android:id="@+id/radio_button_bc_none"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/none" />
-                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@color/lightGray"
+                    android:text="@string/section_title_dental_nutritional_counseling"
+                    android:textSize="@dimen/med_hist_label_text_size" />
             </LinearLayout>
 
             <LinearLayout
@@ -1194,37 +610,406 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/fork" />
+                    android:text="@string/dental_label_nutritional_counseling" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <RadioGroup
-                    android:id="@+id/radio_group_fork"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/radio_button_fork_256"
+                    <CheckBox
+                        android:id="@+id/checkbox_dental_nutritional_counseling"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/fork_256" />
+                        />
 
-                    <RadioButton
-                        android:id="@+id/radio_button_fork_512"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/fork_512" />
+                </LinearLayout>
+            </LinearLayout>
 
-                    <RadioButton
-                        android:id="@+id/radio_button_fork_none"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <EditText
+                    android:id="@+id/dental_nutritional_counseling_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:gravity="top"
+                    android:lines="3"
+                    android:inputType="text|textMultiLine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@color/lightGray"
+                    android:text="@string/section_title_dental_orthodontic"
+                    android:textSize="@dimen/med_hist_label_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="16dp"></ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dental_label_orthodontic" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkbox_orthodontic_evaluation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/none" />
-                </RadioGroup>
+                        android:text="@string/dental_label_evaluation"
+                        />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_orthodontic_tx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dental_label_tx"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <EditText
+                    android:id="@+id/dental_orthodontic_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:gravity="top"
+                    android:lines="3"
+                    android:inputType="text|textMultiLine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@color/lightGray"
+                    android:text="@string/section_title_oral_surgery"
+                    android:textSize="@dimen/med_hist_label_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="16dp"></ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dental_label_oral_surgery" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkbox_oral_surgery_evaluation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dental_label_evaluation"
+                        />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_oral_surgery_tx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dental_label_tx"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <EditText
+                    android:id="@+id/dental_oral_surgery_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:gravity="top"
+                    android:lines="3"
+                    android:inputType="text|textMultiLine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@color/lightGray"
+                    android:text="@string/section_title_dental_anesthetic"
+                    android:textSize="@dimen/med_hist_label_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="16dp"></ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dental_label_local_anesthetic" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkbox_local_anesthetic_benzocaine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dental_label_local_anesthetic_benzocaine"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkbox_local_anesthetic_lidocaine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dental_label_local_anesthetic_lidocaine"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkbox_local_anesthetic_septocaine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dental_label_local_anesthetic_septocaine"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkbox_local_anesthetic_other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dental_label_local_anesthetic_other"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <EditText
+                    android:id="@+id/dental_anesthetic_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:gravity="top"
+                    android:lines="3"
+                    android:inputType="text|textMultiLine" />
+
+            </LinearLayout>
+
+<!--
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="16dp"></ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dental_label_local_anesthetic" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:background="@color/lightGray"
+                        android:text="@string/dental_label_number_of_carps"
+                        android:textSize="@dimen/med_hist_label_text_size" />
+
+                    <EditText
+                        android:id="@+id/text_dental_number_of_carps"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:background="@drawable/edittext_border"
+                        android:gravity="top"
+                        android:inputType="numberDecimal" />
+
+                </LinearLayout>
+            </LinearLayout>
+            -->
+
+            <!-- Per-Visit/Full-Mouth Treatment Codes -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@color/lightGray"
+                    android:text="@string/section_title_per_visit_full_mouth"
+                    android:textSize="@dimen/med_hist_label_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="16dp"></ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dental_label_per_visit_full_mouth_treatment_codes" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button_per_visit_codes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_custom"
+                        android:text="@string/view_edit"
+                        />
+                </LinearLayout>
             </LinearLayout>
 
             <!-- Notes -->
@@ -1256,7 +1041,7 @@
                 android:focusableInTouchMode="true" />
 
             <EditText
-                android:id="@+id/ent_notes"
+                android:id="@+id/dental_notes"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:background="@drawable/edittext_border"
@@ -1272,6 +1057,8 @@
     </ScrollView>
     </LinearLayout>
 
+    <!-- tooth chart -->
+
     <ImageView
         android:id="@+id/dental_treatment_toothchart"
         android:layout_width="wrap_content"
@@ -1281,6 +1068,8 @@
         android:paddingRight="16dp">
 
     </ImageView>
+
+    <!-- FAB for navigating between form and tooth chart -->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
