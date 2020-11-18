@@ -895,31 +895,6 @@ public class AppENTTreatmentFragment extends Fragment implements FormSaveListene
         View button_bar_item = m_activity.findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.VISIBLE);
 
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                boolean valid = validateFields();
-                if (valid == false) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                    builder.setTitle(m_activity.getString(R.string.title_missing_patient_data));
-                    builder.setMessage(m_activity.getString(R.string.msg_please_enter_required_patient_data));
-
-                    builder.setPositiveButton(m_activity.getString(R.string.button_ok), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                } else {
-                    m_entTreatment = copyENTTreatmentDataFromUI();
-                    updateENTTreatment();
-                }
-            }
-
-        });
         m_dirty = true;
     }
 
