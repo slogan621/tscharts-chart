@@ -17,7 +17,9 @@
 
 package org.thousandsmiles.thousandsmileschart;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,7 +34,73 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class StationActivity extends AppCompatActivity {
+public class StationActivity extends AppCompatActivity implements FormSavePublisher, PatientCheckoutPublisher {
+
+    @Override
+    public void subscribeSave(FormSaveListener instance) {
+        m_formSaveList.add(instance);
+    }
+
+    @Override
+    public void unsubscribeSave(FormSaveListener instance) {
+        m_formSaveList.remove(instance);
+    }
+
+    private boolean saveForm() {
+        boolean ret = true;
+        for (int i = 0; i < m_formSaveList.size(); i++) {
+            ret = m_formSaveList.get(i).save();
+            if (ret == false) {
+                break;
+            }
+        }
+        return ret;
+    }
+
+    public void showPatientSearch() {
+        Intent intent = new Intent(this, PatientSelectorActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
+        this.finish();
+    }
+
+    public void showReturnToClinic()
+    {
+        if (m_sess.getStationSupportsRTC()) {
+            ReturnToClinicDialogFragment rtc = new ReturnToClinicDialogFragment();
+            rtc.setPatientId(m_sess.getDisplayPatientId());
+            rtc.setStationActivity(this);
+            rtc.show(getSupportFragmentManager(), this.getString(R.string.title_return_to_clinic));
+        } else {
+            showPatientSearch();
+        }
+    }
+
+    @Override
+    public void subscribeCheckout(PatientCheckoutListener instance) {
+        m_patientCheckoutList.add(instance);
+    }
+
+    @Override
+    public void unsubscribeCheckout(PatientCheckoutListener instance) {
+        m_patientCheckoutList.remove(instance);
+    }
+
+    private boolean patientCheckout() {
+        boolean ret = true;
+        if (m_patientCheckoutList.size() == 0) {
+            showReturnToClinic();
+        } else {
+            for (int i = 0; i < m_patientCheckoutList.size(); i++) {
+                ret = m_patientCheckoutList.get(i).checkout();
+                if (ret == false) {
+                    break;
+                }
+            }
+        }
+        return ret;
+    }
 
     private enum StationState {
         ACTIVE,
@@ -40,6 +108,8 @@ public class StationActivity extends AppCompatActivity {
         AWAY,
     }
 
+    private ArrayList<FormSaveListener> m_formSaveList = new ArrayList<FormSaveListener>();
+    private ArrayList<PatientCheckoutListener> m_patientCheckoutList = new ArrayList<PatientCheckoutListener>();
     private ItemDetailFragment m_fragment = null;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     AsyncTask m_task = null;
@@ -50,6 +120,7 @@ public class StationActivity extends AppCompatActivity {
     public static StationActivity instance = null;  // hack to let me get at the activity
     private boolean m_showingAppFragment = false;
     private String m_fragmentName;
+    private Activity m_activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +132,7 @@ public class StationActivity extends AppCompatActivity {
         m_appListItems.setContext(getApplicationContext());
         m_appListItems.init();
         m_sess.updateCategoryDataTask();
+        m_activity = this;
     }
 
     @Override
@@ -84,7 +156,6 @@ public class StationActivity extends AppCompatActivity {
                 if (isCancelled()) {
                     break;
                 }
-
 
                 if (first) {
                     StationActivity.this.runOnUiThread(new Runnable() {
@@ -134,24 +205,6 @@ public class StationActivity extends AppCompatActivity {
         }
     }
 
-    void showReturnToClinic()
-    {
-        if (m_showingAppFragment == true) {
-            // bring down the current fragment
-            // this will trigger onPause in current fragment which will allow for unsaved changes.
-            AppBlankFragment fragment = new AppBlankFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.app_panel, fragment)
-                    .commit();
-            m_showingAppFragment = false;
-        }
-
-        ReturnToClinicDialogFragment rtc = new ReturnToClinicDialogFragment();
-        rtc.setStationActivity(this);
-        rtc.setPatientId(m_sess.getDisplayPatientId());
-        rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.title_return_to_clinic));
-    }
-
     private void setButtonBarCallbacks()
     {
         View button_bar_item;
@@ -161,8 +214,7 @@ public class StationActivity extends AppCompatActivity {
         {
             public void onClick(View v)
             {
-                setButtonEnabled(false);
-                showReturnToClinic();
+                patientCheckout();
             }
         });
     }
@@ -189,35 +241,29 @@ public class StationActivity extends AppCompatActivity {
         button_bar_item.setEnabled(enable);
     }
 
-    public void setButtonEnabled(boolean enable)
-    {
-        setBackButtonEnabled(enable);
-        setCheckoutButtonEnabled(enable);
-    }
-
     private void updateViewVisibilities()
     {
-            m_isActive = true;
-            m_isAway = false;
+        m_isActive = true;
+        m_isAway = false;
 
-            View button_bar_item;
+        View button_bar_item;
 
-            if (m_isActive) {
+        if (m_isActive) {
 
-                View listView = findViewById(R.id.app_item_list);
+            View listView = findViewById(R.id.app_item_list);
 
-                listView.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.VISIBLE);
 
-                View app = findViewById(R.id.app_panel);
-                if (app.getVisibility() == View.GONE)
-                    app.setVisibility(View.VISIBLE);
+            View app = findViewById(R.id.app_panel);
+            if (app.getVisibility() == View.GONE)
+                app.setVisibility(View.VISIBLE);
 
-                button_bar_item = findViewById(R.id.checkout_button);
-                if (button_bar_item.getVisibility() == View.INVISIBLE) {
-                    button_bar_item.setVisibility(View.VISIBLE);
-                }
-
+            button_bar_item = findViewById(R.id.checkout_button);
+            if (button_bar_item.getVisibility() == View.INVISIBLE) {
+                button_bar_item.setVisibility(View.VISIBLE);
             }
+
+        }
     }
 
     private void hideButtonBarButtons()
@@ -236,6 +282,7 @@ public class StationActivity extends AppCompatActivity {
     protected void onPause()
     {
         super.onPause();
+        saveForm();
         instance = null;
     }
 
@@ -311,6 +358,10 @@ public class StationActivity extends AppCompatActivity {
 
                 Bundle arguments = new Bundle();
 
+                if (saveForm() == false) {
+                    return;
+                }
+
                 // XXX select based on name
 
                 String selectedName = names.get(position);
@@ -354,7 +405,6 @@ public class StationActivity extends AppCompatActivity {
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
                         //Toast.makeText(StationActivity.this,R.string.msg_feature_not_implemented,Toast.LENGTH_LONG).show();
-
                     }
                     else if (names.get(position).equals(getApplicationContext().getString(R.string.dental_chart_name))) {
                         showDentalChartSearchResults(readOnlyFlags.get(position));

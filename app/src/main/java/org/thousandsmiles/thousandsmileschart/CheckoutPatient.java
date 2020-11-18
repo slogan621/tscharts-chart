@@ -41,11 +41,7 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> implement
             m_params = (CheckoutParams) params[0];
             checkoutPatient();
 
-            Intent intent = new Intent(m_stationActivity, PatientSelectorActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            m_stationActivity.startActivity(intent);
-            m_stationActivity.finish();
+            m_stationActivity.showPatientSearch();
         }
         return "";
     }
@@ -57,11 +53,6 @@ public class CheckoutPatient extends AsyncTask<Object, Object, Object> implement
 
     public void onFail(int code, String msg)
     {
-        m_stationActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                m_stationActivity.setButtonEnabled(true);
-            }
-        });
     }
 
     public void onSuccess(int code, String msg)

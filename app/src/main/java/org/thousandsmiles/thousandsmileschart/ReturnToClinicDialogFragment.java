@@ -78,7 +78,6 @@ public class ReturnToClinicDialogFragment extends DialogFragment {
                 })
                 .setNegativeButton(R.string.checkout_cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        m_stationActivity.setButtonEnabled(true);
                         dialog.dismiss();
                     }
                 });

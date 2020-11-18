@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017-2019
- * (C) Copyright Thousand Smiles Foundation 2017-2019
+ * (C) Copyright Syd Logan 2017-2020
+ * (C) Copyright Thousand Smiles Foundation 2017-2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,8 +39,9 @@ import android.widget.Toast;
 
 import org.thousandsmiles.tscharts_lib.MedicalHistory;
 import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
+import org.thousandsmiles.tscharts_lib.XRay;
 
-public class AppMedicalHistoryFragment extends Fragment {
+public class AppMedicalHistoryFragment extends Fragment implements FormSaveListener, PatientCheckoutListener {
     private Activity m_activity = null;
     private SessionSingleton m_sess = null;
     private MedicalHistory m_medicalHistory = null;
@@ -51,6 +52,69 @@ public class AppMedicalHistoryFragment extends Fragment {
         return new AppMedicalHistoryFragment();
     }
 
+    private boolean validate() {
+        return validateFields();
+    }
+
+    @Override
+    public void showReturnToClinic()
+    {
+        ((StationActivity)m_activity).showReturnToClinic();
+    }
+
+    private boolean saveInternal(final boolean showReturnToClinic) {
+        boolean ret = validate();
+        if (ret == true) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(m_activity);
+
+            builder.setTitle(m_activity.getString(R.string.title_unsaved_medical_history));
+            builder.setMessage(m_activity.getString(R.string.msg_save_medical_history));
+
+            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    updateMedicalHistory();
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean save() {
+        boolean ret = true;
+        if (m_dirty) {
+            ret = saveInternal(false);
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean checkout() {
+        if (m_dirty) {
+            saveInternal(true);
+        } else {
+            showReturnToClinic();
+        }
+        return true;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -59,6 +123,8 @@ public class AppMedicalHistoryFragment extends Fragment {
             m_activity=(Activity) context;
             getMedicalHistoryDataFromREST();
         }
+        ((StationActivity)m_activity).subscribeSave(this);
+        ((StationActivity)m_activity).subscribeCheckout(this);
     }
 
     private void copyMedicalHistoryDataToUI()
@@ -263,36 +329,13 @@ public class AppMedicalHistoryFragment extends Fragment {
                 tx.setText(m_medicalHistory.getAllergyMeds());
             }
         }
+        clearDirty();
     }
 
     private void setDirty()
     {
         View button_bar_item = m_activity.findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.VISIBLE);
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                boolean valid = validateFields();
-                if (valid == false) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                    builder.setTitle(m_activity.getString(R.string.title_missing_patient_data));
-                    builder.setMessage(m_activity.getString(R.string.msg_please_enter_required_patient_data));
-
-                    builder.setPositiveButton(m_activity.getString(R.string.button_ok), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                } else {
-                    updateMedicalHistory();
-                }
-            }
-
-        });
         m_dirty = true;
     }
 
@@ -1226,6 +1269,20 @@ public class AppMedicalHistoryFragment extends Fragment {
             tx1.setError(m_activity.getString(R.string.msg_invalid_weight));
         }
 
+        if (ret == false) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setTitle(m_activity.getString(R.string.title_missing_patient_data));
+            builder.setMessage(m_activity.getString(R.string.msg_correct_missing_or_invalid_data));
+
+            builder.setPositiveButton(m_activity.getString(R.string.button_ok), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+        }
+
         return ret;
     }
 
@@ -1334,51 +1391,28 @@ public class AppMedicalHistoryFragment extends Fragment {
 
     @Override
     public void onPause() {
-        Activity activity = getActivity();
-        if (activity != null) {
-            View button_bar_item = activity.findViewById(R.id.save_button);
-            if (button_bar_item != null) {
-                button_bar_item.setVisibility(View.GONE);
-            }
-        }
+        ((StationActivity) m_activity).unsubscribeSave(this);
+        ((StationActivity) m_activity).unsubscribeCheckout(this);
 
         super.onPause();
+    }
 
-        final MedicalHistory mh = this.copyMedicalHistoryDataFromUI();
+    private void setButtonBarCallbacks() {
+        View button_bar_item;
 
-        if (m_dirty || mh.equals(m_medicalHistory) == false) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-            builder.setTitle(m_activity.getString(R.string.title_unsaved_medical_history));
-            builder.setMessage(m_activity.getString(R.string.msg_save_medical_history));
-
-            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    m_sess.getCommonSessionSingleton().updatePatientMedicalHistory(mh);
-                    m_sess.updateMedicalHistory();
-                    dialog.dismiss();
-                }
-            });
-
-            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-
-        View button_bar_item = getActivity().findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.GONE);
+        button_bar_item = m_activity.findViewById(R.id.save_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                saveInternal(false);
+            }
+        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_medical_history_layout, container, false);
         m_view  = view;
+        setButtonBarCallbacks();
         return view;
     }
 

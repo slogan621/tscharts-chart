@@ -55,7 +55,7 @@ import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
 
 import java.util.ArrayList;
 
-public class AppENTHistoryFragment extends Fragment {
+public class AppENTHistoryFragment extends Fragment implements FormSaveListener, PatientCheckoutListener {
     private Activity m_activity = null;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     private ENTHistory m_entHistory = null;
@@ -63,6 +63,69 @@ public class AppENTHistoryFragment extends Fragment {
     private View m_view = null;
     private AppENTHistoryFragment m_this;
     private AppFragmentContext m_ctx = new AppFragmentContext();
+
+    private boolean validate() {
+        return validateFields();
+    }
+
+    @Override
+    public void showReturnToClinic()
+    {
+        ((StationActivity)m_activity).showReturnToClinic();
+    }
+
+    private boolean saveInternal(final boolean showReturnToClinic) {
+        boolean ret = validate();
+        if (ret == true) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(m_activity);
+
+            builder.setTitle(m_activity.getString(R.string.title_unsaved_ent_history));
+            builder.setMessage(m_activity.getString(R.string.msg_save_ent_history));
+
+            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    updateENTHistory();
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean save() {
+        boolean ret = true;
+        if (m_dirty) {
+            ret = saveInternal(false);
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean checkout() {
+        if (m_dirty) {
+            saveInternal(true);
+        } else {
+            showReturnToClinic();
+        }
+        return true;
+    }
 
     public void setAppFragmentContext(AppFragmentContext ctx) {
         m_ctx = ctx;
@@ -266,6 +329,8 @@ public class AppENTHistoryFragment extends Fragment {
         if (context instanceof Activity) {
             m_activity = (Activity) context;
         }
+        ((StationActivity)m_activity).subscribeSave(this);
+        ((StationActivity)m_activity).subscribeCheckout(this);
     }
 
     private void copyENTHistoryDataToUI()
@@ -478,32 +543,6 @@ public class AppENTHistoryFragment extends Fragment {
         }
         View button_bar_item = m_activity.findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.VISIBLE);
-
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                boolean valid = validateFields();
-                if (valid == false) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                    builder.setTitle(m_activity.getString(R.string.title_missing_patient_data));
-                    builder.setMessage(m_activity.getString(R.string.msg_please_enter_required_patient_data));
-
-                    builder.setPositiveButton(m_activity.getString(R.string.button_ok), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                } else {
-                    m_entHistory = copyENTHistoryDataFromUI();
-                    updateENTHistory();
-                }
-            }
-
-        });
         m_dirty = true;
     }
 
@@ -816,7 +855,6 @@ public class AppENTHistoryFragment extends Fragment {
         mh.setClinic(m_sess.getClinicId());
         mh.setUsername("nobody");
 
-
         cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_pain_left);
         cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_pain_right);
         if (cb1.isChecked() && cb2.isChecked()) {
@@ -954,8 +992,7 @@ public class AppENTHistoryFragment extends Fragment {
 
     private boolean validateFields()
     {
-        boolean ret = true;
-        return ret;
+        return true;
     }
 
     private void getENTHistoryExtraDataFromREST(final ENTHistory history)
@@ -1152,7 +1189,10 @@ public class AppENTHistoryFragment extends Fragment {
         }
 
         super.onPause();
+        ((StationActivity) m_activity).unsubscribeSave(this);
+        ((StationActivity) m_activity).unsubscribeCheckout(this);
 
+        /*
         final ENTHistory mh = this.copyENTHistoryDataFromUI();
 
         if (m_dirty || mh.equals(m_entHistory) == false) {
@@ -1182,12 +1222,25 @@ public class AppENTHistoryFragment extends Fragment {
 
         View button_bar_item = getActivity().findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.GONE);
+        */
+    }
+
+    private void setButtonBarCallbacks() {
+        View button_bar_item;
+
+        button_bar_item = m_activity.findViewById(R.id.save_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                saveInternal(false);
+            }
+        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_ent_history_layout, container, false);
         m_view  = view;
+        setButtonBarCallbacks();
         return view;
     }
 

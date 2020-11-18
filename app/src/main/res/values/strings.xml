@@ -532,4 +532,6 @@
     <string name="msg_enter_a_cdt_code_or_condition_here">Enter a CDT code or treatment here</string>
     <string name="title_edit_cdt_codes_dialog">Add or Remove Treatments</string>
     <string name="completed">Completed</string>
+    <string name="msg_xray_type_missing">Please select one or more XRay types</string>
+    <string name="msg_correct_missing_or_invalid_data">Please correct missing or invalid data</string>
 </resources>

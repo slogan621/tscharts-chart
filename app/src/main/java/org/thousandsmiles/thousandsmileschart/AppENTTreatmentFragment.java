@@ -43,7 +43,7 @@ import org.thousandsmiles.tscharts_lib.ENTHistory;
 import org.thousandsmiles.tscharts_lib.ENTTreatment;
 import org.thousandsmiles.tscharts_lib.ENTTreatmentREST;
 
-public class AppENTTreatmentFragment extends Fragment {
+public class AppENTTreatmentFragment extends Fragment implements FormSaveListener, PatientCheckoutListener {
     private Activity m_activity = null;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     private ENTTreatment m_entTreatment = null;
@@ -59,6 +59,69 @@ public class AppENTTreatmentFragment extends Fragment {
         return new AppENTTreatmentFragment();
     }
 
+    private boolean validate() {
+        return validateFields();
+    }
+
+    @Override
+    public void showReturnToClinic()
+    {
+        ((StationActivity)m_activity).showReturnToClinic();
+    }
+
+    private boolean saveInternal(final boolean showReturnToClinic) {
+        boolean ret = validate();
+        if (ret == true) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(m_activity);
+
+            builder.setTitle(m_activity.getString(R.string.title_unsaved_ent_treatment));
+            builder.setMessage(m_activity.getString(R.string.msg_save_ent_treatment));
+
+            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    updateENTTreatment();
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean save() {
+        boolean ret = true;
+        if (m_dirty) {
+            ret = saveInternal(false);
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean checkout() {
+        if (m_dirty) {
+            saveInternal(true);
+        } else {
+            showReturnToClinic();
+        }
+        return true;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -66,6 +129,8 @@ public class AppENTTreatmentFragment extends Fragment {
         if (context instanceof Activity){
             m_activity=(Activity) context;
         }
+        ((StationActivity)m_activity).subscribeSave(this);
+        ((StationActivity)m_activity).subscribeCheckout(this);
     }
 
     private void copyENTTreatmentDataToUI()
@@ -3031,8 +3096,7 @@ public class AppENTTreatmentFragment extends Fragment {
 
     private boolean validateFields()
     {
-        boolean ret = true;
-        return ret;
+        return true;
     }
 
     private void getENTTreatmentDataFromREST()
@@ -3156,51 +3220,28 @@ public class AppENTTreatmentFragment extends Fragment {
 
     @Override
     public void onPause() {
-        Activity activity = getActivity();
-        if (activity != null) {
-            View button_bar_item = activity.findViewById(R.id.save_button);
-            if (button_bar_item != null) {
-                button_bar_item.setVisibility(View.GONE);
-            }
-        }
+        ((StationActivity) m_activity).unsubscribeSave(this);
+        ((StationActivity) m_activity).unsubscribeCheckout(this);
 
         super.onPause();
+    }
 
-        final ENTTreatment mh = this.copyENTTreatmentDataFromUI();
+    private void setButtonBarCallbacks() {
+        View button_bar_item;
 
-        if (m_dirty || mh.equals(m_entTreatment) == false) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-            builder.setTitle(m_activity.getString(R.string.title_unsaved_ent_treatment));
-            builder.setMessage(m_activity.getString(R.string.msg_save_ent_treatment));
-
-            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    m_sess.getCommonSessionSingleton().updatePatientENTTreatment(mh);
-                    m_sess.updateENTTreatment();
-                    dialog.dismiss();
-                }
-            });
-
-            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-
-        View button_bar_item = getActivity().findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.GONE);
+        button_bar_item = m_activity.findViewById(R.id.save_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                saveInternal(false);
+            }
+        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_ent_treatment_layout, container, false);
         m_view  = view;
+        setButtonBarCallbacks();
         return view;
     }
 

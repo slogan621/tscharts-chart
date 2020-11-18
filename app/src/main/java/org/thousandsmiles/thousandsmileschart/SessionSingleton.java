@@ -108,6 +108,7 @@ public class SessionSingleton {
     private static HashMap<Integer, JSONObject> m_patientData = new HashMap<Integer, JSONObject>();
     private static HashMap<Integer, String> m_stationIdToName = new HashMap<Integer, String>();
     private static HashMap<String, Integer> m_clinicStationNameToId = new HashMap<String, Integer>();
+    private static HashMap<String, Boolean> m_clinicStationNameSupportsRTC = new HashMap<String, Boolean>();
     private static HashMap<Integer, Integer> m_clinicStationToStation = new HashMap<Integer, Integer>();
     private static HashMap<Integer, JSONObject> m_clinicStationToData = new HashMap<Integer, JSONObject>();
     private static HashMap<Integer, JSONObject> m_stationToData = new HashMap<Integer, JSONObject>();
@@ -417,6 +418,18 @@ public class SessionSingleton {
         m_stationToSpanish.put("Runner", "Corredor");
     }
 
+    void initStationToRTCMap() {
+        m_clinicStationNameSupportsRTC.put("Audiology", true);
+        m_clinicStationNameSupportsRTC.put("Dental", true);
+        m_clinicStationNameSupportsRTC.put("ENT", true);
+        m_clinicStationNameSupportsRTC.put("Ortho", true);
+        m_clinicStationNameSupportsRTC.put("X-Ray", false);
+        m_clinicStationNameSupportsRTC.put("Surgery Screening", true);
+        m_clinicStationNameSupportsRTC.put("Speech", true);
+        m_clinicStationNameSupportsRTC.put("Hygiene", true);
+        m_clinicStationNameSupportsRTC.put("Runner", false);
+    }
+
     public void clearPatientSearchResultData()
     {
         m_patientSearchResults = null;
@@ -462,6 +475,17 @@ public class SessionSingleton {
                 getPatientRoutingSlipEntries(m_patientSearchResults.getInt(i));
             } catch (JSONException e) {
             }
+        }
+    }
+
+    public boolean getStationSupportsRTC() {
+        if (m_clinicStationNameSupportsRTC.size() == 0) {
+            initStationToRTCMap();
+        }
+        try {
+            return m_clinicStationNameSupportsRTC.get(getActiveStationName());
+        } catch (Exception e) {
+            return false;
         }
     }
 

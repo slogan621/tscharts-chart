@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017
- * (C) Copyright Thousand Smiles Foundation 2017
+ * (C) Copyright Syd Logan 2017-2020
+ * (C) Copyright Thousand Smiles Foundation 2017-2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,7 +64,7 @@ import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
 
 import java.util.ArrayList;
 
-public class AppRoutingSlipFragment extends Fragment {
+public class AppRoutingSlipFragment extends Fragment implements FormSaveListener, PatientCheckoutListener {
     private BoardView mBoardView;
     private int mColumns;
     private boolean m_dirty = false;
@@ -77,6 +77,69 @@ public class AppRoutingSlipFragment extends Fragment {
     private int m_routingSlipId;
     private Activity m_activity;
 
+    private boolean validate() {
+        return true;
+    }
+
+    @Override
+    public void showReturnToClinic()
+    {
+        ((StationActivity)m_activity).showReturnToClinic();
+    }
+
+    private boolean saveInternal(final boolean showReturnToClinic) {
+        boolean ret = validate();
+        if (ret == true) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(m_activity);
+
+            builder.setTitle(m_activity.getString(R.string.title_unsaved_routing_slip));
+            builder.setMessage(m_activity.getString(R.string.msg_save_routing_slip));
+
+            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    updateRoutingSlip();
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean save() {
+        boolean ret = true;
+        if (m_dirty) {
+            ret = saveInternal(false);
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean checkout() {
+        if (m_dirty) {
+            saveInternal(true);
+        } else {
+            showReturnToClinic();
+        }
+        return true;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -85,6 +148,8 @@ public class AppRoutingSlipFragment extends Fragment {
             m_activity=(Activity) context;
             initializeRoutingSlipData();
         }
+        ((StationActivity)m_activity).subscribeSave(this);
+        ((StationActivity)m_activity).subscribeCheckout(this);
     }
 
     private boolean stationInRoutingSlipList(Station s)
@@ -352,43 +417,22 @@ public class AppRoutingSlipFragment extends Fragment {
 
     @Override
     public void onPause() {
-        Activity activity = getActivity();
-        if (activity != null) {
-            View button_bar_item = activity.findViewById(R.id.save_button);
-            if (button_bar_item != null) {
-                button_bar_item.setVisibility(View.GONE);
-            }
-        }
+
+        ((StationActivity) m_activity).unsubscribeSave(this);
+        ((StationActivity) m_activity).unsubscribeCheckout(this);
 
         super.onPause();
+    }
 
-        if (m_dirty) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    private void setButtonBarCallbacks() {
+        View button_bar_item;
 
-            builder.setTitle(R.string.title_unsaved_routing_slip);
-            builder.setMessage(R.string.msg_save_routing_slip);
-
-            builder.setPositiveButton(R.string.button_yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    m_goingDown = true;
-                    updateRoutingSlip();
-                    dialog.dismiss();
-                }
-            });
-
-            builder.setNegativeButton(R.string.button_no, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-
-        View button_bar_item = getActivity().findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.GONE);
+        button_bar_item = m_activity.findViewById(R.id.save_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                saveInternal(false);
+            }
+        });
     }
 
     @Override
@@ -472,8 +516,7 @@ public class AppRoutingSlipFragment extends Fragment {
             }
         });
 
-
-
+        setButtonBarCallbacks();
         return view;
     }
 

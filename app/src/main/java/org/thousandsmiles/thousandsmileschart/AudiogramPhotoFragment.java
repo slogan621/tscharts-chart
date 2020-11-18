@@ -63,7 +63,7 @@ import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
-public class AudiogramPhotoFragment extends Fragment {
+public class AudiogramPhotoFragment extends Fragment implements FormSaveListener, PatientCheckoutListener {
     private Activity m_activity = null;
     private boolean m_init = true;
     private SessionSingleton m_sess = null;
@@ -77,6 +77,72 @@ public class AudiogramPhotoFragment extends Fragment {
     static final int REQUEST_TAKE_PHOTO = 1;
     Audiogram m_audiogram = null;
     private View m_view = null;
+
+    private boolean validate() {
+        return validateFields();
+    }
+
+    @Override
+    public void showReturnToClinic()
+    {
+        ((StationActivity)m_activity).showReturnToClinic();
+    }
+
+    private boolean saveInternal(final boolean showReturnToClinic) {
+        boolean ret = validate();
+        if (ret == true) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(m_activity);
+
+            builder.setTitle(m_activity.getString(R.string.title_unsaved_audiogram));
+            builder.setMessage(m_activity.getString(R.string.msg_save_audiogram));
+
+            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    m_audiogram = copyAudiogramDataFromUI();
+                    CreateAudiogramImageListener listener = new CreateAudiogramImageListener();
+                    listener.setAudiogram(m_audiogram);
+                    createAudiogramImage(listener);
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean save() {
+        boolean ret = true;
+        if (m_dirty) {
+            ret = saveInternal(false);
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean checkout() {
+        if (m_dirty) {
+            saveInternal(true);
+        } else {
+            showReturnToClinic();
+        }
+        return true;
+    }
 
     private class PhotoFile {
         private File m_file = null;
@@ -173,14 +239,14 @@ public class AudiogramPhotoFragment extends Fragment {
 
     private boolean validateFields()
     {
-        boolean ret = true;
-        return ret;
+        return !m_inCamera;
     }
 
     private void setDirty()
     {
         View button_bar_item = m_activity.findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.VISIBLE);
+        /*
         m_audiogram = copyAudiogramDataFromUI();
         button_bar_item.setOnClickListener(new View.OnClickListener() {
 
@@ -208,13 +274,13 @@ public class AudiogramPhotoFragment extends Fragment {
             }
 
         });
+
+         */
         m_dirty = true;
     }
 
     void updateAudiogram()
     {
-        boolean ret = false;
-
         Thread thread = new Thread(){
             public void run() {
                 // note we use session context because this may be called after onPause()
@@ -281,6 +347,8 @@ public class AudiogramPhotoFragment extends Fragment {
             m_activity=(Activity) context;
             m_sess = SessionSingleton.getInstance();
         }
+        ((StationActivity)m_activity).subscribeSave(this);
+        ((StationActivity)m_activity).subscribeCheckout(this);
     }
 
     @Override
@@ -302,7 +370,7 @@ public class AudiogramPhotoFragment extends Fragment {
         Thread thread = new Thread() {
             public void run() {
                 // note we use session context because this may be called after onPause()
-                ImageREST rest = new ImageREST(getContext());
+                ImageREST rest = new ImageREST(m_activity.getApplicationContext());
                 rest.addListener(listener);
                 Object lock;
                 int status;
@@ -461,8 +529,6 @@ public class AudiogramPhotoFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);
         m_photo = new PhotoFile();
         m_photo.create();
         m_photo.setHeadshotImage(R.id.audiogram_image);
@@ -486,15 +552,7 @@ public class AudiogramPhotoFragment extends Fragment {
             m_mainImageView = (ImageView) m_activity.findViewById(R.id.audiogram_image);
             copyAudiogramDataToUI();
             setViewDirtyListeners();
-            if (m_sess.getNewAudiogram() == true) {
-                setDirty();
-            } else {
-                clearDirty();
-                View v = (View) m_activity.findViewById(R.id.audiogram_image_button);
-                if (v != null) {
-                    v.setVisibility(View.GONE);
-                }
-            }
+            clearDirty();
             m_init = false;
         }
     }
@@ -578,46 +636,12 @@ public class AudiogramPhotoFragment extends Fragment {
 
     @Override
     public void onPause() {
-        Activity activity = getActivity();
-        if (activity != null) {
-            View button_bar_item = activity.findViewById(R.id.save_button);
-            if (button_bar_item != null) {
-                button_bar_item.setVisibility(View.GONE);
-            }
+        if (m_inCamera == false) {
+            ((StationActivity) m_activity).unsubscribeSave(this);
+            ((StationActivity) m_activity).unsubscribeCheckout(this);
         }
 
         super.onPause();
-
-        final Audiogram mh = this.copyAudiogramDataFromUI();
-
-        if (m_inCamera == false && (m_dirty || mh.equals(m_audiogram) == false)) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-            builder.setTitle(m_activity.getString(R.string.title_unsaved_audiogram));
-            builder.setMessage(m_activity.getString(R.string.msg_save_audiogram));
-
-            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    CreateAudiogramImageListener listener = new CreateAudiogramImageListener();
-                    listener.setAudiogram(m_audiogram);
-                    createAudiogramImage(listener);
-                    dialog.dismiss();
-                }
-            });
-
-            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-
-        View button_bar_item = getActivity().findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.GONE);
     }
 
     @Override
@@ -638,10 +662,22 @@ public class AudiogramPhotoFragment extends Fragment {
         }
     }
 
+    private void setButtonBarCallbacks() {
+        View button_bar_item;
+
+        button_bar_item = m_activity.findViewById(R.id.save_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                saveInternal(false);
+            }
+        });
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.audiogram_photo_fragment_layout, container, false);
         m_view  = view;
+        setButtonBarCallbacks();
         return view;
     }
 }

@@ -42,7 +42,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -66,20 +65,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class AppPatientXRayEditorFragment extends Fragment {
+public class AppPatientXRayEditorFragment extends Fragment implements FormSaveListener, PatientCheckoutListener {
     private StationActivity m_activity = null;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     private XRay m_xray = null;
     private boolean m_dirty = false;
     private View m_view = null;
-    private boolean m_leaving = false;
     private ImageMap m_childImageMap;
     private ImageMap m_adultImageMap;
     private ToothMapState m_childToothMapState;
     private ToothMapState m_adultToothMapState;
     private XRay.XRayMouthType m_mouthType;
     private XRayThumbnailTable m_currentXRayThumbnailTable = new XRayThumbnailTable(R.id.xray_current_image_table);
-    private XRayThumbnailTable m_olderXRayThumbnailTable = new XRayThumbnailTable(R.id.xray_older_image_table);;
+    private XRayThumbnailTable m_olderXRayThumbnailTable = new XRayThumbnailTable(R.id.xray_older_image_table);
+    ;
 
     private void initImageMaps() {
         m_childImageMap = new ImageMap();
@@ -90,7 +89,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
 
         m_childImageMap.setColoredPixel(getResources().getColor(R.color.colorThousandsmiles));
         m_childImageMap.setUncoloredPixel(getResources().getColor(R.color.xrayGray));
-        BitmapDrawable b = (BitmapDrawable)(this.getResources().getDrawable(R.drawable.child_teeth_gray));
+        BitmapDrawable b = (BitmapDrawable) (this.getResources().getDrawable(R.drawable.child_teeth_gray));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(b.getBitmap(), 577, 714, false);
         m_childImageMap.setWidth(577);
         m_childImageMap.setHeight(714);
@@ -107,6 +106,73 @@ public class AppPatientXRayEditorFragment extends Fragment {
         m_adultImageMap.setBitmap(resizedBitmap);
 
         createAdultHitRegions();
+    }
+
+    private boolean validate() {
+        final XRay xray = this.copyXRayDataFromUI();
+        if (xray == null) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void showReturnToClinic()
+    {
+        m_activity.showReturnToClinic();
+    }
+
+    private boolean saveInternal(final boolean showReturnToClinic) {
+        boolean ret = validate();
+        if (ret == true) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(m_activity);
+
+            builder.setTitle(m_activity.getString(R.string.title_unsaved_xray));
+            builder.setMessage(m_activity.getString(R.string.msg_save_xray));
+
+            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    updateXRay();
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean save() {
+        boolean ret = true;
+        if (m_dirty) {
+            ret = saveInternal(false);
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean checkout() {
+        if (m_dirty) {
+            saveInternal(m_sess.getStationSupportsRTC());
+        } else {
+            showReturnToClinic();
+        }
+        return true;
     }
 
     protected class HitRegion {
@@ -129,38 +195,38 @@ public class AppPatientXRayEditorFragment extends Fragment {
 
     private void createAdultHitRegions() {
         HitRegion [] regions = {
-                new HitRegion(61, 368, 101, 409),
-                new HitRegion(70, 303, 119, 343),
-                new HitRegion(85, 225, 147, 280),
-                new HitRegion(109, 172, 146, 201),
-                new HitRegion(129, 128, 171, 154),
-                new HitRegion(154, 82, 188, 106),
-                new HitRegion(193, 51, 228, 79),
-                new HitRegion(238, 29, 280, 66),
-                new HitRegion(304, 25, 346, 75),
-                new HitRegion(365, 50, 402, 73),
-                new HitRegion(405, 86, 438, 114),
-                new HitRegion(413, 137, 461, 159),
-                new HitRegion(433, 181, 485, 211),
-                new HitRegion(440, 241, 507, 281),
-                new HitRegion(458, 313, 519, 351),
-                new HitRegion(464, 378, 527, 430),
-                new HitRegion(479, 502, 526, 547),
-                new HitRegion(446, 570, 505, 620),
-                new HitRegion(430, 641, 489, 696),
-                new HitRegion(418, 718, 469, 760),
-                new HitRegion(395, 768, 444, 809),
-                new HitRegion(360, 806, 404, 840),
-                new HitRegion(329, 822, 356, 857),
-                new HitRegion(293, 834, 320, 860),
-                new HitRegion(258, 836, 281, 856),
-                new HitRegion(220, 824, 243, 849),
-                new HitRegion(174, 804, 209, 828),
-                new HitRegion(142, 763, 177, 792),
-                new HitRegion(121, 713, 159, 742),
-                new HitRegion(99, 638, 151, 686),
-                new HitRegion(79, 562, 136, 606),
-                new HitRegion(67, 495, 115, 532)
+            new HitRegion(61, 368, 101, 409),
+            new HitRegion(70, 303, 119, 343),
+            new HitRegion(85, 225, 147, 280),
+            new HitRegion(109, 172, 146, 201),
+            new HitRegion(129, 128, 171, 154),
+            new HitRegion(154, 82, 188, 106),
+            new HitRegion(193, 51, 228, 79),
+            new HitRegion(238, 29, 280, 66),
+            new HitRegion(304, 25, 346, 75),
+            new HitRegion(365, 50, 402, 73),
+            new HitRegion(405, 86, 438, 114),
+            new HitRegion(413, 137, 461, 159),
+            new HitRegion(433, 181, 485, 211),
+            new HitRegion(440, 241, 507, 281),
+            new HitRegion(458, 313, 519, 351),
+            new HitRegion(464, 378, 527, 430),
+            new HitRegion(479, 502, 526, 547),
+            new HitRegion(446, 570, 505, 620),
+            new HitRegion(430, 641, 489, 696),
+            new HitRegion(418, 718, 469, 760),
+            new HitRegion(395, 768, 444, 809),
+            new HitRegion(360, 806, 404, 840),
+            new HitRegion(329, 822, 356, 857),
+            new HitRegion(293, 834, 320, 860),
+            new HitRegion(258, 836, 281, 856),
+            new HitRegion(220, 824, 243, 849),
+            new HitRegion(174, 804, 209, 828),
+            new HitRegion(142, 763, 177, 792),
+            new HitRegion(121, 713, 159, 742),
+            new HitRegion(99, 638, 151, 686),
+            new HitRegion(79, 562, 136, 606),
+            new HitRegion(67, 495, 115, 532)
         };
 
         for (int i = 0; i < regions.length; i++) {
@@ -423,7 +489,6 @@ public class AppPatientXRayEditorFragment extends Fragment {
     }
 
     private void initializeCurrentXRayThumbnailData() {
-
         m_sess = SessionSingleton.getInstance();
         new Thread(new Runnable() {
             public void run() {
@@ -535,6 +600,8 @@ public class AppPatientXRayEditorFragment extends Fragment {
             m_activity=(StationActivity) context;
             initializeCurrentXRayThumbnailData();
         }
+        m_activity.subscribeSave(this);
+        m_activity.subscribeCheckout(this);
     }
 
     private void copyXRayDataToUI()
@@ -596,22 +663,6 @@ public class AppPatientXRayEditorFragment extends Fragment {
     {
         View button_bar_item = m_activity.findViewById(R.id.save_button);
         button_bar_item.setVisibility(View.VISIBLE);
-        m_xray = copyXRayDataFromUI();
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                m_leaving = true;
-                updateXRay();
-                // kludge give some time for the update
-                try {
-                    Thread.sleep(500);
-                } catch (Exception e) {
-
-                }
-                m_activity.showXRaySearchResults();
-            }
-        });
         m_dirty = true;
     }
 
@@ -768,6 +819,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
         RadioButton rb;
         CheckBox cb;
         boolean checked;
+        boolean xRayTypeSet = false;
 
         XRay xray;
 
@@ -790,6 +842,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
         if (cb != null) {
             if (cb.isChecked()) {
                 xray.addType(XRay.XRAY_TYPE_FULL);
+                xRayTypeSet = true;
             } else {
                 xray.removeType(XRay.XRAY_TYPE_FULL);
             }
@@ -799,6 +852,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
         if (cb != null) {
             if (cb.isChecked()) {
                 xray.addType(XRay.XRAY_TYPE_ANTERIORS_BITEWINGS);
+                xRayTypeSet = true;
             } else {
                 xray.removeType(XRay.XRAY_TYPE_ANTERIORS_BITEWINGS);
             }
@@ -808,6 +862,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
         if (cb != null) {
             if (cb.isChecked()) {
                 xray.addType(XRay.XRAY_TYPE_PANORAMIC_VIEW);
+                xRayTypeSet = true;
             } else {
                 xray.removeType(XRay.XRAY_TYPE_PANORAMIC_VIEW);
             }
@@ -817,11 +872,26 @@ public class AppPatientXRayEditorFragment extends Fragment {
         if (cb != null) {
             if (cb.isChecked()) {
                 xray.addType(XRay.XRAY_TYPE_CEPHALOMETRIC);
+                xRayTypeSet = true;
             } else {
                 xray.removeType(XRay.XRAY_TYPE_CEPHALOMETRIC);
             }
         }
 
+        if (xRayTypeSet == false) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setTitle(m_activity.getString(R.string.title_missing_patient_data));
+            builder.setMessage(m_activity.getString(R.string.msg_xray_type_missing));
+
+            builder.setPositiveButton(m_activity.getString(R.string.button_ok), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+            return null;
+        }
         return xray;
     }
 
@@ -895,6 +965,7 @@ public class AppPatientXRayEditorFragment extends Fragment {
         super.onResume();
         copyXRayDataToUI();
         setViewDirtyListeners();
+
         if (m_sess.getNewXRay() == true) {
             setDirty();
         } else {
@@ -997,50 +1068,27 @@ public class AppPatientXRayEditorFragment extends Fragment {
 
     @Override
     public void onPause() {
-        Activity activity = getActivity();
-        if (activity != null) {
-            View button_bar_item = activity.findViewById(R.id.save_button);
-            if (button_bar_item != null) {
-                button_bar_item.setVisibility(View.GONE);
-            }
-        }
-
         super.onPause();
+        m_activity.unsubscribeSave(this);
+        m_activity.unsubscribeCheckout(this);
+    }
 
-        final XRay xray = this.copyXRayDataFromUI();
+    private void setButtonBarCallbacks() {
+        View button_bar_item;
 
-        if ((m_dirty || xray.equals(m_xray) == false) && m_leaving == false) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-            builder.setTitle(m_activity.getString(R.string.title_unsaved_xray));
-            builder.setMessage(m_activity.getString(R.string.msg_save_xray));
-
-            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    updateXRay();
-                    dialog.dismiss();
-                }
-            });
-
-            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-
-        View button_bar_item = getActivity().findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.GONE);
+        button_bar_item = m_activity.findViewById(R.id.save_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                saveInternal(false);
+            }
+        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_xray_editor_layout, container, false);
         m_view  = view;
+        setButtonBarCallbacks();
         return view;
     }
 

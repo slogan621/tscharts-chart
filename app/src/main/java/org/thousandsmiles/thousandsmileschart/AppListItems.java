@@ -38,6 +38,7 @@ public class AppListItems {
         private int m_imageId;
         private int m_selector;
         private boolean m_readOnly = false;
+        private boolean m_supportsReturnToClinic = true;
 
         public void setName(String name) {
             m_name = name;
