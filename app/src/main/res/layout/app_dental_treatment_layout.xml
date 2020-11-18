@@ -84,11 +84,6 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="16dp"></ImageView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dental_label_exam" />
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -156,11 +151,6 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="16dp"></ImageView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dental_label_prophy" />
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -227,11 +217,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dental_label_srp" />
 
                 <View
                     android:layout_width="0dp"
@@ -318,11 +303,6 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="16dp"></ImageView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dental_label_xrays_viewed" />
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -390,11 +370,6 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="16dp"></ImageView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dental_label_head_and_neck_oral_cancer_exam" />
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -460,11 +435,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dental_label_oral_hygiene_instruction" />
 
                 <View
                     android:layout_width="0dp"
@@ -534,11 +504,6 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="16dp"></ImageView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dental_label_flouride_tx_varnish" />
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -607,11 +572,6 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="16dp"></ImageView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dental_label_nutritional_counseling" />
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -679,11 +639,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dental_label_orthodontic" />
 
                 <View
                     android:layout_width="0dp"
@@ -761,11 +716,6 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="16dp"></ImageView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dental_label_oral_surgery" />
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -842,11 +792,6 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="16dp"></ImageView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dental_label_local_anesthetic" />
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -902,58 +847,6 @@
                     android:inputType="text|textMultiLine" />
 
             </LinearLayout>
-
-<!--
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="16dp"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dental_label_local_anesthetic" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="16dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:background="@color/lightGray"
-                        android:text="@string/dental_label_number_of_carps"
-                        android:textSize="@dimen/med_hist_label_text_size" />
-
-                    <EditText
-                        android:id="@+id/text_dental_number_of_carps"
-                        android:layout_width="match_parent"
-                        android:layout_height="180dp"
-                        android:background="@drawable/edittext_border"
-                        android:gravity="top"
-                        android:inputType="numberDecimal" />
-
-                </LinearLayout>
-            </LinearLayout>
-            -->
 
             <!-- Per-Visit/Full-Mouth Treatment Codes -->
 
