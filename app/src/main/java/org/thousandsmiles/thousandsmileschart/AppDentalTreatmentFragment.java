@@ -57,7 +57,7 @@ import java.util.Iterator;
 
 import static java.lang.Math.abs;
 
-public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEditorCompletionListener {
+public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEditorCompletionListener, FormSaveListener, PatientCheckoutListener {
     private Activity m_activity = null;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     private DentalTreatment m_dentalTreatment = null;
@@ -72,6 +72,65 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
     private ImageMap m_bottomToothImageMap;
     private ToothMapState m_topToothMapState;
     private ToothMapState m_bottomToothMapState;
+
+    @Override
+    public void showReturnToClinic()
+    {
+        ((StationActivity)m_activity).showReturnToClinic();
+    }
+
+    private boolean saveInternal(final boolean showReturnToClinic) {
+        boolean ret = validate();
+        if (ret == true) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(m_activity);
+
+            builder.setTitle(m_activity.getString(R.string.title_unsaved_ent_treatment));
+            builder.setMessage(m_activity.getString(R.string.msg_save_ent_treatment));
+
+            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    updateDentalTreatment();
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (showReturnToClinic == true) {
+                        showReturnToClinic();
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean save() {
+        boolean ret = true;
+        if (m_dirty) {
+            ret = saveInternal(false);
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean checkout() {
+        if (m_dirty) {
+            saveInternal(true);
+        } else {
+            showReturnToClinic();
+        }
+        return true;
+    }
 
     private void initImageMaps() {
         m_topToothImageMap = new ImageMap();
@@ -123,12 +182,17 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         } else {
             m_bottomToothImageMap.setItemColor(idx, color);
         }
-
+        setDirty();
         colorTeeth();
     }
 
     @Override
     public void onCancel() {
+    }
+
+    private boolean validate()
+    {
+        return true;
     }
 
     protected class HitRegion {
@@ -479,6 +543,8 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         if (context instanceof Activity){
             m_activity=(Activity) context;
         }
+        ((StationActivity)m_activity).subscribeSave(this);
+        ((StationActivity)m_activity).subscribeCheckout(this);
     }
 
     private void copyDentalTreatmentDataToUI()
@@ -2673,45 +2739,22 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
     @Override
     public void onPause() {
-        Activity activity = getActivity();
-        if (activity != null) {
-            View button_bar_item = activity.findViewById(R.id.save_button);
-            if (button_bar_item != null) {
-                button_bar_item.setVisibility(View.GONE);
-            }
-        }
+
+        ((StationActivity) m_activity).unsubscribeSave(this);
+        ((StationActivity) m_activity).unsubscribeCheckout(this);
 
         super.onPause();
+    }
 
-        final DentalTreatment mh = this.copyDentalTreatmentDataFromUI();
+    private void setButtonBarCallbacks() {
+        View button_bar_item;
 
-        if (m_dirty || mh.equals(m_dentalTreatment) == false) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-            builder.setTitle(m_activity.getString(R.string.title_unsaved_dental_treatment));
-            builder.setMessage(m_activity.getString(R.string.msg_save_dental_treatment));
-
-            builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    m_sess.getCommonSessionSingleton().updatePatientDentalTreatment(mh);
-                    m_sess.updateDentalTreatment();
-                    dialog.dismiss();
-                }
-            });
-
-            builder.setNegativeButton(m_activity.getString(R.string.button_no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-
-        View button_bar_item = getActivity().findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.GONE);
+        button_bar_item = m_activity.findViewById(R.id.save_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                saveInternal(false);
+            }
+        });
     }
 
     @Override
@@ -2760,6 +2803,8 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                 return m_detector.onTouchEvent(event);
             }
         });
+
+        setButtonBarCallbacks();
         return view;
     }
 
