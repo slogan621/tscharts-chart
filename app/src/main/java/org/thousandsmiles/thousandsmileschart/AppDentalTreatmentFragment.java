@@ -84,8 +84,8 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         if (ret == true) {
             AlertDialog.Builder builder = new AlertDialog.Builder(m_activity);
 
-            builder.setTitle(m_activity.getString(R.string.title_unsaved_ent_treatment));
-            builder.setMessage(m_activity.getString(R.string.msg_save_ent_treatment));
+            builder.setTitle(m_activity.getString(R.string.title_unsaved_dental_treatment));
+            builder.setMessage(m_activity.getString(R.string.msg_save_dental_treatment));
 
             builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
@@ -2617,7 +2617,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                     m_dentalTreatment.setUsername("nobody");
                     m_activity.runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_get_ent_exam_data), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_get_dental_treatment_data), Toast.LENGTH_SHORT).show();
                             copyDentalTreatmentDataToUI(); // remove if null
                             setViewDirtyListeners();      // remove if null
                         }
@@ -2627,7 +2627,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                     m_dentalTreatment = exam;
                     m_activity.runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_got_ent_exam_data), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_got_dental_treatment_data), Toast.LENGTH_SHORT).show();
                             copyDentalTreatmentDataToUI();
                             setViewDirtyListeners();
 
@@ -2674,7 +2674,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                     Handler handler = new Handler(Looper.getMainLooper());
                     handler.post(new Runnable() {
                         public void run() {
-                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_save_ent_exam), Toast.LENGTH_LONG).show();
+                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_save_dental_treatment), Toast.LENGTH_LONG).show();
                         }
                     });
                 } else {

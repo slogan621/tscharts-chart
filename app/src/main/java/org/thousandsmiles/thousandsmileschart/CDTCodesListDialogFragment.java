@@ -216,7 +216,7 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
             } else {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(getActivity(), R.string.msg_unable_to_get_medications_list, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.msg_unable_to_get_cdt_codes_list, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -225,7 +225,7 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
 
     private void configCDTCodesAutocomplete()
     {
-        // get medications list from backend
+        // get CDT list from backend
 
         AsyncTask task = new GetCDTCodesList();
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);

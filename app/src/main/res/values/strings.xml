@@ -524,7 +524,7 @@
     <string name="title_unsaved_dental_treatment">Unsaved Dental Treatment</string>
     <string name="msg_save_dental_treatment">Save Dental Treatment?</string>
     <string name="msg_unable_to_save_dental_treatment">Unable to save dental treatment</string>
-    <string name="msg_successfully_saved_dental_treatment">Successfully save dental treatment</string>
+    <string name="msg_successfully_saved_dental_treatment">Successfully saved dental treatment</string>
     <string name="msg_unable_to_get_dental_treatment_data">Unable to get dental treatment data</string>
     <string name="msg_successfully_got_dental_treatment_data">Successfully read dental treatment data</string>
     <string name="msg_enter_a_cdt_code">Enter a CDT Code</string>
@@ -582,4 +582,17 @@
     <string name="labial">Labial</string>
     <string name="incisal">Incisal</string>
     <string name="tooth_missing">Tooth Missing</string>
+    <string name="msg_unable_to_get_cdt_codes_list">Unable to read CDT codes from database</string>
+    <string name="dental_exam_notes_hint">(Optional) Enter exam notes here</string>
+    <string name="dental_prophy_notes_hint">(Optional) Enter prophy notes here</string>
+    <string name="dental_srp_notes_hint">(Optional) Enter SRP notes here</string>
+    <string name="dental_xray_notes_hint">(Optional) Enter X-Ray notes here</string>
+    <string name="dental_head_and_neck_oral_cancer_exam_notes_hint">(Optional) Enter head and neck oral cancer exam notes here</string>
+    <string name="dental_oral_hygiene_instruction_notes_hint">(Optional) Enter oral hygiene instruction notes here</string>
+    <string name="dental_flouride_tx_varnish_notes_hint">(Optional) Enter flouride tx varnish notes here</string>
+    <string name="dental_nutritional_counseling_notes_hint">(Optional) Enter nutritional counseling notes here</string>
+    <string name="dental_orthodontic_notes_hint">(Optional) Enter orthodontic notes here</string>
+    <string name="dental_oral_surgery_notes_hint">(Optional) Enter oral surgery notes here</string>
+    <string name="dental_anesthetic_notes_hint">(Optional) Enter anesthetic notes here</string>
+    <string name="dental_general_notes_hint">(Optional) Enter general notes about the patient visit here</string>
 </resources>

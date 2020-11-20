@@ -118,6 +118,7 @@
                     android:background="@drawable/edittext_border"
                     android:gravity="top"
                     android:lines="3"
+                    android:hint="@string/dental_exam_notes_hint"
                     android:inputType="text|textMultiLine" />
 
             </LinearLayout>
@@ -190,6 +191,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_border"
                     android:gravity="top"
+                    android:hint="@string/dental_prophy_notes_hint"
                     android:lines="3"
                     android:inputType="text|textMultiLine" />
 
@@ -280,6 +282,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_border"
+                    android:hint="@string/dental_srp_notes_hint"
                     android:gravity="top"
                     android:lines="3"
                     android:inputType="text|textMultiLine" />
@@ -353,6 +356,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_border"
+                    android:hint="@string/dental_xray_notes_hint"
                     android:gravity="top"
                     android:lines="3"
                     android:inputType="text|textMultiLine" />
@@ -427,6 +431,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_border"
                     android:gravity="top"
+                    android:hint="@string/dental_head_and_neck_oral_cancer_exam_notes_hint"
                     android:lines="3"
                     android:inputType="text|textMultiLine" />
 
@@ -500,6 +505,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_border"
+                    android:hint="@string/dental_oral_hygiene_instruction_notes_hint"
                     android:gravity="top"
                     android:lines="3"
                     android:inputType="text|textMultiLine" />
@@ -574,6 +580,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_border"
+                    android:hint="@string/dental_flouride_tx_varnish_notes_hint"
                     android:gravity="top"
                     android:lines="3"
                     android:inputType="text|textMultiLine" />
@@ -649,6 +656,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_border"
                     android:gravity="top"
+                    android:hint="@string/dental_nutritional_counseling_notes_hint"
                     android:lines="3"
                     android:inputType="text|textMultiLine" />
 
@@ -730,6 +738,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_border"
+                    android:hint="@string/dental_orthodontic_notes_hint"
                     android:gravity="top"
                     android:lines="3"
                     android:inputType="text|textMultiLine" />
@@ -812,6 +821,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_border"
+                    android:hint="@string/dental_oral_surgery_notes_hint"
                     android:gravity="top"
                     android:lines="3"
                     android:inputType="text|textMultiLine" />
@@ -894,6 +904,37 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp"
+                android:orientation="horizontal" >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="16dp">
+                </ImageView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dental_label_number_of_carps"/>
+                <EditText
+                    android:id="@+id/text_number_of_carps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:inputType="number"
+                    android:scrollHorizontally="true"
+                    android:ellipsize="end"
+                    android:layout_weight="1"
+                    android:layout_marginTop="2dp"
+                    android:drawablePadding="10dp"
+                    android:paddingLeft="15dp">
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -904,6 +945,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_border"
+                    android:hint="@string/dental_anesthetic_notes_hint"
                     android:gravity="top"
                     android:lines="3"
                     android:inputType="text|textMultiLine" />
@@ -994,10 +1036,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:background="@color/lightGray"
+                    android:hint="@string/dental_general_notes_hint"
                     android:text="@string/section_title_notes"
                     android:textSize="@dimen/med_hist_label_text_size" />
             </LinearLayout>
-
 
             <!-- following hidden view hack causes edit text field to NOT get focus on dialog show -->
 
