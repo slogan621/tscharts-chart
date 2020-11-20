@@ -39,6 +39,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -421,6 +422,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                     CDTCodesListDialogFragment mld = new CDTCodesListDialogFragment();
                     mld.setPatientId(m_sess.getDisplayPatientId());
                     mld.subscribe(this);
+                    mld.isFullMouth(false);
                     mld.setToothNumber(toothToString(true, tooth));
                     mld.show(getFragmentManager(), m_activity.getString(R.string.title_edit_cdt_codes_dialog));
                 }
@@ -440,6 +442,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                     CDTCodesListDialogFragment mld = new CDTCodesListDialogFragment();
                     mld.setPatientId(m_sess.getDisplayPatientId());
                     mld.subscribe(this);
+                    mld.isFullMouth(false);
                     mld.setToothNumber(toothToString(false, tooth));
                     mld.show(getFragmentManager(), m_activity.getString(R.string.title_edit_cdt_codes_dialog));
                 }
@@ -2782,6 +2785,21 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return m_detector.onTouchEvent(event);
+            }
+        });
+
+        Button button = m_view.findViewById(R.id.button_per_visit_codes);
+
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                CDTCodesListDialogFragment mld = new CDTCodesListDialogFragment();
+                mld.setPatientId(m_sess.getDisplayPatientId());
+                //mld.subscribe(this);
+                mld.isFullMouth(true);
+                mld.setToothNumber("");
+                mld.show(getFragmentManager(), m_activity.getString(R.string.title_edit_cdt_codes_full_mouth_dialog));
             }
         });
 

@@ -47,6 +47,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.view.View.GONE;
+
 public class CDTCodesListDialogFragment extends DialogFragment implements CDTCodeEditorCompletionPublisher {
 
     private int m_patientId;
@@ -68,6 +70,7 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     private String m_tooth;
     private Dialog m_dialog;
+    private boolean m_isFullMouth = false;
     private ArrayList<CDTCodeEditorCompletionListener> m_listeners = new ArrayList<CDTCodeEditorCompletionListener>();
 
     public void setPatientId(int id) {
@@ -121,9 +124,9 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
 
         if (listView.getCount() == 0) {
             View v = m_view.findViewById(R.id.cdt_codes_list);
-            v.setVisibility(View.GONE);
+            v.setVisibility(GONE);
             v = m_view.findViewById(R.id.remove_cdt_code_button);
-            v.setVisibility(View.GONE);
+            v.setVisibility(GONE);
         }
     }
 
@@ -236,6 +239,11 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
         m_tooth = tooth;
     }
 
+    public void isFullMouth(boolean val)
+    {
+        m_isFullMouth = val;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -293,6 +301,13 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
             }
         });
 
+        if (m_isFullMouth) {
+            CheckBox cb = m_view.findViewById(R.id.tooth_missing);
+            if (cb != null) {
+                cb.setVisibility(GONE);
+            }
+        }
+
         builder.setView(m_view)
                 // Add action buttons
                 .setPositiveButton(R.string.select_medications_yes, new DialogInterface.OnClickListener() {
@@ -312,14 +327,19 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
                 });
         m_dialog = builder.create();
         m_dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        String title = String.format("%s - Tooth %s", getContext().getString(R.string.title_edit_cdt_codes_dialog), m_tooth);
+        String title;
+        if (m_isFullMouth == false) {
+            title = String.format("%s - Tooth %s", getContext().getString(R.string.title_edit_cdt_codes_dialog), m_tooth);
+        } else {
+            title = getContext().getString(R.string.title_edit_cdt_codes_full_mouth_dialog);
+        }
         m_dialog.setTitle(title);
         configCDTCodesAutocomplete();
         if (listView.getCount() == 0) {
             View v = m_view.findViewById(R.id.cdt_codes_list);
-            v.setVisibility(View.GONE);
+            v.setVisibility(GONE);
             v = m_view.findViewById(R.id.remove_cdt_code_button);
-            v.setVisibility(View.GONE);
+            v.setVisibility(GONE);
         }
         return m_dialog;
     }

@@ -589,5 +589,6 @@
     <string name="dental_oral_surgery_notes_hint">(Opcional) Ingrese las notas de cirugía oral aquí</string>
     <string name="dental_anesthetic_notes_hint">(Opcional) Ingrese notas anestésicas aquí</string>
     <string name="dental_general_notes_hint">(Opcional) Introduzca aquí notas generales sobre la visita del paciente</string>
+    <string name="title_edit_cdt_codes_full_mouth_dialog">Agregar o quitar códigos de boca completa / por visita</string>
 </resources>
 

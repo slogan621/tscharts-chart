@@ -595,4 +595,5 @@
     <string name="dental_oral_surgery_notes_hint">(Optional) Enter oral surgery notes here</string>
     <string name="dental_anesthetic_notes_hint">(Optional) Enter anesthetic notes here</string>
     <string name="dental_general_notes_hint">(Optional) Enter general notes about the patient visit here</string>
+    <string name="title_edit_cdt_codes_full_mouth_dialog">Add or Remove Full Mouth/Per-Visit Codes</string>
 </resources>
