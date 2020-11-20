@@ -549,7 +549,7 @@
     <string name="dental_label_local_anesthetic_lidocaine">Lidocaína</string>
     <string name="dental_label_local_anesthetic_septocaine">Septocaína</string>
     <string name="dental_label_local_anesthetic_other">Otro</string>
-    <string name="dental_label_number_of_carps">Número de carpules</string>
+    <string name="dental_label_number_of_carps">Número de cartucho de anestesia</string>
     <string name="section_title_dental_treatment">Tratamiento dental</string>
     <string name="dental_label_per_visit_full_mouth_treatment_codes">Haga clic en el botón para ver y editar códigos</string>
     <string name="dental_label_orthodontic">Ortodoncia</string>
