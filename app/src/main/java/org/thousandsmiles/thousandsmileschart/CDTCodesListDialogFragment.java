@@ -30,6 +30,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -169,8 +170,12 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
     private void onCompletion() {
         ArrayList completedItems = getCompletedCDTCodesFromUI();
         ArrayList uncompletedItems = getUncompletedCDTCodesFromUI();
+        boolean isMissing;
+
+        CheckBox cb = m_view.findViewById(R.id.tooth_missing);
+        isMissing = cb.isChecked();
         for (int i = 0; i < m_listeners.size(); i++) {
-            m_listeners.get(i).onCompletion(m_tooth, m_added, m_removed, completedItems, uncompletedItems);
+            m_listeners.get(i).onCompletion(m_tooth, isMissing, m_added, m_removed, completedItems, uncompletedItems);
         }
     }
 

@@ -163,17 +163,22 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
     }
 
     @Override
-    public void onCompletion(String tooth, ArrayList<CDTCodesModel> addedItems, ArrayList<CDTCodesModel> removedItems, ArrayList<CDTCodesModel> completedItems,
+    public void onCompletion(String tooth, boolean isMissing, ArrayList<CDTCodesModel> addedItems, ArrayList<CDTCodesModel> removedItems, ArrayList<CDTCodesModel> completedItems,
                              ArrayList<CDTCodesModel> uncompletedItems) {
         int color;
-        if (completedItems.size() > 0) {
-            if (uncompletedItems.size() == 0) {
-                color = getResources().getColor(R.color.colorGreen);   // all work completed
-            } else {
-                color = getResources().getColor(R.color.colorYellow);  // some work completed
-            }
+
+        if (isMissing) {
+            color = getResources().getColor(R.color.lightGray);
         } else {
-            color = getResources().getColor(R.color.colorRed);         // no work completed
+            if (completedItems.size() > 0) {
+                if (uncompletedItems.size() == 0) {
+                    color = getResources().getColor(R.color.colorGreen);   // all work completed
+                } else {
+                    color = getResources().getColor(R.color.colorYellow);  // some work completed
+                }
+            } else {
+                color = getResources().getColor(R.color.colorRed);         // no work completed
+            }
         }
 
         int idx = stringToTooth(m_topTooth, tooth);

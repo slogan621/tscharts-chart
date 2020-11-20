@@ -24,6 +24,17 @@
         android:layout_margin="10dp"
         android:hint="@string/msg_enter_a_cdt_code_or_condition_here" />
 
+    <CheckBox
+        android:id="@+id/tooth_missing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dip"
+        android:layout_marginRight="10dip"
+        android:text="@string/tooth_missing"
+        android:focusable="false"
+        android:focusableInTouchMode="false" >
+    </CheckBox>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"

@@ -569,5 +569,12 @@
     <string name="section_title_oral_surgery">Oral Surgery</string>
     <string name="section_title_dental_anesthetic">Anesthetic</string>
     <string name="section_title_per_visit_full_mouth">Per-visit/Full-Mouth Codes</string>
+    <string name="lingual">Lingual</string>
+    <string name="buccal">Buccal</string>
+    <string name="mesial">Mesial</string>
+    <string name="occlusal">Occlusal</string>
+    <string name="labial">Labial</string>
+    <string name="incisal">Incisal</string>
+    <string name="tooth_missing">Tooth Missing</string>
 </resources>
 
