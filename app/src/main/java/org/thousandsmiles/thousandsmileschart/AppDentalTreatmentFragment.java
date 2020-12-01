@@ -690,7 +690,8 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
             int numberOfCarps = m_dentalTreatment.getLocalAnestheticNumberCarps();
             editTx = (EditText) m_view.findViewById(R.id.text_number_of_carps);
-            editTx.setText(String.format("%d", numberOfCarps));
+            String numCarps = String.format("%d", numberOfCarps);
+            editTx.setText(numCarps);
 
             String notes = m_dentalTreatment.getComment();
 
@@ -1272,7 +1273,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_exam);
         if (cb != null) {
-            dt.setExam(cb.isSelected());
+            dt.setExam(cb.isChecked());
         }
 
         EditText t = (EditText) m_view.findViewById(R.id.dental_exam_notes);
@@ -1283,7 +1284,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_prophy);
         if (cb != null) {
-            dt.setProphy(cb.isSelected());
+            dt.setProphy(cb.isChecked());
         }
 
         t = (EditText) m_view.findViewById(R.id.dental_prophy_notes);
@@ -1294,33 +1295,33 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_dental_srp_lr);
         if (cb != null) {
-            dt.setSrpLR(cb.isSelected());
+            dt.setSrpLR(cb.isChecked());
         }
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_dental_srp_ll);
         if (cb != null) {
-            dt.setSrpLL(cb.isSelected());
+            dt.setSrpLL(cb.isChecked());
         }
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_dental_srp_ur);
         if (cb != null) {
-            dt.setSrpUR(cb.isSelected());
+            dt.setSrpUR(cb.isChecked());
         }
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_dental_srp_ul);
         if (cb != null) {
-            dt.setSrpUL(cb.isSelected());
+            dt.setSrpUL(cb.isChecked());
         }
 
         t = (EditText) m_view.findViewById(R.id.dental_srp_notes);
         if (t != null) {
             Editable text = t.getText();
-            dt.setComment(text.toString());
+            dt.setSrpComment(text.toString());
         }
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_dental_xrays_viewed);
         if (cb != null) {
-            dt.setXraysViewed(cb.isSelected());
+            dt.setXraysViewed(cb.isChecked());
         }
 
         t = (EditText) m_view.findViewById(R.id.dental_xrays_notes);
@@ -1331,7 +1332,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_dental_head_and_neck_oral_cancer_exam);
         if (cb != null) {
-            dt.setHeadNeckOralCancerExam(cb.isSelected());
+            dt.setHeadNeckOralCancerExam(cb.isChecked());
         }
 
         t = (EditText) m_view.findViewById(R.id.dental_head_and_neck_oral_cancer_exam_notes);
@@ -1342,7 +1343,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_dental_oral_hygiene_instruction);
         if (cb != null) {
-            dt.setOralHygieneInstruction(cb.isSelected());
+            dt.setOralHygieneInstruction(cb.isChecked());
         }
 
         t = (EditText) m_view.findViewById(R.id.dental_oral_hygiene_instruction_notes);
@@ -1353,7 +1354,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_dental_flouride_tx_varnish);
         if (cb != null) {
-            dt.setFlourideTxVarnish(cb.isSelected());
+            dt.setFlourideTxVarnish(cb.isChecked());
         }
 
         t = (EditText) m_view.findViewById(R.id.dental_flouride_tx_varnish_notes);
@@ -1364,7 +1365,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_dental_nutritional_counseling);
         if (cb != null) {
-            dt.setNutritionalCounseling(cb.isSelected());
+            dt.setNutritionalCounseling(cb.isChecked());
         }
 
         t = (EditText) m_view.findViewById(R.id.dental_nutritional_counseling_notes);
@@ -1375,12 +1376,12 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_orthodontic_evaluation);
         if (cb != null) {
-            dt.setOrthoEvaluation(cb.isSelected());
+            dt.setOrthoEvaluation(cb.isChecked());
         }
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_orthodontic_tx);
         if (cb != null) {
-            dt.setOrthoTx(cb.isSelected());
+            dt.setOrthoTx(cb.isChecked());
         }
 
         t = (EditText) m_view.findViewById(R.id.dental_orthodontic_notes);
@@ -1391,12 +1392,12 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_oral_surgery_evaluation);
         if (cb != null) {
-            dt.setOralSurgeryEvaluation(cb.isSelected());
+            dt.setOralSurgeryEvaluation(cb.isChecked());
         }
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_oral_surgery_tx);
         if (cb != null) {
-            dt.setOralSurgeryTx(cb.isSelected());
+            dt.setOralSurgeryTx(cb.isChecked());
         }
 
         t = (EditText) m_view.findViewById(R.id.dental_oral_surgery_notes);
@@ -1407,22 +1408,22 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_local_anesthetic_benzocaine);
         if (cb != null) {
-            dt.setLocalAnestheticBenzocaine(cb.isSelected());
+            dt.setLocalAnestheticBenzocaine(cb.isChecked());
         }
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_local_anesthetic_lidocaine);
         if (cb != null) {
-            dt.setLocalAnestheticLidocaine(cb.isSelected());
+            dt.setLocalAnestheticLidocaine(cb.isChecked());
         }
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_local_anesthetic_septocaine);
         if (cb != null) {
-            dt.setLocalAnestheticSeptocaine(cb.isSelected());
+            dt.setLocalAnestheticSeptocaine(cb.isChecked());
         }
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_local_anesthetic_other);
         if (cb != null) {
-            dt.setLocalAnestheticOther(cb.isSelected());
+            dt.setLocalAnestheticOther(cb.isChecked());
         }
 
         t = (EditText) m_view.findViewById(R.id.text_number_of_carps);

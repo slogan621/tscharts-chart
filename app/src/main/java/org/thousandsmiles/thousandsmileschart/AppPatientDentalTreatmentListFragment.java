@@ -168,7 +168,7 @@ public class AppPatientDentalTreatmentListFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
-                            m_sess.setNewENTExam(true);
+                            m_sess.setNewDentalTreatment(true);
                             showDentalTreatmentEditor(new DentalTreatment());
                             }
                         });
