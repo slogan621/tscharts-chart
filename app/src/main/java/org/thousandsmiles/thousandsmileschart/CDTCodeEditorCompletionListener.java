@@ -22,6 +22,8 @@ import org.thousandsmiles.tscharts_lib.CDTCodesModel;
 import java.util.ArrayList;
 
 public interface CDTCodeEditorCompletionListener {
-    void onCompletion(String tooth, boolean isMissing, ArrayList<CDTCodesModel> addedItems, ArrayList<CDTCodesModel> removedItems, ArrayList<CDTCodesModel> completedItems, ArrayList<CDTCodesModel> uncompletedItems);
+    void onCompletion(String tooth, boolean isMissing, ArrayList<CDTCodesModel> addedItems, ArrayList<CDTCodesModel> removedItems,
+                      ArrayList<CDTCodesModel> completedItems, ArrayList<CDTCodesModel> uncompletedItems,
+                      ArrayList<PatientDentalToothState> list);
     void onCancel();
 }

@@ -19,11 +19,15 @@ package org.thousandsmiles.thousandsmileschart;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.RequiresApi;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -31,8 +35,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.Audiogram;
 import org.thousandsmiles.tscharts_lib.AudiogramREST;
+import org.thousandsmiles.tscharts_lib.CDTCodesREST;
 import org.thousandsmiles.tscharts_lib.CategoryREST;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.DentalStateREST;
 import org.thousandsmiles.tscharts_lib.DentalTreatment;
 import org.thousandsmiles.tscharts_lib.DentalTreatmentREST;
 import org.thousandsmiles.tscharts_lib.ENTDiagnosisExtra;
@@ -2106,6 +2112,38 @@ public class SessionSingleton {
             }
 
             int status = dentalTreatmentREST.getStatus();
+            if (status == 200) {
+                ret = listener.getResultArray();
+            }
+        }
+        return ret;
+    }
+
+    JSONArray getToothData(final int patientId)
+    {
+        JSONArray ret = null;
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            final DentalStateREST dentalStateREST = new DentalStateREST(getContext());
+            GetDataListener listener = new GetDataListener();
+            listener.setPatientId(patientId);
+            dentalStateREST.addListener(listener);
+
+            Object lock = dentalStateREST.getAllDentalStatesForPatient(patientId);
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = dentalStateREST.getStatus();
             if (status == 200) {
                 ret = listener.getResultArray();
             }

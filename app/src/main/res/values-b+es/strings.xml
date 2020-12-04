@@ -590,5 +590,8 @@
     <string name="dental_anesthetic_notes_hint">(Opcional) Ingrese notas anestésicas aquí</string>
     <string name="dental_general_notes_hint">(Opcional) Introduzca aquí notas generales sobre la visita del paciente</string>
     <string name="title_edit_cdt_codes_full_mouth_dialog">Agregar o quitar códigos de boca completa / por visita</string>
+    <string name="msg_unable_to_get_dental_states_for_patient">Unable to get dental states for patient</string>
+    <string name="msg_unable_to_save_dental_state">Unable to save dental state</string>
+    <string name="msg_successfully_saved_dental_state">Successfully saved dental state</string>
 </resources>
 

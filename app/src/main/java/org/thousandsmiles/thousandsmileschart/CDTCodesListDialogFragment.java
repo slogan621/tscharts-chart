@@ -39,6 +39,7 @@ import org.thousandsmiles.tscharts_lib.CDTCodesModel;
 import org.thousandsmiles.tscharts_lib.CDTCodesModelList;
 import org.thousandsmiles.tscharts_lib.CDTCodesREST;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.DentalState;
 import org.thousandsmiles.tscharts_lib.MedicationsModel;
 import org.thousandsmiles.tscharts_lib.MedicationsModelList;
 import org.thousandsmiles.tscharts_lib.MedicationsREST;
@@ -57,24 +58,33 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
     // maintain some lists as tooth codes are modified. These will be passed to listeners
     // once the user submits the dialog.
 
-    private ArrayList<CDTCodesModel> m_initial = new ArrayList<CDTCodesModel>();
+    private ArrayList<CDTCodesModel> m_supportedCodes = new ArrayList<CDTCodesModel>(); // the static set of codes supported by the app
     private ArrayList<CDTCodesModel> m_uncompleted = new ArrayList<CDTCodesModel>();
     private ArrayList<CDTCodesModel> m_completed = new ArrayList<CDTCodesModel>();
     private ArrayList<CDTCodesModel> m_added = new ArrayList<CDTCodesModel>();
     private ArrayList<CDTCodesModel>m_removed = new ArrayList<CDTCodesModel>();
+
+    private ArrayList<PatientDentalToothState> m_initialState = new ArrayList<PatientDentalToothState>(); // initial state of tooth on launch of dialog
+    private ArrayList<PatientDentalToothState> m_endState = new ArrayList<PatientDentalToothState>(); // state of tooth on non-cancelling dismissal of dialog
 
     private CDTCodesModelList m_list = CDTCodesModelList.getInstance();
     private CDTCodesAdapter m_adapter;
     private CDTCodesAdapter m_listAdapter;
     private TextView m_textView;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
-    private String m_tooth;
+    private String m_toothString;
+    private int m_toothNumber;
     private Dialog m_dialog;
     private boolean m_isFullMouth = false;
+    private boolean m_isTop = false;
     private ArrayList<CDTCodeEditorCompletionListener> m_listeners = new ArrayList<CDTCodeEditorCompletionListener>();
 
     public void setPatientId(int id) {
         m_patientId = id;
+    }
+
+    public void setTop(boolean val) {
+        m_isTop = val;
     }
 
     private String getTextField()
@@ -87,14 +97,58 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
         return ret;
     }
 
+    private PatientDentalToothState getEndStateItem(int id) {
+        PatientDentalToothState ret = null;
+
+        for (int i = 0; i < m_endState.size(); i++) {
+           if (m_endState.get(i).getCDTCodesModel().getId() == id) {
+               ret = m_endState.get(i);
+           }
+        }
+        return ret;
+    }
+
     private ArrayList<CDTCodesModel> getCheckedCDTCodesFromUI()
     {
-        return m_listAdapter.getCheckedItems();
+        ArrayList<CDTCodesModel> l = m_listAdapter.getCheckedItems();
+        return l;
     }
 
     private ArrayList<CDTCodesModel> getCompletedCDTCodesFromUI()
     {
-        return m_listAdapter.getCompletedItems();
+        ArrayList<CDTCodesModel> l = m_listAdapter.getCompletedItems();
+
+        for (int i = 0; i < l.size(); i++) {
+            CDTCodesModel model = l.get(i);
+            PatientDentalToothState state = getEndStateItem(model.getId());
+            if (state != null) {
+                state.setCompleted(true);
+            }
+        }
+        return l;
+    }
+
+    private void updateEndState() {
+        boolean isMissing;
+
+        CheckBox cb = m_view.findViewById(R.id.tooth_missing);
+        isMissing = cb.isChecked();
+
+        for (int i = 0; i < m_endState.size(); i++) {
+            PatientDentalToothState state = m_endState.get(i);
+            CDTCodesModel model = state.getCDTCodesModel();
+            ArrayList<DentalState.Surface> surfaces = m_listAdapter.getItemSurfaces(model);
+            state.setSurfaces(surfaces);
+            state.setMissing(isMissing);
+            state.setCompleted(m_listAdapter.getItemCompleted(model));
+            state.setToothNumber(m_toothNumber);
+            state.setUpper(m_isTop);
+        }
+    }
+
+    public void setInitialToothStates(PatientDentalToothState toothState)
+    {
+        m_endState.add(toothState);
     }
 
     private ArrayList<CDTCodesModel> getUncompletedCDTCodesFromUI()
@@ -112,10 +166,17 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
                     TextView t = (TextView) v.findViewById(R.id.label);
                     if (t.getText().toString().equals(codes.get(i).repr())) {
                         listView.removeViewInLayout(v);
-                        if (m_initial.indexOf(codes.get(i)) != -1) {
+
+                        if (m_supportedCodes.indexOf(codes.get(i)) != -1) {
                             m_removed.add(codes.get(i));
                         }
                         m_added.remove(codes.get(i));
+
+                        PatientDentalToothState state = new PatientDentalToothState();
+                        state.setCDTCodesModel(codes.get(i));
+                        state.setToothNumber(m_toothNumber);
+                        state.setUpper(m_isTop);
+                        m_endState.remove(state);
                     }
                 }
             }
@@ -130,7 +191,7 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
         }
     }
 
-    private void addCDTCodeToUI(CDTCodesModel cdtCode)
+    private void addCDTCodeToUI(CDTCodesModel cdtCode, PatientDentalToothState state, boolean addToEndState)
     {
         String repr = cdtCode.repr();
         if (repr.length() > 0) {
@@ -143,9 +204,16 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
                 v.setVisibility(View.VISIBLE);
                 if (m_added.indexOf(cdtCode) == -1) {
                     m_added.add(cdtCode);
-                    m_listAdapter.stateListAdd(cdtCode);
+                    m_listAdapter.stateListAdd(cdtCode, state);
                 }
                 m_removed.remove(cdtCode);
+
+                if (state != null) {
+                    if (addToEndState == true) {
+                        m_endState.add(state);
+                    }
+                }
+
             } catch (Exception e) {
                 Toast.makeText(getActivity(), R.string.msg_failed_to_set_cdt_code, Toast.LENGTH_SHORT).show();
             }
@@ -171,17 +239,19 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
     }
 
     private void onCompletion() {
-        ArrayList completedItems = getCompletedCDTCodesFromUI();
-        ArrayList uncompletedItems = getUncompletedCDTCodesFromUI();
+        ArrayList<CDTCodesModel> completedItems = getCompletedCDTCodesFromUI();
+        ArrayList<CDTCodesModel> uncompletedItems = getUncompletedCDTCodesFromUI();
+        updateEndState();
         boolean isMissing;
 
         CheckBox cb = m_view.findViewById(R.id.tooth_missing);
         isMissing = cb.isChecked();
         for (int i = 0; i < m_listeners.size(); i++) {
-            m_listeners.get(i).onCompletion(m_tooth, isMissing, m_added, m_removed, completedItems, uncompletedItems);
+            m_listeners.get(i).onCompletion(m_toothString, isMissing, m_added, m_removed, completedItems, uncompletedItems, m_endState);
         }
     }
 
+    /*
     public class GetCDTCodesList extends AsyncTask<Object, Object, Object> {
         @Override
         protected String doInBackground(Object... params) {
@@ -226,22 +296,49 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
         }
     }
 
+    */
+
     private void configCDTCodesAutocomplete()
     {
+        AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.cdtcodesautocomplete);
+        String[] MultipleTextStringValue = CommonSessionSingleton.getInstance().getCDTCodesListStringArray();
+        ArrayAdapter<String> cdtCodeNames = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MultipleTextStringValue);
+        textView.setAdapter(cdtCodeNames);
+        textView.setThreshold(2);
+
         // get CDT list from backend
 
-        AsyncTask task = new GetCDTCodesList();
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
+        //AsyncTask task = new GetCDTCodesList();
+        //task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
     }
 
-    public void setToothNumber(String tooth)
+    public void setToothNumber(int tooth)
     {
-        m_tooth = tooth;
+        m_toothNumber = tooth;
+    }
+
+    public void setToothString(String tooth)
+    {
+        m_toothString = tooth;
     }
 
     public void isFullMouth(boolean val)
     {
         m_isFullMouth = val;
+    }
+
+    private
+    void initDialog() {
+
+        for (int i = 0; i < m_endState.size(); i++) {
+            PatientDentalToothState s = m_endState.get(i);
+            addCDTCodeToUI(s.getCDTCodesModel(), s,false);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -263,7 +360,7 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
         ////CSVToItems(str);
 
         m_adapter = new CDTCodesAdapter(getActivity(), m_list.getModels());
-        m_initial = m_adapter.getAllItems(); // initial list of items
+        m_supportedCodes = m_adapter.getAllItems();
         m_listAdapter = new CDTCodesAdapter(getActivity(), new ArrayList<CDTCodesModel>());
         listView.setAdapter(m_listAdapter);
 
@@ -276,7 +373,9 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
                 String cdt = textView.getText().toString();
                 CDTCodesModel m = m_list.getModel(cdt);
                 if (m != null) {
-                    addCDTCodeToUI(m);
+                    PatientDentalToothState state = new PatientDentalToothState();
+                    state.setCDTCodesModel(m);
+                    addCDTCodeToUI(m, state,true);
                 }
                 textView.setText("");
 
@@ -329,7 +428,7 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
         m_dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         String title;
         if (m_isFullMouth == false) {
-            title = String.format("%s - Tooth %s", getContext().getString(R.string.title_edit_cdt_codes_dialog), m_tooth);
+            title = String.format("%s - Tooth %s", getContext().getString(R.string.title_edit_cdt_codes_dialog), m_toothString);
         } else {
             title = getContext().getString(R.string.title_edit_cdt_codes_full_mouth_dialog);
         }
@@ -341,6 +440,7 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
             v = m_view.findViewById(R.id.remove_cdt_code_button);
             v.setVisibility(GONE);
         }
+        initDialog();
         return m_dialog;
     }
 }

@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -48,12 +49,19 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.CDTCodesModel;
+import org.thousandsmiles.tscharts_lib.CDTCodesREST;
+import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.DentalState;
+import org.thousandsmiles.tscharts_lib.DentalStateREST;
 import org.thousandsmiles.tscharts_lib.DentalTreatment;
 import org.thousandsmiles.tscharts_lib.DentalTreatmentREST;
-import org.thousandsmiles.tscharts_lib.XRay;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import static java.lang.Math.abs;
@@ -65,7 +73,6 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
     private boolean m_dirty = false;
     private View m_view = null;
     private AppFragmentContext m_ctx = new AppFragmentContext();
-    private boolean m_swiped = false;
     private boolean m_topTooth = true;
     private GestureDetectorCompat m_detector;
     private boolean m_showingToothChart = false;
@@ -73,6 +80,9 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
     private ImageMap m_bottomToothImageMap;
     private ToothMapState m_topToothMapState;
     private ToothMapState m_bottomToothMapState;
+    private AppDentalTreatmentFragment m_this;
+    private HashMap<Integer, ArrayList<PatientDentalToothState>> m_storedToothStates = new HashMap<Integer, ArrayList<PatientDentalToothState>>();
+    private HashMap<Integer, ArrayList<PatientDentalToothState>> m_updatedToothStates = new HashMap<Integer, ArrayList<PatientDentalToothState>>();
 
     @Override
     public void showReturnToClinic()
@@ -91,6 +101,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
             builder.setPositiveButton(m_activity.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     updateDentalTreatment();
+                    updateToothStates();
                     if (showReturnToClinic == true) {
                         showReturnToClinic();
                     }
@@ -164,9 +175,26 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
     }
 
     @Override
-    public void onCompletion(String tooth, boolean isMissing, ArrayList<CDTCodesModel> addedItems, ArrayList<CDTCodesModel> removedItems, ArrayList<CDTCodesModel> completedItems,
-                             ArrayList<CDTCodesModel> uncompletedItems) {
+    public void onCompletion(String tooth, boolean isMissing, ArrayList<CDTCodesModel> addedItems, ArrayList<CDTCodesModel> removedItems,
+                             ArrayList<CDTCodesModel> completedItems, ArrayList<CDTCodesModel> uncompletedItems,
+                             ArrayList<PatientDentalToothState> list) {
         int color;
+
+        ArrayList<PatientDentalToothState> states = m_updatedToothStates.get(m_sess.getDisplayPatientId());
+        if (states == null) {
+            m_updatedToothStates.put(m_sess.getDisplayPatientId(), list);
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                PatientDentalToothState s = list.get(i);
+                PatientDentalToothState ret;
+                if ((ret = s.find(states)) == null) {
+                    states.add(s);
+                } else {
+                    states.remove(ret);
+                    states.add(s);
+                }
+            }
+        }
 
         if (isMissing) {
             color = getResources().getColor(R.color.lightGray);
@@ -284,8 +312,12 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         }
     }
 
-    private String toothToString(boolean top, int index) {
+    public static String toothToString(boolean top, int index) {
         String ret = "";
+
+        if (index == 0) {
+            return "0";
+        }
         if (top == true) {
             if (index > 16) {
                 index -= 16;
@@ -307,8 +339,13 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         return ret;
     }
 
-    private int stringToTooth(boolean top, String str) {
+    public static int stringToTooth(boolean top, String str) {
         int ret;
+
+        if (str == "0") {
+            return 0;   // full mouth
+        }
+
         int ascii = (int) str.charAt(0);
 
         if (top == true) {
@@ -420,10 +457,18 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                     });
 
                     CDTCodesListDialogFragment mld = new CDTCodesListDialogFragment();
-                    mld.setPatientId(m_sess.getDisplayPatientId());
+                    int patient = m_sess.getDisplayPatientId();
+                    mld.setPatientId(patient);
                     mld.subscribe(this);
                     mld.isFullMouth(false);
-                    mld.setToothNumber(toothToString(true, tooth));
+                    mld.setTop(m_topTooth);
+                    mld.setToothString(toothToString(true, tooth));
+                    mld.setToothNumber(tooth);
+                    try {
+                        mld.setInitialToothStates(m_updatedToothStates.get(patient).get(tooth));
+                    } catch (Exception e) {
+                        // no states for tooth
+                    }
                     mld.show(getFragmentManager(), m_activity.getString(R.string.title_edit_cdt_codes_dialog));
                 }
             } else {
@@ -440,10 +485,13 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                     });
 
                     CDTCodesListDialogFragment mld = new CDTCodesListDialogFragment();
-                    mld.setPatientId(m_sess.getDisplayPatientId());
+                    int patient = m_sess.getDisplayPatientId();
+                    mld.setPatientId(patient);
                     mld.subscribe(this);
                     mld.isFullMouth(false);
-                    mld.setToothNumber(toothToString(false, tooth));
+                    mld.setToothString(toothToString(false, tooth));
+                    mld.setToothNumber(tooth);
+                    mld.setInitialToothStates(m_updatedToothStates.get(patient).get(tooth));
                     mld.show(getFragmentManager(), m_activity.getString(R.string.title_edit_cdt_codes_dialog));
                 }
             }
@@ -517,7 +565,6 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
              * is along the x axis will trigger the swipe
              */
             if (abs((int)velocityX) > abs((int)velocityY)) {
-                m_swiped = true;
                 View v = m_view.findViewById(R.id.dental_treatment_toothchart);
                 if (m_topTooth == false) {
                     m_topTooth = true;
@@ -553,6 +600,8 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         }
         ((StationActivity)m_activity).subscribeSave(this);
         ((StationActivity)m_activity).subscribeCheckout(this);
+        AsyncTask task = new GetCDTCodesList();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
     }
 
     private void copyDentalTreatmentDataToUI()
@@ -1455,46 +1504,129 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         return ret;
     }
 
-    private void getDentalTreatmentDataFromREST()
-    {
+    private void initializeToothData() {
         m_sess = SessionSingleton.getInstance();
 
-        m_sess.setNewDentalTreatment(false);
         new Thread(new Runnable() {
             public void run() {
-            Thread thread = new Thread(){
-                public void run() {
-                DentalTreatment exam;
-                exam = m_sess.getDentalTreatment(m_sess.getClinicId(), m_sess.getDisplayPatientId());
-                if (exam == null) {
-                    m_dentalTreatment = new DentalTreatment(); // null ??
-                    m_dentalTreatment.setPatient(m_sess.getDisplayPatientId());
-                    m_dentalTreatment.setClinic(m_sess.getClinicId());
-                    m_dentalTreatment.setUsername("nobody");
-                    m_activity.runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_get_dental_treatment_data), Toast.LENGTH_SHORT).show();
-                            copyDentalTreatmentDataToUI(); // remove if null
-                            setViewDirtyListeners();      // remove if null
-                        }
-                    });
+                Thread thread = new Thread(){
+                    public void run() {
+                        JSONArray toothData;
+                        toothData = m_sess.getToothData(m_sess.getDisplayPatientId());
+                        if (toothData == null) {
+                            m_activity.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_dental_states_for_patient, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            for (int i = 0; i < toothData.length(); i++) {
+                                try {
+                                    DentalState state = new DentalState();
+                                    JSONObject o = (JSONObject) toothData.get(i);
+                                    state.fromJSONObject(o);
+                                    PatientDentalToothState toothState = new PatientDentalToothState();
+                                    toothState.fromDentalState(state);
+                                    ArrayList<PatientDentalToothState> s = m_storedToothStates.get(state.getPatient());
+                                    if (s == null) {
+                                        s = new ArrayList<PatientDentalToothState>();
+                                        m_storedToothStates.put(state.getPatient(), s);
+                                    }
+                                    m_storedToothStates.get(state.getPatient()).add(toothState);
 
-                } else {
-                    m_dentalTreatment = exam;
-                    m_activity.runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_got_dental_treatment_data), Toast.LENGTH_SHORT).show();
-                            copyDentalTreatmentDataToUI();
-                            setViewDirtyListeners();
+                                    DentalState state2 = state;
+                                    state2.fromJSONObject(o);
+                                    PatientDentalToothState toothState2 = new PatientDentalToothState();
+                                    toothState2.fromDentalState(state2);
+                                    s = m_updatedToothStates.get(state2.getPatient());
+                                    if (s == null) {
+                                        s = new ArrayList<PatientDentalToothState>();
+                                        m_updatedToothStates.put(state2.getPatient(), s);
+                                    }
+                                    m_updatedToothStates.get(state2.getPatient()).add(toothState2);
+                                    //m_treatments.add(treatment);
 
+                                    /*
+                                    CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
+                                    sess.setContext(getContext());
+                                    JSONObject co = sess.getClinicById(treatment.getClinic());
+                                    if (co == null) {
+                                        try {
+                                            Thread.sleep(500);
+                                        } catch (Exception e) {
+                                        }
+                                    }
+
+                                     */
+                                } catch (JSONException e) {
+                                }
+                            }
                         }
-                    });
-                }
-                }
-            };
-            thread.start();
+                        //m_updatedToothStates = (HashMap<Integer, ArrayList<PatientDentalToothState>>) m_storedToothStates.clone();
+                        m_activity.runOnUiThread(new Runnable() {
+                            public void run() {
+                            }
+                        });
+                    }
+                };
+                thread.start();
             }
         }).start();
+    }
+
+    void updateToothStates()
+    {
+        boolean ret = false;
+
+        Thread thread = new Thread(){
+            public void run() {
+                // note we use session context because this may be called after onPause()
+                DentalStateREST rest = new DentalStateREST(m_sess.getContext());
+                Object lock;
+                int status;
+
+                int patient = m_sess.getDisplayPatientId();
+                ArrayList<PatientDentalToothState> states = m_updatedToothStates.get(patient);
+
+                for (int i = 0; states != null && i < states.size(); i++) {
+                    DentalState state = states.get(i).toDentalState(m_sess.getClinicId(), m_sess.getDisplayPatientId());
+                    lock = rest.createDentalState(state);
+                    //lock = rest.updateDentalTreatment(copyDentalTreatmentDataFromUI());
+
+                    synchronized (lock) {
+                        // we loop here in case of race conditions or spurious interrupts
+                        while (true) {
+                            try {
+                                lock.wait();
+                                break;
+                            } catch (InterruptedException e) {
+                                continue;
+                            }
+                        }
+                    }
+                    status = rest.getStatus();
+                    if (status != 200) {
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.post(new Runnable() {
+                            public void run() {
+                                Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_save_dental_state), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.post(new Runnable() {
+                            public void run() {
+                                clearDirty();
+                                m_dentalTreatment = copyDentalTreatmentDataFromUI();
+                                Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_saved_dental_state), Toast.LENGTH_LONG).show();
+                                m_sess.setNewDentalTreatment(false);
+                            }
+                        });
+                    }
+                }
+            }
+        };
+        thread.start();
     }
 
     void updateDentalTreatment()
@@ -1547,6 +1679,54 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
            }
         };
         thread.start();
+    }
+
+    public class GetCDTCodesList extends AsyncTask<Object, Object, Object> {
+        @Override
+        protected String doInBackground(Object... params) {
+            getCDTCodesList();
+            return "";
+        }
+
+        private void getCDTCodesList() {
+            final CDTCodesREST cdtCodesREST = new CDTCodesREST(m_sess.getContext());
+            Object lock = cdtCodesREST.getCDTCodesList();
+
+            synchronized (lock) {
+                // we loop here in case of race conditions or spurious interrupts
+                while (true) {
+                    try {
+                        lock.wait();
+                        break;
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                }
+            }
+
+            int status = cdtCodesREST.getStatus();
+            if (status == 200) {
+                initializeToothData();
+                /*
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.cdtcodesautocomplete);
+                        String[] MultipleTextStringValue = CommonSessionSingleton.getInstance().getCDTCodesListStringArray();
+                        ArrayAdapter<String> cdtCodeNames = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MultipleTextStringValue);
+                        textView.setAdapter(cdtCodeNames);
+                        textView.setThreshold(2);
+                    }
+                });
+
+                 */
+            } else {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getActivity(), R.string.msg_unable_to_get_cdt_codes_list, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
     }
 
     @Override
@@ -1621,6 +1801,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                     });
                     m_showingToothChart = true;
                     fab.setImageResource(R.drawable.back_216px_transparent);
+                    colorTeeth();
                 } else {
                     v2 = m_view.findViewById(R.id.dental_treatment_scrollview);
                     v1 = m_view.findViewById(R.id.dental_treatment_toothchart);
@@ -1648,10 +1829,13 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
             public void onClick(View v)
             {
                 CDTCodesListDialogFragment mld = new CDTCodesListDialogFragment();
-                mld.setPatientId(m_sess.getDisplayPatientId());
-                //mld.subscribe(this);
+                int patient = m_sess.getDisplayPatientId();
+                mld.setPatientId(patient);
+                mld.subscribe(m_this);
                 mld.isFullMouth(true);
-                mld.setToothNumber("");
+                mld.setToothString("0");
+                mld.setToothNumber(0);
+                mld.setInitialToothStates(m_updatedToothStates.get(patient).get(0));
                 mld.show(getFragmentManager(), m_activity.getString(R.string.title_edit_cdt_codes_full_mouth_dialog));
             }
         });
@@ -1663,5 +1847,6 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        m_this = this;
    }
 }
