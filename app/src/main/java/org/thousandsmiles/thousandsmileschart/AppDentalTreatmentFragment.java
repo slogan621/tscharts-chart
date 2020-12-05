@@ -251,6 +251,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         }
 
         setDirty();
+        colorTeeth();
     }
 
     @Override
@@ -1583,6 +1584,61 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         }).start();
     }
 
+    private boolean isNewState(PatientDentalToothState state) {
+        boolean ret = true;
+        int patient = m_sess.getDisplayPatientId();
+        ArrayList<PatientDentalToothState> stored = m_storedToothStates.get(patient);
+
+        if (stored != null) {
+
+            // search for the basic treatment, ignoring specific attributes (can't use .equals for this
+
+            for (int i = 0; i < stored.size(); i++) {
+                PatientDentalToothState s = stored.get(i);
+                if (s.getCDTCodesModel() == state.getCDTCodesModel() && s.getUpper() == state.getUpper() &&
+                        s.getToothNumber() == state.getToothNumber()) {
+
+                    // the basic treatment is associated with the tooth already, so is not new. It could
+                    // be modified (isModifiedState should be called after this function to determine this).
+
+                    ret = false;
+                    break;
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    private boolean isModifiedState(PatientDentalToothState state) {
+        boolean ret = false;
+        int patient = m_sess.getDisplayPatientId();
+        ArrayList<PatientDentalToothState> stored = m_storedToothStates.get(patient);
+
+        if (stored != null) {
+
+            // search for the basic treatment, not for specific attributes
+
+            for (int i = 0; i < stored.size(); i++) {
+                PatientDentalToothState s = stored.get(i);
+                if (s.getCDTCodesModel() == state.getCDTCodesModel() && s.getUpper() == state.getUpper() &&
+                        s.getToothNumber() == state.getToothNumber()) {
+
+                    if (s.equals(state) != true) {
+
+                        // we found the basic treatment, but there is some difference because member-wise
+                        // equality test failed. So, it is modified.
+
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return ret;
+    }
+
+
     void updateToothStates()
     {
         boolean ret = false;
@@ -1598,8 +1654,16 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                 ArrayList<PatientDentalToothState> states = m_updatedToothStates.get(patient);
 
                 for (int i = 0; states != null && i < states.size(); i++) {
-                    DentalState state = states.get(i).toDentalState(m_sess.getClinicId(), m_sess.getDisplayPatientId());
-                    lock = rest.createDentalState(state);
+                    PatientDentalToothState s = states.get(i);
+                    DentalState state = s.toDentalState(m_sess.getClinicId(), m_sess.getDisplayPatientId());
+                    if (isNewState(s)) {
+                        lock = rest.createDentalState(state);
+                    } else if (isModifiedState(s)) {
+                        lock = rest.updateDentalState(state);
+                    }
+                    else {
+                        continue; // no change
+                    }
                     //lock = rest.updateDentalTreatment(copyDentalTreatmentDataFromUI());
 
                     synchronized (lock) {
@@ -1626,9 +1690,8 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                         handler.post(new Runnable() {
                             public void run() {
                                 clearDirty();
-                                m_dentalTreatment = copyDentalTreatmentDataFromUI();
                                 Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_saved_dental_state), Toast.LENGTH_LONG).show();
-                                m_sess.setNewDentalTreatment(false);
+                                m_storedToothStates = (HashMap<Integer, ArrayList<PatientDentalToothState>>) m_updatedToothStates.clone();
                             }
                         });
                     }

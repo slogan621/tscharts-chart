@@ -18,7 +18,6 @@
 package org.thousandsmiles.thousandsmileschart;
 
 import org.thousandsmiles.tscharts_lib.CDTCodesModel;
-import org.thousandsmiles.tscharts_lib.CDTCodesModelList;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.DentalState;
 
@@ -32,6 +31,7 @@ import static org.thousandsmiles.tscharts_lib.DentalState.State.DENTAL_STATE_UNT
 import static org.thousandsmiles.tscharts_lib.DentalState.Location.DENTAL_LOCATION_TOP;
 
 public class PatientDentalToothState {
+    private int m_id = 0;
     private String m_toothString;
     private int m_toothNumber;
     private boolean m_upper;
@@ -44,6 +44,7 @@ public class PatientDentalToothState {
     }
 
     public PatientDentalToothState(PatientDentalToothState rhs) {
+        this.m_id = rhs.m_id;
         this.m_toothString = rhs.m_toothString;
         this.m_toothNumber = rhs.m_toothNumber;
         this.m_upper = rhs.m_upper;
@@ -64,6 +65,7 @@ public class PatientDentalToothState {
         boolean top = (state.getLocation() == DENTAL_LOCATION_TOP);
         setToothString(AppDentalTreatmentFragment.toothToString(top, m_toothNumber));
         setUpper(top);
+        setId(state.getId());
         return this;
     }
 
@@ -71,6 +73,7 @@ public class PatientDentalToothState {
         DentalState state = new DentalState();
         state.setCode(m_cdtCodesModel.getId());
         state.setClinic(clinic);
+        state.setId(m_id);
         state.setPatient(patient);
         if (m_completed) {
             state.setState(DENTAL_STATE_TREATED);
@@ -108,6 +111,29 @@ public class PatientDentalToothState {
             }
         }
         return ret;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PatientDentalToothState that = (PatientDentalToothState) o;
+        boolean equal = m_toothString.equals(that.m_toothString) &&
+                m_toothNumber == that.m_toothNumber &&
+                m_missing == that.m_missing &&
+                m_upper == that.m_upper &&
+                m_completed == that.m_completed &&
+                m_cdtCodesModel.equals(that.m_cdtCodesModel) &&
+                m_surfaces.equals(that.m_surfaces);
+        return equal;
+    }
+
+    private void setId(int id) {
+        m_id = id;
+    }
+
+    public int getId() {
+        return m_id;
     }
 
     private void setToothString(String tooth) {
