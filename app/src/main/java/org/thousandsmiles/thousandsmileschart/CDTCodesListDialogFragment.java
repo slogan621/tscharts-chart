@@ -146,7 +146,7 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
         }
     }
 
-    public void setInitialToothStates(PatientDentalToothState toothState)
+    public void addInitialToothState(PatientDentalToothState toothState)
     {
         m_endState.add(toothState);
     }

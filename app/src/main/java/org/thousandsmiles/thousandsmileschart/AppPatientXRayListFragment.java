@@ -20,6 +20,7 @@ package org.thousandsmiles.thousandsmileschart;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -38,6 +41,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.CDTCodesREST;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.XRay;
 
@@ -214,12 +218,12 @@ public class AppPatientXRayListFragment extends Fragment {
 
             if (count == 0 && m_sess.isXRayStation() == true) {
 
-                btnLO.setBackgroundColor(getResources().getColor(R.color.lightGray));
-                button.setBackgroundColor(getResources().getColor(R.color.lightGray));
-                button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
+                btnLO.setBackgroundColor(m_activity.getResources().getColor(R.color.lightGray));
+                button.setBackgroundColor(m_activity.getResources().getColor(R.color.lightGray));
+                button.setImageDrawable(m_activity.getResources().getDrawable(R.drawable.headshot_plus));
 
             } else {
-                    button.setImageDrawable(getResources().getDrawable(R.drawable.xray));
+                    button.setImageDrawable(m_activity.getResources().getDrawable(R.drawable.xray));
             }
 
             XRay xray = m_xrays.get(i);
@@ -251,7 +255,7 @@ public class AppPatientXRayListFragment extends Fragment {
             }
 
             txt.setText(clinicStr);
-            txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            txt.setTextColor(m_activity.getResources().getColor(R.color.colorPrimaryDark));
             txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             btnLO.addView(txt);
 

@@ -72,7 +72,6 @@ public class AppPatientDentalTreatmentListFragment extends Fragment {
         if (context instanceof Activity){
             m_activity=(Activity) context;
             initializeTreatmentData();
-            initializeToothData();
         }
     }
 
@@ -332,6 +331,7 @@ public class AppPatientDentalTreatmentListFragment extends Fragment {
                                     treatment.fromJSONObject(o);
                                     m_treatments.add(treatment);
                                     CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
+                                    /*
                                     sess.setContext(getContext());
                                     JSONObject co = sess.getClinicById(treatment.getClinic());
                                     if (co == null) {
@@ -340,6 +340,8 @@ public class AppPatientDentalTreatmentListFragment extends Fragment {
                                         } catch (Exception e) {
                                         }
                                     }
+
+                                     */
                                 } catch (JSONException e) {
                                 }
                             }
@@ -349,56 +351,6 @@ public class AppPatientDentalTreatmentListFragment extends Fragment {
                                 LayoutDentalTreatmentTable();
                             }
                          });
-                    }
-                };
-                thread.start();
-            }
-        }).start();
-    }
-
-    private void initializeToothData() {
-
-        m_commonSess = CommonSessionSingleton.getInstance();
-        m_sess = SessionSingleton.getInstance();
-
-        new Thread(new Runnable() {
-            public void run() {
-                Thread thread = new Thread(){
-                    public void run() {
-                        JSONArray treatments;
-                        clearTreatmentList();
-                        treatments = m_sess.getDentalTreatments(m_sess.getClinicId(), m_sess.getDisplayPatientId());
-                        if (treatments == null) {
-                            m_activity.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(m_activity, R.string.msg_unable_to_get_dental_treatments_for_patient, Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } else {
-                            for (int i = 0; i < treatments.length(); i++) {
-                                try {
-                                    DentalTreatment treatment = new DentalTreatment();
-                                    JSONObject o = (JSONObject) treatments.get(i);
-                                    treatment.fromJSONObject(o);
-                                    m_treatments.add(treatment);
-                                    CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
-                                    sess.setContext(getContext());
-                                    JSONObject co = sess.getClinicById(treatment.getClinic());
-                                    if (co == null) {
-                                        try {
-                                            Thread.sleep(500);
-                                        } catch (Exception e) {
-                                        }
-                                    }
-                                } catch (JSONException e) {
-                                }
-                            }
-                        }
-                        m_activity.runOnUiThread(new Runnable() {
-                            public void run() {
-                                LayoutDentalTreatmentTable();
-                            }
-                        });
                     }
                 };
                 thread.start();
