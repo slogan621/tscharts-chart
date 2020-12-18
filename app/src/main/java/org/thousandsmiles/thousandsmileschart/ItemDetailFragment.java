@@ -17,6 +17,7 @@
 
 package org.thousandsmiles.thousandsmileschart;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.thousandsmiles.tscharts_lib.HeadshotImage;
 import org.thousandsmiles.tscharts_lib.ImageDisplayedListener;
+import org.thousandsmiles.tscharts_lib.PatientData;
 
 import java.util.Locale;
 
@@ -95,6 +97,12 @@ public class ItemDetailFragment extends Fragment implements ImageDisplayedListen
                 ((TextView) m_rootView.findViewById(R.id.detail_row_value_first)).setText(mItem.pObject.getString("first"));
                 ((TextView) m_rootView.findViewById(R.id.detail_row_name_gender)).setText(getResources().getString(R.string.gender));
                 String gender = mItem.pObject.getString("gender");
+                TextView tx = (TextView) m_rootView.findViewById(R.id.detail_row_name_paternal_last);
+                tx.setTypeface(null, Typeface.BOLD_ITALIC);
+                tx.setBackgroundResource(R.color.pressed_color);
+                tx = (TextView) m_rootView.findViewById(R.id.detail_row_value_paternal_last);
+                tx.setTypeface(null, Typeface.BOLD_ITALIC);
+                tx.setBackgroundResource(R.color.pressed_color);
                 Locale current = getResources().getConfiguration().locale;
                 if (current.getLanguage().equals("es")) {
                     if (gender.equals("Male")) {
@@ -125,7 +133,10 @@ public class ItemDetailFragment extends Fragment implements ImageDisplayedListen
                 img.setLayoutParams(layoutParams);
 
                 ((TextView) m_rootView.findViewById(R.id.detail_row_name_dob)).setText(getResources().getString(R.string.dob));
-                ((TextView) m_rootView.findViewById(R.id.detail_row_value_dob)).setText(mItem.pObject.getString("dob"));
+                PatientData d = new PatientData();
+                String dob = mItem.pObject.getString("dob");
+                d.setDob(dob);
+                ((TextView) m_rootView.findViewById(R.id.detail_row_value_dob)).setText(d.getDobMilitary(m_sess.getContext()));
             } catch (JSONException e) {
 
             }

@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -90,6 +91,8 @@ public class PatientSummaryDialogFragment extends DialogFragment {
         text.setText(String.format("%s", m_patientData.getMiddle()));
         text = m_view.findViewById(R.id.value_fatherlast);
         text.setText(String.format("%s", m_patientData.getFatherLast()));
+        text.setTypeface(null, Typeface.BOLD_ITALIC);
+        text.setBackgroundResource(R.color.pressed_color);
         text = m_view.findViewById(R.id.value_motherlast);
         text.setText(String.format("%s", m_patientData.getMotherLast()));
         text = m_view.findViewById(R.id.value_gender);
