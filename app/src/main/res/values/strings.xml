@@ -599,4 +599,6 @@
     <string name="msg_unable_to_get_dental_states_for_patient">Unable to get dental states for patient</string>
     <string name="msg_unable_to_save_dental_state">Unable to save dental state</string>
     <string name="msg_successfully_saved_dental_state">Successfully saved dental state</string>
+    <string name="action_change_station">Change Station</string>
+    <string name="action_logout">Logout</string>
 </resources>

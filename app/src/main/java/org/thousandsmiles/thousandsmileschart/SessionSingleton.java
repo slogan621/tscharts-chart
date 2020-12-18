@@ -818,6 +818,7 @@ public class SessionSingleton {
         JSONObject stationdata;
         int maxId = -999;
 
+        m_stationData.clear();
         for (i = 0; i < data.length(); i++)  {
             try {
                 stationdata = data.getJSONObject(i);

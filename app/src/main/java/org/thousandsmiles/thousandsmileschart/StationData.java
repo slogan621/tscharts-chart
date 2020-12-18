@@ -59,6 +59,10 @@ public class StationData implements RESTCompletionListener {
     public boolean updateStationData() {
         boolean ret = false;
 
+        if (m_sess.getStationCount() > 0) {
+            return true;
+        }
+
         if (Looper.myLooper() != Looper.getMainLooper()) {
             final StationREST stationData = new StationREST(getContext());
             stationData.addListener(this);

@@ -33,8 +33,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -300,6 +304,10 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                 goImmersive();
             }
         });
+
+        View options = findViewById(R.id.options);
+
+        registerForContextMenu(options);
 
         m_progressView = findViewById(R.id.search_progress);
         m_searchBar = findViewById(R.id.patient_search_bar);
@@ -792,22 +800,6 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                                 Toast.makeText(getApplicationContext(), R.string.error_unknown, Toast.LENGTH_LONG).show();
                             }
                         });
-                    } else {
-                        /*
-                        getMexicanStates();
-                        getStations();
-                        if (m_sess.updateCategoryData() == false) {
-                            PatientSearchActivity.this.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(), R.string.error_unable_to_get_category_data, Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        } else {
-                            m_sess.initCategoryNameToSelectorMap();
-                            m_sess.initCategoryNameToSpanishMap();
-                        }
-
-                         */
                     }
                 }
             };
@@ -917,6 +909,43 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
         testDialog.show();
         return testDialog;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_context, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivity(i);
+                return true;
+
+            case R.id.action_change_station:
+                // User chose the "Settings" item, show the app settings UI...
+                i = new Intent(this, StationSelectorActivity.class);
+                startActivity(i);
+                return true;
+
+            case R.id.action_logout:
+                // User chose the "Settings" item, show the app settings UI...
+                i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     /* see also  https://stackoverflow.com/questions/24187728/sticky-immersive-mode-disabled-after-soft-keyboard-shown */
