@@ -923,21 +923,22 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                // User chose the "Settings" item, show the app settings UI...
                 Intent i = new Intent(this, SettingsActivity.class);
                 startActivity(i);
                 return true;
 
             case R.id.action_change_station:
-                // User chose the "Settings" item, show the app settings UI...
                 i = new Intent(this, StationSelectorActivity.class);
                 startActivity(i);
                 return true;
 
             case R.id.action_logout:
-                // User chose the "Settings" item, show the app settings UI...
                 i = new Intent(this, LoginActivity.class);
                 startActivity(i);
+                return true;
+
+            case R.id.action_exit:
+                exitIf();
                 return true;
 
             default:
@@ -946,6 +947,26 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    private void exitIf() {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        finishAndRemoveTask();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(m_context);
+        builder.setMessage(R.string.msg_are_you_sure_you_want_to_exit).setPositiveButton(R.string.button_yes, dialogClickListener)
+                .setNegativeButton(R.string.button_no, dialogClickListener).show();
     }
 
     /* see also  https://stackoverflow.com/questions/24187728/sticky-immersive-mode-disabled-after-soft-keyboard-shown */

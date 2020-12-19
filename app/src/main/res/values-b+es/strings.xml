@@ -595,5 +595,6 @@
     <string name="msg_successfully_saved_dental_state">Condición dental guardada con éxito</string>
     <string name="action_change_station">Cambiar de estación</string>
     <string name="action_logout">Desconectarse</string>
+    <string name="action_exit">Salida</string>
 </resources>
 
