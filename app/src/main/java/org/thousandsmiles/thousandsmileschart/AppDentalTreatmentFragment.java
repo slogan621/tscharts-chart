@@ -177,6 +177,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         HashMap<Integer, Boolean> toothCompleted = new HashMap<Integer, Boolean>();
         HashMap<Integer, Boolean> toothUncompleted = new HashMap<Integer, Boolean>();
         HashMap<Integer, Boolean> toothMissing = new HashMap<Integer, Boolean>();
+        HashMap<Integer, Boolean> toothRemoved = new HashMap<Integer, Boolean>();
         ArrayList<Integer> teethNumbers = new ArrayList<Integer>();
 
         int patientId = m_sess.getDisplayPatientId();
@@ -203,6 +204,8 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
             } else {
                 if (state.getCompleted()) {
                     toothCompleted.put(tooth, true);
+                } else if (state.getRemoved()) {
+                    toothRemoved.put(tooth, true);
                 } else {
                     toothUncompleted.put(tooth, true);
                 }
@@ -211,7 +214,9 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
 
         for (int i = 0; i < teethNumbers.size(); i++) {
             int tooth = teethNumbers.get(i);
-            if (toothMissing.containsKey(tooth)) {
+            if (toothRemoved.containsKey(tooth) && !toothCompleted.containsKey(tooth) && !toothUncompleted.containsKey(tooth)) {
+                color = getResources().getColor(R.color.colorWhite);
+            } else if (toothMissing.containsKey(tooth)) {
                 color = getResources().getColor(R.color.lightGray);
             } else if (toothCompleted.containsKey(tooth) && toothUncompleted.containsKey(tooth)) {
                 color = getResources().getColor(R.color.colorYellow);
@@ -241,6 +246,12 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
             for (int i = 0; i < list.size(); i++) {
                 PatientDentalToothState s = list.get(i);
                 PatientDentalToothState ret;
+
+                if (removedItems.contains(s.getCDTCodesModel())) {
+                    s.setRemoved(true);
+                } else {
+                    s.setRemoved(false);
+                }
                 if ((ret = s.find(states)) == null) {
                     states.add(s);
                 } else {
@@ -1651,17 +1662,22 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                 int status;
 
                 int patient = m_sess.getDisplayPatientId();
-                ArrayList<PatientDentalToothState> states = m_updatedToothStates.get(patient);
+                ArrayList<PatientDentalToothState> updated = (ArrayList<PatientDentalToothState>) m_updatedToothStates.get(patient);
+                ArrayList<PatientDentalToothState> states = (ArrayList<PatientDentalToothState>) m_updatedToothStates.get(patient).clone();
 
                 for (int i = 0; states != null && i < states.size(); i++) {
+                    boolean isDelete = false;
                     PatientDentalToothState s = states.get(i);
                     DentalState state = s.toDentalState(m_sess.getClinicId(), m_sess.getDisplayPatientId());
-                    if (isNewState(s)) {
+                    if (s.getRemoved()) {
+                        updated.remove(s);
+                        lock = rest.deleteDentalState(state.getId()); // XXX FIXME getRemoved() may indicate a state never persisted, so may result in 404
+                        isDelete = true;
+                    } else if (isNewState(s)) {
                         lock = rest.createDentalState(state);
                     } else if (isModifiedState(s)) {
                         lock = rest.updateDentalState(state);
-                    }
-                    else {
+                    } else {
                         continue; // no change
                     }
                     //lock = rest.updateDentalTreatment(copyDentalTreatmentDataFromUI());
@@ -1678,25 +1694,40 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                         }
                     }
                     status = rest.getStatus();
-                    if (status != 200) {
-                        Handler handler = new Handler(Looper.getMainLooper());
-                        handler.post(new Runnable() {
-                            public void run() {
-                                Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_save_dental_state), Toast.LENGTH_LONG).show();
-                            }
-                        });
+                    if (isDelete) {
+                        if (status != 200 && status != 404) {
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.post(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_delete_dental_state), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else {
+                            states.remove(s);
+                        }
                     } else {
-                        Handler handler = new Handler(Looper.getMainLooper());
-                        handler.post(new Runnable() {
-                            public void run() {
-                                clearDirty();
-                                Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_saved_dental_state), Toast.LENGTH_LONG).show();
-                                m_storedToothStates = (HashMap<Integer, ArrayList<PatientDentalToothState>>) m_updatedToothStates.clone();
-                            }
-                        });
+                        if (status != 200) {
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.post(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_save_dental_state), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else {
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.post(new Runnable() {
+                                public void run() {
+                                    clearDirty();
+                                    Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_saved_dental_state), Toast.LENGTH_LONG).show();
+                                    //m_storedToothStates = (HashMap<Integer, ArrayList<PatientDentalToothState>>) m_updatedToothStates.clone();
+                                }
+                            });
+                        }
                     }
                 }
+                m_storedToothStates = (HashMap<Integer, ArrayList<PatientDentalToothState>>) m_updatedToothStates.clone();
             }
+
         };
         thread.start();
     }

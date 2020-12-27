@@ -148,12 +148,25 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
 
     public void addInitialToothState(PatientDentalToothState toothState)
     {
+        m_initialState.add(toothState);
         m_endState.add(toothState);
     }
 
     private ArrayList<CDTCodesModel> getUncompletedCDTCodesFromUI()
     {
         return m_listAdapter.getUncompletedItems();
+    }
+
+    private ArrayList<PatientDentalToothState> mergeInitAndEndStates()
+    {
+        ArrayList<PatientDentalToothState> ret = new ArrayList<PatientDentalToothState>();
+        ret = (ArrayList<PatientDentalToothState>) m_endState.clone();
+
+        for (Object x : m_initialState){
+            if (!ret.contains(x))
+                ret.add((PatientDentalToothState) x);
+        }
+        return ret;
     }
 
     private void removeCDTCodesFromUI(ArrayList<CDTCodesModel> codes)
@@ -171,6 +184,9 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
                             m_removed.add(codes.get(i));
                         }
                         m_added.remove(codes.get(i));
+
+                        // XXX removing this code is needed for correct handling at dismissal (tooth coloring)
+                        // XXX keeping this code is needed for correct display in dialog once item removed.
 
                         PatientDentalToothState state = new PatientDentalToothState();
                         state.setCDTCodesModel(codes.get(i));
@@ -246,8 +262,9 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
 
         CheckBox cb = m_view.findViewById(R.id.tooth_missing);
         isMissing = cb.isChecked();
+        ArrayList<PatientDentalToothState> mergedStates = mergeInitAndEndStates();
         for (int i = 0; i < m_listeners.size(); i++) {
-            m_listeners.get(i).onCompletion(m_toothString, isMissing, m_added, m_removed, completedItems, uncompletedItems, m_endState);
+            m_listeners.get(i).onCompletion(m_toothString, isMissing, m_added, m_removed, completedItems, uncompletedItems, mergedStates);
         }
     }
 
@@ -332,7 +349,9 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
 
         for (int i = 0; i < m_endState.size(); i++) {
             PatientDentalToothState s = m_endState.get(i);
-            addCDTCodeToUI(s.getCDTCodesModel(), s,false);
+            if (s.getRemoved() == false) {
+                addCDTCodeToUI(s.getCDTCodesModel(), s, false);
+            }
         }
     }
 

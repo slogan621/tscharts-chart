@@ -38,6 +38,7 @@ public class PatientDentalToothState {
     private ArrayList<DentalState.Surface> m_surfaces = new ArrayList<DentalState.Surface>();
     private boolean m_missing;
     private boolean m_completed;
+    private boolean m_removed; // not part of the model, flag to indicate item has been removed.
     private CDTCodesModel m_cdtCodesModel;
 
     public PatientDentalToothState() {
@@ -45,6 +46,7 @@ public class PatientDentalToothState {
 
     public PatientDentalToothState(PatientDentalToothState rhs) {
         this.m_id = rhs.m_id;
+        this.m_removed = rhs.m_removed;
         this.m_toothString = rhs.m_toothString;
         this.m_toothNumber = rhs.m_toothNumber;
         this.m_upper = rhs.m_upper;
@@ -175,6 +177,14 @@ public class PatientDentalToothState {
 
     public boolean getCompleted() {
         return m_completed;
+    }
+
+    public void setRemoved(boolean val) {
+        m_removed = val;
+    }
+
+    public boolean getRemoved() {
+        return m_removed;
     }
 
     public void addSurface(DentalState.Surface surface) {

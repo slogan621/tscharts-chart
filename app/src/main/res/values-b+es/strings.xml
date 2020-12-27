@@ -596,5 +596,6 @@
     <string name="action_change_station">Cambiar de estación</string>
     <string name="action_logout">Desconectarse</string>
     <string name="action_exit">Salida</string>
+    <string name="msg_unable_to_delete_dental_state">No se puede borrar el estado dental</string>
 </resources>
 

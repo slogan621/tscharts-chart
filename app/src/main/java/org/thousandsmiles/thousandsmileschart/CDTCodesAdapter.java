@@ -230,6 +230,7 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
             for (int j = 0; j < m_list.size(); j++) {
                 if (m_list.get(j) == codes.get(i)) {
                     m_list.remove(j);
+                    m_stateList.remove(codes.get(i).repr());
                     break;
                 }
             }
