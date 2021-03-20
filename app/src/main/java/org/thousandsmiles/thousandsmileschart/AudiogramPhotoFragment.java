@@ -156,7 +156,7 @@ public class AudiogramPhotoFragment extends Fragment implements FormSaveListener
             if (v != null) {
                 v.setClickable(true);
                 setDirty();
-                Picasso.with(getContext()).load(m_file).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(m_buttonImageView);
+                Picasso.get().load(m_file).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(m_buttonImageView);
             }
         }
 
@@ -617,7 +617,7 @@ public class AudiogramPhotoFragment extends Fragment implements FormSaveListener
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.post(new Runnable() {
                     public void run() {
-                        Picasso.with(m_context).load(m_file).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(m_imageView);
+                        Picasso.get().load(m_file).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(m_imageView);
                      }
                 });
 
