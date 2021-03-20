@@ -742,6 +742,9 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         m_sess.getCommonSessionSingleton().setPhotoPath("");
         m_sess.getCommonSessionSingleton().setContext(this);
 
+        CommonSessionSingleton.getInstance().setStorageDir(m_activity);
+        CommonSessionSingleton.getInstance().clearStorageDir();
+
         if (m_sess.getCommonSessionSingleton().getClinicId() == -1) {
             final ClinicREST clinicREST = new ClinicREST(m_context);
             final Object lock;
