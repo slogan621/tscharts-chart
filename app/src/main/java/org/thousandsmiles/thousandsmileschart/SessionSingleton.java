@@ -960,7 +960,7 @@ public class SessionSingleton {
 
             int status = patientData.getStatus();
             if (status == 200) {
-                o = m_patientHashMap.get(id).toJSONObject();
+                o = m_patientHashMap.get(id).toJSONObject(getContext());
                 m_patientData.put(id, o);
                 CommonSessionSingleton.getInstance().hasCurrentXRay(id, 365);
             }
@@ -997,7 +997,7 @@ public class SessionSingleton {
 
             int status = patientData.getStatus();
             if (status == 200) {
-                o = m_patientHashMap.get(id).toJSONObject();
+                o = m_patientHashMap.get(id).toJSONObject(getContext());
                 m_patientData.put(id, o);
                 CommonSessionSingleton.getInstance().hasCurrentXRay(id, 365);
             }
