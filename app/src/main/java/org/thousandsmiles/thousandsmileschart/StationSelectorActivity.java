@@ -208,7 +208,18 @@ public class StationSelectorActivity extends AppCompatActivity {
                     name = cs.getString("name");
                 }
             } catch (JSONException e) {
-                continue;
+                // default to english
+
+                try {
+                    name = cs.getString("name");
+                } catch(JSONException e2) {
+                    StationSelectorActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), R.string.error_unable_to_get_station_data, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    continue;
+                }
             }
             txt.setText(String.format("%s", name));
             button.setTag(cs);

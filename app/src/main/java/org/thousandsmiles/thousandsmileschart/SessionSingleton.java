@@ -851,7 +851,7 @@ public class SessionSingleton {
         Iterator it = m_stationIdToName.entrySet().iterator();
         while (it.hasNext()) {
             HashMap.Entry pair = (HashMap.Entry) it.next();
-            if (pair.getValue().toString().equals("Runner")) {
+            if (pair.getValue().toString().equals("Runner") || pair.getValue().toString().equals("Corredor")) {
                 continue;
             }
             Station m = new Station();

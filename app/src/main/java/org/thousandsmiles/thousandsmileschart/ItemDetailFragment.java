@@ -105,7 +105,7 @@ public class ItemDetailFragment extends Fragment implements ImageDisplayedListen
                 tx.setBackgroundResource(R.color.pressed_color);
                 Locale current = getResources().getConfiguration().locale;
                 if (current.getLanguage().equals("es")) {
-                    if (gender.equals("Male")) {
+                    if (gender.equals("Male") || gender.equals("Masculino")) {
                         gender = getResources().getString(R.string.male);
                     } else {
                         gender = getResources().getString(R.string.female);
@@ -114,7 +114,7 @@ public class ItemDetailFragment extends Fragment implements ImageDisplayedListen
                 ((TextView) m_rootView.findViewById(R.id.detail_row_value_gender)).setText(gender);
                 ImageView img = ((ImageView) m_rootView.findViewById(R.id.headshot));
 
-                if (gender.equals("Male")) {
+                if (gender.equals("Male") || gender.equals("Masculino")) {
                     img.setImageResource(R.drawable.boyfront);
                 } else {
                     img.setImageResource(R.drawable.girlfront);

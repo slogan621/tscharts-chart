@@ -113,7 +113,7 @@ public class CheckinDialogFragment extends DialogFragment {
             v.setText(dob);
             v = (TextView) m_view.findViewById(R.id.patient_gender);
             String genderString = getResources().getString(R.string.male);
-            if (gender.equals("Female")) {
+            if (gender.equals("Female") || gender.equals("Femenino")) {
                 genderString = getResources().getString(R.string.female);
             }
             v.setText(genderString);
