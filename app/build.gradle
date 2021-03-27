@@ -7,7 +7,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 3
-        versionName "3.3, March 23, 2021"
+        versionName "3.3.1, March 26, 2021"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.slogan621:tscharts-lib:0.2.45'
+    compile 'com.github.slogan621:tscharts-lib:0.2.52'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

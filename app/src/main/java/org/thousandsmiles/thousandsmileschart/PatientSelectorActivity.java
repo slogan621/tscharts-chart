@@ -70,6 +70,7 @@ import org.thousandsmiles.tscharts_lib.ImageDisplayedListener;
 import org.thousandsmiles.tscharts_lib.PatientData;
 import org.thousandsmiles.tscharts_lib.PatientREST;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
+import org.thousandsmiles.tscharts_lib.ShowProgress;
 
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
@@ -329,30 +330,10 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
     /**
      * Shows the progress UI and hides the search bar.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            m_progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            m_searchBar.setVisibility(show ? View.GONE : View.VISIBLE);
-            m_progressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    m_progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                    m_searchBar.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            m_progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            m_searchBar.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+    private void showProgress(final boolean show) {
+        ShowProgress progress = new ShowProgress();
+        progress.showProgress(this, m_searchBar, m_progressView, show);
     }
 
     private void ClearSearchResultTable()
