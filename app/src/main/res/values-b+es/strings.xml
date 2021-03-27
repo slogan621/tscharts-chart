@@ -508,7 +508,7 @@
     <string name="msg_successfully_saved_audiogram">Audiograma guardado exitosamente</string>
     <string name="msg_unable_to_get_audiogram_data">No se pueden obtener datos de audiograma</string>
     <string name="msg_successfully_got_audiogram_data">Obtuve con éxito los datos de audiograma</string>
-    <string name="section_title_station_filters">Filtros de Estación</string>
+    <string name="section_title_station_filters">Filtros de Estación (seleccione el tipo de pacientes que desea encontrar que estén registrados en esta clínica)</string>
     <string name="station_name_search_all">Busca Todo</string>
     <string name="xray_images">Imágenes de rayos Xs</string>
     <string name="msg_unable_to_get_xray_thumbnails_for_patient">No se pueden obtener miniaturas de imágenes de rayos X</string>
@@ -597,5 +597,7 @@
     <string name="action_logout">Desconectarse</string>
     <string name="action_exit">Salida</string>
     <string name="msg_unable_to_delete_dental_state">No se puede borrar el estado dental</string>
+
+    <string name="msg_select_job">Seleccione su trabajo o área de las siguientes opciones (quién es usted)</string>
 </resources>
 

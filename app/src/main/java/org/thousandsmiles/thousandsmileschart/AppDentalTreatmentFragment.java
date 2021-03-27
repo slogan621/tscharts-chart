@@ -27,11 +27,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.core.view.GestureDetectorCompat;
+import androidx.appcompat.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -48,6 +47,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -511,7 +512,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                 mld.subscribe(this);
                 mld.isFullMouth(false);
                 mld.setTop(m_topTooth);
-                mld.setToothString(toothToString(true, tooth));
+                mld.setToothString(toothToString(m_topTooth, tooth));
                 mld.setToothNumber(tooth);
                 try {
                     ArrayList<PatientDentalToothState> states = m_updatedToothStates.get(patient);
@@ -1648,7 +1649,6 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         }
         return ret;
     }
-
 
     void updateToothStates()
     {

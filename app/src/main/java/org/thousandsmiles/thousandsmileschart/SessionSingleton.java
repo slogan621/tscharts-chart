@@ -19,15 +19,12 @@ package org.thousandsmiles.thousandsmileschart;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -35,7 +32,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.Audiogram;
 import org.thousandsmiles.tscharts_lib.AudiogramREST;
-import org.thousandsmiles.tscharts_lib.CDTCodesREST;
 import org.thousandsmiles.tscharts_lib.CategoryREST;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.DentalStateREST;
@@ -59,13 +55,11 @@ import org.thousandsmiles.tscharts_lib.PatientREST;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
 import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
 import org.thousandsmiles.tscharts_lib.RoutingSlipREST;
-import org.thousandsmiles.tscharts_lib.StationREST;
 import org.thousandsmiles.tscharts_lib.XRayREST;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
 public class SessionSingleton {

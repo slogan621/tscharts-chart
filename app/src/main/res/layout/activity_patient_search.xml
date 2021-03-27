@@ -3,8 +3,8 @@
 <!--
 
 /*
- * (C) Copyright Syd Logan 2018-2020
- * (C) Copyright Thousand Smiles Foundation 2018-2020
+ * (C) Copyright Syd Logan 2018-2021
+ * (C) Copyright Thousand Smiles Foundation 2018-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,14 +29,6 @@
     android:layout_height="match_parent"
     android:padding="0dip">
 
-    <ProgressBar
-        android:id="@+id/search_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -44,39 +36,7 @@
         android:layout_weight="0.8"
         android:padding="16dp">
 
-        <LinearLayout
-            android:id="@+id/patient_search_bar"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
 
-            <EditText
-                android:id="@+id/patient_search"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:hint="@string/patient_search_hint"
-                android:singleLine="true"
-                android:layout_height="wrap_content"/>
-
-            <Button
-                android:layout_height="wrap_content"
-                android:id="@+id/patient_search_button"
-                android:text="@string/button_search"
-                android:layout_width="wrap_content" />
-
-            <ImageButton
-                android:id="@+id/patient_search_date_picker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/date_range_black_48dp"/>
-
-            <ImageButton
-                android:id="@+id/options"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_drop_down_circle_black_24dp"/>
-        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -239,6 +199,52 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"/>
         </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/patient_search_bar"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/patient_search"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="@string/patient_search_hint"
+                android:singleLine="true"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:layout_height="wrap_content"
+                android:id="@+id/patient_search_button"
+                android:text="@string/button_search"
+                android:layout_width="wrap_content" />
+
+            <ImageButton
+                android:id="@+id/patient_search_date_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/date_range_black_48dp"/>
+
+            <ImageButton
+                android:id="@+id/options"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_drop_down_circle_black_24dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
+
+        <ProgressBar
+            android:id="@+id/search_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"

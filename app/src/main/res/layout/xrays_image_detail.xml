@@ -14,7 +14,7 @@
         tools:context="org.thousandsmiles.thousandsmileschart.StationActivity"
         android:src="@drawable/image1" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         app:fabSize="normal"
         android:src="@drawable/histogram3b_216px_transparent" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/colorize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

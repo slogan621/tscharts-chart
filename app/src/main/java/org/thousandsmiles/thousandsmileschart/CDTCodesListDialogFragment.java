@@ -20,10 +20,9 @@ package org.thousandsmiles.thousandsmileschart;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
+import androidx.appcompat.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,16 +36,10 @@ import android.widget.Toast;
 
 import org.thousandsmiles.tscharts_lib.CDTCodesModel;
 import org.thousandsmiles.tscharts_lib.CDTCodesModelList;
-import org.thousandsmiles.tscharts_lib.CDTCodesREST;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import org.thousandsmiles.tscharts_lib.DentalState;
-import org.thousandsmiles.tscharts_lib.MedicationsModel;
-import org.thousandsmiles.tscharts_lib.MedicationsModelList;
-import org.thousandsmiles.tscharts_lib.MedicationsREST;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static android.view.View.GONE;
 

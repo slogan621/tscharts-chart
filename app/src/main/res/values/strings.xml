@@ -440,6 +440,7 @@
     <string name="referrals_private_ent_ensenada">Private ENT in Ensenada</string>
     <string name="referrals_childrens_hospital_tj">Children\'s Hospital Tijuana</string>
     <string name="msg_select_station_preference">Please Select Station Preference</string>
+    <string name="msg_select_job">Please select your job or area from the following choices (who you are)</string>
     <string name="title_patient_selector">Select Patient</string>
     <string name="question_select_this_patient">Select this patient?</string>
     <string name="patient_search_hint">Enter any part of patient name, or select patient date of birth using the calendar icon, then click SEARCH</string>
@@ -514,7 +515,7 @@
     <string name="msg_successfully_saved_audiogram">Successfully saved audiogram</string>
     <string name="msg_unable_to_get_audiogram_data">Unable to get audiogram data</string>
     <string name="msg_successfully_got_audiogram_data">Successfully got audiogram data</string>
-    <string name="section_title_station_filters">Station Filters</string>
+    <string name="section_title_station_filters">Station Filters (select the kind of patients you want to find who are registered for this clinic)</string>
     <string name="station_name_search_all">Search All</string>
     <string name="xray_images">X-Ray Images</string>
     <string name="msg_unable_to_get_xray_thumbnails_for_patient">Unable to get X-Ray image thumbnails</string>
