@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2020
- * (C) Copyright Thousand Smiles Foundation 2020
+ * (C) Copyright Syd Logan 2020-2021
+ * (C) Copyright Thousand Smiles Foundation 2020-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,11 +121,32 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
         return l;
     }
 
+    private CDTCodesModel getMissingToothCode() {
+        CDTCodesModel ret = null;
+        for (int i = 0; i < m_supportedCodes.size(); i++) {
+            CDTCodesModel p = m_supportedCodes.get(i);
+            if (p.getCode().equals("D1001")) {
+                ret = p;
+                break;
+            }
+        }
+        return ret;
+    }
+
     private void updateEndState() {
         boolean isMissing;
 
         CheckBox cb = m_view.findViewById(R.id.tooth_missing);
         isMissing = cb.isChecked();
+
+        if (isMissing == true && m_endState.size() == 0) {
+            PatientDentalToothState s = new PatientDentalToothState();
+            s.setMissing(isMissing);
+            s.setToothNumber(m_toothNumber);
+            s.setCDTCodesModel(getMissingToothCode());
+            s.setUpper(m_isTop);
+            m_endState.add(s);
+        }
 
         for (int i = 0; i < m_endState.size(); i++) {
             PatientDentalToothState state = m_endState.get(i);
@@ -203,7 +224,7 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
     private void addCDTCodeToUI(CDTCodesModel cdtCode, PatientDentalToothState state, boolean addToEndState)
     {
         String repr = cdtCode.repr();
-        if (repr.length() > 0) {
+        if (repr.length() > 0 && cdtCode.getCode().equals("D1001") == false) {
             try {
                 m_listAdapter.add(cdtCode);
                 m_listAdapter.notifyDataSetChanged();
@@ -342,8 +363,14 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
 
         for (int i = 0; i < m_endState.size(); i++) {
             PatientDentalToothState s = m_endState.get(i);
-            if (s.getRemoved() == false) {
-                addCDTCodeToUI(s.getCDTCodesModel(), s, false);
+            if (s.getRemoved() == false && s.getCDTCodesModel() != null) {
+                CDTCodesModel m = s.getCDTCodesModel();
+                addCDTCodeToUI(m, s, false);
+                if (m.getCode().equals("D1001")) {
+                    // tooth missing code
+                    CheckBox cb = m_view.findViewById(R.id.tooth_missing);
+                    cb.setChecked(true);
+                }
             }
         }
     }

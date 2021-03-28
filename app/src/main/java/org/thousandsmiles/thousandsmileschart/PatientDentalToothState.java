@@ -73,7 +73,9 @@ public class PatientDentalToothState {
 
     public DentalState toDentalState(int clinic, int patient) {
         DentalState state = new DentalState();
-        state.setCode(m_cdtCodesModel.getId());
+        if (m_cdtCodesModel != null) {
+            state.setCode(m_cdtCodesModel.getId());
+        }
         state.setClinic(clinic);
         state.setId(m_id);
         state.setPatient(patient);
@@ -107,6 +109,9 @@ public class PatientDentalToothState {
         PatientDentalToothState ret = null;
         for (int i = 0; i < list.size(); i++) {
             PatientDentalToothState tmp = list.get(i);
+            if (tmp.getCDTCodesModel() == null || getCDTCodesModel() == null) {
+                continue;
+            }
             if (tmp.getToothNumber() == getToothNumber() && tmp.getCDTCodesModel().getId() == getCDTCodesModel().getId()) {
                 ret = tmp;
                 break;
