@@ -604,4 +604,6 @@
     <string name="action_logout">Logout</string>
     <string name="action_exit">Exit</string>
     <string name="msg_unable_to_delete_dental_state">Unable to delete dental state</string>
+
+    <string name="msg_invalid_search_term">Search term contains one or more spaces, or is too long. Enter in 3 or 4 characters of patient last name or first name, and try again.</string>
 </resources>

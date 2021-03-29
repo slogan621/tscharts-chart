@@ -599,5 +599,7 @@
     <string name="msg_unable_to_delete_dental_state">No se puede borrar el estado dental</string>
 
     <string name="msg_select_job">Seleccione su trabajo o área de las siguientes opciones (quién es usted)</string>
+
+    <string name="msg_invalid_search_term">El término de búsqueda contiene uno o más espacios o es demasiado largo. Introduzca 3 o 4 caracteres del apellido o el nombre del paciente y vuelva a intentarlo.</string>
 </resources>
 

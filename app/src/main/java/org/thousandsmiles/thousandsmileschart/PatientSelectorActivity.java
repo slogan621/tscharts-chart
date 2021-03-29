@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2020
- * (C) Copyright Thousand Smiles Foundation 2020
+ * (C) Copyright Syd Logan 2020-2021
+ * (C) Copyright Thousand Smiles Foundation 2020-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,6 +71,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PatientSelectorActivity extends AppCompatActivity implements ImageDisplayedListener, DatePickerDialog.OnDateSetListener {
 
@@ -122,6 +124,16 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         Calendar c = Calendar.getInstance();
         c.set(year, month, day);
         setDate(c);
+    }
+
+    private boolean validSearchTerm(String s) {
+        if (s.length() > 5) {
+            return false;
+        }
+        Pattern pattern = Pattern.compile("\\s");
+        Matcher matcher = pattern.matcher(s);
+        boolean found = matcher.find();
+        return !found;
     }
 
     private void setStationFilterCheckListeners()
@@ -612,7 +624,28 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
             } else if (searchTerm.length() < 2) {
                 lock = x.findPatientsByClinic(m_sess.getClinicId());
             } else {
-                lock = x.findPatientsByNameAndClinicId(searchTerm, m_sess.getClinicId());
+                if (validSearchTerm(searchTerm)) {
+                    lock = x.findPatientsByNameAndClinicId(searchTerm, m_sess.getClinicId());
+                } else {
+                    PatientSelectorActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_context);
+                            alertDialogBuilder.setMessage(String.format(getApplicationContext().getString(R.string.msg_invalid_search_term)));
+
+                            alertDialogBuilder.setNegativeButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Button button = (Button) findViewById(R.id.patient_search_button);
+                                    button.setEnabled(true);
+                                    showProgress(false);
+                                }
+                            });
+                            alertDialogBuilder.show();
+                        }
+                    });
+                    return;
+                }
+
             }
 
             Thread thread = new Thread(){
