@@ -4,7 +4,7 @@
     <string name="title_item_detail">Item Detail</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Username</string>
+    <string name="prompt_email">Username/E-Mail Address</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -606,4 +606,30 @@
     <string name="msg_unable_to_delete_dental_state">Unable to delete dental state</string>
 
     <string name="msg_invalid_search_term">Search term contains one or more spaces, or is too long. Enter in 3 or 4 characters of patient last name or first name, and try again.</string>
+    <string name="action_help">Help</string>
+    <string name="msg_enter_username_then_either_password_or_pin">Enter your e-mail address, then either your password or PIN, and click SIGN IN to continue.</string>
+    <string name="action_create_account">Create Account</string>
+    <string name="action_reset_password">Reset Password</string>
+    <string name="action_reset_pin">Reset PIN</string>
+    <string name="label_create_account_email">E-mail Address</string>
+    <string name="label_create_account_email_again">E-mail Address Again</string>
+    <string name="label_create_account_password">Password</string>
+    <string name="label_create_account_password_again">Password Again</string>
+    <string name="label_create_account_pin">PIN</string>
+    <string name="label_create_account_pin_again">PIN Again</string>
+    <string name="title_create_account">Create Account</string>
+    <string name="label_create_account_full_name">Full name (same as on your badge)</string>
+    <string name="msg_password_requirements">Password must contain 8 or more characters, at least one special character and at least one digit</string>
+    <string name="title_password_help">Password Help</string>
+    <string name="msg_please_enter_pin">4-digit PIN is required</string>
+    <string name="msg_account_successfully">User account created successfully</string>
+    <string name="error_user_already_exists">User already exists</string>
+    <string name="hint_first_name">"First "</string>
+    <string name="hint_last_name">Last</string>
+    <string name="title_please_login">Please Login</string>
+    <string name="msg_please_login">You may now login. Your username is the e-mail address you used to create the account.</string>
+    <string name="error_pins_do_not_match">PINs do not match</string>
+    <string name="error_passwords_do_not_match">Passwords do not match</string>
+    <string name="error_emails_do_not_match">E-mails do not match</string>
+
 </resources>

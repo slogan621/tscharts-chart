@@ -4,7 +4,7 @@
     <string name="title_item_detail">Detalle de posición</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Nombre de usuario</string>
+    <string name="prompt_email">Nombre de usuario/Dirección de correo electrónico</string>
     <string name="prompt_password">Contraseña</string>
     <string name="action_sign_in">Iniciar sesión</string>
     <string name="action_sign_in_short"> Iniciar sesión</string>
@@ -601,5 +601,30 @@
     <string name="msg_select_job">Seleccione su trabajo o área de las siguientes opciones (quién es usted)</string>
 
     <string name="msg_invalid_search_term">El término de búsqueda contiene uno o más espacios o es demasiado largo. Introduzca 3 o 4 caracteres del apellido o el nombre del paciente y vuelva a intentarlo.</string>
+    <string name="action_help">Help</string>
+    <string name="msg_enter_username_then_either_password_or_pin">Ingrese su dirección de correo electrónico, luego su contraseña o PIN, y haga clic en INICIAR SESIÓN para continuar.</string>
+    <string name="action_create_account">Crear una cuenta</string>
+    <string name="action_reset_password">Restablecer la contraseña</string>
+    <string name="action_reset_pin">Restablecer PIN</string>
+    <string name="label_create_account_email">Dirección de correo electrónico</string>
+    <string name="label_create_account_email_again">Dirección de correo electrónico una vez más</string>
+    <string name="label_create_account_password">Contraseña</string>
+    <string name="label_create_account_password_again">Contraseña una vez más</string>
+    <string name="label_create_account_pin">PIN</string>
+    <string name="label_create_account_pin_again">PIN una vez más</string>
+    <string name="title_create_account">Crear una cuenta</string>
+    <string name="label_create_account_full_name">Nombre completo (Mismo nombre que en su placa)</string>
+    <string name="msg_password_requirements">La contraseña debe contener 8 o más caracteres, al menos un carácter especial y al menos un dígito</string>
+    <string name="title_password_help">Ayuda de contraseña</string>
+    <string name="msg_please_enter_pin">Se requiere un PIN de 4 dígitos</string>
+    <string name="msg_account_successfully">Cuenta de usuario creada con éxito</string>
+    <string name="error_user_already_exists">La cuenta ya existe</string>
+    <string name="hint_first_name">Primer nombre</string>
+    <string name="hint_last_name">Apellido</string>
+    <string name="title_please_login">Por favor Iniciar sesión</string>
+    <string name="msg_please_login">Ahora puede iniciar sesión. Su nombre de usuario es la dirección de correo electrónico que utilizó para crear la cuenta.</string>
+    <string name="error_pins_do_not_match">Los números PIN no coinciden</string>
+    <string name="error_passwords_do_not_match">Las contraseñas no coinciden</string>
+    <string name="error_emails_do_not_match">Las direcciones de correo no coinciden</string>
 </resources>
 

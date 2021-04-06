@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017
- * (C) Copyright Thousand Smiles Foundation 2017
+ * (C) Copyright Syd Logan 2017-2021
+ * (C) Copyright Thousand Smiles Foundation 2017-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ package org.thousandsmiles.thousandsmileschart;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
@@ -32,6 +33,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -54,6 +56,8 @@ import org.thousandsmiles.tscharts_lib.ShowProgress;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.philio.pinentry.PinEntryView;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -85,6 +89,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return true;
     }
 
+    private void showHelp()
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(String.format(getApplicationContext().getString(R.string.msg_enter_username_then_either_password_or_pin)));
+        alertDialogBuilder.setPositiveButton(R.string.button_ok,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    }
+                });
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -94,12 +114,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(i);
                 return true;
 
+            case R.id.action_help:
+                showHelp();
+                return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    private boolean ValidatePIN(Integer pin) {
+        boolean ret = false;
+
+        if (pin == 5555 /*|| pin.equals(m_volunteer.getPIN())*/) {
+            ret = true;
+        }
+        return ret;
     }
 
     @Override
@@ -129,6 +162,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        Button mCreateAccountButton = (Button) findViewById(R.id.create_account_button);
+        mCreateAccountButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateAccountDialogFragment rtc = new CreateAccountDialogFragment();
+                rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.action_create_account));
+            }
+        });
+
+        Button mResetPasswordButton = (Button) findViewById(R.id.reset_password_button);
+        mResetPasswordButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ResetPasswordDialogFragment rtc = new ResetPasswordDialogFragment();
+                rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.action_reset_password));
+            }
+        });
+
+        Button mResetPINButton = (Button) findViewById(R.id.reset_pin_button);
+        mResetPINButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ResetPINDialogFragment rtc = new ResetPINDialogFragment();
+                rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.action_reset_pin));
             }
         });
 
@@ -194,8 +254,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
+        Integer pin = 0;
+        boolean isValidPin = false;
+
+        PinEntryView pinEntryView = (PinEntryView) this.findViewById(R.id.pin_entry_simple);
+
+        String val = pinEntryView.getText().toString();
+
+        if (val.length() != 4) {
+            isValidPin = false;
+        } else {
+
+            pin = Integer.parseInt(val);
+            isValidPin = ValidatePIN(pin);
+        }
+
         // Store values at the time of the login attempt.
         final String email = mEmailView.getText().toString();
+
         final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
