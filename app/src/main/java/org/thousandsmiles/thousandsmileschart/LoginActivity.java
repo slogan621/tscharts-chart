@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -143,7 +144,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        //populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -169,7 +169,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mCreateAccountButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                CreateAccountDialogFragment rtc = new CreateAccountDialogFragment();
+                AuthDialogFragment rtc = new AuthDialogFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("type", AuthDialogFragment.AuthDialogType.AUTH_DIALOG_CREATE_ACCOUNT);
+                rtc.setArguments(args);
                 rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.action_create_account));
             }
         });
@@ -178,7 +181,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mResetPasswordButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                ResetPasswordDialogFragment rtc = new ResetPasswordDialogFragment();
+                AuthDialogFragment rtc = new AuthDialogFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("type", AuthDialogFragment.AuthDialogType.AUTH_DIALOG_CHANGE_PASSWORD);
+                rtc.setArguments(args);
                 rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.action_reset_password));
             }
         });
@@ -187,7 +193,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mResetPINButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                ResetPINDialogFragment rtc = new ResetPINDialogFragment();
+                AuthDialogFragment rtc = new AuthDialogFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("type", AuthDialogFragment.AuthDialogType.AUTH_DIALOG_CHANGE_PIN);
+                rtc.setArguments(args);
                 rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.action_reset_pin));
             }
         });

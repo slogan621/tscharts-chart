@@ -622,9 +622,11 @@
     <string name="hint_first_name">Primer nombre</string>
     <string name="hint_last_name">Apellido</string>
     <string name="title_please_login">Por favor Iniciar sesión</string>
-    <string name="msg_please_login">Ahora puede iniciar sesión. Su nombre de usuario es la dirección de correo electrónico que utilizó para crear la cuenta.</string>
+    <string name="msg_please_login">La tarea fue exitosa.  Ahora puede iniciar sesión. Su nombre de usuario es la dirección de correo electrónico que utilizó para crear la cuenta.</string>
     <string name="error_pins_do_not_match">Los números PIN no coinciden</string>
     <string name="error_passwords_do_not_match">Las contraseñas no coinciden</string>
     <string name="error_emails_do_not_match">Las direcciones de correo no coinciden</string>
+    <string name="msg_pin_updated_successfully">El PIN se actualizó correctamente</string>
+    <string name="msg_password_updated_successfully">La contraseña se actualizó correctamente</string>
 </resources>
 

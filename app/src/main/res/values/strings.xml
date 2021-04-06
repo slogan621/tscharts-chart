@@ -627,9 +627,11 @@
     <string name="hint_first_name">"First "</string>
     <string name="hint_last_name">Last</string>
     <string name="title_please_login">Please Login</string>
-    <string name="msg_please_login">You may now login. Your username is the e-mail address you used to create the account.</string>
+    <string name="msg_please_login">The task was successful. You may now login. Your username is the e-mail address you used to create the account.</string>
     <string name="error_pins_do_not_match">PINs do not match</string>
     <string name="error_passwords_do_not_match">Passwords do not match</string>
     <string name="error_emails_do_not_match">E-mails do not match</string>
+    <string name="msg_pin_updated_successfully">PIN was updated successfully</string>
+    <string name="msg_password_updated_successfully">Password was updated successfully</string>
 
 </resources>
