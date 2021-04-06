@@ -110,8 +110,19 @@ public class CreateAccountDialogFragment extends DialogFragment {
         }
 
         v = m_dialog.findViewById(R.id.create_account_password_again_checkbox);
-        if (validator.isValidPassword(st1) && validator.isValidPassword(st2) && st1.equals(st2)) {
+        if (!validator.isValidPassword(st1)|| !validator.isValidPassword(st2)) {
             // show checkbox next to email 2
+            v.setVisibility(View.GONE);
+            if (submit) {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getContext(), R.string.msg_password_requirements, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        }
+
+        if (st1.equals(st2)) {
             v.setVisibility(View.VISIBLE);
         } else {
             // hide checkbox next to email 2
