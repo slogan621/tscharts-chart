@@ -1,8 +1,8 @@
 package org.thousandsmiles.thousandsmileschart;
 
 /*
- * (C) Copyright Syd Logan 2018-2019
- * (C) Copyright Thousand Smiles Foundation 2018-2019
+ * (C) Copyright Syd Logan 2018-2021
+ * (C) Copyright Thousand Smiles Foundation 2018-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,21 +67,8 @@ public class DeleteFromQueueTask extends AsyncTask<Object, Object, Object> {
             return;
         }
 
-        final RoutingSlipEntryREST rse = new RoutingSlipEntryREST(m_sess.getContext());
-        lock = rse.deleteRoutingSlipEntry(routingSlipEntry);
+        status = m_sess.deleteRoutingSlipEntry(m_activity.getApplicationContext(), routingSlipEntry);
 
-        synchronized (lock) {
-            // we loop here in case of race conditions or spurious interrupts
-            while (true) {
-                try {
-                    lock.wait();
-                    break;
-                } catch (InterruptedException e) {
-                    continue;
-                }
-            }
-        }
-        status = rse.getStatus();
         if (status == 200) {
 
             m_activity.runOnUiThread(new Runnable() {

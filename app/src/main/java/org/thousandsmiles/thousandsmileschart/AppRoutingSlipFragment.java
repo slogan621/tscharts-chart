@@ -277,6 +277,7 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
                                 }
                             });
                         } else {
+                            m_sess.setPatientRoutingSlipEntries(m_sess.getDisplayPatientId(), m_routingSlipEntries);
                             m_activity.runOnUiThread(new Runnable() {
                                 public void run() {
                                     JSONObject o = m_sess.getDisplayPatientRoutingSlip();

@@ -21,7 +21,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.annotation.RequiresApi;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
@@ -79,11 +78,11 @@ public class SessionSingleton {
 
     // cache of patient routing slip entries, indexed by patient ID.
 
-    private static HashMap<Integer, ArrayList<RoutingSlipEntry>> m_patientRoutingSlipEntries = new HashMap<Integer, ArrayList<RoutingSlipEntry>>();
+    private HashMap<Integer, ArrayList<RoutingSlipEntry>> m_patientRoutingSlipEntries = new HashMap<Integer, ArrayList<RoutingSlipEntry>>();
 
     // get routing slip cache entries
 
-    ArrayList <RoutingSlipEntry> getRoutingSlipCacheEntries(int patient) {
+    ArrayList<RoutingSlipEntry> getRoutingSlipCacheEntries(int patient) {
 
         /* disable the cache retrieval until some for of notification of items being
            added or removed is available. For now, always read from backend. */
@@ -102,6 +101,10 @@ public class SessionSingleton {
         return ret;
     }
 
+    public void setPatientRoutingSlipEntries(int patient, ArrayList<RoutingSlipEntry> entries) {
+        m_patientRoutingSlipEntries.put(patient, entries);
+    }
+
     // end of data used to filter search results based on station
 
     private static HashMap<Integer, ArrayList<Integer>> m_stationToCategory = new HashMap<Integer, ArrayList<Integer>>();
@@ -111,14 +114,14 @@ public class SessionSingleton {
     private static HashMap<String, Boolean> m_clinicStationNameSupportsRTC = new HashMap<String, Boolean>();
     private static HashMap<Integer, Integer> m_clinicStationToStation = new HashMap<Integer, Integer>();
     private static HashMap<Integer, JSONObject> m_clinicStationToData = new HashMap<Integer, JSONObject>();
-    private static HashMap<Integer, JSONObject> m_stationToData = new HashMap<Integer, JSONObject>();
     private static HashMap<String, Integer> m_stationToSelector = new HashMap<String, Integer>();
     private static HashMap<String, Integer> m_stationToUnvisitedSelector = new HashMap<String, Integer>();
     private static HashMap<String, String> m_stationToSpanish = new HashMap<String, String>();
-    public HashMap<Integer, PatientData> getPatientHashMap()
-    {
+
+    public HashMap<Integer, PatientData> getPatientHashMap() {
         return m_patientHashMap;
     }
+
     private ArrayList<ENTHistoryExtra> m_entHistoryExtraList = new ArrayList<ENTHistoryExtra>();
     private ArrayList<ENTHistoryExtra> m_entHistoryExtraDeleteList = new ArrayList<ENTHistoryExtra>();
     private ArrayList<ENTDiagnosisExtra> m_entDiagnosisExtraList = new ArrayList<ENTDiagnosisExtra>();
@@ -138,8 +141,7 @@ public class SessionSingleton {
     private boolean m_newDentalTreatment = false;
     private HashMap<Integer, PatientData> m_patientHashMap = new HashMap<Integer, PatientData>();
 
-    public void replacePatientHashMap(HashMap<Integer, PatientData> map)
-    {
+    public void replacePatientHashMap(HashMap<Integer, PatientData> map) {
         m_patientHashMap = (HashMap<Integer, PatientData>) map.clone();
     }
 
@@ -203,7 +205,7 @@ public class SessionSingleton {
                     if (cat != null) {
                         l.add(cat);
                     }
-                }  else if (name.equals("Speech")) {
+                } else if (name.equals("Speech")) {
                     Integer cat = getCategory("New Cleft");
                     if (cat != null) {
                         l.add(cat);
@@ -212,7 +214,7 @@ public class SessionSingleton {
                     if (cat != null) {
                         l.add(cat);
                     }
-                }  else if (name.equals("Surgery Screening")) {
+                } else if (name.equals("Surgery Screening")) {
                     Integer cat = getCategory("New Cleft");
                     if (cat != null) {
                         l.add(cat);
@@ -221,7 +223,7 @@ public class SessionSingleton {
                     if (cat != null) {
                         l.add(cat);
                     }
-                }  else if (name.equals("Audiology")) {
+                } else if (name.equals("Audiology")) {
                     Integer cat = getCategory("New Cleft");
                     if (cat != null) {
                         l.add(cat);
@@ -230,7 +232,7 @@ public class SessionSingleton {
                     if (cat != null) {
                         l.add(cat);
                     }
-                }  else if (name.equals("ENT")) {
+                } else if (name.equals("ENT")) {
                     Integer cat = getCategory("New Cleft");
                     if (cat != null) {
                         l.add(cat);
@@ -239,7 +241,7 @@ public class SessionSingleton {
                     if (cat != null) {
                         l.add(cat);
                     }
-                }  else if (name.equals("Hygiene")) {
+                } else if (name.equals("Hygiene")) {
                     Integer cat = getCategory("Dental");
                     if (cat != null) {
                         l.add(cat);
@@ -248,7 +250,7 @@ public class SessionSingleton {
                     if (cat != null) {
                         l.add(cat);
                     }
-                }  else if (name.equals("Ortho")) {
+                } else if (name.equals("Ortho")) {
                     Integer cat = getCategory("Ortho");
                     if (cat != null) {
                         l.add(cat);
@@ -305,8 +307,7 @@ public class SessionSingleton {
         return ret;
     }
 
-    public void setNewAudiogram(boolean val)
-    {
+    public void setNewAudiogram(boolean val) {
         m_newAudiogram = val;
     }
 
@@ -314,8 +315,7 @@ public class SessionSingleton {
         return m_newAudiogram;
     }
 
-    public void setNewDentalTreatment(boolean val)
-    {
+    public void setNewDentalTreatment(boolean val) {
         m_newDentalTreatment = val;
     }
 
@@ -388,21 +388,18 @@ public class SessionSingleton {
         m_entDiagnosisExtraList.add(item);
     }
 
-    public CommonSessionSingleton getCommonSessionSingleton()
-    {
+    public CommonSessionSingleton getCommonSessionSingleton() {
         if (m_commonSessionSingleton == null) {
             m_commonSessionSingleton = CommonSessionSingleton.getInstance();
         }
         return m_commonSessionSingleton;
     }
 
-    public void setRoutingSlipEntryResponse(JSONObject o)
-    {
+    public void setRoutingSlipEntryResponse(JSONObject o) {
         m_routingSlipEntryResponse = o;
     }
 
-    public JSONObject getRoutingSlipEntryResponse()
-    {
+    public JSONObject getRoutingSlipEntryResponse() {
         return m_routingSlipEntryResponse;
     }
 
@@ -430,15 +427,13 @@ public class SessionSingleton {
         m_clinicStationNameSupportsRTC.put("Runner", false);
     }
 
-    public void clearPatientSearchResultData()
-    {
+    public void clearPatientSearchResultData() {
         m_patientSearchResults = null;
         m_patientData.clear();
         m_patientHashMap.clear();
     }
 
-    public PatientItem getActivePatientItem()
-    {
+    public PatientItem getActivePatientItem() {
         PatientItem item = null;
 
         int id = getDisplayPatientId();
@@ -453,13 +448,11 @@ public class SessionSingleton {
         return item;
     }
 
-    public void setPatientSearchResults(JSONArray results)
-    {
+    public void setPatientSearchResults(JSONArray results) {
         m_patientSearchResults = results;
     }
 
-    public void getPatientSearchResultData()
-    {
+    public void getPatientSearchResultData() {
         for (int i = 0; m_patientSearchResults != null && i < m_patientSearchResults.length(); i++) {
             try {
                 getPatientData(m_patientSearchResults.getInt(i));
@@ -468,8 +461,7 @@ public class SessionSingleton {
         }
     }
 
-    public void getPatientSearchResultRoutingSlipEntries()
-    {
+    public void getPatientSearchResultRoutingSlipEntries() {
         for (int i = 0; m_patientSearchResults != null && i < m_patientSearchResults.length(); i++) {
             try {
                 getPatientRoutingSlipEntries(m_patientSearchResults.getInt(i));
@@ -487,6 +479,46 @@ public class SessionSingleton {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public RoutingSlipEntry currentStationInRoutingSlip() {
+        RoutingSlipEntry ret = null;
+        try {
+            ArrayList<RoutingSlipEntry> ent = m_patientRoutingSlipEntries.get(getDisplayPatientId());
+            if (ent != null && ent.size() > 0) {
+                for (int i = 0; i < ent.size(); i++) {
+                    if (getActiveStationName().equals(ent.get(i).getName())) {
+                        ret = ent.get(i);
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
+        return ret;
+    }
+
+    public int deleteRoutingSlipEntry(Context context, int routingSlipEntry)
+    {
+        final RoutingSlipEntryREST rse = new RoutingSlipEntryREST(context);
+        Object lock = rse.deleteRoutingSlipEntry((routingSlipEntry));
+
+        synchronized (lock)
+
+        {
+            // we loop here in case of race conditions or spurious interrupts
+            while (true) {
+                try {
+                    lock.wait();
+                    break;
+                } catch (InterruptedException e) {
+                    continue;
+                }
+            }
+        }
+
+        int status = rse.getStatus();
+        return status;
     }
 
     public String getStationNameTranslated(String en)
@@ -2219,7 +2251,6 @@ public class SessionSingleton {
         }
         return dentalTreatment;
     }
-
 
     public static SessionSingleton getInstance() {
         if (m_instance == null) {

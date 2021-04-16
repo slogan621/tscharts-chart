@@ -577,6 +577,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                 copy.put(key, value);
             }
         }
+
         m_sess.replacePatientHashMap(copy);
 
         PatientSelectorActivity.this.runOnUiThread(new Runnable() {

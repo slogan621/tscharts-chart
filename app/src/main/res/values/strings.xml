@@ -607,7 +607,7 @@
 
     <string name="msg_invalid_search_term">Search term contains one or more spaces, or is too long. Enter in 3 or 4 characters of patient last name or first name, and try again.</string>
     <string name="action_help">Help</string>
-    <string name="msg_enter_username_then_either_password_or_pin">Enter your e-mail address, then either your password or PIN, and click SIGN IN to continue.</string>
+    <string name="msg_enter_username_then_either_password_or_pin">Enter your e-mail address, then either your password or PIN, and click SIGN IN to continue. If you do not have an account, click CREATE ACCOUNT to create one. You may also use the appropriate buttons to change your password or PIN if you have an account and forgot them.</string>
     <string name="action_create_account">Create Account</string>
     <string name="action_reset_password">Reset Password</string>
     <string name="action_reset_pin">Reset PIN</string>
@@ -633,5 +633,10 @@
     <string name="error_emails_do_not_match">E-mails do not match</string>
     <string name="msg_pin_updated_successfully">PIN was updated successfully</string>
     <string name="msg_password_updated_successfully">Password was updated successfully</string>
+    <string name="label_checkbox_remove_from_routingslip_formatted">Remove %1$s from routing slip</string>
+    <string name="msg_remove_from_routingslip_formatted">Remove %1$s from routing slip?</string>
+    <string name="title_remove_from_routing_slip">Remove from routing slip</string>
+    <string name="msg_routing_slip_entry_successfully_removed">Routing slip entry successfully removed</string>
+    <string name="msg_routing_slip_entry_unsuccessfully_removed">Failure removing routing slip entry</string>
 
 </resources>

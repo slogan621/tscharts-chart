@@ -601,8 +601,8 @@
     <string name="msg_select_job">Seleccione su trabajo o área de las siguientes opciones (quién es usted)</string>
 
     <string name="msg_invalid_search_term">El término de búsqueda contiene uno o más espacios o es demasiado largo. Introduzca 3 o 4 caracteres del apellido o el nombre del paciente y vuelva a intentarlo.</string>
-    <string name="action_help">Help</string>
-    <string name="msg_enter_username_then_either_password_or_pin">Ingrese su dirección de correo electrónico, luego su contraseña o PIN, y haga clic en INICIAR SESIÓN para continuar.</string>
+    <string name="action_help">Ayuda</string>
+    <string name="msg_enter_username_then_either_password_or_pin">Ingrese su dirección de correo electrónico, luego su contraseña o PIN, y haga clic en INICIAR SESIÓN para continuar. Si no tiene una cuenta, haga clic en CREAR CUENTA para crear una. También puede usar los botones apropiados para cambiar su contraseña o PIN si tiene una cuenta y los olvidó.</string>
     <string name="action_create_account">Crear una cuenta</string>
     <string name="action_reset_password">Restablecer la contraseña</string>
     <string name="action_reset_pin">Restablecer PIN</string>
@@ -628,5 +628,10 @@
     <string name="error_emails_do_not_match">Las direcciones de correo no coinciden</string>
     <string name="msg_pin_updated_successfully">El PIN se actualizó correctamente</string>
     <string name="msg_password_updated_successfully">La contraseña se actualizó correctamente</string>
+    <string name="label_checkbox_remove_from_routingslip_formatted">Eliminar %1$s de la hoja de ruta</string>
+    <string name="msg_remove_from_routingslip_formatted">¿Eliminar %1$s de la hoja de ruta?</string>
+    <string name="title_remove_from_routing_slip">Eliminar de la hoja de ruta</string>
+    <string name="msg_routing_slip_entry_successfully_removed">Se eliminó correctamente la entrada de la hoja de ruta</string>
+    <string name="msg_routing_slip_entry_unsuccessfully_removed">Error al eliminar la entrada de la hoja de ruta</string>
 </resources>
 

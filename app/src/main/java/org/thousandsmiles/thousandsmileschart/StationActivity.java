@@ -29,11 +29,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class StationActivity extends AppCompatActivity implements FormSavePublisher, PatientCheckoutPublisher {
 
@@ -74,7 +80,50 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
             rtc.setStationActivity(this);
             rtc.show(getSupportFragmentManager(), this.getString(R.string.title_return_to_clinic));
         } else {
-            showPatientSearch();
+            final RoutingSlipEntry routingSlipEntry = m_sess.currentStationInRoutingSlip();
+
+            if (routingSlipEntry != null) {
+                String text = getString(R.string.msg_remove_from_routingslip_formatted, routingSlipEntry.getName());
+                AlertDialog.Builder builder = new AlertDialog.Builder(m_activity);
+
+                builder.setMessage(text).setTitle(R.string.title_remove_from_routing_slip);
+                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                            new Thread(() -> {
+                                int status = m_sess.deleteRoutingSlipEntry(getApplicationContext(), routingSlipEntry.getId());
+                                if (status == 200) {
+
+                                    runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_routing_slip_entry_successfully_removed), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+                                } else {
+
+                                    runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            Toast.makeText(m_activity, m_activity.getString(R.string.msg_routing_slip_entry_unsuccessfully_removed), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }).start();
+
+                        showPatientSearch();
+                    }
+                });
+                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        showPatientSearch();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else {
+                showPatientSearch();
+            }
         }
     }
 
