@@ -419,6 +419,7 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
                 if (!m_showingAppFragment || names.get(position).equals(getApplicationContext().getString(R.string.xray_name)) ||
                         names.get(position).equals(getApplicationContext().getString(R.string.exam_name)) ||
                         selectedName.equals(m_fragmentName) == false) {
+                    view.setSelected(true);
                     if (names.get(position).equals(getApplicationContext().getString(R.string.routing_slip_name))) {
                         showRoutingSlip();
                         m_showingAppFragment = true;
