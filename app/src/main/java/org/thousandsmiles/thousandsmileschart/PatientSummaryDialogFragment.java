@@ -105,6 +105,8 @@ public class PatientSummaryDialogFragment extends DialogFragment {
         text.setText(String.format("%s", m_patientData.getStreet2()));
         text = m_view.findViewById(R.id.value_colonia);
         text.setText(String.format("%s", m_patientData.getColonia()));
+        text = m_view.findViewById(R.id.value_city);
+        text.setText(String.format("%s", m_patientData.getCity()));
         text = m_view.findViewById(R.id.value_state);
         text.setText(String.format("%s", m_patientData.getState()));
         text = m_view.findViewById(R.id.value_email);

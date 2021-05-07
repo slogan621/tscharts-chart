@@ -446,6 +446,34 @@
         </TableRow>
         <TableRow
 
+            android:id="@+id/patient_city"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <!-- first element of the row-->
+            <TextView
+
+                android:id="@+id/title_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#b0b0b0"
+                android:padding="18dip"
+                android:text="@string/address_city"
+                android:textColor="#000"
+                android:textSize="12dp" />
+
+            <TextView
+
+                android:id="@+id/value_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="18dip"
+                android:text="Text 2"
+                android:textColor="#000"
+                android:textSize="14dp" />
+        </TableRow>
+        <TableRow
+
             android:id="@+id/patient_state"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
