@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017-2020
- * (C) Copyright Thousand Smiles Foundation 2017-2020
+ * (C) Copyright Syd Logan 2017-2021
+ * (C) Copyright Thousand Smiles Foundation 2017-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -309,6 +309,13 @@ public class AppListItems {
         item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.xray_name));
+        item.setImageId(R.drawable.xray);
+        item.setSelector(R.drawable.app_xray_selector);
+        item.setReadOnly(true);
         items.add(item);
 
         item = new AppListItem();
