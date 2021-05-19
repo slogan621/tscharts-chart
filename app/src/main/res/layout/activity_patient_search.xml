@@ -48,7 +48,9 @@
         <View
             android:layout_height="16dp"
             android:layout_width="16dp"/>
-
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <RadioGroup
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -199,6 +201,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"/>
         </RadioGroup>
+        </HorizontalScrollView>
 
         <LinearLayout
             android:id="@+id/patient_search_bar"
