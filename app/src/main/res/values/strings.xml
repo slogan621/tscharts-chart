@@ -638,5 +638,8 @@
     <string name="title_remove_from_routing_slip">Remove from routing slip</string>
     <string name="msg_routing_slip_entry_successfully_removed">Routing slip entry successfully removed</string>
     <string name="msg_routing_slip_entry_unsuccessfully_removed">Failure removing routing slip entry</string>
+    <string name="born_with_cleft_palate">Was the patient born with a cleft palate?</string>
+    <string name="born_with_cleft_lip">Was the patient born with a cleft lip?</string>
+
 
 </resources>
