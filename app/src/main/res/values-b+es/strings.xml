@@ -635,6 +635,8 @@
     <string name="msg_routing_slip_entry_unsuccessfully_removed">Error al eliminar la entrada de la hoja de ruta</string>
     <string name="born_with_cleft_palate">¿Nació el paciente con paladar hendido?</string>
     <string name="born_with_cleft_lip">¿Nació el paciente con labio leporino?</string>
+    <string name="ent_label_effusion">Efusión</string>
+    <string name="ent_label_middle_ear_infection">Infección del oído medio</string>
 
 </resources>
 

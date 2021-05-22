@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2020
- * (C) Copyright Thousand Smiles Foundation 2020
+ * (C) Copyright Syd Logan 2020-2021
+ * (C) Copyright Thousand Smiles Foundation 2020-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -188,6 +188,46 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
 
             cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_wax_left);
             cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_wax_right);
+
+            cb1.setChecked(false);
+            cb2.setChecked(false);
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
+                    break;
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
+                    break;
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
+                    break;
+            }
+
+            side = m_entExam.getEffusion();
+
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_effusion_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_effusion_right);
+
+            cb1.setChecked(false);
+            cb2.setChecked(false);
+            switch (side) {
+                case EAR_SIDE_BOTH:
+                    cb1.setChecked(true);
+                    cb2.setChecked(true);
+                    break;
+                case EAR_SIDE_LEFT:
+                    cb1.setChecked(true);
+                    break;
+                case EAR_SIDE_RIGHT:
+                    cb2.setChecked(true);
+                    break;
+            }
+
+            side = m_entExam.getMiddleEarInfection();
+
+            cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_middle_ear_infection_left);
+            cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_middle_ear_infection_right);
 
             cb1.setChecked(false);
             cb2.setChecked(false);
@@ -810,7 +850,6 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
             });
         }
 
-
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_wax_left);
         if (cb != null) {
             if (m_ctx.getReadOnly() == true) {
@@ -823,6 +862,52 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
             });
         }
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_wax_right);
+        if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_effusion_left);
+        if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_effusion_right);
+        if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_middle_ear_infection_left);
+        if (cb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                cb.setEnabled(false);
+            }
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+        cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_middle_ear_infection_right);
         if (cb != null) {
             if (m_ctx.getReadOnly() == true) {
                 cb.setEnabled(false);
@@ -1744,6 +1829,34 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
             mh.setWax(ENTHistory.EarSide.EAR_SIDE_RIGHT);
         } else {
             mh.setWax(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+
+        // effusion
+
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_effusion_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_effusion_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            mh.setEffusion(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            mh.setEffusion(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            mh.setEffusion(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            mh.setEffusion(ENTHistory.EarSide.EAR_SIDE_NONE);
+        }
+
+        // middle ear infection
+
+        cb1 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_middle_ear_infection_left);
+        cb2 = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_middle_ear_infection_right);
+        if (cb1.isChecked() && cb2.isChecked()) {
+            mh.setMiddleEarInfection(ENTHistory.EarSide.EAR_SIDE_BOTH);
+        } else if (cb1.isChecked()) {
+            mh.setMiddleEarInfection(ENTHistory.EarSide.EAR_SIDE_LEFT);
+        } else if (cb2.isChecked()) {
+            mh.setMiddleEarInfection(ENTHistory.EarSide.EAR_SIDE_RIGHT);
+        } else {
+            mh.setMiddleEarInfection(ENTHistory.EarSide.EAR_SIDE_NONE);
         }
 
         // drainage

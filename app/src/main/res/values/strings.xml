@@ -640,6 +640,8 @@
     <string name="msg_routing_slip_entry_unsuccessfully_removed">Failure removing routing slip entry</string>
     <string name="born_with_cleft_palate">Was the patient born with a cleft palate?</string>
     <string name="born_with_cleft_lip">Was the patient born with a cleft lip?</string>
+    <string name="ent_label_effusion">Effusion</string>
+    <string name="ent_label_middle_ear_infection">Middle ear infection</string>
 
 
 </resources>
