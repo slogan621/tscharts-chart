@@ -637,6 +637,12 @@
     <string name="born_with_cleft_lip">¿Nació el paciente con labio leporino?</string>
     <string name="ent_label_effusion">Efusión</string>
     <string name="ent_label_middle_ear_infection">Infección del oído medio</string>
+    <string name="cleft_lip">Labio leporino</string>
+    <string name="section_title_mouth">Boca</string>
+    <string name="cleft_palate">Paladar hendido</string>
+    <string name="repaired_lip">Labio reparado</string>
+    <string name="not_applicable">No aplica</string>
+    <string name="repaired_palate">Paladar reparado</string>
 
 </resources>
 

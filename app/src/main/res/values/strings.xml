@@ -642,6 +642,12 @@
     <string name="born_with_cleft_lip">Was the patient born with a cleft lip?</string>
     <string name="ent_label_effusion">Effusion</string>
     <string name="ent_label_middle_ear_infection">Middle ear infection</string>
+    <string name="cleft_lip">Cleft lip</string>
+    <string name="section_title_mouth">Mouth</string>
+    <string name="cleft_palate">Cleft palate</string>
+    <string name="repaired_lip">Repaired lip</string>
+    <string name="not_applicable">Not applicable</string>
+    <string name="repaired_palate">Repaired palate</string>
 
 
 </resources>

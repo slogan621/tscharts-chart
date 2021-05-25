@@ -35,6 +35,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -136,9 +137,67 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
     {
         CheckBox cb1, cb2, cb3;
         TextView tx;
+        Switch sw;
         RadioButton rb1, rb2, rb3, rb4, rb5, rb6, rb7, rb8;
 
         if (m_entExam != null) {
+
+            // Mouth
+
+            sw = (Switch) m_view.findViewById(R.id.cleft_lip);
+            if (sw != null) {
+                sw.setChecked(m_entExam.getCleft_lip());
+            }
+            sw = (Switch) m_view.findViewById(R.id.cleft_palate);
+            if (sw != null) {
+                sw.setChecked(m_entExam.getCleft_palate());
+            }
+
+            ENTExam.TristateBoolean value;
+
+            value = m_entExam.getRepaired_lip();
+
+            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_lip_yes);
+            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_lip_no);
+            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_lip_na);
+
+            rb1.setChecked(false);
+            rb2.setChecked(false);
+            rb3.setChecked(false);
+
+            switch (value) {
+                case EAR_TRI_STATE_BOOLEAN_YES:
+                    rb1.setChecked(true);
+                    break;
+                case EAR_TRI_STATE_BOOLEAN_NO:
+                    rb2.setChecked(true);
+                    break;
+                case EAR_TRI_STATE_BOOLEAN_NA:
+                    rb3.setChecked(true);
+                    break;
+            }
+
+            value = m_entExam.getRepaired_palate();
+
+            rb1 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_palate_yes);
+            rb2 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_palate_no);
+            rb3 = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_palate_na);
+
+            rb1.setChecked(false);
+            rb2.setChecked(false);
+            rb3.setChecked(false);
+
+            switch (value) {
+                case EAR_TRI_STATE_BOOLEAN_YES:
+                    rb1.setChecked(true);
+                    break;
+                case EAR_TRI_STATE_BOOLEAN_NO:
+                    rb2.setChecked(true);
+                    break;
+                case EAR_TRI_STATE_BOOLEAN_NA:
+                    rb3.setChecked(true);
+                    break;
+            }
 
             // Ears
 
@@ -803,6 +862,101 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
     {
         CheckBox cb;
         RadioButton rb;
+        Switch sw;
+
+        // Mouth
+
+        sw = (Switch) m_view.findViewById(R.id.cleft_lip);
+        if (sw != null) {
+            sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        sw = (Switch) m_view.findViewById(R.id.cleft_palate);
+        if (sw != null) {
+            sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_lip_yes);
+        if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_lip_no);
+        if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_lip_na);
+        if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_palate_yes);
+        if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_palate_no);
+        if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_palate_na);
+        if (rb != null) {
+            if (m_ctx.getReadOnly() == true) {
+                rb.setEnabled(false);
+            }
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setDirty();
+                }
+            });
+        }
+
+        // Ears
 
         cb = (CheckBox) m_view.findViewById(R.id.checkbox_ent_ears_normal_left);
         if (cb != null) {
@@ -1776,6 +1930,7 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
         CheckBox cb1, cb2;
         TextView tx;
         RadioButton rb;
+        Switch sw;
 
         ENTExam mh;
 
@@ -1788,6 +1943,56 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
         mh.setPatient(m_sess.getDisplayPatientId());
         mh.setClinic(m_sess.getClinicId());
         mh.setUsername("nobody");
+
+        // mouth
+
+        sw = (Switch) m_view.findViewById(R.id.cleft_lip);
+        if (sw != null) {
+            mh.setCleft_lip(sw.isChecked());
+        }
+
+        sw = (Switch) m_view.findViewById(R.id.cleft_palate);
+        if (sw != null) {
+            mh.setCleft_palate(sw.isChecked());
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_lip_yes);
+
+        if (rb.isChecked()) {
+            mh.setRepaired_lip(ENTExam.TristateBoolean.EAR_TRI_STATE_BOOLEAN_YES);
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_lip_no);
+
+        if (rb.isChecked()) {
+            mh.setRepaired_lip(ENTExam.TristateBoolean.EAR_TRI_STATE_BOOLEAN_NO);
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_lip_na);
+
+        if (rb.isChecked()) {
+            mh.setRepaired_lip(ENTExam.TristateBoolean.EAR_TRI_STATE_BOOLEAN_NA);
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_palate_yes);
+
+        if (rb.isChecked()) {
+            mh.setRepaired_palate(ENTExam.TristateBoolean.EAR_TRI_STATE_BOOLEAN_YES);
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_palate_no);
+
+        if (rb.isChecked()) {
+            mh.setRepaired_palate(ENTExam.TristateBoolean.EAR_TRI_STATE_BOOLEAN_NO);
+        }
+
+        rb = (RadioButton) m_view.findViewById(R.id.radio_button_ent_repaired_palate_na);
+
+        if (rb.isChecked()) {
+            mh.setRepaired_palate(ENTExam.TristateBoolean.EAR_TRI_STATE_BOOLEAN_NA);
+        }
+
+        // ears
 
         // normal
 
