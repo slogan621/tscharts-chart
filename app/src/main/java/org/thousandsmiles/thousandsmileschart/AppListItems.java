@@ -173,6 +173,25 @@ public class AppListItems {
         m_stationToAppList.put(m_context.getString(R.string.station_name_runner), items);
     }
 
+    private void initAnesthesiology() {
+        ArrayList<AppListItem> items = new ArrayList<AppListItem>();
+        AppListItem item;
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.routing_slip_name));
+        item.setImageId(R.drawable.routing);
+        item.setSelector(R.drawable.app_routing_slip_selector);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.medical_history_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+
+        m_stationToAppList.put(m_context.getString(R.string.station_name_anesthesiology), items);
+    }
+
     private void initAudiology() {
         ArrayList<AppListItem> items = new ArrayList<AppListItem>();
         AppListItem item;
@@ -394,6 +413,7 @@ public class AppListItems {
         initSurgeryScreening();
         initOrtho();
         initRunner();
+        initAnesthesiology();
     }
 
     public ArrayList<String> getNames(String station) {

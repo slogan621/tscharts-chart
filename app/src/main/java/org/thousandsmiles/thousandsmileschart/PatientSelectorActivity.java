@@ -92,6 +92,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         SEARCH_XRAY,
         SEARCH_HYGIENE,
         SEARCH_ORTHO,
+        SEARCH_ANESTHESIOLOGY,
         SEARCH_ALL
     };
 
@@ -108,6 +109,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         m_searchStationToStationId.put(SearchStation.SEARCH_XRAY, m_sess.getStationIdFromName("X-Ray"));
         m_searchStationToStationId.put(SearchStation.SEARCH_HYGIENE, m_sess.getStationIdFromName("Hygiene"));
         m_searchStationToStationId.put(SearchStation.SEARCH_ORTHO, m_sess.getStationIdFromName("Ortho"));
+        m_searchStationToStationId.put(SearchStation.SEARCH_ANESTHESIOLOGY, m_sess.getStationIdFromName("Anesthesiology"));
     }
 
     private void setDate(final Calendar calendar) {
@@ -224,6 +226,16 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         m_searchStation = SearchStation.SEARCH_HYGIENE;
+                    }
+                }
+            });
+        }
+        rb = m_activity.findViewById(R.id.radio_anesthesiology);
+        if (rb != null) {
+            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        m_searchStation = SearchStation.SEARCH_ANESTHESIOLOGY;
                     }
                 }
             });

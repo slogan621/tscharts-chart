@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017-2020
- * (C) Copyright Thousand Smiles Foundation 2017-2020
+ * (C) Copyright Syd Logan 2017-2021
+ * (C) Copyright Thousand Smiles Foundation 2017-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -413,6 +413,7 @@ public class SessionSingleton {
         m_stationToSpanish.put("Speech", "El habla");
         m_stationToSpanish.put("Hygiene", "Higiene");
         m_stationToSpanish.put("Runner", "Corredor");
+        m_stationToSpanish.put("Anesthesiology", "Anestesiología");
     }
 
     void initStationToRTCMap() {
@@ -425,6 +426,7 @@ public class SessionSingleton {
         m_clinicStationNameSupportsRTC.put("Speech", true);
         m_clinicStationNameSupportsRTC.put("Hygiene", true);
         m_clinicStationNameSupportsRTC.put("Runner", false);
+        m_clinicStationNameSupportsRTC.put("Anesthesiology", false);
     }
 
     public void clearPatientSearchResultData() {
@@ -617,6 +619,7 @@ public class SessionSingleton {
         m_stationToSelector.put("X-Ray", R.drawable.xray_selector);
         m_stationToSelector.put("Hygiene", R.drawable.hygiene_selector);
         m_stationToSelector.put("Runner", R.drawable.runner_selector);
+        m_stationToSelector.put("Anesthesiology", R.drawable.anesthesiology_selector);
     }
 
     public void initStationNameToUnvisitedSelectorMap()
@@ -631,6 +634,7 @@ public class SessionSingleton {
         m_stationToUnvisitedSelector.put("X-Ray", R.drawable.xray_unvisited_selector);
         m_stationToUnvisitedSelector.put("Hygiene", R.drawable.hygiene_unvisited_selector);
         m_stationToUnvisitedSelector.put("Runner", R.drawable.runner_unvisited_selector);
+        m_stationToUnvisitedSelector.put("Anesthesiology", R.drawable.anesthesiology_unvisited_selector);
     }
 
     public int getStationIconResource(int id) {

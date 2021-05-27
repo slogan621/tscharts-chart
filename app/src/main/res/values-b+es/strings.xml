@@ -125,6 +125,7 @@
     <string name="station_name_surgery_screening">Cribado cirúrgico</string>
     <string name="station_name_ortho">Orto</string>
     <string name="station_name_runner">Corredor</string>
+    <string name="station_name_anesthesiology">Anestesiología</string>
     <string name="title_current_medications_dialog"> Diálogo medicamentos actuales</string>
     <string name="title_allergy_medications_dialog"> Diálogo medicamentos anti-alérgicos</string>
     <string name="msg_unable_to_get_medical_history">No se logró obtener datos del historial médico</string>

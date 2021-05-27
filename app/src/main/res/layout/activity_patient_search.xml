@@ -88,6 +88,21 @@
                 android:drawableTop="@drawable/audiology_selector"
                 android:checked="false" />
 
+            <View
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_width="0dp"/>
+
+            <RadioButton
+                android:button="@null"
+                android:id="@+id/radio_anesthesiology"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="@string/station_name_anesthesiology"
+                android:gravity="center"
+                android:drawableTop="@drawable/anesthesiology_selector"
+                android:checked="false" />
 
             <View
                 android:layout_height="match_parent"
