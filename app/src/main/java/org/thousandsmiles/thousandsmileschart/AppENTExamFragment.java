@@ -868,6 +868,9 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
 
         sw = (Switch) m_view.findViewById(R.id.cleft_lip);
         if (sw != null) {
+            if (m_ctx.getReadOnly() == true) {
+                sw.setEnabled(false);
+            }
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
@@ -877,6 +880,9 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
 
         sw = (Switch) m_view.findViewById(R.id.cleft_palate);
         if (sw != null) {
+            if (m_ctx.getReadOnly() == true) {
+                sw.setEnabled(false);
+            }
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     setDirty();
