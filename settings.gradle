@@ -1,1 +1,2 @@
-include ':app', ':tscharts-lib'
+include ':app'
+include ':tscharts-lib'
