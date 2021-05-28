@@ -2,8 +2,8 @@
 <!--
 
 /*
- * (C) Copyright Syd Logan 2017
- * (C) Copyright Thousand Smiles Foundation 2017
+ * (C) Copyright Syd Logan 2017-2020
+ * (C) Copyright Thousand Smiles Foundation 2017-2020
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1156,6 +1156,11 @@
                         android:paddingLeft="15dp">
                     </EditText>
                 </LinearLayout>
+                <!-- following view hack helps ensure that text area is not completely hidden by soft keyboard -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="512dp"
+                    android:layout_weight="1" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
