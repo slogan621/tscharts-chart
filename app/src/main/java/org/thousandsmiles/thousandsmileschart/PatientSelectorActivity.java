@@ -39,6 +39,7 @@ import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -82,6 +83,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
     private ActionDialogAdapter m_actionAdapter;
     private View m_progressView;
     private View m_searchBar;
+    private boolean m_showAllFilters = false;
 
     private enum SearchStation {
         SEARCH_AUDIOLOGY,
@@ -140,105 +142,184 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
     private void setStationFilterCheckListeners()
     {
-       RadioButton rb = m_activity.findViewById(R.id.radio_audiology);
+        boolean isRunner = m_sess.getActiveStationName().equals("Runner");
+        RadioButton rb = m_activity.findViewById(R.id.radio_audiology);
         if (rb != null) {
-           rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                   if (isChecked) {
-                       m_searchStation = SearchStation.SEARCH_AUDIOLOGY;
-                   }
-               }
-           });
-        }
-        rb = m_activity.findViewById(R.id.radio_globe);
-        if (rb != null) {
-            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        m_searchStation = SearchStation.SEARCH_ALL;
-                    }
+            if (isRunner || m_showAllFilters || m_sess.getActiveStationName().equals("Audiology")) {
+                rb.setVisibility(View.VISIBLE);
+                if (m_sess.getActiveStationName().equals("Audiology")) {
+                    m_searchStation = SearchStation.SEARCH_AUDIOLOGY;
+                    rb.setChecked(true);
                 }
-            });
+
+                rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            m_searchStation = SearchStation.SEARCH_AUDIOLOGY;
+                        }
+                    }
+                });
+            } else {
+                rb.setVisibility(View.GONE);
+            }
         }
         rb = m_activity.findViewById(R.id.radio_ent);
         if (rb != null) {
-            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        m_searchStation = SearchStation.SEARCH_ENT;
-                    }
+            if (isRunner || m_showAllFilters || m_sess.getActiveStationName().equals("ENT")) {
+                rb.setVisibility(View.VISIBLE);
+                if (m_sess.getActiveStationName().equals("ENT")) {
+                    m_searchStation = SearchStation.SEARCH_ENT;
+                    rb.setChecked(true);
                 }
-            });
+
+                rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            m_searchStation = SearchStation.SEARCH_ENT;
+                        }
+                    }
+                });
+            } else {
+                rb.setVisibility(View.GONE);
+            }
         }
         rb = m_activity.findViewById(R.id.radio_surgery);
         if (rb != null) {
-            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        m_searchStation = SearchStation.SEARCH_SURGERY_SCREENING;
-                    }
+            if (isRunner || m_showAllFilters || m_sess.getActiveStationName().equals("Surgery Screening")) {
+                rb.setVisibility(View.VISIBLE);
+                if (m_sess.getActiveStationName().equals("Surgery Screening")) {
+                    m_searchStation = SearchStation.SEARCH_SURGERY_SCREENING;
+                    rb.setChecked(true);
                 }
-            });
+
+                rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            m_searchStation = SearchStation.SEARCH_SURGERY_SCREENING;
+                        }
+                    }
+                });
+            } else {
+                rb.setVisibility(View.GONE);
+            }
         }
         rb = m_activity.findViewById(R.id.radio_speech);
         if (rb != null) {
-            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        m_searchStation = SearchStation.SEARCH_SPEECH;
-                    }
+            if (isRunner || m_showAllFilters || m_sess.getActiveStationName().equals("Speech")) {
+                rb.setVisibility(View.VISIBLE);
+                if (m_sess.getActiveStationName().equals("Speech")) {
+                    m_searchStation = SearchStation.SEARCH_SPEECH;
+                    rb.setChecked(true);
                 }
-            });
+
+                rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            m_searchStation = SearchStation.SEARCH_SPEECH;
+                        }
+                    }
+                });
+            } else {
+                rb.setVisibility(View.GONE);
+            }
         }
         rb = m_activity.findViewById(R.id.radio_dental);
         if (rb != null) {
-            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        m_searchStation = SearchStation.SEARCH_DENTAL;
-                    }
+            if (isRunner || m_showAllFilters || m_sess.getActiveStationName().equals("Dental")) {
+                rb.setVisibility(View.VISIBLE);
+                if (m_sess.getActiveStationName().equals("Dental")) {
+                    m_searchStation = SearchStation.SEARCH_DENTAL;
+                    rb.setChecked(true);
                 }
-            });
+
+                rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            m_searchStation = SearchStation.SEARCH_DENTAL;
+                        }
+                    }
+                });
+            } else {
+                rb.setVisibility(View.GONE);
+            }
         }
         rb = m_activity.findViewById(R.id.radio_xray);
         if (rb != null) {
-            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        m_searchStation = SearchStation.SEARCH_XRAY;
-                    }
+            if (isRunner || m_showAllFilters || m_sess.getActiveStationName().equals("X-Ray")) {
+                rb.setVisibility(View.VISIBLE);
+                if (m_sess.getActiveStationName().equals("X-Ray")) {
+                    m_searchStation = SearchStation.SEARCH_XRAY;
+                    rb.setChecked(true);
                 }
-            });
+
+                rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            m_searchStation = SearchStation.SEARCH_XRAY;
+                        }
+                    }
+                });
+            }  else {
+                rb.setVisibility(View.GONE);
+            }
         }
         rb = m_activity.findViewById(R.id.radio_ortho);
         if (rb != null) {
-            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        m_searchStation = SearchStation.SEARCH_ORTHO;
-                    }
+            if (isRunner || m_showAllFilters || m_sess.getActiveStationName().equals("Ortho")) {
+                rb.setVisibility(View.VISIBLE);
+                if (m_sess.getActiveStationName().equals("Ortho")) {
+                    m_searchStation = SearchStation.SEARCH_ORTHO;
+                    rb.setChecked(true);
                 }
-            });
+
+                rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            m_searchStation = SearchStation.SEARCH_ORTHO;
+                        }
+                    }
+                });
+            } else {
+                rb.setVisibility(View.GONE);
+            }
         }
         rb = m_activity.findViewById(R.id.radio_hygiene);
         if (rb != null) {
-            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        m_searchStation = SearchStation.SEARCH_HYGIENE;
-                    }
+            if (isRunner || m_showAllFilters || m_sess.getActiveStationName().equals("Hygiene")) {
+                rb.setVisibility(View.VISIBLE);
+                if (m_sess.getActiveStationName().equals("Hygiene")) {
+                    m_searchStation = SearchStation.SEARCH_HYGIENE;
+                    rb.setChecked(true);
                 }
-            });
+                rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            m_searchStation = SearchStation.SEARCH_HYGIENE;
+                        }
+                    }
+                });
+            } else {
+                rb.setVisibility(View.GONE);
+            }
         }
         rb = m_activity.findViewById(R.id.radio_anesthesiology);
         if (rb != null) {
-            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        m_searchStation = SearchStation.SEARCH_ANESTHESIOLOGY;
-                    }
+            if (isRunner || m_showAllFilters || m_sess.getActiveStationName().equals("Anesthesiology")) {
+                rb.setVisibility(View.VISIBLE);
+                if (m_sess.getActiveStationName().equals("Anesthesiology")) {
+                    m_searchStation = SearchStation.SEARCH_ANESTHESIOLOGY;
+                    rb.setChecked(true);
                 }
-            });
+                rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            m_searchStation = SearchStation.SEARCH_ANESTHESIOLOGY;
+                        }
+                    }
+                });
+            } else {
+                rb.setVisibility(View.GONE);
+            }
         }
         /*
         rb = m_activity.findViewById(R.id.radio_all);
@@ -253,6 +334,22 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         }
 
          */
+        rb = m_activity.findViewById(R.id.radio_globe);
+        if (rb != null) {
+            if (isRunner || m_showAllFilters) {
+                if (isRunner) {
+                    m_searchStation = SearchStation.SEARCH_ALL;
+                    rb.setChecked(true);
+                }
+            }
+            rb.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        m_searchStation = SearchStation.SEARCH_ALL;
+                    }
+                }
+            });
+        }
     }
 
     public void handleButtonPress(View v)
@@ -751,6 +848,23 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
             }
 
         });
+
+        TextView tx = (TextView) findViewById(R.id.station_id);
+        String text = String.format(getString(R.string.you_are_logged_in_as_station), m_sess.getActiveStationName());
+        tx.setText(text);
+
+        CheckBox cb = (CheckBox) findViewById(R.id.checkbox_show_all_station_filters);
+        cb.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    m_showAllFilters = true;
+                } else {
+                    m_showAllFilters = false;
+                }
+                setStationFilterCheckListeners();
+            }
+        });
+
         m_context = this;
         m_activity = this;
         m_sess.getCommonSessionSingleton().clearHeadShotCache();
