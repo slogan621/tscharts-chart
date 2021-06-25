@@ -106,6 +106,7 @@ public class AppPatientENTDiagnosisListFragment extends Fragment {
         AppENTDiagnosisFragment fragment = new AppENTDiagnosisFragment();
         AppFragmentContext ctx = new AppFragmentContext();
         ctx.setReadOnly(m_ctx.getReadOnly());
+        ((StationActivity)m_activity).setActiveFragment(fragment);
         fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);
         getActivity().getSupportFragmentManager().beginTransaction()

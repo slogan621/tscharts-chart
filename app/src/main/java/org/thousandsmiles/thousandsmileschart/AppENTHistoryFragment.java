@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2020
- * (C) Copyright Thousand Smiles Foundation 2020
+ * (C) Copyright Syd Logan 2020-2021
+ * (C) Copyright Thousand Smiles Foundation 2020-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,27 +51,36 @@ import org.thousandsmiles.tscharts_lib.ENTHistory;
 import org.thousandsmiles.tscharts_lib.ENTHistoryExtra;
 import org.thousandsmiles.tscharts_lib.ENTHistoryExtraREST;
 import org.thousandsmiles.tscharts_lib.ENTHistoryREST;
+import org.thousandsmiles.tscharts_lib.FormDirtyListener;
+import org.thousandsmiles.tscharts_lib.FormDirtyNotifierFragment;
+import org.thousandsmiles.tscharts_lib.FormDirtyPublisher;
+import org.thousandsmiles.tscharts_lib.FormSaveAndPatientCheckoutNotifierActivity;
+import org.thousandsmiles.tscharts_lib.FormSaveListener;
+import org.thousandsmiles.tscharts_lib.PatientCheckoutListener;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
 
 import java.util.ArrayList;
 
-public class AppENTHistoryFragment extends Fragment implements FormSaveListener, PatientCheckoutListener {
-    private Activity m_activity = null;
+public class AppENTHistoryFragment extends FormDirtyNotifierFragment implements FormSaveListener, PatientCheckoutListener {
+    private FormSaveAndPatientCheckoutNotifierActivity m_activity = null;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     private ENTHistory m_entHistory = null;
     private boolean m_dirty = false;
     private View m_view = null;
     private AppENTHistoryFragment m_this;
     private AppFragmentContext m_ctx = new AppFragmentContext();
+    private ArrayList<FormDirtyListener> m_listeners = new ArrayList<FormDirtyListener>();
 
     private boolean validate() {
         return validateFields();
     }
 
-    @Override
-    public void showReturnToClinic()
-    {
-        ((StationActivity)m_activity).showReturnToClinic();
+    void notifyReadyForCheckout(boolean success) {
+        m_activity.fragmentReadyForCheckout(success);
+    }
+
+    void notifySaveDone(boolean success) {
+        m_activity.fragmentSaveDone(success);
     }
 
     private boolean saveInternal(final boolean showReturnToClinic) {
@@ -86,7 +95,9 @@ public class AppENTHistoryFragment extends Fragment implements FormSaveListener,
                 public void onClick(DialogInterface dialog, int which) {
                     updateENTHistory();
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(true);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -96,7 +107,9 @@ public class AppENTHistoryFragment extends Fragment implements FormSaveListener,
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(false);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -113,6 +126,8 @@ public class AppENTHistoryFragment extends Fragment implements FormSaveListener,
         boolean ret = true;
         if (m_dirty) {
             ret = saveInternal(false);
+        } else {
+            notifySaveDone(true);
         }
         return ret;
     }
@@ -122,7 +137,7 @@ public class AppENTHistoryFragment extends Fragment implements FormSaveListener,
         if (m_dirty) {
             saveInternal(true);
         } else {
-            showReturnToClinic();
+            notifyReadyForCheckout(true);
         }
         return true;
     }
@@ -327,10 +342,11 @@ public class AppENTHistoryFragment extends Fragment implements FormSaveListener,
         super.onAttach(context);
 
         if (context instanceof Activity) {
-            m_activity = (Activity) context;
+            m_activity = (FormSaveAndPatientCheckoutNotifierActivity) context;
+            m_activity.subscribeSave(this);
+            m_activity.subscribeCheckout(this);
         }
-        ((StationActivity)m_activity).subscribeSave(this);
-        ((StationActivity)m_activity).subscribeCheckout(this);
+
     }
 
     private void copyENTHistoryDataToUI()
@@ -541,14 +557,16 @@ public class AppENTHistoryFragment extends Fragment implements FormSaveListener,
         if (m_ctx.getReadOnly()) {
             return;
         }
-        View button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.VISIBLE);
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(true);
+        }
         m_dirty = true;
     }
 
     private void clearDirty() {
-        View button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.GONE);
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(false);
+        }
         m_dirty = false;
     }
 
@@ -1225,27 +1243,34 @@ public class AppENTHistoryFragment extends Fragment implements FormSaveListener,
         */
     }
 
-    private void setButtonBarCallbacks() {
-        View button_bar_item;
-
-        button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                saveInternal(false);
-            }
-        });
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_ent_history_layout, container, false);
         m_view  = view;
-        setButtonBarCallbacks();
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void subscribeDirty(FormDirtyListener instance) {
+        m_listeners.add(instance);
+    }
+
+    @Override
+    public void unsubscribeDirty(FormDirtyListener instance) {
+        m_listeners.remove(instance);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (m_activity != null) {
+            m_activity.unsubscribeSave(this);
+            m_activity.unsubscribeCheckout(this);
+        }
     }
 }

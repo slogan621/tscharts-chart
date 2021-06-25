@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017-2020
- * (C) Copyright Thousand Smiles Foundation 2017-2020
+ * (C) Copyright Syd Logan 2017-2021
+ * (C) Copyright Thousand Smiles Foundation 2017-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,28 +37,41 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.thousandsmiles.tscharts_lib.FormDirtyListener;
+import org.thousandsmiles.tscharts_lib.FormDirtyNotifierFragment;
+import org.thousandsmiles.tscharts_lib.FormDirtyPublisher;
+import org.thousandsmiles.tscharts_lib.FormSaveAndPatientCheckoutNotifierActivity;
+import org.thousandsmiles.tscharts_lib.FormSaveListener;
+import org.thousandsmiles.tscharts_lib.FormSavePublisher;
 import org.thousandsmiles.tscharts_lib.MedicalHistory;
 import org.thousandsmiles.tscharts_lib.MedicalHistoryREST;
+import org.thousandsmiles.tscharts_lib.PatientCheckoutListener;
+import org.thousandsmiles.tscharts_lib.PatientCheckoutPublisher;
 
-public class AppMedicalHistoryFragment extends Fragment implements FormSaveListener, PatientCheckoutListener {
-    private Activity m_activity = null;
+import java.util.ArrayList;
+
+public class AppMedicalHistoryFragment extends FormDirtyNotifierFragment implements FormSaveListener, PatientCheckoutListener {
+    private FormSaveAndPatientCheckoutNotifierActivity m_activity = null;
     private SessionSingleton m_sess = null;
     private MedicalHistory m_medicalHistory = null;
     private boolean m_dirty = false;
     private View m_view = null;
+    private ArrayList<FormDirtyListener> m_listeners = new ArrayList<FormDirtyListener>();
 
     public static AppMedicalHistoryFragment newInstance() {
         return new AppMedicalHistoryFragment();
     }
 
-    private boolean validate() {
-        return validateFields();
+    void notifyReadyForCheckout(boolean success) {
+        m_activity.fragmentReadyForCheckout(success);
     }
 
-    @Override
-    public void showReturnToClinic()
-    {
-        ((StationActivity)m_activity).showReturnToClinic();
+    void notifySaveDone(boolean success) {
+        m_activity.fragmentSaveDone(success);
+    }
+
+    private boolean validate() {
+        return validateFields();
     }
 
     private boolean saveInternal(final boolean showReturnToClinic) {
@@ -73,7 +86,9 @@ public class AppMedicalHistoryFragment extends Fragment implements FormSaveListe
                 public void onClick(DialogInterface dialog, int which) {
                     updateMedicalHistory();
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(true);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -83,7 +98,9 @@ public class AppMedicalHistoryFragment extends Fragment implements FormSaveListe
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(false);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -100,6 +117,8 @@ public class AppMedicalHistoryFragment extends Fragment implements FormSaveListe
         boolean ret = true;
         if (m_dirty) {
             ret = saveInternal(false);
+        } else {
+            notifySaveDone(true);
         }
         return ret;
     }
@@ -109,7 +128,7 @@ public class AppMedicalHistoryFragment extends Fragment implements FormSaveListe
         if (m_dirty) {
             saveInternal(true);
         } else {
-            showReturnToClinic();
+            notifyReadyForCheckout(true);
         }
         return true;
     }
@@ -118,12 +137,12 @@ public class AppMedicalHistoryFragment extends Fragment implements FormSaveListe
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (context instanceof Activity){
-            m_activity=(Activity) context;
+        if (context instanceof Activity) {
+            m_activity = (FormSaveAndPatientCheckoutNotifierActivity) context;
             getMedicalHistoryDataFromREST();
+            m_activity.subscribeSave((FormSaveListener) this);
+            m_activity.subscribeCheckout((PatientCheckoutListener) this);
         }
-        ((StationActivity)m_activity).subscribeSave(this);
-        ((StationActivity)m_activity).subscribeCheckout(this);
     }
 
     private void copyMedicalHistoryDataToUI()
@@ -344,15 +363,17 @@ public class AppMedicalHistoryFragment extends Fragment implements FormSaveListe
 
     private void setDirty()
     {
-        View button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.VISIBLE);
         m_dirty = true;
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(true);
+        }
     }
 
     private void clearDirty() {
-        View button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.GONE);
         m_dirty = false;
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(false);
+        }
     }
 
     private void setViewDirtyListeners()
@@ -1336,9 +1357,10 @@ public class AppMedicalHistoryFragment extends Fragment implements FormSaveListe
                 MedicalHistory hist;
                 hist = m_sess.getMedicalHistory(m_sess.getClinicId(), m_sess.getDisplayPatientId());
                 if (hist == null) {
-                    m_medicalHistory = new MedicalHistory(); // null ??
                     m_activity.runOnUiThread(new Runnable() {
                         public void run() {
+                            m_sess.getCommonSessionSingleton().resetPatientMedicalHistory();
+                            m_medicalHistory = new MedicalHistory(); // null ??
                             Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_get_medical_history), Toast.LENGTH_SHORT).show();
                             copyMedicalHistoryDataToUI(); // remove if null
                             setViewDirtyListeners();      // remove if null
@@ -1377,7 +1399,6 @@ public class AppMedicalHistoryFragment extends Fragment implements FormSaveListe
 
                 if (m_sess.getNewMedHistory() == true) {
                     lock = rest.createMedicalHistory(copyMedicalHistoryDataFromUI());
-                    m_sess.setNewMedHistory(false);
                 } else {
                     lock = rest.updateMedicalHistory(copyMedicalHistoryDataFromUI());
                 }
@@ -1402,6 +1423,7 @@ public class AppMedicalHistoryFragment extends Fragment implements FormSaveListe
                         }
                     });
                 } else {
+                    m_sess.setNewMedHistory(false);
                     Handler handler = new Handler(Looper.getMainLooper());
                     handler.post(new Runnable() {
                         public void run() {
@@ -1435,22 +1457,10 @@ public class AppMedicalHistoryFragment extends Fragment implements FormSaveListe
         super.onPause();
     }
 
-    private void setButtonBarCallbacks() {
-        View button_bar_item;
-
-        button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                saveInternal(false);
-            }
-        });
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_medical_history_layout, container, false);
         m_view  = view;
-        setButtonBarCallbacks();
         return view;
     }
 
@@ -1458,4 +1468,23 @@ public class AppMedicalHistoryFragment extends Fragment implements FormSaveListe
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
    }
+
+    @Override
+    public void subscribeDirty(FormDirtyListener instance) {
+        m_listeners.add(instance);
+    }
+
+    @Override
+    public void unsubscribeDirty(FormDirtyListener instance) {
+        m_listeners.remove(instance);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (m_activity != null) {
+            m_activity.unsubscribeSave(this);
+            m_activity.unsubscribeCheckout(this);
+        }
+    }
 }

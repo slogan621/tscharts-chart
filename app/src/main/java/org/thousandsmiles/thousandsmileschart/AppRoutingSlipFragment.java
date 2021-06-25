@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017-2020
- * (C) Copyright Thousand Smiles Foundation 2017-2020
+ * (C) Copyright Syd Logan 2017-2021
+ * (C) Copyright Thousand Smiles Foundation 2017-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,11 +60,17 @@ import com.woxthebox.draglistview.DragItem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.FormDirtyListener;
+import org.thousandsmiles.tscharts_lib.FormDirtyNotifierFragment;
+import org.thousandsmiles.tscharts_lib.FormDirtyPublisher;
+import org.thousandsmiles.tscharts_lib.FormSaveAndPatientCheckoutNotifierActivity;
+import org.thousandsmiles.tscharts_lib.FormSaveListener;
+import org.thousandsmiles.tscharts_lib.PatientCheckoutListener;
 import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
 
 import java.util.ArrayList;
 
-public class AppRoutingSlipFragment extends Fragment implements FormSaveListener, PatientCheckoutListener {
+public class AppRoutingSlipFragment extends FormDirtyNotifierFragment implements FormSaveListener, PatientCheckoutListener {
     private BoardView mBoardView;
     private int mColumns;
     private boolean m_dirty = false;
@@ -75,16 +81,19 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
     private ArrayList<RoutingSlipEntry> m_available;
     private ArrayList<RoutingSlipEntry> m_current;
     private int m_routingSlipId;
-    private Activity m_activity;
+    private FormSaveAndPatientCheckoutNotifierActivity m_activity;
+    private ArrayList<FormDirtyListener> m_listeners = new ArrayList<FormDirtyListener>();
 
     private boolean validate() {
         return true;
     }
 
-    @Override
-    public void showReturnToClinic()
-    {
-        ((StationActivity)m_activity).showReturnToClinic();
+    void notifyReadyForCheckout(boolean success) {
+        m_activity.fragmentReadyForCheckout(success);
+    }
+
+    void notifySaveDone(boolean success) {
+        m_activity.fragmentSaveDone(success);
     }
 
     private boolean saveInternal(final boolean showReturnToClinic) {
@@ -99,7 +108,9 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
                 public void onClick(DialogInterface dialog, int which) {
                     updateRoutingSlip();
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(true);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -109,7 +120,9 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(false);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -121,11 +134,28 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
         return ret;
     }
 
+    private void setDirty()
+    {
+        m_dirty = true;
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(true);
+        }
+    }
+
+    private void clearDirty() {
+        m_dirty = false;
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(false);
+        }
+    }
+
     @Override
     public boolean save() {
         boolean ret = true;
         if (m_dirty) {
             ret = saveInternal(false);
+        } else {
+            notifySaveDone(true);
         }
         return ret;
     }
@@ -135,7 +165,7 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
         if (m_dirty) {
             saveInternal(true);
         } else {
-            showReturnToClinic();
+            notifyReadyForCheckout(true);
         }
         return true;
     }
@@ -145,11 +175,12 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
         super.onAttach(context);
 
         if (context instanceof Activity){
-            m_activity=(Activity) context;
+            m_activity=(FormSaveAndPatientCheckoutNotifierActivity) context;
+            m_activity.subscribeSave(this);
+            m_activity.subscribeCheckout(this);
             initializeRoutingSlipData();
         }
-        ((StationActivity)m_activity).subscribeSave(this);
-        ((StationActivity)m_activity).subscribeCheckout(this);
+
     }
 
     private boolean stationInRoutingSlipList(Station s)
@@ -247,7 +278,7 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
     }
 
     private void createColumns() {
-        m_dirty = false;
+        clearDirty();
         mBoardView.clearBoard();
         createCurrentList();
         createAvailableList(true);  // include self, in station app, this would be false since we should not allow ourselves in the routing slip
@@ -425,17 +456,6 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
         super.onPause();
     }
 
-    private void setButtonBarCallbacks() {
-        View button_bar_item;
-
-        button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                saveInternal(false);
-            }
-        });
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_routing_slip_board_layout, container, false);
@@ -471,9 +491,10 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
 
             @Override
             public void onItemDragEnded(int fromColumn, int fromRow, int toColumn, int toRow) {
-                m_dirty = true;
+                setDirty();
                 View button_bar_item = getActivity().findViewById(R.id.save_button);
                 button_bar_item.setVisibility(View.VISIBLE);
+                /*
                 button_bar_item.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -484,6 +505,8 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
                     }
 
                 });
+
+                 */
                 if (fromColumn != toColumn || fromRow != toRow) {
                     RoutingSlipEntry ref;
                     if (toColumn < fromColumn) {
@@ -517,7 +540,6 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
             }
         });
 
-        setButtonBarCallbacks();
         return view;
     }
 
@@ -615,6 +637,25 @@ public class AppRoutingSlipFragment extends Fragment implements FormSaveListener
             anim.setInterpolator(new DecelerateInterpolator());
             anim.setDuration(ANIMATION_DURATION);
             anim.start();
+        }
+    }
+
+    @Override
+    public void subscribeDirty(FormDirtyListener instance) {
+        m_listeners.add(instance);
+    }
+
+    @Override
+    public void unsubscribeDirty(FormDirtyListener instance) {
+        m_listeners.remove(instance);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (m_activity != null) {
+            m_activity.unsubscribeSave(this);
+            m_activity.unsubscribeCheckout(this);
         }
     }
 }

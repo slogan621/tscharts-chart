@@ -42,14 +42,23 @@ import android.widget.Toast;
 import org.thousandsmiles.tscharts_lib.ENTExam;
 import org.thousandsmiles.tscharts_lib.ENTExamREST;
 import org.thousandsmiles.tscharts_lib.ENTHistory;
+import org.thousandsmiles.tscharts_lib.FormDirtyListener;
+import org.thousandsmiles.tscharts_lib.FormDirtyNotifierFragment;
+import org.thousandsmiles.tscharts_lib.FormDirtyPublisher;
+import org.thousandsmiles.tscharts_lib.FormSaveAndPatientCheckoutNotifierActivity;
+import org.thousandsmiles.tscharts_lib.FormSaveListener;
+import org.thousandsmiles.tscharts_lib.PatientCheckoutListener;
 
-public class AppENTExamFragment extends Fragment implements FormSaveListener, PatientCheckoutListener {
-    private Activity m_activity = null;
+import java.util.ArrayList;
+
+public class AppENTExamFragment extends FormDirtyNotifierFragment implements FormSaveListener, PatientCheckoutListener {
+    private FormSaveAndPatientCheckoutNotifierActivity m_activity = null;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     private ENTExam m_entExam = null;
     private boolean m_dirty = false;
     private View m_view = null;
     private AppFragmentContext m_ctx = new AppFragmentContext();
+    private ArrayList<FormDirtyListener> m_listeners = new ArrayList<FormDirtyListener>();
 
     public void setAppFragmentContext(AppFragmentContext ctx) {
         m_ctx = ctx;
@@ -63,10 +72,12 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
         return validateFields();
     }
 
-    @Override
-    public void showReturnToClinic()
-    {
-        ((StationActivity)m_activity).showReturnToClinic();
+    void notifyReadyForCheckout(boolean success) {
+        m_activity.fragmentReadyForCheckout(success);
+    }
+
+    void notifySaveDone(boolean success) {
+        m_activity.fragmentSaveDone(success);
     }
 
     private boolean saveInternal(final boolean showReturnToClinic) {
@@ -81,7 +92,9 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
                 public void onClick(DialogInterface dialog, int which) {
                     updateENTExam();
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(true);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -91,7 +104,9 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(false);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -108,6 +123,8 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
         boolean ret = true;
         if (m_dirty) {
             ret = saveInternal(false);
+        } else {
+            notifySaveDone(true);
         }
         return ret;
     }
@@ -117,7 +134,7 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
         if (m_dirty) {
             saveInternal(true);
         } else {
-            showReturnToClinic();
+            notifyReadyForCheckout(true);
         }
         return true;
     }
@@ -127,10 +144,10 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
         super.onAttach(context);
 
         if (context instanceof Activity){
-            m_activity=(Activity) context;
+            m_activity=(FormSaveAndPatientCheckoutNotifierActivity) context;
+            m_activity.subscribeSave(this);
+            m_activity.subscribeCheckout(this);
         }
-        ((StationActivity)m_activity).subscribeSave(this);
-        ((StationActivity)m_activity).subscribeCheckout(this);
     }
 
     private void copyENTExamDataToUI()
@@ -820,41 +837,18 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
         if (m_ctx.getReadOnly() == true) {
             return;
         }
-        View button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.VISIBLE);
 
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                boolean valid = validateFields();
-                if (valid == false) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                    builder.setTitle(m_activity.getString(R.string.title_missing_patient_data));
-                    builder.setMessage(m_activity.getString(R.string.msg_please_enter_required_patient_data));
-
-                    builder.setPositiveButton(m_activity.getString(R.string.button_ok), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                } else {
-                    m_entExam = copyENTExamDataFromUI();
-                    updateENTExam();
-                }
-            }
-
-        });
         m_dirty = true;
+
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(true);
+        }
     }
 
     private void clearDirty() {
-        View button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.GONE);
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(false);
+        }
         m_dirty = false;
     }
 
@@ -2643,22 +2637,10 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
         super.onPause();
     }
 
-    private void setButtonBarCallbacks() {
-        View button_bar_item;
-
-        button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                saveInternal(false);
-            }
-        });
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_ent_exam_layout, container, false);
         m_view  = view;
-        setButtonBarCallbacks();
         return view;
     }
 
@@ -2666,4 +2648,23 @@ public class AppENTExamFragment extends Fragment implements FormSaveListener, Pa
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
    }
+
+    @Override
+    public void subscribeDirty(FormDirtyListener instance) {
+        m_listeners.add(instance);
+    }
+
+    @Override
+    public void unsubscribeDirty(FormDirtyListener instance) {
+        m_listeners.remove(instance);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (m_activity != null) {
+            m_activity.unsubscribeSave(this);
+            m_activity.unsubscribeCheckout(this);
+        }
+    }
 }

@@ -113,6 +113,7 @@
 
     <string name="ent_history_name">ENT History</string>
     <string name="medical_history_name">Medical History</string>
+    <string name="vaccinations_name">Vaccinations</string>
     <string name="routing_slip_name">Routing Slip</string>
     <string name="xray_search_results_name">XRay Search Results</string>
 

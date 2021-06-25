@@ -99,6 +99,7 @@ public class AppPatientXRayListFragment extends Fragment {
         Bundle arguments = new Bundle();
         arguments.putSerializable("xray", xray);
         AppPatientXRayEditorFragment fragment = new AppPatientXRayEditorFragment();
+        ((StationActivity)m_activity).setActiveFragment(fragment);
         fragment.setArguments(arguments);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)

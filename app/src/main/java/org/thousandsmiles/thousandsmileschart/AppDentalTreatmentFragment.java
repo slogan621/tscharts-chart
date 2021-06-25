@@ -59,6 +59,12 @@ import org.thousandsmiles.tscharts_lib.DentalState;
 import org.thousandsmiles.tscharts_lib.DentalStateREST;
 import org.thousandsmiles.tscharts_lib.DentalTreatment;
 import org.thousandsmiles.tscharts_lib.DentalTreatmentREST;
+import org.thousandsmiles.tscharts_lib.FormDirtyListener;
+import org.thousandsmiles.tscharts_lib.FormDirtyNotifierFragment;
+import org.thousandsmiles.tscharts_lib.FormDirtyPublisher;
+import org.thousandsmiles.tscharts_lib.FormSaveAndPatientCheckoutNotifierActivity;
+import org.thousandsmiles.tscharts_lib.FormSaveListener;
+import org.thousandsmiles.tscharts_lib.PatientCheckoutListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,8 +72,8 @@ import java.util.Iterator;
 
 import static java.lang.Math.abs;
 
-public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEditorCompletionListener, FormSaveListener, PatientCheckoutListener {
-    private Activity m_activity = null;
+public class AppDentalTreatmentFragment extends FormDirtyNotifierFragment implements CDTCodeEditorCompletionListener, FormSaveListener, PatientCheckoutListener {
+    private FormSaveAndPatientCheckoutNotifierActivity m_activity = null;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     private DentalTreatment m_dentalTreatment = null;
     private boolean m_dirty = false;
@@ -81,12 +87,16 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
     private ToothMapState m_topToothMapState;
     private ToothMapState m_bottomToothMapState;
     private AppDentalTreatmentFragment m_this;
+    private ArrayList<FormDirtyListener> m_listeners = new ArrayList<FormDirtyListener>();
     private HashMap<Integer, ArrayList<PatientDentalToothState>> m_storedToothStates = new HashMap<Integer, ArrayList<PatientDentalToothState>>();
     private HashMap<Integer, ArrayList<PatientDentalToothState>> m_updatedToothStates = new HashMap<Integer, ArrayList<PatientDentalToothState>>();
 
-    @Override
-    public void showReturnToClinic() {
-        ((StationActivity) m_activity).showReturnToClinic();
+    void notifyReadyForCheckout(boolean success) {
+        m_activity.fragmentReadyForCheckout(success);
+    }
+
+    void notifySaveDone(boolean success) {
+        m_activity.fragmentSaveDone(success);
     }
 
     private boolean saveInternal(final boolean showReturnToClinic) {
@@ -102,7 +112,9 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                     updateDentalTreatment();
                     updateToothStates();
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(true);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -112,7 +124,9 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(false);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -129,6 +143,8 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         boolean ret = true;
         if (m_dirty) {
             ret = saveInternal(false);
+        } else {
+            notifySaveDone(true);
         }
         return ret;
     }
@@ -138,7 +154,7 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         if (m_dirty) {
             saveInternal(true);
         } else {
-            showReturnToClinic();
+            notifyReadyForCheckout(true);
         }
         return true;
     }
@@ -632,10 +648,11 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         super.onAttach(context);
 
         if (context instanceof Activity){
-            m_activity=(Activity) context;
+            m_activity=(FormSaveAndPatientCheckoutNotifierActivity) context;
+            m_activity.subscribeSave(this);
+            m_activity.subscribeCheckout(this);
         }
-        ((StationActivity)m_activity).subscribeSave(this);
-        ((StationActivity)m_activity).subscribeCheckout(this);
+
         AsyncTask task = new GetCDTCodesList();
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
     }
@@ -792,17 +809,18 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
             return;
         }
 
-        View button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.VISIBLE);
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(true);
+        }
 
         m_dirty = true;
     }
 
     private void clearDirty() {
-        View button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.GONE);
-
         m_dirty = false;
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(false);
+        }
     }
 
     private void setViewDirtyListeners()
@@ -1854,17 +1872,6 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         super.onPause();
     }
 
-    private void setButtonBarCallbacks() {
-        View button_bar_item;
-
-        button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                saveInternal(false);
-            }
-        });
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_dental_treatment_layout, container, false);
@@ -1942,7 +1949,6 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
             }
         });
 
-        setButtonBarCallbacks();
         return view;
     }
 
@@ -1951,4 +1957,23 @@ public class AppDentalTreatmentFragment extends Fragment implements CDTCodeEdito
         super.onActivityCreated(savedInstanceState);
         m_this = this;
    }
+
+    @Override
+    public void subscribeDirty(FormDirtyListener instance) {
+        m_listeners.add(instance);
+    }
+
+    @Override
+    public void unsubscribeDirty(FormDirtyListener instance) {
+        m_listeners.remove(instance);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (m_activity != null) {
+            m_activity.unsubscribeSave(this);
+            m_activity.unsubscribeCheckout(this);
+        }
+    }
 }

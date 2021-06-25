@@ -44,8 +44,6 @@ import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
 import java.util.ArrayList;
 
 public class AppPatientAudiogramListFragment extends Fragment {
-    private int mColumns;
-    private boolean m_goingDown = false;
     private SessionSingleton m_sess;
     private CommonSessionSingleton m_commonSess;
     private ArrayList<Audiogram> m_audiograms = new ArrayList<Audiogram>();
@@ -99,7 +97,8 @@ public class AppPatientAudiogramListFragment extends Fragment {
     {
         Bundle arguments = new Bundle();
         arguments.putSerializable("audiogram", audiogram);
-        AudiogramPhotoFragment fragment = new AudiogramPhotoFragment();
+        AppAudiogramPhotoFragment fragment = new AppAudiogramPhotoFragment();
+        ((StationActivity)m_activity).setActiveFragment(fragment);
         fragment.setArguments(arguments);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)

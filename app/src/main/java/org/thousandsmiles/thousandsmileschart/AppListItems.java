@@ -90,6 +90,12 @@ public class AppListItems {
         items.add(item);
 
         item = new AppListItem();
+        item.setName(m_context.getString(R.string.vaccinations_name));
+        item.setImageId(R.drawable.vax);
+        item.setSelector(R.drawable.app_vaccine_selector);
+        items.add(item);
+
+        item = new AppListItem();
         item.setName(m_context.getString(R.string.xray_name));
         item.setImageId(R.drawable.xray);
         item.setSelector(R.drawable.app_xray_selector);
@@ -121,6 +127,12 @@ public class AppListItems {
         items.add(item);
 
         item = new AppListItem();
+        item.setName(m_context.getString(R.string.vaccinations_name));
+        item.setImageId(R.drawable.vax);
+        item.setSelector(R.drawable.app_vaccine_selector);
+        items.add(item);
+
+        item = new AppListItem();
         item.setName(m_context.getString(R.string.xray_name));
         item.setImageId(R.drawable.xray);
         item.setSelector(R.drawable.app_xray_selector);
@@ -149,6 +161,12 @@ public class AppListItems {
         item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.vaccinations_name));
+        item.setImageId(R.drawable.vax);
+        item.setSelector(R.drawable.app_vaccine_selector);
         items.add(item);
 
         item = new AppListItem();
@@ -189,6 +207,12 @@ public class AppListItems {
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
 
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.vaccinations_name));
+        item.setImageId(R.drawable.vax);
+        item.setSelector(R.drawable.app_vaccine_selector);
+        items.add(item);
+
         m_stationToAppList.put(m_context.getString(R.string.station_name_anesthesiology), items);
     }
 
@@ -206,6 +230,12 @@ public class AppListItems {
         item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.vaccinations_name));
+        item.setImageId(R.drawable.vax);
+        item.setSelector(R.drawable.app_vaccine_selector);
         items.add(item);
 
         item = new AppListItem();
@@ -261,6 +291,12 @@ public class AppListItems {
         item.setSelector(R.drawable.app_medical_history_selector);
         items.add(item);
 
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.vaccinations_name));
+        item.setImageId(R.drawable.vax);
+        item.setSelector(R.drawable.app_vaccine_selector);
+        items.add(item);
+
         m_stationToAppList.put(m_context.getString(R.string.station_name_speech), items);
     }
 
@@ -278,6 +314,12 @@ public class AppListItems {
         item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.vaccinations_name));
+        item.setImageId(R.drawable.vax);
+        item.setSelector(R.drawable.app_vaccine_selector);
         items.add(item);
 
         item = new AppListItem();
@@ -328,6 +370,12 @@ public class AppListItems {
         item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.vaccinations_name));
+        item.setImageId(R.drawable.vax);
+        item.setSelector(R.drawable.app_vaccine_selector);
         items.add(item);
 
         item = new AppListItem();
@@ -389,6 +437,12 @@ public class AppListItems {
         item.setName(m_context.getString(R.string.medical_history_name));
         item.setImageId(R.drawable.medhist);
         item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.vaccinations_name));
+        item.setImageId(R.drawable.vax);
+        item.setSelector(R.drawable.app_vaccine_selector);
         items.add(item);
 
         item = new AppListItem();

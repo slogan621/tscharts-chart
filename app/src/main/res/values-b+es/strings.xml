@@ -115,6 +115,7 @@
     <string name="ent_history_name">Historial ONG</string>
     <string name="routing_slip_name">Ficha de transmisión</string>
     <string name="xray_search_results_name">Resultados de búsqueda de rayos X</string>
+    <string name="vaccinations_name">Vacunas</string>
 
     <string name="station_name_dental">Dental</string>
     <string name="station_name_x_ray">Rayos X</string>

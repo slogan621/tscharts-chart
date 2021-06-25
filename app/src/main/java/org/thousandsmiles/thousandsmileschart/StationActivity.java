@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2017-2020
- * (C) Copyright Thousand Smiles Foundation 2017-2020
+ * (C) Copyright Syd Logan 2017-2021
+ * (C) Copyright Thousand Smiles Foundation 2017-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,33 +24,38 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.thousandsmiles.tscharts_lib.AppVaccineFragment;
+import org.thousandsmiles.tscharts_lib.FormDirtyListener;
+import org.thousandsmiles.tscharts_lib.FormDirtyNotifierFragment;
+import org.thousandsmiles.tscharts_lib.FormDirtyPublisher;
+import org.thousandsmiles.tscharts_lib.FormSaveAndPatientCheckoutNotifierActivity;
+import org.thousandsmiles.tscharts_lib.FormSaveListener;
+import org.thousandsmiles.tscharts_lib.PatientCheckoutListener;
+
 import java.util.ArrayList;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
+public class StationActivity extends FormSaveAndPatientCheckoutNotifierActivity {
 
-public class StationActivity extends AppCompatActivity implements FormSavePublisher, PatientCheckoutPublisher {
-
-    @Override
     public void subscribeSave(FormSaveListener instance) {
         m_formSaveList.add(instance);
     }
 
-    @Override
     public void unsubscribeSave(FormSaveListener instance) {
         m_formSaveList.remove(instance);
+    }
+
+    @Override
+    public void fragmentSaveDone(boolean success) {
     }
 
     private boolean saveForm() {
@@ -127,14 +132,17 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
         }
     }
 
-    @Override
     public void subscribeCheckout(PatientCheckoutListener instance) {
         m_patientCheckoutList.add(instance);
     }
 
-    @Override
     public void unsubscribeCheckout(PatientCheckoutListener instance) {
         m_patientCheckoutList.remove(instance);
+    }
+
+    @Override
+    public void fragmentReadyForCheckout(boolean success) {
+        showReturnToClinic();
     }
 
     private boolean patientCheckout() {
@@ -150,6 +158,18 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
             }
         }
         return ret;
+    }
+
+    @Override
+    public void dirty(boolean dirty) {
+        View button_bar_item = findViewById(R.id.save_button);
+        if (button_bar_item != null) {
+            if (dirty) {
+                button_bar_item.setVisibility(View.VISIBLE);
+            } else {
+                button_bar_item.setVisibility(View.GONE);
+            }
+        }
     }
 
     private enum StationState {
@@ -171,6 +191,7 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
     private boolean m_showingAppFragment = false;
     private String m_fragmentName;
     private Activity m_activity;
+    private FormDirtyNotifierFragment m_currentFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,6 +286,14 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
             public void onClick(View v)
             {
                 patientCheckout();
+            }
+        });
+
+        button_bar_item = m_activity.findViewById(R.id.save_button);
+        button_bar_item.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // notify fragment to save itself
+                saveForm();
             }
         });
     }
@@ -419,6 +448,9 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
                 if (!m_showingAppFragment || names.get(position).equals(getApplicationContext().getString(R.string.xray_name)) ||
                         names.get(position).equals(getApplicationContext().getString(R.string.exam_name)) ||
                         selectedName.equals(m_fragmentName) == false) {
+                    if (m_showingAppFragment == true && m_currentFragment != null) {
+                        ((FormDirtyPublisher) m_currentFragment).unsubscribeDirty((FormDirtyListener) m_activity);
+                    }
                     view.setSelected(true);
                     if (names.get(position).equals(getApplicationContext().getString(R.string.routing_slip_name))) {
                         showRoutingSlip();
@@ -428,6 +460,10 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
                         showMedicalHistory();
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
+                    } else if (names.get(position).equals(getApplicationContext().getString(R.string.vaccinations_name))) {
+                            showVaccinations();
+                            m_showingAppFragment = true;
+                            m_fragmentName = names.get(position);
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.xray_name))) {
                         showXRaySearchResults();
                         m_showingAppFragment = true;
@@ -474,6 +510,7 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
         Bundle arguments = new Bundle();
         AppRoutingSlipFragment fragment = new AppRoutingSlipFragment();
         fragment.setArguments(arguments);
+        setActiveFragment(fragment);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
                 .commit();
@@ -557,7 +594,6 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
         AppFragmentContext ctx = new AppFragmentContext();
         ctx.setReadOnly(readOnly);
         fragment.setAppFragmentContext(ctx);
-        fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
                 .commit();
@@ -574,7 +610,6 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
         AppPatientENTExamListFragment fragment = new AppPatientENTExamListFragment();
         AppFragmentContext ctx = new AppFragmentContext();
         ctx.setReadOnly(readOnly);
-        fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
@@ -609,6 +644,7 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
         Bundle arguments = new Bundle();
         AppMedicalHistoryFragment fragment = new AppMedicalHistoryFragment();
         fragment.setArguments(arguments);
+        setActiveFragment(fragment);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
                 .commit();
@@ -617,6 +653,22 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
         v.setImageDrawable(res);
         TextView t = findViewById(R.id.chart_name);
         t.setText(R.string.medical_history_name);
+    }
+
+    public void showVaccinations()
+    {
+        Bundle arguments = new Bundle();
+        AppVaccineFragment fragment = new AppVaccineFragment();
+        fragment.setArguments(arguments);
+        setActiveFragment(fragment);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.app_panel, fragment)
+                .commit();
+        ImageView v = findViewById(R.id.chart_icon);
+        Drawable res = getResources().getDrawable(R.drawable.vax_pressed);
+        v.setImageDrawable(res);
+        TextView t = findViewById(R.id.chart_name);
+        t.setText(R.string.vaccinations_name);
     }
 
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -635,5 +687,10 @@ public class StationActivity extends AppCompatActivity implements FormSavePublis
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    public void setActiveFragment(FormDirtyNotifierFragment fragment) {
+        m_currentFragment = fragment;
+        fragment.subscribeDirty(this);
     }
 }

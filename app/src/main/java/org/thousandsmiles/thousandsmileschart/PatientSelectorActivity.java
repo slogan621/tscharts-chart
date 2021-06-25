@@ -868,6 +868,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
         if (displayId != rd.getId()) {
             sess.setDisplayPatientId(rd.getId());
+            m_sess.getCommonSessionSingleton().setPatientId(rd.getId());
 
             GetDisplayPatientRoutingSlips task = new GetDisplayPatientRoutingSlips();
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);

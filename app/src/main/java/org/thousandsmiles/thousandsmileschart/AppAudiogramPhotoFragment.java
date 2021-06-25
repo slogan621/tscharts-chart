@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2020
- * (C) Copyright Thousand Smiles Foundation 2020
+ * (C) Copyright Syd Logan 2020-2021
+ * (C) Copyright Thousand Smiles Foundation 2020-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.Audiogram;
 import org.thousandsmiles.tscharts_lib.AudiogramREST;
+import org.thousandsmiles.tscharts_lib.FormDirtyListener;
+import org.thousandsmiles.tscharts_lib.FormDirtyNotifierFragment;
+import org.thousandsmiles.tscharts_lib.FormDirtyPublisher;
+import org.thousandsmiles.tscharts_lib.FormSaveAndPatientCheckoutNotifierActivity;
+import org.thousandsmiles.tscharts_lib.FormSaveListener;
 import org.thousandsmiles.tscharts_lib.ImageREST;
+import org.thousandsmiles.tscharts_lib.PatientCheckoutListener;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
 
 import java.io.File;
@@ -58,12 +64,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
-public class AudiogramPhotoFragment extends Fragment implements FormSaveListener, PatientCheckoutListener {
-    private Activity m_activity = null;
+public class AppAudiogramPhotoFragment extends FormDirtyNotifierFragment implements FormSaveListener, PatientCheckoutListener {
+    private FormSaveAndPatientCheckoutNotifierActivity m_activity = null;
     private boolean m_init = true;
     private SessionSingleton m_sess = null;
     private boolean m_dirty = false;
@@ -76,15 +83,27 @@ public class AudiogramPhotoFragment extends Fragment implements FormSaveListener
     static final int REQUEST_TAKE_PHOTO = 1;
     Audiogram m_audiogram = null;
     private View m_view = null;
+    private ArrayList<FormDirtyListener> m_listeners = new ArrayList<FormDirtyListener>();
 
     private boolean validate() {
         return validateFields();
     }
 
+    void notifyReadyForCheckout(boolean success) {
+        m_activity.fragmentReadyForCheckout(success);
+    }
+
+    void notifySaveDone(boolean success) {
+        m_activity.fragmentSaveDone(success);
+    }
+
     @Override
-    public void showReturnToClinic()
-    {
-        ((StationActivity)m_activity).showReturnToClinic();
+    public void onDestroy() {
+        super.onDestroy();
+        if (m_activity != null) {
+            m_activity.unsubscribeSave(this);
+            m_activity.unsubscribeCheckout(this);
+        }
     }
 
     private boolean saveInternal(final boolean showReturnToClinic) {
@@ -102,7 +121,9 @@ public class AudiogramPhotoFragment extends Fragment implements FormSaveListener
                     listener.setAudiogram(m_audiogram);
                     createAudiogramImage(listener);
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(true);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -112,7 +133,9 @@ public class AudiogramPhotoFragment extends Fragment implements FormSaveListener
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(false);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -129,6 +152,8 @@ public class AudiogramPhotoFragment extends Fragment implements FormSaveListener
         boolean ret = true;
         if (m_dirty) {
             ret = saveInternal(false);
+        } else {
+            notifySaveDone(true);
         }
         return ret;
     }
@@ -138,7 +163,7 @@ public class AudiogramPhotoFragment extends Fragment implements FormSaveListener
         if (m_dirty) {
             saveInternal(true);
         } else {
-            showReturnToClinic();
+            notifyReadyForCheckout(true);
         }
         return true;
     }
@@ -243,38 +268,10 @@ public class AudiogramPhotoFragment extends Fragment implements FormSaveListener
 
     private void setDirty()
     {
-        View button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.VISIBLE);
-        /*
-        m_audiogram = copyAudiogramDataFromUI();
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(true);
+        }
 
-            @Override
-            public void onClick(View arg0) {
-                boolean valid = validateFields();
-                if (valid == false) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                    builder.setTitle(m_activity.getString(R.string.title_missing_patient_data));
-                    builder.setMessage(m_activity.getString(R.string.msg_please_enter_required_patient_data));
-
-                    builder.setPositiveButton(m_activity.getString(R.string.button_ok), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                } else {
-                    CreateAudiogramImageListener listener = new CreateAudiogramImageListener();
-                    listener.setAudiogram(m_audiogram);
-                    createAudiogramImage(listener);
-                }
-            }
-
-        });
-
-         */
         m_dirty = true;
     }
 
@@ -329,13 +326,14 @@ public class AudiogramPhotoFragment extends Fragment implements FormSaveListener
     }
 
     private void clearDirty() {
-        View button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.GONE);
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(false);
+        }
         m_dirty = false;
     }
 
-    public static AudiogramPhotoFragment newInstance() {
-        return new AudiogramPhotoFragment();
+    public static AppAudiogramPhotoFragment newInstance() {
+        return new AppAudiogramPhotoFragment();
     }
 
     @Override
@@ -343,11 +341,11 @@ public class AudiogramPhotoFragment extends Fragment implements FormSaveListener
         super.onAttach(context);
 
         if (context instanceof Activity){
-            m_activity=(Activity) context;
+            m_activity=(FormSaveAndPatientCheckoutNotifierActivity) context;
             m_sess = SessionSingleton.getInstance();
+            m_activity.subscribeSave(this);
+            m_activity.subscribeCheckout(this);
         }
-        ((StationActivity)m_activity).subscribeSave(this);
-        ((StationActivity)m_activity).subscribeCheckout(this);
     }
 
     @Override
@@ -365,11 +363,10 @@ public class AudiogramPhotoFragment extends Fragment implements FormSaveListener
     }
 
     public void createAudiogramImage(final RESTCompletionListener listener) {
-
         Thread thread = new Thread() {
             public void run() {
                 // note we use session context because this may be called after onPause()
-                ImageREST rest = new ImageREST(m_activity.getApplicationContext());
+                ImageREST rest = new ImageREST(m_sess.getContext());
                 rest.addListener(listener);
                 Object lock;
                 int status;
@@ -661,22 +658,21 @@ public class AudiogramPhotoFragment extends Fragment implements FormSaveListener
         }
     }
 
-    private void setButtonBarCallbacks() {
-        View button_bar_item;
-
-        button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                saveInternal(false);
-            }
-        });
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.audiogram_photo_fragment_layout, container, false);
         m_view  = view;
-        setButtonBarCallbacks();
         return view;
     }
+
+    @Override
+    public void subscribeDirty(FormDirtyListener instance) {
+        m_listeners.add(instance);
+    }
+
+    @Override
+    public void unsubscribeDirty(FormDirtyListener instance) {
+        m_listeners.remove(instance);
+    }
+
 }

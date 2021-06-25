@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2019-2020
- * (C) Copyright Thousand Smiles Foundation 2019-2020
+ * (C) Copyright Syd Logan 2019-2021
+ * (C) Copyright Thousand Smiles Foundation 2019-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,8 +55,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.thousandsmiles.tscharts_lib.CommonSessionSingleton;
+import org.thousandsmiles.tscharts_lib.FormDirtyListener;
+import org.thousandsmiles.tscharts_lib.FormDirtyNotifierFragment;
+import org.thousandsmiles.tscharts_lib.FormDirtyPublisher;
+import org.thousandsmiles.tscharts_lib.FormSaveAndPatientCheckoutNotifierActivity;
+import org.thousandsmiles.tscharts_lib.FormSaveListener;
 import org.thousandsmiles.tscharts_lib.HeadshotImage;
 import org.thousandsmiles.tscharts_lib.ImageDisplayedListener;
+import org.thousandsmiles.tscharts_lib.PatientCheckoutListener;
 import org.thousandsmiles.tscharts_lib.PatientData;
 import org.thousandsmiles.tscharts_lib.XRay;
 import org.thousandsmiles.tscharts_lib.XRayREST;
@@ -65,8 +71,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class AppPatientXRayEditorFragment extends Fragment implements FormSaveListener, PatientCheckoutListener {
-    private StationActivity m_activity = null;
+public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment implements FormSaveListener, PatientCheckoutListener {
+    private FormSaveAndPatientCheckoutNotifierActivity m_activity = null;
     private SessionSingleton m_sess = SessionSingleton.getInstance();
     private XRay m_xray = null;
     private boolean m_dirty = false;
@@ -76,6 +82,7 @@ public class AppPatientXRayEditorFragment extends Fragment implements FormSaveLi
     private ToothMapState m_childToothMapState;
     private ToothMapState m_adultToothMapState;
     private XRay.XRayMouthType m_mouthType;
+    private ArrayList<FormDirtyListener> m_listeners = new ArrayList<FormDirtyListener>();
     private XRayThumbnailTable m_currentXRayThumbnailTable = new XRayThumbnailTable(R.id.xray_current_image_table);
     private XRayThumbnailTable m_olderXRayThumbnailTable = new XRayThumbnailTable(R.id.xray_older_image_table);
     ;
@@ -116,10 +123,12 @@ public class AppPatientXRayEditorFragment extends Fragment implements FormSaveLi
         return true;
     }
 
-    @Override
-    public void showReturnToClinic()
-    {
-        m_activity.showReturnToClinic();
+    void notifyReadyForCheckout(boolean success) {
+        m_activity.fragmentReadyForCheckout(success);
+    }
+
+    void notifySaveDone(boolean success) {
+        m_activity.fragmentSaveDone(success);
     }
 
     private boolean saveInternal(final boolean showReturnToClinic) {
@@ -134,7 +143,9 @@ public class AppPatientXRayEditorFragment extends Fragment implements FormSaveLi
                 public void onClick(DialogInterface dialog, int which) {
                     updateXRay();
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(true);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -144,7 +155,9 @@ public class AppPatientXRayEditorFragment extends Fragment implements FormSaveLi
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (showReturnToClinic == true) {
-                        showReturnToClinic();
+                        notifyReadyForCheckout(false);
+                    } else {
+                        notifySaveDone(true);
                     }
                     dialog.dismiss();
                 }
@@ -161,6 +174,8 @@ public class AppPatientXRayEditorFragment extends Fragment implements FormSaveLi
         boolean ret = true;
         if (m_dirty) {
             ret = saveInternal(false);
+        } else {
+            notifySaveDone(true);
         }
         return ret;
     }
@@ -168,9 +183,9 @@ public class AppPatientXRayEditorFragment extends Fragment implements FormSaveLi
     @Override
     public boolean checkout() {
         if (m_dirty) {
-            saveInternal(m_sess.getStationSupportsRTC());
+            saveInternal(true);
         } else {
-            showReturnToClinic();
+            notifyReadyForCheckout(true);
         }
         return true;
     }
@@ -597,11 +612,11 @@ public class AppPatientXRayEditorFragment extends Fragment implements FormSaveLi
         super.onAttach(context);
 
         if (context instanceof Activity){
-            m_activity=(StationActivity) context;
+            m_activity=(FormSaveAndPatientCheckoutNotifierActivity) context;
             initializeCurrentXRayThumbnailData();
+            m_activity.subscribeSave(this);
+            m_activity.subscribeCheckout(this);
         }
-        m_activity.subscribeSave(this);
-        m_activity.subscribeCheckout(this);
     }
 
     private void copyXRayDataToUI()
@@ -661,14 +676,16 @@ public class AppPatientXRayEditorFragment extends Fragment implements FormSaveLi
 
     private void setDirty()
     {
-        View button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.VISIBLE);
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(true);
+        }
         m_dirty = true;
     }
 
     private void clearDirty() {
-        View button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setVisibility(View.GONE);
+        for (int i = 0; i < m_listeners.size(); i++) {
+            m_listeners.get(i).dirty(false);
+        }
         m_dirty = false;
     }
 
@@ -1073,22 +1090,10 @@ public class AppPatientXRayEditorFragment extends Fragment implements FormSaveLi
         m_activity.unsubscribeCheckout(this);
     }
 
-    private void setButtonBarCallbacks() {
-        View button_bar_item;
-
-        button_bar_item = m_activity.findViewById(R.id.save_button);
-        button_bar_item.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                saveInternal(false);
-            }
-        });
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_xray_editor_layout, container, false);
         m_view  = view;
-        setButtonBarCallbacks();
         return view;
     }
 
@@ -1096,4 +1101,23 @@ public class AppPatientXRayEditorFragment extends Fragment implements FormSaveLi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
    }
+
+    @Override
+    public void subscribeDirty(FormDirtyListener instance) {
+        m_listeners.add(instance);
+    }
+
+    @Override
+    public void unsubscribeDirty(FormDirtyListener instance) {
+        m_listeners.remove(instance);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (m_activity != null) {
+            m_activity.unsubscribeSave(this);
+            m_activity.unsubscribeCheckout(this);
+        }
+    }
 }

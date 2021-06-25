@@ -44,8 +44,6 @@ import org.thousandsmiles.tscharts_lib.ENTExam;
 import java.util.ArrayList;
 
 public class AppPatientENTExamListFragment extends Fragment {
-    private int mColumns;
-    private boolean m_goingDown = false;
     private SessionSingleton m_sess;
     private CommonSessionSingleton m_commonSess;
     private ArrayList<ENTExam> m_entExams = new ArrayList<ENTExam>();
@@ -105,6 +103,7 @@ public class AppPatientENTExamListFragment extends Fragment {
         arguments.putSerializable("exam", exam);
         AppENTExamFragment fragment = new AppENTExamFragment();
         AppFragmentContext ctx = new AppFragmentContext();
+        ((StationActivity)m_activity).setActiveFragment(fragment);
         ctx.setReadOnly(m_ctx.getReadOnly());
         fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);

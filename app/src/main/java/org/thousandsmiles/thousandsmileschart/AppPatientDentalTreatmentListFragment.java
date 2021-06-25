@@ -119,6 +119,7 @@ public class AppPatientDentalTreatmentListFragment extends Fragment {
         AppDentalTreatmentFragment fragment = new AppDentalTreatmentFragment();
         AppFragmentContext ctx = new AppFragmentContext();
         ctx.setReadOnly(m_ctx.getReadOnly());
+        ((StationActivity)m_activity).setActiveFragment(fragment);
         fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);
         getActivity().getSupportFragmentManager().beginTransaction()

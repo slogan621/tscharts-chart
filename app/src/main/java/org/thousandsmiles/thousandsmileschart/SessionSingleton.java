@@ -363,7 +363,6 @@ public class SessionSingleton {
         return m_newENTTreatment;
     }
 
-
     public void setNewMedHistory(boolean val) {
         m_newMedHistory = val;
     }

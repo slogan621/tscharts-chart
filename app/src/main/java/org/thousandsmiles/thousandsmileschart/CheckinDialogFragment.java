@@ -125,6 +125,7 @@ public class CheckinDialogFragment extends DialogFragment {
                         public void onClick(DialogInterface dialog, int id) {
                             m_sess.getCommonSessionSingleton().cancelHeadshotImages();
                             m_sess.setDisplayPatientId(m_patientId);
+                            m_sess.getCommonSessionSingleton().setPatientId(m_patientId);
                             //getReturnToClinicData();
                             m_sess.getCommonSessionSingleton().setPhotoPath(m_sess.getCommonSessionSingleton().getHeadShotPath(m_patientId));
                             Intent i = new Intent(getContext(), StationActivity.class);
