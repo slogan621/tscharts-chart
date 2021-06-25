@@ -255,10 +255,10 @@
     <string name="set_all">Establecer todos</string>
     <string name="clear_all">Limpiar todo</string>
     <string name="msg_feature_not_implemented">Artículo no implementado</string>
-    <string name="exam_name">Examen</string>
+    <string name="exam_name">Examen ONG</string>
     <string name="audiogram_name">Audiogram</string>
-    <string name="diagnosis_name">Diagnóstico</string>
-    <string name="treatment_plan_name">Plan de tratamienton</string>
+    <string name="diagnosis_name">Diagnóstico ONG</string>
+    <string name="treatment_plan_name">Plan de tratamienton ONG</string>
 
     <!-- ENT Exam Strings -->
 

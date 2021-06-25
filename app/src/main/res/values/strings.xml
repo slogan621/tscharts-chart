@@ -260,10 +260,10 @@
     <string name="set_all">Set all</string>
     <string name="clear_all">Clear all</string>
     <string name="msg_feature_not_implemented">Feature not implemented</string>
-    <string name="exam_name">Examination</string>
+    <string name="exam_name">ENT Examination</string>
     <string name="audiogram_name">Audiogram</string>
-    <string name="diagnosis_name">Diagnosis</string>
-    <string name="treatment_plan_name">Treatment Plan</string>
+    <string name="diagnosis_name">ENT Diagnosis</string>
+    <string name="treatment_plan_name">ENT Treatment Plan</string>
 
     <!-- ENT Exam Strings -->
 
