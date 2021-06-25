@@ -213,6 +213,34 @@ public class AppListItems {
         item.setSelector(R.drawable.app_vaccine_selector);
         items.add(item);
 
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.ent_history_name));
+        item.setImageId(R.drawable.medhist);
+        item.setReadOnly(true);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.exam_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setReadOnly(true);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.diagnosis_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setReadOnly(true);
+        items.add(item);
+
+        item = new AppListItem();
+        item.setName(m_context.getString(R.string.treatment_plan_name));
+        item.setImageId(R.drawable.medhist);
+        item.setSelector(R.drawable.app_medical_history_selector);
+        item.setReadOnly(true);
+        items.add(item);
+
         m_stationToAppList.put(m_context.getString(R.string.station_name_anesthesiology), items);
     }
 
