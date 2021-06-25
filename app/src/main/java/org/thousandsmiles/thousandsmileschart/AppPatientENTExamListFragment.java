@@ -143,32 +143,31 @@ public class AppPatientENTExamListFragment extends Fragment {
         button.setBackgroundColor(getResources().getColor(R.color.lightGray));
         button.setImageDrawable(getResources().getDrawable(R.drawable.headshot_plus));
 
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
-                alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_ent_exam_record));
-                alertDialogBuilder.setPositiveButton(R.string.button_yes,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                            m_sess.setNewENTExam(true);
-                            showENTExamEditor(new ENTExam());
-                            }
-                        });
-
-                alertDialogBuilder.setNegativeButton(R.string.button_no,new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-            }
-        });
-
         if (!m_ctx.getReadOnly()) {
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
+                    alertDialogBuilder.setMessage(m_activity.getString(R.string.question_create_new_ent_exam_record));
+                    alertDialogBuilder.setPositiveButton(R.string.button_yes,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                m_sess.setNewENTExam(true);
+                                showENTExamEditor(new ENTExam());
+                                }
+                            });
+
+                    alertDialogBuilder.setNegativeButton(R.string.button_no,new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }
+            });
             btnLO.addView(button);
         }
 
@@ -176,12 +175,14 @@ public class AppPatientENTExamListFragment extends Fragment {
         row = new TableRow(m_activity);
         row.setWeightSum((float)1.0);
 
-        TextView txt = new TextView(m_activity);
-        txt.setText(R.string.button_label_add_new_ent_exam);
-        txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-        txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
-        txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        TextView txt;
+
         if (!m_ctx.getReadOnly()) {
+            txt = new TextView(m_activity);
+            txt.setText(R.string.button_label_add_new_ent_exam);
+            txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             btnLO.addView(txt);
         }
 

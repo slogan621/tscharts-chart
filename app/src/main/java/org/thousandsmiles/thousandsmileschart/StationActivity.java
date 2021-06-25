@@ -610,6 +610,7 @@ public class StationActivity extends FormSaveAndPatientCheckoutNotifierActivity 
         AppPatientENTExamListFragment fragment = new AppPatientENTExamListFragment();
         AppFragmentContext ctx = new AppFragmentContext();
         ctx.setReadOnly(readOnly);
+        fragment.setAppFragmentContext(ctx);
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.app_panel, fragment)
