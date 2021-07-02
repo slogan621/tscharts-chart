@@ -18,6 +18,7 @@
 package org.thousandsmiles.thousandsmileschart;
 
 import android.content.Context;
+import android.icu.util.ULocale;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -405,7 +406,7 @@ public class SessionSingleton {
     void initStationToSpanish() {
         m_stationToSpanish.put("Audiology", "Audiología");
         m_stationToSpanish.put("Dental", "Dental");
-        m_stationToSpanish.put("ENT", "ENT");
+        m_stationToSpanish.put("ENT", "ONG");
         m_stationToSpanish.put("Ortho", "Orto");
         m_stationToSpanish.put("X-Ray", "Rayos X");
         m_stationToSpanish.put("Surgery Screening", "Cribado cirúrgico");
@@ -488,7 +489,7 @@ public class SessionSingleton {
             ArrayList<RoutingSlipEntry> ent = m_patientRoutingSlipEntries.get(getDisplayPatientId());
             if (ent != null && ent.size() > 0) {
                 for (int i = 0; i < ent.size(); i++) {
-                    if (getActiveStationName().equals(ent.get(i).getName())) {
+                    if (getActiveStationNameTranslated().equals(ent.get(i).getName())) {
                         ret = ent.get(i);
                         break;
                     }
@@ -837,9 +838,15 @@ public class SessionSingleton {
         }
     }
 
+    public String getActiveStationNameTranslated() {
+        String s = m_stationIdToName.get(m_stationStationId);
+        s = getStationNameTranslated(s);
+        return s;
+    }
 
     public String getActiveStationName() {
-        return m_stationIdToName.get(m_stationStationId);
+        String s = m_stationIdToName.get(m_stationStationId);
+        return s;
     }
 
     public void addStationData(JSONArray data) {

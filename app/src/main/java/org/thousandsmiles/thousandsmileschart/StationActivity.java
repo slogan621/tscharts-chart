@@ -417,7 +417,7 @@ public class StationActivity extends FormSaveAndPatientCheckoutNotifierActivity 
     }
 
     private void createAppList() {
-        String station = m_sess.getActiveStationName();
+        String station = m_sess.getActiveStationNameTranslated();
 
         final ArrayList<String> names = m_appListItems.getNames(station);
         final ArrayList<Integer> imageIds = m_appListItems.getImageIds(station);
