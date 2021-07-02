@@ -18,8 +18,8 @@ Documentation is located in docs/pdf directory of this repo.
 # License
 
 ```
-(C) Copyright Syd Logan 2017-2020
-(C) Copyright Thousand Smiles Foundation 2017-2020
+(C) Copyright Syd Logan 2017-2021
+(C) Copyright Thousand Smiles Foundation 2017-2021
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
