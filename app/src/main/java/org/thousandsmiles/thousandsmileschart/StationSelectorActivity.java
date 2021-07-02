@@ -78,7 +78,7 @@ public class StationSelectorActivity extends AppCompatActivity {
         }
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage(String.format(m_activity.getString(R.string.question_sign_in_as_station), name));
+        alertDialogBuilder.setMessage(String.format(m_activity.getString(R.string.question_sign_in_as_station), m_sess.getStationNameTranslated(name)));
                 alertDialogBuilder.setPositiveButton(R.string.button_yes,
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -201,10 +201,8 @@ public class StationSelectorActivity extends AppCompatActivity {
             }
             String name;
             try {
-                Locale current = getResources().getConfiguration().locale;
-                if (current.getLanguage().equals("es")) {
-                    name = cs.getString("name_es");
-                } else {
+                name = m_sess.getStationNameTranslated(cs.getString("name"));
+                if (name == null) {
                     name = cs.getString("name");
                 }
             } catch (JSONException e) {
