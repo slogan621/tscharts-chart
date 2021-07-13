@@ -174,6 +174,17 @@ public class LoginActivity extends AppCompatActivity {
 
         final boolean isValidPin;
         boolean isValidPassword;
+        boolean isValidUser;
+
+        final String email = mEmailView.getText().toString();
+        View focusView = null;
+
+        if (email.length() > 0) {
+            isValidUser = true;
+        } else {
+            isValidUser = false;
+            focusView = mEmailView;
+        }
 
         PinEntryView pinEntryView = (PinEntryView) this.findViewById(R.id.pin_entry_simple);
 
@@ -186,19 +197,23 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Store values at the time of the login attempt.
-        final String email = mEmailView.getText().toString();
+
         final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
-        View focusView = null;
 
         if (password.length() > 0) {
             isValidPassword = true;
         } else {
             isValidPassword = false;
+            if (isValidUser && !isValidPin) {
+                focusView = mPasswordView;
+            } else if (isValidUser) {
+                focusView = pinEntryView;
+            }
         }
 
-        if (!isValidPassword && !isValidPin) {
+        if (!isValidUser || (!isValidPassword && !isValidPin)) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
