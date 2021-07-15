@@ -647,6 +647,7 @@ public class AuthDialogFragment extends DialogFragment {
         });
 
         ret.setTitle(title);
+        setCancelable(false);
         return ret;
     }
 }
