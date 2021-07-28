@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2020
- * (C) Copyright Thousand Smiles Foundation 2020
+ * (C) Copyright Syd Logan 2020-2021
+ * (C) Copyright Thousand Smiles Foundation 2020-2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,7 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
         private boolean m_lingual;
         private boolean m_mesial;
         private boolean m_occlusal;
+        private boolean m_distal;
         private boolean m_labial;
         private boolean m_incisal;
     }
@@ -73,6 +74,7 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
             state.m_lingual = s.getSurfacesList().contains(DentalState.Surface.DENTAL_SURFACE_LINGUAL);
             state.m_mesial = s.getSurfacesList().contains(DentalState.Surface.DENTAL_SURFACE_MESIAL);
             state.m_occlusal = s.getSurfacesList().contains(DentalState.Surface.DENTAL_SURFACE_OCCLUSAL);
+            state.m_distal = s.getSurfacesList().contains(DentalState.Surface.DENTAL_SURFACE_DISTAL);
             state.m_labial = s.getSurfacesList().contains(DentalState.Surface.DENTAL_SURFACE_LABIAL);
             state.m_incisal = s.getSurfacesList().contains(DentalState.Surface.DENTAL_SURFACE_INCISAL);
         } else {
@@ -81,6 +83,7 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
             state.m_buccal = false;
             state.m_lingual = false;
             state.m_mesial = false;
+            state.m_distal = false;
             state.m_occlusal = false;
             state.m_labial = false;
             state.m_incisal = false;
@@ -95,6 +98,7 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
         protected CheckBox buccal;
         protected CheckBox lingual;
         protected CheckBox mesial;
+        protected CheckBox distal;
         protected CheckBox occlusal;
         protected CheckBox labial;
         protected CheckBox incisal;
@@ -176,6 +180,9 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
                 }
                 if (st.m_mesial == true) {
                     ret.add(DentalState.Surface.DENTAL_SURFACE_MESIAL);
+                }
+                if (st.m_distal == true) {
+                    ret.add(DentalState.Surface.DENTAL_SURFACE_DISTAL);
                 }
                 if (st.m_occlusal == true) {
                     ret.add(DentalState.Surface.DENTAL_SURFACE_OCCLUSAL);
@@ -291,6 +298,15 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
                     m_stateList.get(m_list.get(getPosition).repr()).m_mesial = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
                 }
             });
+            viewHolder.distal = (CheckBox) convertView.findViewById(R.id.distal);
+            viewHolder.distal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
+                    m_stateList.get(m_list.get(getPosition).repr()).m_distal = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
+                }
+            });
             viewHolder.occlusal = (CheckBox) convertView.findViewById(R.id.occlusal);
             viewHolder.occlusal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -325,6 +341,7 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
             convertView.setTag(R.id.buccal, viewHolder.buccal);
             convertView.setTag(R.id.lingual, viewHolder.lingual);
             convertView.setTag(R.id.mesial, viewHolder.mesial);
+            convertView.setTag(R.id.distal, viewHolder.distal);
             convertView.setTag(R.id.occlusal, viewHolder.occlusal);
             convertView.setTag(R.id.labial, viewHolder.labial);
             convertView.setTag(R.id.incisal, viewHolder.incisal);
@@ -336,6 +353,7 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
         viewHolder.buccal.setTag(position);
         viewHolder.lingual.setTag(position);
         viewHolder.mesial.setTag(position);
+        viewHolder.distal.setTag(position);
         viewHolder.occlusal.setTag(position);
         viewHolder.labial.setTag(position);
         viewHolder.incisal.setTag(position);
@@ -349,6 +367,7 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
             viewHolder.lingual.setChecked(m_stateList.get(m_list.get(position).repr()).m_lingual);
             viewHolder.occlusal.setChecked(m_stateList.get(m_list.get(position).repr()).m_occlusal);
             viewHolder.mesial.setChecked(m_stateList.get(m_list.get(position).repr()).m_mesial);
+            viewHolder.distal.setChecked(m_stateList.get(m_list.get(position).repr()).m_distal);
             viewHolder.incisal.setChecked(m_stateList.get(m_list.get(position).repr()).m_incisal);
         }
 

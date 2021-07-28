@@ -581,6 +581,7 @@
     <string name="lingual">Lingual</string>
     <string name="buccal">Buccal</string>
     <string name="mesial">Mesial</string>
+    <string name="distal">Distal</string>
     <string name="occlusal">Occlusal</string>
     <string name="labial">Labial</string>
     <string name="incisal">Incisal</string>
