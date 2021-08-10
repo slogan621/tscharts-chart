@@ -63,13 +63,18 @@ import org.thousandsmiles.tscharts_lib.ImageDisplayedListener;
 import org.thousandsmiles.tscharts_lib.PatientData;
 import org.thousandsmiles.tscharts_lib.PatientREST;
 import org.thousandsmiles.tscharts_lib.RESTCompletionListener;
+import org.thousandsmiles.tscharts_lib.RegisterREST;
+import org.thousandsmiles.tscharts_lib.Registration;
 import org.thousandsmiles.tscharts_lib.ShowProgress;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
@@ -84,6 +89,8 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
     private View m_progressView;
     private View m_searchBar;
     private boolean m_showAllFilters = false;
+    private String m_searchTerm;
+    private ArrayList<PatientData> m_displayList = new ArrayList<PatientData>();
 
     private enum SearchStation {
         SEARCH_AUDIOLOGY,
@@ -514,9 +521,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         count = 0;
         int extraCells = (map.size() + 1) % 3;
 
-        for (Map.Entry<Integer, PatientData> entry : map.entrySet()) {
-            Integer key = entry.getKey();
-            PatientData value = entry.getValue();
+        for (PatientData value : m_displayList) {
 
             newRow = false;
             if ((count % 3) == 0) {
@@ -588,6 +593,39 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
             txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             btnLO.addView(txt);
 
+            txt = new TextView(getApplicationContext());
+            List<String> tokens = Arrays.asList(value.getTimeOfArrival().split("T"));
+            String day = "", time = "", hour = "", min = "", suffix = "";
+            try {
+                day = tokens.get(0);
+            } catch (Exception e) {
+                day = "??";
+            }
+            try {
+                time = tokens.get(1);
+                List<String> timetokens = Arrays.asList(time.split(":"));
+                hour = timetokens.get(0);
+                min = timetokens.get(1);
+                int hval = Integer.parseInt(hour);
+                if (hval == 0) {
+                    hval = 12;
+                }
+                if (hval < 13) {
+                    suffix = "a.m.";
+                } else {
+                    hval -= 12;
+                    suffix = "p.m.";
+                    hour = String.format("%d", hval);
+                }
+            } catch (Exception e) {
+                hour = "??";
+                min = "??";
+            }
+            txt.setText(String.format(getString(R.string.label_registration_time_format_string), day, hour, min, suffix));
+            txt.setTextColor(getResources().getColor(R.color.colorBlack));
+            txt.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            btnLO.addView(txt);
+
             if (row != null) {
                 row.addView(btnLO);
             }
@@ -646,6 +684,30 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         }
     }
 
+    class GetClinicRegistrationsListener implements RESTCompletionListener {
+
+        @Override
+        public void onSuccess(int code, String message, JSONArray a) {
+        }
+
+        @Override
+        public void onSuccess(int code, String message, JSONObject a) {
+        }
+
+        @Override
+        public void onSuccess(int code, String message) {
+            try {
+                HashMap<Integer, Registration> regs = CommonSessionSingleton.getInstance().getClinicRegistrations();
+                getMatchingPatients(m_searchTerm);
+            } catch (Exception e) {
+            }
+        }
+
+        @Override
+        public void onFail(int code, String message) {
+        }
+    }
+
     private boolean stationInRoutingSlip(int station, ArrayList<RoutingSlipEntry> rseList)
     {
         boolean ret = false;
@@ -659,6 +721,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         return ret;
     }
 
+    @SuppressLint("NewApi")
     private void filterPatientSearchResults(int station)
     {
         m_sess.getPatientSearchResultData();
@@ -666,15 +729,19 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         // int stationId = getStationIdForSearchStation();
 
         HashMap<Integer, PatientData> map = m_sess.getPatientHashMap();
-        HashMap<Integer, PatientData> copy = new HashMap<Integer, PatientData>();
+        m_displayList.clear();
+
+        CommonSessionSingleton sess = CommonSessionSingleton.getInstance();
 
         for (Map.Entry<Integer, PatientData> entry : map.entrySet()) {
 
             Integer key = entry.getKey();
             PatientData value = entry.getValue();
 
+            value.setTimeOfArrival(sess.getClinicRegistrations().get(value.getId()).getDateTimeIn());
+
             if (m_searchStation == SearchStation.SEARCH_ALL) {
-                copy.put(key, value);
+                m_displayList.add(value);
                 continue;
             }
 
@@ -683,11 +750,11 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
             ArrayList<RoutingSlipEntry> rseList = m_sess.getRoutingSlipCacheEntries(value.getId());
 
             if (stationInRoutingSlip(station, rseList)) {
-                copy.put(key, value);
+                m_displayList.add(value);
             }
         }
 
-        m_sess.replacePatientHashMap(copy);
+        Collections.sort(m_displayList);
 
         PatientSelectorActivity.this.runOnUiThread(new Runnable() {
             public void run() {
@@ -826,6 +893,91 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         }).start();
     }
 
+    private void getClinicRegistrations()
+    {
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+
+        showProgress(true);
+
+        CommonSessionSingleton.getInstance().clearClinicRegistrations();
+
+        new Thread(new Runnable() {
+            public void run() {
+
+                final RegisterREST x = new RegisterREST(getApplicationContext());
+                x.addListener(new GetClinicRegistrationsListener());
+
+                PatientSelectorActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        showProgress(true);
+                    }
+                });
+
+                final Object lock;
+
+                lock = x.getClinicRegistrations(m_sess.getClinicId());
+
+                Thread thread = new Thread(){
+                    public void run() {
+                        synchronized (lock) {
+                            // we loop here in case of race conditions or spurious interrupts
+                            while (true) {
+                                try {
+                                    lock.wait();
+                                    break;
+                                } catch (InterruptedException e) {
+                                    continue;
+                                }
+                            }
+                        }
+
+                        PatientSelectorActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                showProgress(false);
+                            }
+                        });
+
+                        if (x.getStatus() == 200) {
+                            return;
+                        } else if (x.getStatus() == 101) {
+                            PatientSelectorActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), R.string.error_unable_to_connect, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else if (x.getStatus() == 400) {
+                            PatientSelectorActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), R.string.error_internal_bad_request, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else if (x.getStatus() == 500) {
+                            PatientSelectorActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), R.string.error_internal_error, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else if (x.getStatus() == 404) {
+                            PatientSelectorActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    LayoutSearchResults();
+                                    Toast.makeText(getApplicationContext(), R.string.error_no_clinic_registrations_found, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else {
+                            PatientSelectorActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), R.string.error_unknown, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+                };
+                thread.start();
+            }
+        }).start();
+    }
+
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -841,10 +993,11 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                 button.setEnabled(false);
                 m_sess.getCommonSessionSingleton().cancelHeadshotImages();
                 HideSearchResultTable();
-                getMatchingPatients(searchTerm);
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
                 goImmersive();
+                m_searchTerm = searchTerm;
+                getClinicRegistrations();  // XXX call to getMatchingPatients should be done on success
             }
 
         });

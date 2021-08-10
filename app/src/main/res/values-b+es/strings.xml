@@ -648,6 +648,8 @@
     <string name="repaired_palate">Paladar reparado</string>
     <string name="show_all_station_filters">Mostrar todos los filtros de la estación</string>
     <string name="you_are_logged_in_as_station">Estás registrado como %1$s</string>
+    <string name="error_no_clinic_registrations_found">No se encontraron registros de la clínica</string>
+    <string name="label_registration_time_format_string">Registrado el %s a las %s:%s %s</string>
 
 </resources>
 
