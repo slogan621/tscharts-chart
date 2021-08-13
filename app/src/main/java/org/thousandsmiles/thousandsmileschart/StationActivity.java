@@ -461,9 +461,9 @@ public class StationActivity extends FormSaveAndPatientCheckoutNotifierActivity 
                         m_showingAppFragment = true;
                         m_fragmentName = names.get(position);
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.vaccinations_name))) {
-                            showVaccinations();
-                            m_showingAppFragment = true;
-                            m_fragmentName = names.get(position);
+                        showVaccinations();
+                        m_showingAppFragment = true;
+                        m_fragmentName = names.get(position);
                     } else if (names.get(position).equals(getApplicationContext().getString(R.string.xray_name))) {
                         showXRaySearchResults();
                         m_showingAppFragment = true;

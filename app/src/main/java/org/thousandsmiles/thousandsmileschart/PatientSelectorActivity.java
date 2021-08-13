@@ -428,6 +428,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
         m_progressView = findViewById(R.id.search_progress);
         m_searchBar = findViewById(R.id.patient_search_bar);
+        m_sess = SessionSingleton.getInstance();
         setStationFilterCheckListeners();
         setSearchStationToIdMap();
 
@@ -549,6 +550,11 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
             paternalLast = value.getFatherLast();
             first = value.getFirst();
 
+            button.setMinimumWidth(512);
+            button.setMaxWidth(512);
+            button.setMinimumHeight(512);
+            button.setMaxHeight(512);
+
             if (girl == true) {
                 button.setImageDrawable(getResources().getDrawable(R.drawable.girlfront));
                 button.setBackgroundColor(getResources().getColor(R.color.girlPink));
@@ -559,6 +565,15 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
             button.setTag(value);
 
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    PatientData o = (PatientData) v.getTag();
+                    showActionDialog(o);
+                }
+            });
+
+            btnLO.addView(button);
+
             ActivityManager.MemoryInfo memoryInfo = m_sess.getCommonSessionSingleton().getAvailableMemory();
 
             if (!memoryInfo.lowMemory) {
@@ -568,7 +583,6 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                 headshot.setImageView(button);
                 headshot.registerListener(this);
                 Thread t = headshot.getImage(id);
-                m_sess.getCommonSessionSingleton().addHeadshotJob(headshot);
             } else {
                 PatientSelectorActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
@@ -576,16 +590,6 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                     }
                 });
             }
-
-            button.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    PatientData o = (PatientData) v.getTag();
-                    showActionDialog(o);
-                    //confirmPatientSelection(o);
-                }
-            });
-
-            btnLO.addView(button);
 
             txt = new TextView(getApplicationContext());
             txt.setText(String.format("%d %s, %s", id, paternalLast, first));
@@ -758,6 +762,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
         PatientSelectorActivity.this.runOnUiThread(new Runnable() {
             public void run() {
+                showProgress(false);
                 LayoutSearchResults();
                 Button button = (Button) findViewById(R.id.patient_search_button);
                 button.setEnabled(true);
@@ -770,7 +775,11 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
         ArrayList<Integer> ret = new ArrayList<Integer>();
 
-        showProgress(true);
+        PatientSelectorActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                showProgress(true);
+                Toast.makeText(getApplicationContext(), R.string.msg_please_wait_while_patient_photos_are_processed, Toast.LENGTH_SHORT).show();
+            }});
 
         m_sess.clearPatientSearchResultData();
 
@@ -787,12 +796,6 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
             final PatientREST x = new PatientREST(getApplicationContext());
             x.addListener(new GetMatchingPatientsListener());
-
-            PatientSelectorActivity.this.runOnUiThread(new Runnable() {
-                public void run() {
-                    showProgress(true);
-                }
-            });
 
             final Object lock;
 
@@ -839,16 +842,19 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                     }
                 }
 
-                PatientSelectorActivity.this.runOnUiThread(new Runnable() {
-                        public void run() {
-                            showProgress(false);
-                        }
-                });
-
+                m_displayList.clear();
                 if (x.getStatus() == 200) {
                     filterPatientSearchResults(stationId);
                     return;
-                } else if (x.getStatus() == 101) {
+                }
+
+                PatientSelectorActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        showProgress(false);
+                    }
+                });
+
+                if (x.getStatus() == 101) {
                     PatientSelectorActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
                         Toast.makeText(getApplicationContext(), R.string.error_unable_to_connect, Toast.LENGTH_LONG).show();
@@ -897,8 +903,6 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
     {
         ArrayList<Integer> ret = new ArrayList<Integer>();
 
-        showProgress(true);
-
         CommonSessionSingleton.getInstance().clearClinicRegistrations();
 
         new Thread(new Runnable() {
@@ -910,8 +914,8 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                 PatientSelectorActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         showProgress(true);
-                    }
-                });
+                        Toast.makeText(getApplicationContext(), R.string.msg_please_wait_while_patients_are_searched_for, Toast.LENGTH_SHORT).show();
+                    }});
 
                 final Object lock;
 
@@ -931,15 +935,17 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                             }
                         }
 
+                        if (x.getStatus() == 200) {
+                            return;
+                        }
+
                         PatientSelectorActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
                                 showProgress(false);
                             }
                         });
 
-                        if (x.getStatus() == 200) {
-                            return;
-                        } else if (x.getStatus() == 101) {
+                        if (x.getStatus() == 101) {
                             PatientSelectorActivity.this.runOnUiThread(new Runnable() {
                                 public void run() {
                                     Toast.makeText(getApplicationContext(), R.string.error_unable_to_connect, Toast.LENGTH_LONG).show();
@@ -1020,12 +1026,12 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
 
         m_context = this;
         m_activity = this;
-        m_sess.getCommonSessionSingleton().clearHeadShotCache();
+        //m_sess.getCommonSessionSingleton().clearHeadShotCache();
         m_sess.getCommonSessionSingleton().setPhotoPath("");
         m_sess.getCommonSessionSingleton().setContext(this);
 
         CommonSessionSingleton.getInstance().setStorageDir(m_activity);
-        CommonSessionSingleton.getInstance().clearStorageDir();
+        //CommonSessionSingleton.getInstance().clearStorageDir();
 
         if (m_sess.getCommonSessionSingleton().getClinicId() == -1) {
             final ClinicREST clinicREST = new ClinicREST(m_context);

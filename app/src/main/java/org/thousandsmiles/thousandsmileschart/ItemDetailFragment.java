@@ -126,8 +126,6 @@ public class ItemDetailFragment extends Fragment implements ImageDisplayedListen
                 headshot.setImageView(img);
                 headshot.registerListener(this);
                 Thread t = headshot.getImage(mItem.pObject.getInt("id"));
-                m_sess.getCommonSessionSingleton().addHeadshotJob(headshot);
-                m_sess.getCommonSessionSingleton().startNextHeadshotJob();
 
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(350, 350);
                 img.setLayoutParams(layoutParams);

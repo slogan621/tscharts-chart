@@ -78,6 +78,7 @@ public class SessionSingleton {
     // following are used to filter search results based on the station that was selected during patient search
 
     // cache of patient routing slip entries, indexed by patient ID.
+    private HashMap<Integer, Long> m_patientRoutingSlipTimestamps = new HashMap<Integer, Long>();
 
     private HashMap<Integer, ArrayList<RoutingSlipEntry>> m_patientRoutingSlipEntries = new HashMap<Integer, ArrayList<RoutingSlipEntry>>();
 
@@ -85,20 +86,31 @@ public class SessionSingleton {
 
     ArrayList<RoutingSlipEntry> getRoutingSlipCacheEntries(int patient) {
 
-        /* disable the cache retrieval until some for of notification of items being
+        /* disable the cache retrieval until some form of notification of items being
            added or removed is available. For now, always read from backend. */
 
-        /*
+        // XXX PERFORMANCE - the risk here is filter checks are against a cache entry that has been modified
+        // on the host since added to the cache. Possible fixes - cache, but put some kind of validity
+        // timestamp on cached entries, and re-read when that timeout is exceeded. Or, add a REST API for
+        // search that accounts for the patient routing slip entries.
+        //
+        // for now, go with a simple timeout.
+
         if (m_patientRoutingSlipEntries.containsKey(patient)) {
-            // cache hit, return what we have
+            // cache hit, return what we have if withing cache timeout
+            Long now = System.currentTimeMillis();
+            Long cacheTime = m_patientRoutingSlipTimestamps.get(patient);
 
-            return m_patientRoutingSlipEntries.get(patient);
+            if (now - cacheTime < 60000L) { // 1 minute
+                return m_patientRoutingSlipEntries.get(patient);
+            }
+            m_patientRoutingSlipEntries.remove(patient);
+            m_patientRoutingSlipTimestamps.remove(patient);
         }
-
-         */
 
         ArrayList<RoutingSlipEntry> ret = getRoutingSlipEntries(getClinicId(), patient);
         m_patientRoutingSlipEntries.put(patient, ret);
+        m_patientRoutingSlipTimestamps.put(patient, System.currentTimeMillis());
         return ret;
     }
 
@@ -868,7 +880,7 @@ public class SessionSingleton {
                 return;
             }
         }
-        m_stationIdToName.put(maxId + 1, m_ctx.getString(R.string.station_name_runner));
+        m_stationIdToName.put(maxId + 1, "Runner");
         JSONObject o = new JSONObject();
         try {
             o.put("id", maxId + 1);
@@ -1035,7 +1047,6 @@ public class SessionSingleton {
             if (status == 200) {
                 o = m_patientHashMap.get(id).toJSONObject(getContext());
                 m_patientData.put(id, o);
-                CommonSessionSingleton.getInstance().hasCurrentXRay(id, 365);
             }
         }
         if (o == null) {
