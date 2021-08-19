@@ -281,6 +281,7 @@ public class StationActivity extends FormSaveAndPatientCheckoutNotifierActivity 
         View button_bar_item;
 
         button_bar_item = findViewById(R.id.checkout_button);
+
         button_bar_item.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
@@ -290,12 +291,21 @@ public class StationActivity extends FormSaveAndPatientCheckoutNotifierActivity 
         });
 
         button_bar_item = m_activity.findViewById(R.id.save_button);
+
         button_bar_item.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // notify fragment to save itself
                 saveForm();
             }
         });
+
+        TextView tx = (TextView) m_activity.findViewById(R.id.checkout_label);
+        boolean isRunner = m_sess.getActiveStationName() == "Runner" ? true:false;
+        if (isRunner == true) {
+            tx.setText(R.string.return_to_search);
+        } else {
+            tx.setText(R.string.button_check_out);
+        }
     }
 
     private void updatePatientDetail()

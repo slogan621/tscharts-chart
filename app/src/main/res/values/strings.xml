@@ -658,6 +658,8 @@
     <string name="msg_please_wait_while_results_are_displayed">Please wait while results are displayed</string>
     <string name="msg_please_wait_while_patients_are_searched_for">Please wait while patients are searched for</string>
     <string name="msg_please_wait_while_patient_photos_are_processed">Please wait while patient photos are processed</string>
+    <string name="title_access_routing_slip">Access Routing Slip</string>
+    <string name="return_to_search">Return to Search</string>
 
 
 </resources>

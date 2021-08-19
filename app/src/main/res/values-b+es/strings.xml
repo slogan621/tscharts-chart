@@ -653,6 +653,8 @@
     <string name="msg_please_wait_while_results_are_displayed">Espere mientras se muestran los resultados</string>
     <string name="msg_please_wait_while_patients_are_searched_for">Espere mientras se busca a los pacientes</string>
     <string name="msg_please_wait_while_patient_photos_are_processed">Espere mientras se procesan las fotos de los pacientes</string>
+    <string name="title_access_routing_slip">Hoja de ruta de acceso</string>
+    <string name="return_to_search">Volver a la búsqueda</string>
 
 </resources>
 

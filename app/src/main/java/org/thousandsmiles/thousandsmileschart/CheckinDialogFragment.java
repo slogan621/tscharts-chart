@@ -140,7 +140,12 @@ public class CheckinDialogFragment extends DialogFragment {
                         }
                     });
             ret = builder.create();
-            ret.setTitle(R.string.title_checkin_dialog);
+            boolean isRunner = m_sess.getActiveStationName() == "Runner" ? true:false;
+            if (isRunner == false) {
+                ret.setTitle(R.string.title_checkin_dialog);
+            } else {
+                ret.setTitle(R.string.title_access_routing_slip);
+            }
         } else {
             Toast.makeText(getActivity(), R.string.error_unable_to_get_patient_data, Toast.LENGTH_LONG).show();
         }

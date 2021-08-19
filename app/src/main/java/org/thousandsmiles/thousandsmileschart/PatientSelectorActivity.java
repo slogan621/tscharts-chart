@@ -876,6 +876,8 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                     PatientSelectorActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
                         LayoutSearchResults();
+                            Button button = (Button) findViewById(R.id.patient_search_button);
+                            button.setEnabled(true);
                         Toast.makeText(getApplicationContext(), R.string.error_no_matching_patients_found, Toast.LENGTH_LONG).show();
                         }
                     });
@@ -886,7 +888,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                         }
                     });
                 }
-                    PatientSelectorActivity.this.runOnUiThread(new Runnable() {
+                PatientSelectorActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         Button button = (Button) findViewById(R.id.patient_search_button);
                         button.setEnabled(true);
@@ -1188,7 +1190,7 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
                     args.putParcelable(null, rd);
                     rtc.setArguments(args);
                     rtc.show(getSupportFragmentManager(), getApplicationContext().getString(R.string.msg_button_edit_old_id));
-                } else if (m_actionAdapter.getPosition(ActionDialogAdapter.PatientOp.SignPatientIn) == position){
+                } else if (m_actionAdapter.getPosition(ActionDialogAdapter.PatientOp.SignPatientIn) == position) {
                     CheckinDialogFragment rtc = new CheckinDialogFragment();
                     rtc.setPatientId(rd.getId());
                     rtc.setPatientData(rd);

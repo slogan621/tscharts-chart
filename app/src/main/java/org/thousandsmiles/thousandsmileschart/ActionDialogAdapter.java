@@ -69,8 +69,16 @@ public class ActionDialogAdapter extends BaseAdapter {
 
         m_opMap.put(PatientOp.SignPatientIn, offset);
         offset++;
-        m_actionIds.add(R.drawable.checkin_selector);
-        m_actionTextIds.add(R.string.button_check_in);
+        SessionSingleton sess = SessionSingleton.getInstance();
+        boolean isRunner = sess.getActiveStationName().equals("Runner");;
+
+        if (isRunner) {
+            m_actionIds.add(R.drawable.app_routing_slip_selector);
+            m_actionTextIds.add(R.string.routing_slip_name);
+        } else {
+            m_actionIds.add(R.drawable.checkin_selector);
+            m_actionTextIds.add(R.string.button_check_in);
+        }
     }
 
     public int getPosition(PatientOp op) {
