@@ -660,6 +660,9 @@
     <string name="msg_please_wait_while_patient_photos_are_processed">Please wait while patient photos are processed</string>
     <string name="title_access_routing_slip">Access Routing Slip</string>
     <string name="return_to_search">Return to Search</string>
+    <string name="label_checkbox_add_station_to_routingslip_formatted">Add %s to Routing Slip</string>
+    <string name="msg_successfully_added_audiology_to_routing_slip">Successfully added audiology to routing slip</string>
+    <string name="msg_successfully_added_ent_to_routing_slip">Successfully added ENT to routing slip</string>
 
 
 </resources>

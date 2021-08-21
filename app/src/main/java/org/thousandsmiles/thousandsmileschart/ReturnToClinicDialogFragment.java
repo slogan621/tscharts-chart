@@ -23,6 +23,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.appcompat.app.AlertDialog;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -30,6 +33,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.thousandsmiles.tscharts_lib.RoutingSlipEntryREST;
+
+import java.util.ArrayList;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -40,6 +49,10 @@ public class ReturnToClinicDialogFragment extends DialogFragment {
     private View m_view;
     StationActivity m_stationActivity;
     SessionSingleton m_sess = SessionSingleton.getInstance();
+    private ArrayList<RoutingSlipEntry> m_routingSlipEntries;
+    private boolean m_toStationAlreadyInRoutingSlip; // if ENT, is audiology in routing slip (and vice versa)?
+    private boolean m_currentInRoutingSlip;
+    private String m_stationName = m_sess.getActiveStationName();
 
     public void setPatientId(int id)
     {
@@ -62,16 +75,65 @@ public class ReturnToClinicDialogFragment extends DialogFragment {
         // Pass null as the parent view because its going in the dialog layout
         m_view = inflater.inflate(R.layout.return_to_clinic_dialog, null);
 
-        LinearLayout ll = m_view.findViewById(R.id.layout_remove_routing_slip);
-        CheckBox cb = m_view.findViewById(R.id.checkbox_remove_routing_slip);
-
-        if (routingSlipEntry == null) {
-            ll.setVisibility(GONE);
+        final String routingSlipName;
+        if (m_stationName.equals("ENT")) {
+            routingSlipName = "Audiology";
         } else {
-            ll.setVisibility(VISIBLE);
-            cb.setChecked(true);
-            String text = getString(R.string.label_checkbox_remove_from_routingslip_formatted, routingSlipEntry.getName());
-            cb.setText(text);
+            routingSlipName = "ENT";
+        }
+
+        if (true) {
+            new Thread(() -> {
+                m_routingSlipEntries = m_sess.getRoutingSlipEntries(m_sess.getClinicId(), m_sess.getDisplayPatientId());
+
+                int stationId;
+                if (m_routingSlipEntries != null) {
+                    if (m_sess.getActiveStationName().equals("ENT") || m_sess.getActiveStationName().equals("Audiology")) {
+                        {
+                            stationId = m_sess.getStationIdFromName(routingSlipName);
+                            m_toStationAlreadyInRoutingSlip = false;
+                            for (int i = 0; i < m_routingSlipEntries.size(); i++) {
+                                if (m_routingSlipEntries.get(i).getStation() == stationId) {
+                                    m_toStationAlreadyInRoutingSlip = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    stationId = m_sess.getStationIdFromName(m_stationName);
+                    m_currentInRoutingSlip = false;
+                    for (int i = 0; i < m_routingSlipEntries.size(); i++) {
+                        if (m_routingSlipEntries.get(i).getStation() == stationId) {
+                            m_currentInRoutingSlip = true;
+                            break;
+                        }
+                    }
+
+                    m_stationActivity.runOnUiThread(new Runnable() {
+                        public void run() {
+                            LinearLayout mll = (LinearLayout) m_view.findViewById(R.id.layout_add_audiology_or_ent_to_routing_slip);
+                            if ((m_sess.getActiveStationName().equals("ENT") || m_sess.getActiveStationName().equals("Audiology")) && m_toStationAlreadyInRoutingSlip == false) {
+                                CheckBox cb = m_view.findViewById(R.id.checkbox_add_audiology_or_ent_to_routing_slip);
+                                cb.setText(getString(R.string.label_checkbox_add_station_to_routingslip_formatted, routingSlipName));
+                            } else {
+                                mll.setVisibility(GONE);
+                            }
+
+                            mll = (LinearLayout) m_view.findViewById(R.id.layout_remove_routing_slip);
+                            if (m_currentInRoutingSlip == true) {
+                                mll.setVisibility(VISIBLE);
+                                CheckBox cb = m_view.findViewById(R.id.checkbox_remove_routing_slip);
+                                cb.setChecked(true);
+                                cb.setText(getString(R.string.label_checkbox_remove_from_routingslip_formatted, m_stationName));
+                            } else {
+                                mll.setVisibility(GONE);
+                            }
+
+                        }
+                    });
+                }
+            }).start();
         }
 
         builder.setView(m_view)
@@ -133,6 +195,70 @@ public class ReturnToClinicDialogFragment extends DialogFragment {
                                     });
                                 }
                             }).start();
+                        }
+
+                        // Special checkbox for ENT, add audiology to routing slip
+
+                        final String routingSlipName;
+                        if (m_stationName.equals("ENT") || m_stationName.equals("Audiology")) {
+
+                            // name of station being added
+
+                            if (m_stationName.equals("ENT")) {
+                                routingSlipName = "Audiology";
+                            } else {
+                                routingSlipName = "ENT";
+                            }
+                            cb = m_view.findViewById(R.id.checkbox_add_audiology_or_ent_to_routing_slip);
+                            if (cb.isChecked()) {
+                                final int routingSlipId;
+                                JSONObject o = m_sess.getDisplayPatientRoutingSlip();
+                                try {
+                                    routingSlipId = o.getInt("id");
+
+                                    new Thread(() -> {
+                                        RoutingSlipEntryREST rest = new RoutingSlipEntryREST(m_sess.getContext());
+                                        Object lock;
+                                        int status;
+
+                                        lock = rest.createRoutingSlipEntry(routingSlipId, m_sess.getStationIdFromName(routingSlipName));
+
+                                        synchronized (lock) {
+                                            // we loop here in case of race conditions or spurious interrupts
+                                            while (true) {
+                                                try {
+                                                    lock.wait();
+                                                    break;
+                                                } catch (InterruptedException e) {
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        status = rest.getStatus();
+                                        if (status != 200) {
+                                            Handler handler = new Handler(Looper.getMainLooper());
+                                            handler.post(new Runnable() {
+                                                public void run() {
+                                                    Toast.makeText(m_stationActivity, R.string.unable_to_add_routing_slip_entry, Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                        } else {
+                                            Handler handler = new Handler(Looper.getMainLooper());
+                                            handler.post(new Runnable() {
+                                                public void run() {
+                                                    if (m_stationName.equals("ENT")) {
+                                                        Toast.makeText(m_stationActivity, R.string.msg_successfully_added_audiology_to_routing_slip, Toast.LENGTH_LONG).show();
+                                                    } else {
+                                                        Toast.makeText(m_stationActivity, R.string.msg_successfully_added_ent_to_routing_slip, Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }).start();
+                                } catch (JSONException e) {
+                                    Toast.makeText(getActivity(), R.string.msg_unable_to_get_routing_slip, Toast.LENGTH_LONG).show();
+                                }
+                            }
                         }
                     }
                 })
