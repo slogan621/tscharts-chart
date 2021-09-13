@@ -550,10 +550,28 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
             paternalLast = value.getFatherLast();
             first = value.getFirst();
 
-            button.setMinimumWidth(512);
-            button.setMaxWidth(512);
-            button.setMinimumHeight(512);
-            button.setMaxHeight(512);
+            float density = getResources().getDisplayMetrics().density;
+            int minX = 333, maxX = 333, minY = 333, maxY = 333;
+
+            // return 1.5 if it's HDPI
+            // return 2.0 if it's XHDPI
+            // return 3.0 if it's XXHDPI
+            // return 4.0 if it's XXXHDPI
+
+            if (density == 1.5) {
+                minX = minY = maxX = maxY = 500;
+            } else if (density == 2.0) {
+                minX = minY = maxX = maxY = 666;
+            } else if (density == 3.0) {
+                minX = minY = maxX = maxY = 1500;
+            } else if (density == 3.0) {
+                minX = minY = maxX = maxY = 2000;
+            }
+
+            button.setMinimumWidth(minX);
+            button.setMaxWidth(maxX);
+            button.setMinimumHeight(minY);
+            button.setMaxHeight(maxY);
 
             if (girl == true) {
                 button.setImageDrawable(getResources().getDrawable(R.drawable.girlfront));
