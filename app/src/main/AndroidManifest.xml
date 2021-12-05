@@ -29,9 +29,11 @@
 
         <activity
             android:name="org.thousandsmiles.thousandsmileschart.LoginActivity"
-            android:label="@string/app_name_full"
-            android:screenOrientation="landscape"
-            tools:ignore="LockedOrientationActivity">
+            android:label="@string/app_name_full">
+
+            android:screenOrientation="vertical"
+            tools:ignore="LockedOrientationActivity" >
+
         </activity>
         <activity
             android:name="org.thousandsmiles.thousandsmileschart.StationActivity"
@@ -54,15 +56,18 @@
         </activity>
         <activity
             android:name="org.thousandsmiles.thousandsmileschart.SettingsActivity"
+            android:label="@string/title_activity_settings">
+            <!--
             android:screenOrientation="landscape"
-            android:label="@string/title_activity_settings"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="LockedOrientationActivity"
+            -->
+
         </activity>
         <activity
-            android:name="org.thousandsmiles.thousandsmileschart.SplashActivity"
+            android:name="org.thousandsmiles.thousandsmileschart.SplashActivity">
             android:screenOrientation="landscape"
-            android:label="@string/app_name"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="LockedOrientationActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
