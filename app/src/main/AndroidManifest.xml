@@ -29,9 +29,8 @@
 
         <activity
             android:name="org.thousandsmiles.thousandsmileschart.LoginActivity"
-            android:label="@string/app_name_full">
-
-            android:screenOrientation="vertical"
+            android:label="@string/app_name_full"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" >
 
         </activity>
@@ -57,14 +56,9 @@
         <activity
             android:name="org.thousandsmiles.thousandsmileschart.SettingsActivity"
             android:label="@string/title_activity_settings">
-            <!--
-            android:screenOrientation="landscape"
-            tools:ignore="LockedOrientationActivity"
-            -->
-
         </activity>
         <activity
-            android:name="org.thousandsmiles.thousandsmileschart.SplashActivity">
+            android:name="org.thousandsmiles.thousandsmileschart.SplashActivity"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity"
             android:label="@string/app_name">
