@@ -279,7 +279,9 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 LoginActivity.this.runOnUiThread(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(getApplicationContext(), R.string.error_unknown, Toast.LENGTH_LONG).show();
+                                        String msg;
+                                        msg = String.format("%s %d", R.string.error_unknown, x.getStatus());
+                                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                                     }
                                 });
 
