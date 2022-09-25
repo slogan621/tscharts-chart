@@ -282,65 +282,16 @@ public class CDTCodesListDialogFragment extends DialogFragment implements CDTCod
         }
     }
 
-    /*
-    public class GetCDTCodesList extends AsyncTask<Object, Object, Object> {
-        @Override
-        protected String doInBackground(Object... params) {
-            getCDTCodesList();
-            return "";
-        }
-
-        private void getCDTCodesList() {
-            final CDTCodesREST cdtCodesREST = new CDTCodesREST(m_sess.getContext());
-            Object lock = cdtCodesREST.getCDTCodesList();
-
-            synchronized (lock) {
-                // we loop here in case of race conditions or spurious interrupts
-                while (true) {
-                    try {
-                        lock.wait();
-                        break;
-                    } catch (InterruptedException e) {
-                        continue;
-                    }
-                }
-            }
-
-            int status = cdtCodesREST.getStatus();
-            if (status == 200) {
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.cdtcodesautocomplete);
-                        String[] MultipleTextStringValue = CommonSessionSingleton.getInstance().getCDTCodesListStringArray();
-                        ArrayAdapter<String> cdtCodeNames = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MultipleTextStringValue);
-                        textView.setAdapter(cdtCodeNames);
-                        textView.setThreshold(2);
-                    }
-                });
-            } else {
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(getActivity(), R.string.msg_unable_to_get_cdt_codes_list, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }
-    }
-
-    */
-
     private void configCDTCodesAutocomplete()
     {
         AutoCompleteTextView textView = (AutoCompleteTextView) m_view.findViewById(R.id.cdtcodesautocomplete);
         String[] MultipleTextStringValue = CommonSessionSingleton.getInstance().getCDTCodesListStringArray();
+        if (MultipleTextStringValue.length == 0) {
+            Toast.makeText(getActivity(), R.string.msg_unable_to_read_cdt_codes, Toast.LENGTH_LONG).show();
+        }
         ArrayAdapter<String> cdtCodeNames = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MultipleTextStringValue);
         textView.setAdapter(cdtCodeNames);
         textView.setThreshold(2);
-
-        // get CDT list from backend
-
-        //AsyncTask task = new GetCDTCodesList();
-        //task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Object) null);
     }
 
     public void setToothNumber(int tooth)

@@ -663,6 +663,7 @@
     <string name="label_checkbox_add_station_to_routingslip_formatted">Add %s to Routing Slip</string>
     <string name="msg_successfully_added_audiology_to_routing_slip">Successfully added audiology to routing slip</string>
     <string name="msg_successfully_added_ent_to_routing_slip">Successfully added ENT to routing slip</string>
+    <string name="msg_unable_to_read_cdt_codes">Unable to read CDT codes from database.</string>
 
 
 </resources>
