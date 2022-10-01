@@ -133,6 +133,8 @@ public class AppDentalTreatmentFragment extends FormDirtyNotifierFragment implem
             });
 
             AlertDialog alert = builder.create();
+            alert.setCancelable(false);
+            alert.setCanceledOnTouchOutside(false);
             alert.show();
         }
         return ret;

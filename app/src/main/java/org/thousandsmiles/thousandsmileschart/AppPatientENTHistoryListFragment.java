@@ -169,6 +169,8 @@ public class AppPatientENTHistoryListFragment extends Fragment {
                     });
 
                     AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.setCancelable(false);
+                    alertDialog.setCanceledOnTouchOutside(false);
                     alertDialog.show();
                 }
             });

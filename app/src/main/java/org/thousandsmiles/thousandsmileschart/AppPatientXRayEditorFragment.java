@@ -164,6 +164,8 @@ public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment impl
             });
 
             AlertDialog alert = builder.create();
+            alert.setCancelable(false);
+            alert.setCanceledOnTouchOutside(false);
             alert.show();
         }
         return ret;

@@ -407,6 +407,8 @@ public class PatientSelectorActivity extends AppCompatActivity implements ImageD
         });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
     }
 

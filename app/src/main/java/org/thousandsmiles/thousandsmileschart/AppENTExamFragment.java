@@ -113,6 +113,8 @@ public class AppENTExamFragment extends FormDirtyNotifierFragment implements For
             });
 
             AlertDialog alert = builder.create();
+            alert.setCancelable(false);
+            alert.setCanceledOnTouchOutside(false);
             alert.show();
         }
         return ret;

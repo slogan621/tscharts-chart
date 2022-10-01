@@ -165,6 +165,8 @@ public class AppPatientENTExamListFragment extends Fragment {
                     });
 
                     AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.setCancelable(false);
+                    alertDialog.setCanceledOnTouchOutside(false);
                     alertDialog.show();
                 }
             });

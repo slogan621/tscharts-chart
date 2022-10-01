@@ -278,6 +278,8 @@ public class AuthDialogFragment extends DialogFragment {
                     });
 
                     AlertDialog alert = builder.create();
+                    alert.setCancelable(false);
+                    alert.setCanceledOnTouchOutside(false);
                     alert.show();
                 }
             });

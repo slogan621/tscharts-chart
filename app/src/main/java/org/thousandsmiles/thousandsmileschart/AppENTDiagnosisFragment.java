@@ -116,6 +116,8 @@ public class AppENTDiagnosisFragment extends FormDirtyNotifierFragment implement
             });
 
             AlertDialog alert = builder.create();
+            alert.setCancelable(false);
+            alert.setCanceledOnTouchOutside(false);
             alert.show();
         }
         return ret;

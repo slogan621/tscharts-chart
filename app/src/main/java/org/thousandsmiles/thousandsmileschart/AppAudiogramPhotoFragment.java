@@ -142,6 +142,8 @@ public class AppAudiogramPhotoFragment extends FormDirtyNotifierFragment impleme
             });
 
             AlertDialog alert = builder.create();
+            alert.setCancelable(false);
+            alert.setCanceledOnTouchOutside(false);
             alert.show();
         }
         return ret;

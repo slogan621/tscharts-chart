@@ -179,6 +179,8 @@ public class AppPatientDentalTreatmentListFragment extends Fragment {
                 });
 
                 AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.setCancelable(false);
+                alertDialog.setCanceledOnTouchOutside(false);
                 alertDialog.show();
             }
         });
