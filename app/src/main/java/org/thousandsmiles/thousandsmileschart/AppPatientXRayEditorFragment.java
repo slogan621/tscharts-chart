@@ -626,7 +626,7 @@ public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment impl
         RadioButton rb1, rb2;
         CheckBox cb1, cb2, cb3, cb4;
         ArrayList<String> typeList;
-        boolean enableUI = m_sess.isXRayStation();
+        boolean enableUI = m_sess.isXRayStation() || m_sess.isDentalStation();
 
         if (m_xray != null) {
             cb1 = (CheckBox) m_view.findViewById(R.id.xray_type_full);
@@ -992,8 +992,8 @@ public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment impl
         }
 
         Button button = (Button) m_view.findViewById(R.id.button_xray_set);
-        button.setEnabled(m_sess.isXRayStation());
-        if (m_sess.isXRayStation() && button != null) {
+        button.setEnabled(m_sess.isXRayStation() || m_sess.isDentalStation());
+        if ((m_sess.isXRayStation() || m_sess.isDentalStation()) && button != null) {
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     m_xray.setTeeth(0xffffffff);
@@ -1004,8 +1004,8 @@ public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment impl
         }
 
         button = (Button) m_view.findViewById(R.id.button_xray_clear);
-        button.setEnabled(m_sess.isXRayStation());
-        if (m_sess.isXRayStation() && button != null) {
+        button.setEnabled(m_sess.isXRayStation() || m_sess.isDentalStation());
+        if ((m_sess.isXRayStation() || m_sess.isDentalStation()) && button != null) {
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     m_xray.setTeeth(0);
@@ -1028,7 +1028,7 @@ public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment impl
         mouthImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent ev) {
-                if (m_sess.isXRayStation() == false) {
+                if (m_sess.isXRayStation() == false && m_sess.isDentalStation() == false) {
                     return false;
                 }
                 boolean ret = false;

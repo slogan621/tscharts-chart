@@ -188,6 +188,26 @@ public class SessionSingleton {
         return ret;
     }
 
+    public boolean isDentalStation() {
+        boolean ret = false;
+        int id = getStationStationId();
+        String name = getStationNameFromId(id);
+        if (name.equals("Dental")) {
+            ret = true;
+        }
+        return ret;
+    }
+
+    public boolean isHygieneStation() {
+        boolean ret = false;
+        int id = getStationStationId();
+        String name = getStationNameFromId(id);
+        if (name.equals("Hygiene")) {
+            ret = true;
+        }
+        return ret;
+    }
+
     public void initializeStationToCategoryMap() {
         for (int i = 0; i < m_stationData.size(); i++) {
             JSONObject o = m_stationData.get(i);

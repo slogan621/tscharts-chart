@@ -132,7 +132,7 @@ public class AppPatientXRayListFragment extends Fragment {
         btnLO.setLayoutParams(parms);
 
         ImageButton button = new ImageButton(m_activity);
-        if (m_sess.isXRayStation()) {
+        if (m_sess.isXRayStation() || m_sess.isDentalStation()) {
 
             btnLO.setBackgroundColor(getResources().getColor(R.color.lightGray));
 
@@ -172,7 +172,7 @@ public class AppPatientXRayListFragment extends Fragment {
         row.setWeightSum((float)1.0);
 
         TextView txt = new TextView(m_activity);
-        if (m_sess.isXRayStation()) {
+        if (m_sess.isXRayStation() || m_sess.isDentalStation()) {
             txt.setText(R.string.button_label_add_new_xray);
             txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             txt.setBackgroundColor(getResources().getColor(R.color.lightGray));
