@@ -1,6 +1,6 @@
 /*
- * (C) Copyright Syd Logan 2020-2021
- * (C) Copyright Thousand Smiles Foundation 2020-2021
+ * (C) Copyright Syd Logan 2020-2022
+ * (C) Copyright Thousand Smiles Foundation 2020-2022
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -249,13 +249,12 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            LayoutInflater inflator = m_context.getLayoutInflater();
-            convertView = inflator.inflate(R.layout.cdt_codes_list_row, null);
+            convertView = LayoutInflater.from(m_context).inflate(R.layout.cdt_codes_list_row, parent, false);
+            //LayoutInflater inflator = m_context.getLayoutInflater(R.layout.cdt_codes_list_row, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.text = (TextView) convertView.findViewById(R.id.label);
             viewHolder.checkbox = (CheckBox) convertView.findViewById(R.id.check);
             viewHolder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
@@ -272,103 +271,160 @@ public class CDTCodesAdapter extends ArrayAdapter<CDTCodesModel> {
                 }
             });
             viewHolder.buccal = (CheckBox) convertView.findViewById(R.id.buccal);
-            viewHolder.buccal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            if (viewHolder.buccal != null) {
+                viewHolder.buccal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
-                    m_stateList.get(m_list.get(getPosition).repr()).m_buccal = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
-                }
-            });
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
+                        m_stateList.get(m_list.get(getPosition).repr()).m_buccal = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
+                    }
+                });
+            }
             viewHolder.lingual = (CheckBox) convertView.findViewById(R.id.lingual);
-            viewHolder.lingual.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            if (viewHolder.lingual != null) {
+                viewHolder.lingual.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
-                    m_stateList.get(m_list.get(getPosition).repr()).m_lingual = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
-                }
-            });
-            viewHolder.mesial = (CheckBox) convertView.findViewById(R.id.mesial);
-            viewHolder.mesial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
+                        m_stateList.get(m_list.get(getPosition).repr()).m_lingual = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
+                    }
+                });
+            }
+            viewHolder.mesial = (CheckBox)convertView.findViewById(R.id.mesial);
+            if (viewHolder.mesial != null) {
+                viewHolder.mesial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
-                    m_stateList.get(m_list.get(getPosition).repr()).m_mesial = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
-                }
-            });
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
+                        m_stateList.get(m_list.get(getPosition).repr()).m_mesial = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
+                    }
+                });
+            }
             viewHolder.distal = (CheckBox) convertView.findViewById(R.id.distal);
-            viewHolder.distal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            if (viewHolder.distal != null) {
+                viewHolder.distal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
-                    m_stateList.get(m_list.get(getPosition).repr()).m_distal = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
-                }
-            });
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
+                        m_stateList.get(m_list.get(getPosition).repr()).m_distal = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
+                    }
+                });
+            }
             viewHolder.occlusal = (CheckBox) convertView.findViewById(R.id.occlusal);
-            viewHolder.occlusal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            if (viewHolder.occlusal != null) {
+                viewHolder.occlusal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
-                    m_stateList.get(m_list.get(getPosition).repr()).m_occlusal = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
-                }
-            });
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
+                        m_stateList.get(m_list.get(getPosition).repr()).m_occlusal = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
+                    }
+                });
+            }
             viewHolder.labial = (CheckBox) convertView.findViewById(R.id.labial);
-            viewHolder.labial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            if (viewHolder.labial != null) {
+                viewHolder.labial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
-                    m_stateList.get(m_list.get(getPosition).repr()).m_labial = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
-                }
-            });
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
+                        m_stateList.get(m_list.get(getPosition).repr()).m_labial = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
+                    }
+                });
+            }
             viewHolder.incisal = (CheckBox) convertView.findViewById(R.id.incisal);
-            viewHolder.incisal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            if (viewHolder.incisal != null) {
+                viewHolder.incisal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
-                    m_stateList.get(m_list.get(getPosition).repr()).m_incisal = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
-                }
-            });
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
+                        m_stateList.get(m_list.get(getPosition).repr()).m_incisal = buttonView.isChecked(); // Set the value of checkbox to maintain its state.
+                    }
+                });
+            }
             convertView.setTag(viewHolder);
             convertView.setTag(R.id.label, viewHolder.text);
             convertView.setTag(R.id.check, viewHolder.checkbox);
             convertView.setTag(R.id.completed, viewHolder.completed);
-            convertView.setTag(R.id.buccal, viewHolder.buccal);
-            convertView.setTag(R.id.lingual, viewHolder.lingual);
-            convertView.setTag(R.id.mesial, viewHolder.mesial);
-            convertView.setTag(R.id.distal, viewHolder.distal);
-            convertView.setTag(R.id.occlusal, viewHolder.occlusal);
-            convertView.setTag(R.id.labial, viewHolder.labial);
-            convertView.setTag(R.id.incisal, viewHolder.incisal);
+            if (viewHolder.buccal != null) {
+                convertView.setTag(R.id.buccal, viewHolder.buccal);
+            }
+            if (viewHolder.lingual != null) {
+                convertView.setTag(R.id.lingual, viewHolder.lingual);
+            }
+            if (viewHolder.mesial != null) {
+                convertView.setTag(R.id.mesial, viewHolder.mesial);
+            }
+            if (viewHolder.distal != null) {
+                convertView.setTag(R.id.distal, viewHolder.distal);
+            }
+            if (viewHolder.occlusal != null) {
+                convertView.setTag(R.id.occlusal, viewHolder.occlusal);
+            }
+            if (viewHolder.labial != null) {
+                convertView.setTag(R.id.labial, viewHolder.labial);
+            }
+            if (viewHolder.incisal != null) {
+                convertView.setTag(R.id.incisal, viewHolder.incisal);
+            }
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.checkbox.setTag(position);
-        viewHolder.completed.setTag(position);// This line is important.
-        viewHolder.buccal.setTag(position);
-        viewHolder.lingual.setTag(position);
-        viewHolder.mesial.setTag(position);
-        viewHolder.distal.setTag(position);
-        viewHolder.occlusal.setTag(position);
-        viewHolder.labial.setTag(position);
-        viewHolder.incisal.setTag(position);
+        viewHolder.completed.setTag(position); // This line is important.
+
+        if (viewHolder.buccal != null) {
+            viewHolder.buccal.setTag(position);
+        }
+        if (viewHolder.lingual != null) {
+            viewHolder.lingual.setTag(position);
+        }
+        if (viewHolder.mesial != null) {
+            viewHolder.mesial.setTag(position);
+        }
+        if (viewHolder.distal != null) {
+            viewHolder.distal.setTag(position);
+        }
+        if (viewHolder.occlusal != null) {
+            viewHolder.occlusal.setTag(position);
+        }
+        if (viewHolder.labial != null) {
+            viewHolder.labial.setTag(position);
+        }
+        if (viewHolder.incisal != null) {
+            viewHolder.incisal.setTag(position);
+        }
 
         viewHolder.text.setText(m_list.get(position).repr());
         CDTCodesModelCheckboxState state = m_stateList.get(m_list.get(position).repr());
         if (state != null) {
             viewHolder.completed.setChecked(m_stateList.get(m_list.get(position).repr()).m_isCompleted);
-            viewHolder.buccal.setChecked(m_stateList.get(m_list.get(position).repr()).m_buccal);
-            viewHolder.labial.setChecked(m_stateList.get(m_list.get(position).repr()).m_labial);
-            viewHolder.lingual.setChecked(m_stateList.get(m_list.get(position).repr()).m_lingual);
-            viewHolder.occlusal.setChecked(m_stateList.get(m_list.get(position).repr()).m_occlusal);
-            viewHolder.mesial.setChecked(m_stateList.get(m_list.get(position).repr()).m_mesial);
-            viewHolder.distal.setChecked(m_stateList.get(m_list.get(position).repr()).m_distal);
-            viewHolder.incisal.setChecked(m_stateList.get(m_list.get(position).repr()).m_incisal);
+            if (viewHolder.buccal != null) {
+                viewHolder.buccal.setChecked(m_stateList.get(m_list.get(position).repr()).m_buccal);
+            }
+            if (viewHolder.labial != null) {
+                viewHolder.labial.setChecked(m_stateList.get(m_list.get(position).repr()).m_labial);
+            }
+            if (viewHolder.lingual != null) {
+                viewHolder.lingual.setChecked(m_stateList.get(m_list.get(position).repr()).m_lingual);
+            }
+            if (viewHolder.occlusal != null) {
+                viewHolder.occlusal.setChecked(m_stateList.get(m_list.get(position).repr()).m_occlusal);
+            }
+            if (viewHolder.mesial != null) {
+                viewHolder.mesial.setChecked(m_stateList.get(m_list.get(position).repr()).m_mesial);
+            }
+            if (viewHolder.distal != null) {
+                viewHolder.distal.setChecked(m_stateList.get(m_list.get(position).repr()).m_distal);
+            }
+            if (viewHolder.incisal != null) {
+                viewHolder.incisal.setChecked(m_stateList.get(m_list.get(position).repr()).m_incisal);
+            }
         }
 
         viewHolder.checkbox.setChecked(false);
