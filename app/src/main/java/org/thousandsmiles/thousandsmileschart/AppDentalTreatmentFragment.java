@@ -1670,8 +1670,7 @@ public class AppDentalTreatmentFragment extends FormDirtyNotifierFragment implem
         return ret;
     }
 
-    void updateToothStates()
-    {
+    void updateToothStates() {
         boolean ret = false;
 
         Thread thread = new Thread(){
@@ -1683,69 +1682,71 @@ public class AppDentalTreatmentFragment extends FormDirtyNotifierFragment implem
 
                 int patient = m_sess.getDisplayPatientId();
                 ArrayList<PatientDentalToothState> updated = (ArrayList<PatientDentalToothState>) m_updatedToothStates.get(patient);
-                ArrayList<PatientDentalToothState> states = (ArrayList<PatientDentalToothState>) m_updatedToothStates.get(patient).clone();
+                if (updated != null) {
+                    ArrayList<PatientDentalToothState> states = (ArrayList<PatientDentalToothState>) m_updatedToothStates.get(patient).clone();
 
-                for (int i = 0; states != null && i < states.size(); i++) {
-                    boolean isDelete = false;
-                    PatientDentalToothState s = states.get(i);
-                    DentalState state = s.toDentalState(m_sess.getClinicId(), m_sess.getDisplayPatientId());
-                    if (s.getRemoved()) {
-                        updated.remove(s);
-                        lock = rest.deleteDentalState(state.getId()); // XXX FIXME getRemoved() may indicate a state never persisted, so may result in 404
-                        isDelete = true;
-                    } else if (isNewState(s)) {
-                        lock = rest.createDentalState(state);
-                    } else if (isModifiedState(s)) {
-                        lock = rest.updateDentalState(state);
-                    } else {
-                        continue; // no change
-                    }
-                    //lock = rest.updateDentalTreatment(copyDentalTreatmentDataFromUI());
+                    for (int i = 0; states != null && i < states.size(); i++) {
+                        boolean isDelete = false;
+                        PatientDentalToothState s = states.get(i);
+                        DentalState state = s.toDentalState(m_sess.getClinicId(), m_sess.getDisplayPatientId());
+                        if (s.getRemoved()) {
+                            updated.remove(s);
+                            lock = rest.deleteDentalState(state.getId()); // XXX FIXME getRemoved() may indicate a state never persisted, so may result in 404
+                            isDelete = true;
+                        } else if (isNewState(s)) {
+                            lock = rest.createDentalState(state);
+                        } else if (isModifiedState(s)) {
+                            lock = rest.updateDentalState(state);
+                        } else {
+                            continue; // no change
+                        }
+                        //lock = rest.updateDentalTreatment(copyDentalTreatmentDataFromUI());
 
-                    synchronized (lock) {
-                        // we loop here in case of race conditions or spurious interrupts
-                        while (true) {
-                            try {
-                                lock.wait();
-                                break;
-                            } catch (InterruptedException e) {
-                                continue;
+                        synchronized (lock) {
+                            // we loop here in case of race conditions or spurious interrupts
+                            while (true) {
+                                try {
+                                    lock.wait();
+                                    break;
+                                } catch (InterruptedException e) {
+                                    continue;
+                                }
+                            }
+                        }
+                        status = rest.getStatus();
+                        if (isDelete) {
+                            if (status != 200 && status != 404) {
+                                Handler handler = new Handler(Looper.getMainLooper());
+                                handler.post(new Runnable() {
+                                    public void run() {
+                                        Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_delete_dental_state), Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            } else {
+                                states.remove(s);
+                            }
+                        } else {
+                            if (status != 200) {
+                                Handler handler = new Handler(Looper.getMainLooper());
+                                handler.post(new Runnable() {
+                                    public void run() {
+                                        //Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_save_dental_state), Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            } else {
+                                Handler handler = new Handler(Looper.getMainLooper());
+                                handler.post(new Runnable() {
+                                    public void run() {
+                                        clearDirty();
+                                        Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_saved_dental_state), Toast.LENGTH_LONG).show();
+                                        //m_storedToothStates = (HashMap<Integer, ArrayList<PatientDentalToothState>>) m_updatedToothStates.clone();
+                                    }
+                                });
                             }
                         }
                     }
-                    status = rest.getStatus();
-                    if (isDelete) {
-                        if (status != 200 && status != 404) {
-                            Handler handler = new Handler(Looper.getMainLooper());
-                            handler.post(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_delete_dental_state), Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        } else {
-                            states.remove(s);
-                        }
-                    } else {
-                        if (status != 200) {
-                            Handler handler = new Handler(Looper.getMainLooper());
-                            handler.post(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(m_activity, m_activity.getString(R.string.msg_unable_to_save_dental_state), Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        } else {
-                            Handler handler = new Handler(Looper.getMainLooper());
-                            handler.post(new Runnable() {
-                                public void run() {
-                                    clearDirty();
-                                    Toast.makeText(m_activity, m_activity.getString(R.string.msg_successfully_saved_dental_state), Toast.LENGTH_LONG).show();
-                                    //m_storedToothStates = (HashMap<Integer, ArrayList<PatientDentalToothState>>) m_updatedToothStates.clone();
-                                }
-                            });
-                        }
-                    }
+                    m_storedToothStates = (HashMap<Integer, ArrayList<PatientDentalToothState>>) m_updatedToothStates.clone();
                 }
-                m_storedToothStates = (HashMap<Integer, ArrayList<PatientDentalToothState>>) m_updatedToothStates.clone();
             }
 
         };
