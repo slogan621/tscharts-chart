@@ -7,6 +7,6 @@
     <dimen name="app_bar_height">50dp</dimen>
     <dimen name="item_width">150dp</dimen>
     <dimen name="app_chooser_item_width">112dp</dimen>
-    <dimen name="med_hist_label_text_size">24dp</dimen>
+    <dimen name="med_hist_label_text_size">24sp</dimen>
     <dimen name="design_fab_image_size" tools:override="true">36dp</dimen>
 </resources>
