@@ -228,7 +228,6 @@
             android:id="@+id/xray_mouth_image"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:scaleType="matrix"
             android:layout_weight="10"
             android:src="@drawable/adult_teeth"></ImageView>
 

@@ -26,6 +26,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -39,6 +40,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -1038,6 +1040,7 @@ public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment impl
                 if (view == mouthImage && ev.getAction() == MotionEvent.ACTION_DOWN) {
                     ImageMap.ImageMapObject im;
                     if (m_mouthType == XRay.XRayMouthType.XRAY_MOUTH_TYPE_CHILD) {
+                        y = y - 100;
                         im = m_childImageMap.hitTest(x, y);
                         if (im != null) {
                             int tooth = (int) im.getTag();
@@ -1051,6 +1054,7 @@ public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment impl
                             colorTeeth();
                         }
                     } else {
+                        y = y - 27;
                         im = m_adultImageMap.hitTest(x, y);
                         if (im != null) {
                             int tooth = (int) im.getTag();
@@ -1096,6 +1100,32 @@ public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment impl
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_xray_editor_layout, container, false);
         m_view  = view;
+        view.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        ImageView img = (ImageView) m_view.findViewById(R.id.xray_mouth_image);
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+                            view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        } else {
+                            view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        }
+                        int [] locationInWindow = new int[2];
+                        view.getLocationInWindow(locationInWindow);
+                        int [] locationOnScreen = new int[2];
+                        view.getLocationOnScreen(locationOnScreen);
+                        int [] locationOnSurface = new int[2];
+                        view.getLocationInWindow(locationOnSurface);
+
+                        int [] imageLocationInWindow = new int[2];
+                        img.getLocationInWindow(imageLocationInWindow);
+                        int [] imageLocationOnScreen = new int[2];
+                        img.getLocationOnScreen(imageLocationOnScreen);
+                        int [] imageLocationOnSurface = new int[2];
+                        img.getLocationInWindow(imageLocationOnSurface);
+                    }
+                }
+        );
         return view;
     }
 
