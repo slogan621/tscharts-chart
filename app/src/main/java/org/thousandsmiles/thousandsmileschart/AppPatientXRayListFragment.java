@@ -220,7 +220,7 @@ public class AppPatientXRayListFragment extends Fragment {
                 button.setImageDrawable(m_activity.getResources().getDrawable(R.drawable.headshot_plus));
 
             } else {
-                    button.setImageDrawable(m_activity.getResources().getDrawable(R.drawable.xray));
+                button.setImageDrawable(m_activity.getResources().getDrawable(R.drawable.xray));
             }
 
             XRay xray = m_xrays.get(i);

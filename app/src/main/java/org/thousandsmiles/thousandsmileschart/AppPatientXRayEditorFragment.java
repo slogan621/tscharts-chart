@@ -420,7 +420,7 @@ public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment impl
 
                 ImageView imgView = new ImageView(m_activity.getApplicationContext());
 
-                imgView.setTag(img);
+                imgView.setTag(img.getId());
 
                 ActivityManager.MemoryInfo memoryInfo = m_sess.getCommonSessionSingleton().getAvailableMemory();
 
@@ -432,7 +432,6 @@ public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment impl
                     headshot.setImageView(imgView);
                     headshot.registerListener(this);
                     Thread t = headshot.getImage(img.getId());
-                    m_sess.getCommonSessionSingleton().addHeadshotJob(headshot);
                 } else {
                     m_activity.runOnUiThread(new Runnable() {
                         public void run() {
@@ -502,7 +501,6 @@ public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment impl
 
                  tableLayout.addView(row, tableRowLOParams);
             }
-
             m_sess.getCommonSessionSingleton().startNextHeadshotJob();
         }
     }
@@ -558,7 +556,6 @@ public class AppPatientXRayEditorFragment extends FormDirtyNotifierFragment impl
     }
 
     private void initializePastXRayThumbnailData() {
-
         m_sess = SessionSingleton.getInstance();
         new Thread(new Runnable() {
             public void run() {
